@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ClassKhab - เข้าสู่ระบบตารางเรียนอัจฉริยะ</title>
+    <title>ClassKhab - แพลตฟอร์มแจ้งเตือนตารางเรียนอัจฉริยะ</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Sarabun & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sarabun:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <!-- Lucide Icons -->
@@ -23,15 +23,6 @@
             fontFamily: {
               sans: ['Sarabun', 'Inter', 'sans-serif'],
             },
-            colors: {
-              brand: {
-                50: '#eff6ff',
-                100: '#dbeafe',
-                500: '#3b82f6',
-                600: '#2563eb',
-                700: '#1d4ed8',
-              },
-            },
           },
         },
       };
@@ -42,38 +33,26 @@
       }
     </style>
   </head>
-  <body class="h-full text-slate-800 antialiased flex flex-col bg-slate-50">
+  <body class="h-full text-slate-800 antialiased bg-slate-50 flex flex-col">
 
     <!-- ========================================== -->
-    <!-- 1. AUTHENTICATION SCREEN (หน้าล็อกอิน / สมัคร) -->
+    <!-- 1. AUTHENTICATION MODAL / SCREEN           -->
     <!-- ========================================== -->
-    <div id="authScreen" class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 relative overflow-hidden">
-      <!-- Glow Background Effects -->
-      <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none"></div>
-
-      <div class="w-full max-w-md bg-white/95 backdrop-blur-xl p-8 rounded-3xl shadow-2xl border border-white/20 relative z-10">
-        <!-- Logo -->
+    <div id="authScreen" class="min-h-screen flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-md fixed inset-0 z-50">
+      <div class="w-full max-w-md bg-white p-8 rounded-3xl shadow-2xl border border-slate-100 relative">
         <div class="text-center mb-6">
-          <div class="w-14 h-14 mx-auto mb-3 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
-            <i data-lucide="book-open" class="w-7 h-7"></i>
+          <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-slate-900 flex items-center justify-center text-white shadow-lg">
+            <i data-lucide="book-open" class="w-6 h-6"></i>
           </div>
-          <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">ClassKhab</h1>
-          <p class="text-xs text-slate-500 mt-1">ระบบแจ้งเตือนตารางเรียนประจำห้องเรียน</p>
+          <h1 class="text-2xl font-bold text-slate-900">เข้าสู่ระบบ ClassKhab</h1>
+          <p class="text-xs text-slate-500 mt-1">เลือกระดับชั้นเรียนเพื่อดูตารางสอน</p>
         </div>
 
-        <!-- Auth Tabs Switcher -->
-        <div class="flex bg-slate-100 p-1 rounded-xl mb-6 text-xs font-semibold">
-          <button id="tabLoginBtn" onclick="switchAuthTab('login')" class="flex-1 py-2 rounded-lg bg-white text-blue-600 shadow-sm transition-all">เข้าสู่ระบบ</button>
-          <button id="tabRegisterBtn" onclick="switchAuthTab('register')" class="flex-1 py-2 rounded-lg text-slate-500 hover:text-slate-800 transition-all">สมัครใช้งานห้องเรียน</button>
-        </div>
-
-        <!-- Login Form -->
         <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
           <div>
             <label class="block text-xs font-semibold text-slate-600 mb-1">เลือกระดับชั้น / ห้องเรียน</label>
             <div class="relative">
-              <select id="loginClass" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <select id="loginClass" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900">
                 <option value="ม.3/1">ม.3/1 พิเศษ</option>
                 <option value="ม.3/2">ม.3/2</option>
                 <option value="ม.3/3">ม.3/3</option>
@@ -85,230 +64,183 @@
           <div>
             <label class="block text-xs font-semibold text-slate-600 mb-1">รหัสผ่านห้องเรียน</label>
             <div class="relative">
-              <input type="password" id="loginPassword" placeholder="กรอกรหัสผ่าน (ทดสอบใช้: 123456)" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <input type="password" id="loginPassword" placeholder="รหัสทดสอบ: 123456" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900" />
               <i data-lucide="lock" class="w-4 h-4 text-slate-400 absolute right-3 top-3.5"></i>
             </div>
           </div>
 
-          <div id="loginError" class="hidden text-xs text-rose-500 bg-rose-50 border border-rose-200 p-2.5 rounded-xl"></div>
+          <div id="loginError" class="hidden text-xs text-rose-500 bg-rose-50 p-2.5 rounded-xl border border-rose-200"></div>
 
-          <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm rounded-xl shadow-md shadow-blue-500/20 transition-all flex items-center justify-center space-x-2">
-            <span>เข้าสู่ระบบตารางเรียน</span>
+          <button type="submit" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm rounded-xl shadow-md transition-all flex items-center justify-center space-x-2">
+            <span>เข้าใช้งานตารางเรียน</span>
             <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </button>
         </form>
-
-        <!-- Register Form (Hidden by default) -->
-        <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-4 hidden">
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">ชื่อชั้นเรียน / ห้องเรียนใหม่</label>
-            <input type="text" id="regClassName" placeholder="เช่น ม.3/4" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          </div>
-
-          <div>
-            <label class="block text-xs font-semibold text-slate-600 mb-1">ตั้งรหัสผ่านสำหรับเข้าห้องนี้</label>
-            <input type="password" id="regPassword" placeholder="อย่างน้อย 6 หลัก" minlength="6" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-          </div>
-
-          <button type="submit" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm rounded-xl shadow-md transition-all flex items-center justify-center space-x-2">
-            <span>สร้างตารางห้องเรียนใหม่</span>
-            <i data-lucide="check-circle" class="w-4 h-4"></i>
-          </button>
-        </form>
-
-        <p class="text-[11px] text-center text-slate-400 mt-6">
-          * Demo Mode: เลือกร้องเรียน ม.3/1 พิเศษ และใช้รหัสผ่าน <code class="bg-slate-100 px-1 py-0.5 rounded text-blue-600 font-mono">123456</code> เพื่อทดลองเข้าใช้งาน
-        </p>
       </div>
     </div>
 
 
     <!-- ========================================== -->
-    <!-- 2. MAIN DASHBOARD SCREEN (หน้าเว็บหลัก) -->
+    <!-- 2. MAIN APP & 21st.dev HERO SECTION       -->
     <!-- ========================================== -->
-    <div id="mainDashboard" class="hidden min-h-screen flex-col">
-      <!-- Top Navigation Header -->
-      <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <!-- Logo & Brand -->
-          <div class="flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
-              <i data-lucide="book-open" class="w-5 h-5"></i>
+    <div id="mainDashboard" class="hidden flex-col min-h-screen overflow-x-hidden">
+      
+      <!-- Responsive Header Nav (Inspired by 21st.dev) -->
+      <header class="py-4 md:py-6 bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200/60">
+        <div class="max-w-7xl px-4 mx-auto sm:px-6 lg:px-8">
+          <div class="flex items-center justify-between">
+            <!-- Brand Logo -->
+            <div class="flex-shrink-0">
+              <a href="#" class="flex items-center space-x-2 rounded outline-none">
+                <div class="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-white">
+                  <i data-lucide="book-open" class="w-4 h-4"></i>
+                </div>
+                <span class="text-xl font-extrabold tracking-tight text-slate-900">ClassKhab</span>
+              </a>
             </div>
-            <div>
-              <div class="flex items-center space-x-2">
-                <span class="font-bold text-xl tracking-tight bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">ClassKhab</span>
-                <span class="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-semibold border border-blue-100">v1.0</span>
-              </div>
-              <p class="text-xs text-slate-500 hidden sm:block">ตารางเรียน & ระบบแจ้งเตือนคาบเรียน</p>
+
+            <!-- Mobile Hamburger Button -->
+            <div class="flex lg:hidden">
+              <button
+                type="button"
+                className="text-slate-900 p-2"
+                onclick="toggleMobileMenu()"
+              >
+                <i data-lucide="menu" class="w-6 h-6"></i>
+              </button>
+            </div>
+
+            <!-- Desktop Nav Links -->
+            <div class="hidden lg:flex lg:ml-16 lg:items-center lg:justify-center lg:space-x-10">
+              <span id="navGradeLabel" class="text-sm font-semibold text-slate-900 bg-slate-100 px-3 py-1 rounded-full">ห้องเรียน: ม.3/1 พิเศษ</span>
+              <span id="navTimeText" class="text-sm font-medium text-slate-500">เวลา: --:--:--</span>
+            </div>
+
+            <!-- Desktop Right Actions -->
+            <div class="hidden lg:ml-auto lg:flex lg:items-center lg:space-x-4">
+              <button
+                onclick="requestNotificationPermission()"
+                class="inline-flex items-center space-x-2 px-4 py-2 text-sm font-bold text-slate-900 bg-slate-100 rounded-xl hover:bg-slate-200 transition-all"
+              >
+                <i data-lucide="bell" class="w-4 h-4"></i>
+                <span>เปิดแจ้งเตือน</span>
+              </button>
+
+              <button
+                onclick="handleLogout()"
+                class="inline-flex items-center justify-center px-5 py-2 text-sm font-bold text-white bg-slate-900 rounded-xl hover:bg-slate-700 transition-all"
+              >
+                ออกจากระบบ
+              </button>
             </div>
           </div>
 
-          <!-- User Profile & Controls -->
-          <div class="flex items-center space-x-3">
-            <!-- Active Class Badge -->
-            <div class="flex items-center space-x-2 bg-slate-100 px-3 py-1.5 rounded-xl border border-slate-200/80">
-              <i data-lucide="users" class="w-4 h-4 text-blue-600"></i>
-              <span id="userGradeLabel" class="text-xs font-bold text-slate-700">ม.3/1 พิเศษ</span>
-            </div>
-
-            <!-- Notification Permission Button -->
-            <button
-              id="notifyBtn"
-              onclick="requestNotificationPermission()"
-              class="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium px-3.5 py-2 rounded-xl shadow-sm transition-all"
-            >
-              <i data-lucide="bell" class="w-3.5 h-3.5"></i>
-              <span class="hidden md:inline">เปิดแจ้งเตือน</span>
+          <!-- Mobile Dropdown Navigation -->
+          <div id="mobileMenu" class="hidden lg:hidden pt-4 pb-2 border-t border-slate-100 mt-4 space-y-3">
+            <div id="mobileGradeLabel" class="text-sm font-semibold text-slate-700 bg-slate-100 p-2.5 rounded-xl">ห้องเรียน: ม.3/1 พิเศษ</div>
+            <button onclick="requestNotificationPermission()" class="w-full text-left p-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-xl flex items-center space-x-2">
+              <i data-lucide="bell" class="w-4 h-4"></i>
+              <span>เปิดแจ้งเตือนเบราว์เซอร์</span>
             </button>
-
-            <!-- Logout Button -->
-            <button
-              onclick="handleLogout()"
-              title="ออกจากระบบ"
-              class="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all border border-transparent hover:border-rose-100"
-            >
-              <i data-lucide="log-out" class="w-4 h-4"></i>
+            <button onclick="handleLogout()" class="w-full text-center py-2.5 text-sm font-bold text-white bg-rose-600 rounded-xl">
+              ออกจากระบบ
             </button>
           </div>
         </div>
       </header>
 
-      <!-- Main Content Container -->
-      <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-        
-        <!-- Top Date Banner -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-sm gap-2">
-          <div class="flex items-center space-x-3">
-            <div class="p-2.5 bg-blue-50 text-blue-600 rounded-xl">
-              <i data-lucide="calendar" class="w-5 h-5"></i>
-            </div>
-            <div>
-              <h2 id="currentDateText" class="font-bold text-slate-800 text-lg">กำลังโหลดวันที่...</h2>
-              <p id="currentGradeBadge" class="text-xs text-slate-500">ระดับชั้น: ม.3/1 พิเศษ</p>
-            </div>
-          </div>
-          <div id="liveTimeText" class="text-xs sm:text-sm font-medium bg-slate-100 text-slate-600 px-3 py-1.5 rounded-lg w-fit">
-            เวลาปัจจุบัน: --:--:--
-          </div>
-        </div>
-
-        <!-- Bento Grid: Active & Upcoming Class Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-          
-          <!-- Active Class Card (2 Columns) -->
-          <div class="md:col-span-2 bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white p-6 rounded-2xl shadow-lg relative overflow-hidden flex flex-col justify-between">
-            <!-- Background Accent Glow -->
-            <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-white/10 rounded-full blur-2xl"></div>
-
-            <div>
-              <div class="flex items-center justify-between mb-4">
-                <span class="text-xs font-bold uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full backdrop-blur-md text-white/90">
-                  คาบเรียนปัจจุบัน
-                </span>
-                <span id="activeStatusBadge" class="flex items-center space-x-1.5 text-xs bg-emerald-500/20 text-emerald-200 border border-emerald-400/30 px-2.5 py-1 rounded-full font-medium">
-                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                  <span>กำลังเรียนอยู่</span>
-                </span>
-              </div>
-
-              <h3 id="activeSubject" class="text-2xl sm:text-3xl font-bold tracking-tight mb-2">
-                กำลังคำนวณคาบเรียน...
-              </h3>
-
-              <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-blue-100 text-xs sm:text-sm my-4">
-                <div class="flex items-center space-x-2">
-                  <i data-lucide="clock" class="w-4 h-4 text-blue-300"></i>
-                  <span id="activeTime">--:-- - --:--</span>
-                </div>
-                <div class="flex items-center space-x-2">
-                  <i data-lucide="map-pin" class="w-4 h-4 text-blue-300"></i>
-                  <span id="activeRoom">ห้อง --</span>
-                </div>
-                <div class="flex items-center space-x-2 col-span-2 sm:col-span-1">
-                  <i data-lucide="user" class="w-4 h-4 text-blue-300"></i>
-                  <span id="activeTeacher">ครู --</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Time Progress Bar -->
-            <div class="mt-4 pt-4 border-t border-white/10">
-              <div class="flex justify-between text-xs text-blue-200 mb-1.5">
-                <span>เวลาที่เหลือในคาบนี้</span>
-                <span id="activeCountdown" class="font-semibold text-white">-- นาที</span>
-              </div>
-              <div class="w-full bg-black/20 rounded-full h-2 overflow-hidden">
-                <div id="progressBar" class="bg-gradient-to-r from-emerald-400 to-teal-300 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Next Up Class Card (1 Column) -->
-          <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
-            <div>
-              <div class="flex items-center justify-between mb-4">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
-                  คาบถัดไป
-                </span>
-                <i data-lucide="arrow-right-circle" class="w-5 h-5 text-slate-400"></i>
-              </div>
-
-              <h4 id="nextSubject" class="text-xl font-bold text-slate-800 mb-1">
-                --
-              </h4>
-              <p id="nextMeta" class="text-sm text-slate-500">
-                เวลา -- | ห้อง --
-              </p>
-            </div>
-
-            <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
-              <span class="text-xs text-slate-400">เตรียมตัวในอีก</span>
-              <span id="nextCountdown" class="text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-lg">
-                -- นาที
+      <!-- Hero Banner Section (21st.dev Style) -->
+      <section class="pt-10 sm:pt-14 pb-12 bg-slate-50">
+        <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div class="max-w-3xl mx-auto text-center">
+            <h1 class="px-6 text-sm font-semibold tracking-wide text-blue-600 uppercase">Smart School Schedule System</h1>
+            <p class="mt-4 text-4xl font-extrabold text-slate-900 sm:text-5xl lg:text-6xl tracking-tight">
+              ไม่พลาดทุกคาบเรียนด้วยระบบ{" "}
+              <span class="relative inline-flex">
+                <span class="bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] blur-lg filter opacity-30 absolute inset-0"></span>
+                <span class="relative bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">ClassKhab</span>
               </span>
-            </div>
+            </p>
+            <p class="mt-4 text-base sm:text-lg text-slate-600">
+              เช็กตารางเรียนรายวัน คาบเรียนปัจจุบัน และนับถอยหลังคาบถัดไปแบบเรียลไทม์
+            </p>
           </div>
-
         </div>
 
-        <!-- Schedule Section -->
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 sm:p-6">
-          <!-- Section Header & Day Filters -->
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-5 border-b border-slate-100 gap-3">
+        <!-- Dashboard UI Container (21st.dev Illustration Container) -->
+        <div class="mt-8 px-4 mx-auto max-w-6xl sm:px-6 lg:px-8">
+          <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-200/80 space-y-6">
+            
+            <!-- Live Class Tracker Banner -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <!-- Current Active Class -->
+              <div class="md:col-span-2 bg-gradient-to-br from-slate-900 to-slate-800 text-white p-6 rounded-2xl shadow-md flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <span class="text-[11px] font-bold uppercase tracking-wider bg-white/10 px-3 py-1 rounded-full text-blue-300">คาบเรียนปัจจุบัน</span>
+                    <span class="flex items-center space-x-1.5 text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+                      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                      <span>กำลังเรียน</span>
+                    </span>
+                  </div>
+                  <h3 id="activeSubject" class="text-2xl sm:text-3xl font-bold mb-2">กำลังคำนวณ...</h3>
+                  <p id="activeMeta" class="text-sm text-slate-300">--:-- | ห้อง -- | ครู --</p>
+                </div>
+                <div class="mt-6">
+                  <div class="flex justify-between text-xs text-slate-400 mb-1">
+                    <span>เวลาเหลือในคาบนี้</span>
+                    <span id="activeCountdown" class="text-white font-bold">-- นาที</span>
+                  </div>
+                  <div class="w-full bg-slate-700/50 rounded-full h-2 overflow-hidden">
+                    <div id="progressBar" class="bg-blue-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Next Class -->
+              <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-between">
+                <div>
+                  <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 bg-slate-200 px-3 py-1 rounded-full">คาบถัดไป</span>
+                  <h4 id="nextSubject" class="text-xl font-bold text-slate-800 mt-3 mb-1">--</h4>
+                  <p id="nextMeta" class="text-xs text-slate-500">เวลา -- | ห้อง --</p>
+                </div>
+                <div class="mt-4 pt-3 border-t border-slate-200/60 flex items-center justify-between">
+                  <span class="text-xs text-slate-400">เริ่มในอีก</span>
+                  <span id="nextCountdown" class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md">-- นาที</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Day Selector & Schedule Grid -->
             <div>
-              <h3 class="text-lg font-bold text-slate-800">ตารางเรียนสัปดาห์นี้</h3>
-              <p class="text-xs text-slate-500">เลือกดูรายวันหรือสลับโหมดมุมมองได้</p>
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 mb-4 border-b border-slate-100 gap-2">
+                <h3 class="font-bold text-slate-800 text-base">ตารางเรียนสัปดาห์นี้</h3>
+                <div class="flex overflow-x-auto space-x-1 bg-slate-100 p-1 rounded-xl text-xs font-medium" id="dayTabs">
+                  <button onclick="selectDay('จันทร์')" class="day-tab px-3 py-1.5 rounded-lg text-slate-600" data-day="จันทร์">จันทร์</button>
+                  <button onclick="selectDay('อังคาร')" class="day-tab px-3 py-1.5 rounded-lg text-slate-600" data-day="อังคาร">อังคาร</button>
+                  <button onclick="selectDay('พุธ')" class="day-tab px-3 py-1.5 rounded-lg text-slate-600" data-day="พุธ">พุธ</button>
+                  <button onclick="selectDay('พฤหัสบดี')" class="day-tab px-3 py-1.5 rounded-lg text-slate-600" data-day="พฤหัสบดี">พฤหัสบดี</button>
+                  <button onclick="selectDay('ศุกร์')" class="day-tab px-3 py-1.5 rounded-lg text-slate-600" data-day="ศุกร์">ศุกร์</button>
+                  <button onclick="selectDay('all')" class="day-tab px-3 py-1.5 rounded-lg bg-white text-slate-900 font-bold shadow-sm" data-day="all">ทั้งหมด</button>
+                </div>
+              </div>
+
+              <div id="scheduleContainer" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Schedule output -->
+              </div>
             </div>
 
-            <!-- Day Tab Selector -->
-            <div class="flex overflow-x-auto space-x-1 p-1 bg-slate-100 rounded-xl text-xs font-medium scrollbar-none" id="dayTabs">
-              <button onclick="selectDay('จันทร์')" class="day-tab px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all" data-day="จันทร์">จันทร์</button>
-              <button onclick="selectDay('อังคาร')" class="day-tab px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all" data-day="อังคาร">อังคาร</button>
-              <button onclick="selectDay('พุธ')" class="day-tab px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all" data-day="พุธ">พุธ</button>
-              <button onclick="selectDay('พฤหัสบดี')" class="day-tab px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all" data-day="พฤหัสบดี">พฤหัสบดี</button>
-              <button onclick="selectDay('ศุกร์')" class="day-tab px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all" data-day="ศุกร์">ศุกร์</button>
-              <button onclick="selectDay('all')" class="day-tab px-3 py-1.5 rounded-lg bg-white text-blue-600 shadow-sm font-semibold transition-all" data-day="all">ทั้งหมด</button>
-            </div>
-          </div>
-
-          <!-- Schedule List / Grid Output -->
-          <div id="scheduleContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <!-- Dynamic Content Rendered Here -->
           </div>
         </div>
-
-      </main>
+      </section>
 
       <!-- Footer -->
-      <footer class="mt-auto bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-400">
-        <p>© ClassKhab • ระบบแจ้งเตือนตารางเรียนรองรับ Supabase & GitHub Pages</p>
+      <footer class="mt-auto bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-400">
+        <p>© ClassKhab • Powered by Tailwind CSS & GitHub Pages</p>
       </footer>
     </div>
 
-    <!-- App Logic Script -->
     <script>
-      // Global Timetable & Data
       const periods = [
         { p: 1, time: '08:20-09:10' },
         { p: 2, time: '09:15-10:05' },
@@ -324,74 +256,58 @@
 
       const scheduleData = {
         'ม.3/1': [
-          { day: 'จันทร์', period: 1, subject: 'ค23204', room: '412', teacher: 'ครูวาสนา', type: 'math' },
-          { day: 'จันทร์', period: 2, subject: 'อ23102', room: '111', teacher: 'ครูนันทร์ทัตน์', type: 'eng' },
-          { day: 'จันทร์', period: 3, subject: 'ท23102', room: '502', teacher: 'ครูปัทมาวรรณ', type: 'thai' },
-          { day: 'จันทร์', period: 4, subject: 'พักกลางวัน', room: '-', teacher: '-', type: 'break' },
-          { day: 'จันทร์', period: 5, subject: 'ง23102', room: 'เกษตร 1', teacher: 'ครูธัญญารัตน์', type: 'work' },
-          { day: 'จันทร์', period: 6, subject: 'พ23104', room: 'สน.กรีฑา', teacher: 'ครูเพชรสุพร', type: 'pe' },
-          { day: 'จันทร์', period: 7, subject: 'พ23102', room: 'หอประชุม 1', teacher: 'ครูสรไกร', type: 'pe' },
-          { day: 'จันทร์', period: 8, subject: 'ค23102', room: '416', teacher: 'ครูสันติ', type: 'math' },
+          { day: 'จันทร์', period: 1, subject: 'ค23204', room: '412', teacher: 'ครูวาสนา' },
+          { day: 'จันทร์', period: 2, subject: 'อ23102', room: '111', teacher: 'ครูนันทร์ทัตน์' },
+          { day: 'จันทร์', period: 3, subject: 'ท23102', room: '502', teacher: 'ครูปัทมาวรรณ' },
+          { day: 'จันทร์', period: 4, subject: 'พักกลางวัน', room: '-', teacher: '-' },
+          { day: 'จันทร์', period: 5, subject: 'ง23102', room: 'เกษตร 1', teacher: 'ครูธัญญารัตน์' },
+          { day: 'จันทร์', period: 6, subject: 'พ23104', room: 'สน.กรีฑา', teacher: 'ครูเพชรสุพร' },
+          { day: 'จันทร์', period: 7, subject: 'พ23102', room: 'หอประชุม 1', teacher: 'ครูสรไกร' },
+          { day: 'จันทร์', period: 8, subject: 'ค23102', room: '416', teacher: 'ครูสันติ' },
           
-          { day: 'อังคาร', period: 1, subject: 'ว23202', room: '613', teacher: 'ครูคาวิน', type: 'sci' },
-          { day: 'อังคาร', period: 2, subject: 'อ23102', room: '111', teacher: 'ครูนันทร์ทัตน์', type: 'eng' },
-          { day: 'อังคาร', period: 3, subject: 'แนะแนว', room: '437', teacher: 'ครูทีปกร', type: 'act' },
-          { day: 'อังคาร', period: 4, subject: 'พักกลางวัน', room: '-', teacher: '-', type: 'break' },
-          { day: 'อังคาร', period: 5, subject: 'ค้นคว้า', room: 'ห้องเรียนประจำ', teacher: '-', type: 'act' },
-          { day: 'อังคาร', period: 6, subject: 'ค23102', room: '416', teacher: 'ครูสันติ', type: 'math' },
-          { day: 'อังคาร', period: 7, subject: 'ส23102', room: '317', teacher: 'ครูนิศากรณ์', type: 'soc' },
-          { day: 'อังคาร', period: 8, subject: 'ง23102', room: 'เกษตร 1', teacher: 'ครูธัญญารัตน์', type: 'work' },
+          { day: 'อังคาร', period: 1, subject: 'ว23202', room: '613', teacher: 'ครูคาวิน' },
+          { day: 'อังคาร', period: 2, subject: 'อ23102', room: '111', teacher: 'ครูนันทร์ทัตน์' },
+          { day: 'อังคาร', period: 3, subject: 'แนะแนว', room: '437', teacher: 'ครูทีปกร' },
+          { day: 'อังคาร', period: 4, subject: 'พักกลางวัน', room: '-', teacher: '-' },
+          { day: 'อังคาร', period: 5, subject: 'ค้นคว้า', room: 'ห้องเรียนประจำ', teacher: '-' },
+          { day: 'อังคาร', period: 6, subject: 'ค23102', room: '416', teacher: 'ครูสันติ' },
+          { day: 'อังคาร', period: 7, subject: 'ส23102', room: '317', teacher: 'ครูนิศากรณ์' },
+          { day: 'อังคาร', period: 8, subject: 'ง23102', room: 'เกษตร 1', teacher: 'ครูธัญญารัตน์' },
 
-          { day: 'พุธ', period: 1, subject: 'ท23102', room: '502', teacher: 'ครูปัทมาวรรณ', type: 'thai' },
-          { day: 'พุธ', period: 2, subject: 'E20206', room: '617', teacher: 'ครู Ronalie', type: 'eng' },
-          { day: 'พุธ', period: 3, subject: 'ส23102', room: '317', teacher: 'ครูนิศากรณ์', type: 'soc' },
-          { day: 'พุธ', period: 4, subject: 'พักกลางวัน', room: '-', teacher: '-', type: 'break' },
-          { day: 'พุธ', period: 5, subject: 'ว23102', room: '221', teacher: 'ครูคาวิน', type: 'sci' },
-          { day: 'พุธ', period: 6, subject: 'ศ23102', room: '306', teacher: 'ครูสุเมธ', type: 'art' },
-          { day: 'พุธ', period: 7, subject: 'ศ23102', room: '306', teacher: 'ครูสุเมธ', type: 'art' },
-          { day: 'พุธ', period: 8, subject: 'กิจกรรม', room: '-', teacher: '-', type: 'act' },
+          { day: 'พุธ', period: 1, subject: 'ท23102', room: '502', teacher: 'ครูปัทมาวรรณ' },
+          { day: 'พุธ', period: 2, subject: 'E20206', room: '617', teacher: 'ครู Ronalie' },
+          { day: 'พุธ', period: 3, subject: 'ส23102', room: '317', teacher: 'ครูนิศากรณ์' },
+          { day: 'พุธ', period: 4, subject: 'พักกลางวัน', room: '-', teacher: '-' },
+          { day: 'พุธ', period: 5, subject: 'ว23102', room: '221', teacher: 'ครูคาวิน' },
+          { day: 'พุธ', period: 6, subject: 'ศ23102', room: '306', teacher: 'ครูสุเมธ' },
+          { day: 'พุธ', period: 7, subject: 'ศ23102', room: '306', teacher: 'ครูสุเมธ' },
+          { day: 'พุธ', period: 8, subject: 'กิจกรรม', room: '-', teacher: '-' },
 
-          { day: 'พฤหัสบดี', period: 1, subject: 'อ23102', room: '111', teacher: 'ครูนันทร์ทัตน์', type: 'eng' },
-          { day: 'พฤหัสบดี', period: 2, subject: 'ค23204', room: '412', teacher: 'ครูวาสนา', type: 'math' },
-          { day: 'พฤหัสบดี', period: 3, subject: 'ว23191', room: '121', teacher: 'ครูชมัยพร', type: 'sci' },
-          { day: 'พฤหัสบดี', period: 4, subject: 'พักกลางวัน', room: '-', teacher: '-', type: 'break' },
-          { day: 'พฤหัสบดี', period: 5, subject: 'ค23102', room: '416', teacher: 'ครูสันติ', type: 'math' },
-          { day: 'พฤหัสบดี', period: 6, subject: 'ส23102', room: '317', teacher: 'ครูนิศากรณ์', type: 'soc' },
-          { day: 'พฤหัสบดี', period: 7, subject: 'ว23102', room: '221', teacher: 'ครูคาวิน', type: 'sci' },
-          { day: 'พฤหัสบดี', period: 8, subject: 'ว23102', room: '221', teacher: 'ครูคาวิน', type: 'sci' },
+          { day: 'พฤหัสบดี', period: 1, subject: 'อ23102', room: '111', teacher: 'ครูนันทร์ทัตน์' },
+          { day: 'พฤหัสบดี', period: 2, subject: 'ค23204', room: '412', teacher: 'ครูวาสนา' },
+          { day: 'พฤหัสบดี', period: 3, subject: 'ว23191', room: '121', teacher: 'ครูชมัยพร' },
+          { day: 'พฤหัสบดี', period: 4, subject: 'พักกลางวัน', room: '-', teacher: '-' },
+          { day: 'พฤหัสบดี', period: 5, subject: 'ค23102', room: '416', teacher: 'ครูสันติ' },
+          { day: 'พฤหัสบดี', period: 6, subject: 'ส23102', room: '317', teacher: 'ครูนิศากรณ์' },
+          { day: 'พฤหัสบดี', period: 7, subject: 'ว23102', room: '221', teacher: 'ครูคาวิน' },
+          { day: 'พฤหัสบดี', period: 8, subject: 'ว23102', room: '221', teacher: 'ครูคาวิน' },
 
-          { day: 'ศุกร์', period: 1, subject: 'ส20206', room: '423', teacher: 'ครูธนชัย', type: 'soc' },
-          { day: 'ศุกร์', period: 2, subject: 'ว23202', room: '613', teacher: 'ครูคาวิน', type: 'sci' },
-          { day: 'ศุกร์', period: 3, subject: 'ว23202', room: '613', teacher: 'ครูคาวิน', type: 'sci' },
-          { day: 'ศุกร์', period: 4, subject: 'พักกลางวัน', room: '-', teacher: '-', type: 'break' },
-          { day: 'ศุกร์', period: 5, subject: 'ส23131', room: '328', teacher: 'ครูอานนท์', type: 'soc' },
-          { day: 'ศุกร์', period: 6, subject: 'ท23102', room: '502', teacher: 'ครูปัทมาวรรณ', type: 'thai' },
-          { day: 'ศุกร์', period: 7, subject: 'อบรมจริยธรรม', room: '-', teacher: '-', type: 'act' },
-          { day: 'ศุกร์', period: 8, subject: 'ชุมนุม', room: '-', teacher: '-', type: 'act' },
+          { day: 'ศุกร์', period: 1, subject: 'ส20206', room: '423', teacher: 'ครูธนชัย' },
+          { day: 'ศุกร์', period: 2, subject: 'ว23202', room: '613', teacher: 'ครูคาวิน' },
+          { day: 'ศุกร์', period: 3, subject: 'ว23202', room: '613', teacher: 'ครูคาวิน' },
+          { day: 'ศุกร์', period: 4, subject: 'พักกลางวัน', room: '-', teacher: '-' },
+          { day: 'ศุกร์', period: 5, subject: 'ส23131', room: '328', teacher: 'ครูอานนท์' },
+          { day: 'ศุกร์', period: 6, subject: 'ท23102', room: '502', teacher: 'ครูปัทมาวรรณ' },
+          { day: 'ศุกร์', period: 7, subject: 'อบรมจริยธรรม', room: '-', teacher: '-' },
+          { day: 'ศุกร์', period: 8, subject: 'ชุมนุม', room: '-', teacher: '-' },
         ]
       };
 
       let currentGrade = localStorage.getItem('classkhab_grade') || null;
       let selectedDayFilter = 'all';
 
-      const typeBadgeMap = {
-        sci: 'bg-cyan-50 text-cyan-700 border-cyan-200',
-        math: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-        eng: 'bg-purple-50 text-purple-700 border-purple-200',
-        thai: 'bg-amber-50 text-amber-700 border-amber-200',
-        soc: 'bg-orange-50 text-orange-700 border-orange-200',
-        pe: 'bg-rose-50 text-rose-700 border-rose-200',
-        work: 'bg-teal-50 text-teal-700 border-teal-200',
-        art: 'bg-pink-50 text-pink-700 border-pink-200',
-        break: 'bg-slate-100 text-slate-600 border-slate-200',
-        act: 'bg-indigo-50 text-indigo-700 border-indigo-200',
-      };
-
-      // App Initialization
       window.addEventListener('DOMContentLoaded', () => {
         lucide.createIcons();
-        
-        // Check Session
         if (currentGrade) {
           showDashboard();
         } else {
@@ -399,24 +315,9 @@
         }
       });
 
-      // --- AUTHENTICATION LOGIC ---
-      function switchAuthTab(tab) {
-        const loginForm = document.getElementById('loginForm');
-        const regForm = document.getElementById('registerForm');
-        const loginBtn = document.getElementById('tabLoginBtn');
-        const regBtn = document.getElementById('tabRegisterBtn');
-
-        if (tab === 'login') {
-          loginForm.classList.remove('hidden');
-          regForm.classList.add('hidden');
-          loginBtn.className = 'flex-1 py-2 rounded-lg bg-white text-blue-600 shadow-sm transition-all';
-          regBtn.className = 'flex-1 py-2 rounded-lg text-slate-500 hover:text-slate-800 transition-all';
-        } else {
-          loginForm.classList.add('hidden');
-          regForm.classList.remove('hidden');
-          regBtn.className = 'flex-1 py-2 rounded-lg bg-white text-indigo-600 shadow-sm transition-all';
-          loginBtn.className = 'flex-1 py-2 rounded-lg text-slate-500 hover:text-slate-800 transition-all';
-        }
+      function toggleMobileMenu() {
+        const menu = document.getElementById('mobileMenu');
+        menu.classList.toggle('hidden');
       }
 
       function handleLogin(e) {
@@ -425,23 +326,15 @@
         const password = document.getElementById('loginPassword').value;
         const errDiv = document.getElementById('loginError');
 
-        // Simple validation (Demo password = 123456)
         if (password === '123456') {
           errDiv.classList.add('hidden');
           currentGrade = selectedClass;
           localStorage.setItem('classkhab_grade', currentGrade);
           showDashboard();
         } else {
-          errDiv.textContent = 'รหัสผ่านไม่ถูกต้อง! (รหัสสำหรับทดสอบคือ 123456)';
+          errDiv.textContent = 'รหัสผ่านไม่ถูกต้อง! (ใช้รหัสผ่านทดสอบ: 123456)';
           errDiv.classList.remove('hidden');
         }
-      }
-
-      function handleRegister(e) {
-        e.preventDefault();
-        const newClass = document.getElementById('regClassName').value;
-        alert(`ลงทะเบียนห้อง ${newClass} สำเร็จ! สามารถเข้าสู่ระบบด้วยรหัสผ่านที่คุณตั้งไว้ได้เลย`);
-        switchAuthTab('login');
       }
 
       function handleLogout() {
@@ -460,29 +353,21 @@
         document.getElementById('mainDashboard').classList.remove('hidden');
         document.getElementById('mainDashboard').classList.add('flex');
 
-        document.getElementById('userGradeLabel').textContent = `${currentGrade} พิเศษ`;
-        document.getElementById('currentGradeBadge').textContent = `ระดับชั้น: ${currentGrade} พิเศษ`;
+        document.getElementById('navGradeLabel').textContent = `ห้องเรียน: ${currentGrade} พิเศษ`;
+        document.getElementById('mobileGradeLabel').textContent = `ห้องเรียน: ${currentGrade} พิเศษ`;
 
-        updateDateDisplay();
         renderSchedule();
         updateTimeTracker();
         setInterval(updateTimeTracker, 1000);
-      }
-
-      // --- DASHBOARD LOGIC ---
-      function updateDateDisplay() {
-        const now = new Date();
-        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-        document.getElementById('currentDateText').textContent = now.toLocaleDateString('th-TH', options);
       }
 
       function selectDay(dayName) {
         selectedDayFilter = dayName;
         document.querySelectorAll('.day-tab').forEach((tab) => {
           if (tab.dataset.day === dayName) {
-            tab.className = 'day-tab px-3 py-1.5 rounded-lg bg-white text-blue-600 shadow-sm font-semibold transition-all';
+            tab.className = 'day-tab px-3 py-1.5 rounded-lg bg-white text-slate-900 font-bold shadow-sm';
           } else {
-            tab.className = 'day-tab px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900 transition-all';
+            tab.className = 'day-tab px-3 py-1.5 rounded-lg text-slate-600';
           }
         });
         renderSchedule();
@@ -494,7 +379,6 @@
 
         const data = scheduleData[currentGrade] || scheduleData['ม.3/1'];
         const days = ['จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์'];
-
         const displayDays = selectedDayFilter === 'all' ? days : [selectedDayFilter];
 
         displayDays.forEach((day) => {
@@ -502,26 +386,16 @@
           if (dayItems.length === 0) return;
 
           const dayCard = document.createElement('div');
-          dayCard.className = 'bg-slate-50 border border-slate-200 rounded-xl p-4';
+          dayCard.className = 'bg-slate-50 border border-slate-200 rounded-2xl p-4';
 
-          let html = `<h4 class="font-bold text-slate-700 text-sm mb-3 flex items-center space-x-2">
-                        <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
-                        <span>วัน${day}</span>
-                      </h4><div class="space-y-2">`;
+          let html = `<h4 class="font-bold text-slate-800 text-sm mb-3">วัน${day}</h4><div class="space-y-2">`;
 
           dayItems.forEach((item) => {
             const timeStr = periods[item.period - 1].time;
-            const badgeClass = typeBadgeMap[item.type] || 'bg-slate-100 text-slate-700 border-slate-200';
-
             html += `
-              <div class="bg-white p-3 rounded-lg border border-slate-200/80 shadow-2xs flex items-center justify-between">
-                <div>
-                  <div class="flex items-center space-x-2">
-                    <span class="font-bold text-sm text-slate-800">${item.subject}</span>
-                    <span class="text-[10px] font-medium border px-1.5 py-0.5 rounded ${badgeClass}">คาบ ${item.period}</span>
-                  </div>
-                  <div class="text-xs text-slate-400 mt-0.5">${timeStr} • ${item.room} ${item.teacher !== '-' ? '• ' + item.teacher : ''}</div>
-                </div>
+              <div class="bg-white p-3 rounded-xl border border-slate-200/80 text-xs">
+                <div class="font-bold text-slate-800">${item.subject} <span class="font-normal text-slate-400">(คาบ ${item.period})</span></div>
+                <div class="text-slate-500 text-[11px] mt-0.5">${timeStr} • ห้อง ${item.room} ${item.teacher !== '-' ? '• ' + item.teacher : ''}</div>
               </div>
             `;
           });
@@ -534,11 +408,10 @@
 
       function updateTimeTracker() {
         const now = new Date();
-        document.getElementById('liveTimeText').textContent = `เวลาปัจจุบัน: ${now.toLocaleTimeString('th-TH')}`;
+        document.getElementById('navTimeText').textContent = `เวลา: ${now.toLocaleTimeString('th-TH')}`;
 
         const dayNames = ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'];
         const todayName = dayNames[now.getDay()];
-
         const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
         const data = scheduleData[currentGrade] || scheduleData['ม.3/1'];
@@ -560,37 +433,29 @@
           }
         }
 
-        // Active Class Render
         if (activeItem) {
           document.getElementById('activeSubject').textContent = activeItem.subject;
-          document.getElementById('activeTime').textContent = periods[activeItem.period - 1].time;
-          document.getElementById('activeRoom').textContent = `ห้อง ${activeItem.room}`;
-          document.getElementById('activeTeacher').textContent = activeItem.teacher;
-
-          const totalDuration = activeItem.endMin - activeItem.startMin;
+          document.getElementById('activeMeta').textContent = `${periods[activeItem.period - 1].time} | ห้อง ${activeItem.room} | ${activeItem.teacher}`;
           const remainingMinutes = activeItem.endMin - currentMinutes;
+          const totalDuration = activeItem.endMin - activeItem.startMin;
           const progressPercent = Math.min(100, Math.max(0, ((totalDuration - remainingMinutes) / totalDuration) * 100));
 
           document.getElementById('activeCountdown').textContent = `${remainingMinutes} นาที`;
           document.getElementById('progressBar').style.width = `${progressPercent}%`;
         } else {
           document.getElementById('activeSubject').textContent = 'ไม่อยู่ในช่วงคาบเรียน';
-          document.getElementById('activeTime').textContent = '--:-- - --:--';
-          document.getElementById('activeRoom').textContent = 'ห้อง --';
-          document.getElementById('activeTeacher').textContent = 'ครู --';
+          document.getElementById('activeMeta').textContent = '--:-- | ห้อง -- | ครู --';
           document.getElementById('activeCountdown').textContent = '0 นาที';
           document.getElementById('progressBar').style.width = '0%';
         }
 
-        // Next Class Render
         if (nextItem) {
           document.getElementById('nextSubject').textContent = nextItem.subject;
           document.getElementById('nextMeta').textContent = `${periods[nextItem.period - 1].time} | ห้อง ${nextItem.room}`;
-          const minutesToNext = nextItem.startMin - currentMinutes;
-          document.getElementById('nextCountdown').textContent = `${minutesToNext} นาที`;
+          document.getElementById('nextCountdown').textContent = `${nextItem.startMin - currentMinutes} นาที`;
         } else {
-          document.getElementById('nextSubject').textContent = 'ไม่มีคาบเรียนถัดไป';
-          document.getElementById('nextMeta').textContent = 'หมดคาบเรียนวันนี้แล้ว';
+          document.getElementById('nextSubject').textContent = 'หมดคาบเรียนวันนี้แล้ว';
+          document.getElementById('nextMeta').textContent = 'ไม่มีคาบเรียนถัดไป';
           document.getElementById('nextCountdown').textContent = 'พักผ่อน';
         }
       }
@@ -605,13 +470,9 @@
           alert('เบราว์เซอร์นี้ไม่รองรับการแจ้งเตือน');
           return;
         }
-
         Notification.requestPermission().then((permission) => {
           if (permission === 'granted') {
-            new Notification('ClassKhab แจ้งเตือน', {
-              body: 'เปิดระบบแจ้งเตือนตารางเรียนเรียบร้อยแล้ว!',
-              icon: 'https://cdn-icons-png.flaticon.com/512/2693/2693507.png',
-            });
+            new Notification('ClassKhab', { body: 'เปิดระบบแจ้งเตือนเรียบร้อยแล้ว!' });
           }
         });
       }
