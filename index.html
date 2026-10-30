@@ -38,14 +38,14 @@
     <!-- ========================================== -->
     <!-- 1. AUTHENTICATION MODAL / SCREEN           -->
     <!-- ========================================== -->
-    <div id="authScreen" class="min-h-screen flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-md fixed inset-0 z-50">
-      <div class="w-full max-w-md bg-white p-8 rounded-3xl shadow-2xl border border-slate-100 relative">
+    <div id="authScreen" class="min-h-screen flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-md fixed inset-0 z-50 overflow-y-auto">
+      <div class="w-full max-w-md bg-white p-8 rounded-3xl shadow-2xl border border-slate-100 relative my-8">
         <div class="text-center mb-6">
           <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-slate-900 flex items-center justify-center text-white shadow-lg">
             <i data-lucide="book-open" class="w-6 h-6"></i>
           </div>
           <h1 class="text-2xl font-bold text-slate-900">เข้าสู่ระบบ ClassKhab</h1>
-          <p class="text-xs text-slate-500 mt-1">เลือกระดับชั้นเรียนเพื่อดูตารางสอน</p>
+          <p class="text-xs text-slate-500 mt-1">เลือกระดับชั้นเรียนเพื่อดูตารางสอนโรงเรียนท่าบ่อ</p>
         </div>
 
         <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
@@ -53,11 +53,28 @@
             <label class="block text-xs font-semibold text-slate-600 mb-1">เลือกระดับชั้น / ห้องเรียน</label>
             <div class="relative">
               <select id="loginClass" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900">
-                <option value="ม.3/1">ม.3/1 พิเศษ</option>
-                <option value="ม.3/2">ม.3/2</option>
-                <option value="ม.3/3">ม.3/3</option>
-                <option value="ม.4/1">ม.4/1 Talent</option>
-                <option value="ม.4/3">ม.4/3 (Gifted English)</option>
+                <optgroup label="ระดับชั้น ม.3 (พิเศษ / MEP)">
+                  <option value="ม.3/1">ม.3/1 พิเศษ วิทย์-คณิต[cite: 7]</option>
+                  <option value="ม.3/2">ม.3/2 พิเศษ วิทย์-คณิต[cite: 8]</option>
+                  <option value="ม.3/3">ม.3/3 MEP[cite: 8]</option>
+                </optgroup>
+                <optgroup label="ระดับชั้น ม.3 (ห้องทั่วไป)">
+                  <option value="ม.3/4">ม.3/4[cite: 9]</option>
+                  <option value="ม.3/5">ม.3/5[cite: 10]</option>
+                  <option value="ม.3/6">ม.3/6[cite: 10]</option>
+                  <option value="ม.3/7">ม.3/7[cite: 11]</option>
+                  <option value="ม.3/8">ม.3/8[cite: 11]</option>
+                  <option value="ม.3/9">ม.3/9[cite: 12]</option>
+                  <option value="ม.3/10">ม.3/10[cite: 12]</option>
+                  <option value="ม.3/11">ม.3/11[cite: 13]</option>
+                  <option value="ม.3/12">ม.3/12[cite: 13]</option>
+                  <option value="ม.3/13">ม.3/13[cite: 13]</option>
+                  <option value="ม.3/14">ม.3/14[cite: 13]</option>
+                </optgroup>
+                <optgroup label="ระดับชั้น ม.4">
+                  <option value="ม.4/1">ม.4/1 Talent</option>
+                  <option value="ม.4/3">ม.4/3 Gifted English</option>
+                </optgroup>
               </select>
               <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 absolute right-3 top-3.5 pointer-events-none"></i>
             </div>
@@ -107,7 +124,7 @@
             </div>
 
             <div class="hidden lg:flex lg:ml-16 lg:items-center lg:justify-center lg:space-x-10">
-              <span id="navGradeLabel" class="text-sm font-semibold text-slate-900 bg-slate-100 px-3 py-1 rounded-full">ห้องเรียน: ม.3/1 พิเศษ</span>
+              <span id="navGradeLabel" class="text-sm font-semibold text-slate-900 bg-slate-100 px-3 py-1 rounded-full">ห้องเรียน: --</span>
               <span id="navTimeText" class="text-sm font-medium text-slate-500">เวลา: --:--:--</span>
             </div>
 
@@ -148,7 +165,7 @@
               </span>
             </p>
             <p class="mt-4 text-base sm:text-lg text-slate-600">
-              เช็กตารางเรียนรายวัน คาบเรียนปัจจุบัน และนับถอยหลังคาบถัดไปแบบเรียลไทม์
+              เช็กตารางเรียนรายวัน คาบเรียนปัจจุบัน และนับถอยหลังคาบถัดไปแบบเรียลไทม์ โรงเรียนท่าบ่อ
             </p>
           </div>
         </div>
@@ -236,21 +253,21 @@
       const scheduleData = {
         'ม.3/1': [
           { day: 'จันทร์', period: 1, subject: 'ค23204', room: '412', teacher: 'ครูวาสนา' },
-          { day: 'จันทร์', period: 2, subject: 'อ23102', room: '111', teacher: 'ครูนันทร์ทัตน์' },
+          { day: 'จันทร์', period: 2, subject: 'อ23102', room: '111', teacher: 'ครูนันทรัตน์' },
           { day: 'จันทร์', period: 3, subject: 'ท23102', room: '502', teacher: 'ครูปัทมาวรรณ' },
           { day: 'จันทร์', period: 4, subject: 'พักกลางวัน', room: '-', teacher: '-' },
-          { day: 'จันทร์', period: 5, subject: 'ง23102', room: 'เกษตร 1', teacher: 'ครูธัญญารัตน์' },
+          { day: 'จันทร์', period: 5, subject: 'ว23102', room: 'เกษตร 1', teacher: 'ครูธัญญารัตน์' },
           { day: 'จันทร์', period: 6, subject: 'พ23104', room: 'สน.กรีฑา', teacher: 'ครูเพชรสุพร' },
           { day: 'จันทร์', period: 7, subject: 'พ23102', room: 'หอประชุม 1', teacher: 'ครูสรไกร' },
           { day: 'จันทร์', period: 8, subject: 'ค23102', room: '416', teacher: 'ครูสันติ' },
           { day: 'อังคาร', period: 1, subject: 'ว23202', room: '613', teacher: 'ครูคาวิน' },
-          { day: 'อังคาร', period: 2, subject: 'อ23102', room: '111', teacher: 'ครูนันทร์ทัตน์' },
+          { day: 'อังคาร', period: 2, subject: 'อ23102', room: '111', teacher: 'ครูนันทรัตน์' },
           { day: 'อังคาร', period: 3, subject: 'แนะแนว', room: '437', teacher: 'ครูทีปกร' },
           { day: 'อังคาร', period: 4, subject: 'พักกลางวัน', room: '-', teacher: '-' },
           { day: 'อังคาร', period: 5, subject: 'ค้นคว้า', room: 'ห้องเรียนประจำ', teacher: '-' },
           { day: 'อังคาร', period: 6, subject: 'ค23102', room: '416', teacher: 'ครูสันติ' },
           { day: 'อังคาร', period: 7, subject: 'ส23102', room: '317', teacher: 'ครูนิศากรณ์' },
-          { day: 'อังคาร', period: 8, subject: 'ง23102', room: 'เกษตร 1', teacher: 'ครูธัญญารัตน์' },
+          { day: 'อังคาร', period: 8, subject: 'ว23102', room: 'เกษตร 1', teacher: 'ครูธัญญารัตน์' },
           { day: 'พุธ', period: 1, subject: 'ท23102', room: '502', teacher: 'ครูปัทมาวรรณ' },
           { day: 'พุธ', period: 2, subject: 'E20206', room: '617', teacher: 'ครู Ronalie' },
           { day: 'พุธ', period: 3, subject: 'ส23102', room: '317', teacher: 'ครูนิศากรณ์' },
@@ -259,7 +276,7 @@
           { day: 'พุธ', period: 6, subject: 'ศ23102', room: '306', teacher: 'ครูสุเมธ' },
           { day: 'พุธ', period: 7, subject: 'ศ23102', room: '306', teacher: 'ครูสุเมธ' },
           { day: 'พุธ', period: 8, subject: 'กิจกรรม', room: '-', teacher: '-' },
-          { day: 'พฤหัสบดี', period: 1, subject: 'อ23102', room: '111', teacher: 'ครูนันทร์ทัตน์' },
+          { day: 'พฤหัสบดี', period: 1, subject: 'อ23102', room: '111', teacher: 'ครูนันทรัตน์' },
           { day: 'พฤหัสบดี', period: 2, subject: 'ค23204', room: '412', teacher: 'ครูวาสนา' },
           { day: 'พฤหัสบดี', period: 3, subject: 'ว23191', room: '121', teacher: 'ครูชมัยพร' },
           { day: 'พฤหัสบดี', period: 4, subject: 'พักกลางวัน', room: '-', teacher: '-' },
@@ -276,8 +293,42 @@
           { day: 'ศุกร์', period: 7, subject: 'อบรมจริยธรรม', room: '-', teacher: '-' },
           { day: 'ศุกร์', period: 8, subject: 'ชุมนุม', room: '-', teacher: '-' },
         ],
-        'ม.3/2': [],
-        'ม.3/3': [],
+        'ม.3/2': [
+          { day: 'จันทร์', period: 1, subject: 'ว23102', room: 'เกษตร 1', teacher: 'ครูธัญญารัตน์' },
+          { day: 'จันทร์', period: 2, subject: 'ว23202', room: '613', teacher: 'ครูคาวิน' },
+          { day: 'จันทร์', period: 3, subject: 'ว23202', room: '613', teacher: 'ครูคาวิน' },
+          { day: 'จันทร์', period: 4, subject: 'พักกลางวัน', room: '-', teacher: '-' },
+          { day: 'จันทร์', period: 5, subject: 'ส23131', room: '328', teacher: 'ครูอานนท์' },
+          { day: 'จันทร์', period: 6, subject: 'E20206', room: '617', teacher: 'ครู Ronalie' },
+          { day: 'จันทร์', period: 7, subject: 'ส23102', room: '315', teacher: 'ครูจันทร์เพ็ญ' },
+          { day: 'อังคาร', period: 1, subject: 'ท23102', room: '506', teacher: 'ครูสมปราถนา' },
+          { day: 'อังคาร', period: 2, subject: 'พ23102', room: 'หอประชุม 1', teacher: 'ครูสรไกร' },
+          { day: 'อังคาร', period: 3, subject: 'ค23102', room: '416', teacher: 'ครูสันติ' },
+          { day: 'อังคาร', period: 4, subject: 'พักกลางวัน', room: '-', teacher: '-' },
+          { day: 'อังคาร', period: 5, subject: 'ส23102', room: '315', teacher: 'ครูจันทร์เพ็ญ' },
+          { day: 'อังคาร', period: 6, subject: 'อ23102', room: '112', teacher: 'ครูปริญนภา' },
+          { day: 'อังคาร', period: 7, subject: 'ค23204', room: '412', teacher: 'ครูวาสนา' },
+          { day: 'อังคาร', period: 8, subject: 'ว23202', room: '215', teacher: 'ครูคาวิน' },
+          { day: 'พุธ', period: 1, subject: 'ว23102', room: '227', teacher: 'ครูศิริพร' },
+          { day: 'พุธ', period: 2, subject: 'ว23191', room: '121', teacher: 'ครูชมัยพร' },
+          { day: 'พุธ', period: 3, subject: 'ค23204', room: '412', teacher: 'ครูวาสนา' },
+          { day: 'พุธ', period: 4, subject: 'พักกลางวัน', room: '-', teacher: '-' },
+          { day: 'พุธ', period: 5, subject: 'ท23102', room: '506', teacher: 'ครูสมปราถนา' },
+          { day: 'พุธ', period: 6, subject: 'ส23102', room: '315', teacher: 'ครูจันทร์เพ็ญ' },
+          { day: 'พุธ', period: 7, subject: 'แนะแนว', room: '437', teacher: 'ครูทีปกร' },
+          { day: 'พุธ', period: 8, subject: 'กิจกรรม', room: '-', teacher: '-' },
+        ],
+        'ม.3/3': [
+          { day: 'จันทร์', period: 1, subject: 'ส23102', room: '625', teacher: 'ครูนิศากรณ์' },
+          { day: 'จันทร์', period: 2, subject: 'อ23102', room: '625', teacher: 'ครู Ronalie' },
+          { day: 'จันทร์', period: 3, subject: 'ส22131', room: '625', teacher: 'ครูอานนท์' },
+          { day: 'จันทร์', period: 4, subject: 'พักกลางวัน', room: '-', teacher: '-' },
+          { day: 'จันทร์', period: 5, subject: 'ว23102', room: '216', teacher: 'ครูศิริพร' },
+          { day: 'จันทร์', period: 6, subject: 'ว23102', room: '216', teacher: 'ครูศิริพร' },
+          { day: 'จันทร์', period: 7, subject: 'ว23102', room: '625', teacher: 'ครูสมปราถนา' },
+          { day: 'จันทร์', period: 8, subject: 'E23204', room: '625', teacher: 'ครู Eugene' },
+        ],
+        'ม.3/4': [], 'ม.3/5': [], 'ม.3/6': [], 'ม.3/7': [], 'ม.3/8': [], 'ม.3/9': [], 'ม.3/10': [], 'ม.3/11': [], 'ม.3/12': [], 'ม.3/13': [], 'ม.3/14': [],
         'ม.4/1': [
           { day: 'จันทร์', period: 1, subject: 'ว30242', room: '621', teacher: 'ครูกฤติยา' },
           { day: 'จันทร์', period: 2, subject: 'ว30242', room: '621', teacher: 'ครูกฤติยา' },
@@ -288,7 +339,6 @@
           { day: 'จันทร์', period: 7, subject: 'ว30287', room: '627', teacher: 'ครูสุดารัตน์' },
           { day: 'จันทร์', period: 8, subject: 'ว30287', room: '627', teacher: 'ครูสุดารัตน์' },
           { day: 'จันทร์', period: 9, subject: 'ศ31102', room: '301', teacher: 'ครูศุภวิชญ์' },
-          
           { day: 'อังคาร', period: 1, subject: 'ค31202', room: '421', teacher: 'ครูนันทชัย' },
           { day: 'อังคาร', period: 2, subject: 'ค31202', room: '421', teacher: 'ครูนันทชัย' },
           { day: 'อังคาร', period: 3, subject: 'E30202', room: '618', teacher: 'ครู Mae' },
@@ -297,33 +347,6 @@
           { day: 'อังคาร', period: 6, subject: 'อ31102', room: '114', teacher: 'ครูอัจฉรา' },
           { day: 'อังคาร', period: 7, subject: 'ท31102', room: '515', teacher: 'ครูสุวิมล' },
           { day: 'อังคาร', period: 8, subject: 'ว30202', room: '222', teacher: 'ครูธนิกานต์' },
-
-          { day: 'พุธ', period: 1, subject: 'ว30297', room: '122', teacher: 'ครูวีระพล' },
-          { day: 'พุธ', period: 2, subject: 'ว30297', room: '122', teacher: 'ครูวีระพล' },
-          { day: 'พุธ', period: 3, subject: 'อ31102', room: '114', teacher: 'ครูอัจฉรา' },
-          { day: 'พุธ', period: 4, subject: 'ค31204', room: '427', teacher: 'ครูธิวัฒน์' },
-          { day: 'พุธ', period: 5, subject: 'พักกลางวัน', room: '-', teacher: '-' },
-          { day: 'พุธ', period: 6, subject: 'E30202', room: '618', teacher: 'ครู Mae' },
-          { day: 'พุธ', period: 7, subject: 'แนะแนว', room: '438', teacher: 'ครูกาญจนา' },
-          { day: 'พุธ', period: 8, subject: 'พ31102', room: 'อาคารพละ', teacher: 'ครูธนกฤต' },
-
-          { day: 'พฤหัสบดี', period: 1, subject: 'ว30222', room: '222', teacher: 'ครูสุดารัตน์' },
-          { day: 'พฤหัสบดี', period: 2, subject: 'ว30222', room: '222', teacher: 'ครูสุดารัตน์' },
-          { day: 'พฤหัสบดี', period: 3, subject: 'ค31202', room: '421', teacher: 'ครูนันทชัย' },
-          { day: 'พฤหัสบดี', period: 4, subject: 'ส31102', room: '325', teacher: 'ครูกัญญาวีร์' },
-          { day: 'พฤหัสบดี', period: 5, subject: 'พักกลางวัน', room: '-', teacher: '-' },
-          { day: 'พฤหัสบดี', period: 6, subject: 'ค31204', room: '427', teacher: 'ครูธิวัฒน์' },
-          { day: 'พฤหัสบดี', period: 7, subject: 'ว30242', room: '638', teacher: 'ครูกฤติยา' },
-          { day: 'พฤหัสบดี', period: 8, subject: 'ส30131', room: '327', teacher: 'ครูสุทธิรัตน์' },
-
-          { day: 'ศุกร์', period: 1, subject: 'ส30202', room: '214', teacher: 'ครูนิศากรณ์' },
-          { day: 'ศุกร์', period: 2, subject: 'ท31102', room: '515', teacher: 'ครูสุวิมล' },
-          { day: 'ศุกร์', period: 3, subject: 'ส31102', room: '325', teacher: 'ครูกัญญาวีร์' },
-          { day: 'ศุกร์', period: 4, subject: 'ค31102', room: '421', teacher: 'ครูนันทชัย' },
-          { day: 'ศุกร์', period: 5, subject: 'พักกลางวัน', room: '-', teacher: '-' },
-          { day: 'ศุกร์', period: 6, subject: 'ว31191', room: '122', teacher: 'ครูแสงเดือน' },
-          { day: 'ศุกร์', period: 7, subject: 'ว30222', room: '222', teacher: 'ครูสุดารัตน์' },
-          { day: 'ศุกร์', period: 8, subject: 'ชุมนุม', room: '-', teacher: '-' },
         ],
         'ม.4/3': [
           { day: 'จันทร์', period: 1, subject: 'ว30222', room: '222', teacher: 'ครูสุดารัตน์' },
@@ -334,42 +357,6 @@
           { day: 'จันทร์', period: 6, subject: 'ว30242', room: '638', teacher: 'ครูกฤติยา' },
           { day: 'จันทร์', period: 7, subject: 'ค31202', room: '422', teacher: 'ครูพิชญานี' },
           { day: 'จันทร์', period: 8, subject: 'ส31102', room: '321', teacher: 'ครูกรรณิการ์' },
-          
-          { day: 'อังคาร', period: 1, subject: 'ค31102', room: '432', teacher: 'ครูขนิษฐา' },
-          { day: 'อังคาร', period: 2, subject: 'อ31102', room: '112', teacher: 'ครูปริญภา' },
-          { day: 'อังคาร', period: 3, subject: 'ว30242', room: '621', teacher: 'ครูกฤติยา' },
-          { day: 'อังคาร', period: 4, subject: 'ว30242', room: '621', teacher: 'ครูกฤติยา' },
-          { day: 'อังคาร', period: 5, subject: 'พักกลางวัน', room: '-', teacher: '-' },
-          { day: 'อังคาร', period: 6, subject: 'อ30233', room: '123', teacher: 'ครูวราภรณ์' },
-          { day: 'อังคาร', period: 7, subject: 'อ30229', room: '114', teacher: 'ครูอัจฉรา' },
-          { day: 'อังคาร', period: 8, subject: 'ศ31102', room: '301', teacher: 'ครูศุภวิชญ์' },
-
-          { day: 'พุธ', period: 1, subject: 'ว30222', room: '222', teacher: 'ครูสุดารัตน์' },
-          { day: 'พุธ', period: 2, subject: 'ว30222', room: '222', teacher: 'ครูสุดารัตน์' },
-          { day: 'พุธ', period: 3, subject: 'ว30202', room: '211', teacher: 'ครูธนิกานต์' },
-          { day: 'พุธ', period: 4, subject: 'ว30202', room: '211', teacher: 'ครูธนิกานต์' },
-          { day: 'พุธ', period: 5, subject: 'พักกลางวัน', room: '-', teacher: '-' },
-          { day: 'พุธ', period: 6, subject: 'ส30131', room: '327', teacher: 'ครูสุทธิรัตน์' },
-          { day: 'พุธ', period: 7, subject: 'ท33102', room: '501', teacher: 'ครูอุเทน' },
-          { day: 'พุธ', period: 8, subject: 'E30202', room: '618', teacher: 'ครู Mae' },
-
-          { day: 'พฤหัสบดี', period: 1, subject: 'อ30233', room: '123', teacher: 'ครูวราภรณ์' },
-          { day: 'พฤหัสบดี', period: 2, subject: 'ว30202', room: '211', teacher: 'ครูธนิกานต์' },
-          { day: 'พฤหัสบดี', period: 3, subject: 'อ30229', room: '114', teacher: 'ครูอัจฉรา' },
-          { day: 'พฤหัสบดี', period: 4, subject: 'ค31202', room: '422', teacher: 'ครูพิชญานี' },
-          { day: 'พฤหัสบดี', period: 5, subject: 'พักกลางวัน', room: '-', teacher: '-' },
-          { day: 'พฤหัสบดี', period: 6, subject: 'แนะแนว', room: '438', teacher: 'ครูกาญจนา' },
-          { day: 'พฤหัสบดี', period: 7, subject: 'ค31102', room: '432', teacher: 'ครูขนิษฐา' },
-          { day: 'พฤหัสบดี', period: 8, subject: 'ค้นคว้า', room: '-', teacher: '-' },
-
-          { day: 'ศุกร์', period: 1, subject: 'ส30202', room: '114', teacher: 'ครูอัจฉรา' },
-          { day: 'ศุกร์', period: 2, subject: 'ท33102', room: '501', teacher: 'ครูอุเทน' },
-          { day: 'ศุกร์', period: 3, subject: 'ค31202', room: '422', teacher: 'ครูพิชญานี' },
-          { day: 'ศุกร์', period: 4, subject: 'E30202', room: '618', teacher: 'ครู Mae' },
-          { day: 'ศุกร์', period: 5, subject: 'พักกลางวัน', room: '-', teacher: '-' },
-          { day: 'ศุกร์', period: 6, subject: 'พ31102', room: 'อาคารพละ', teacher: 'ครูธนกฤต' },
-          { day: 'ศุกร์', period: 7, subject: 'ส31102', room: '321', teacher: 'ครูกรรณิการ์' },
-          { day: 'ศุกร์', period: 8, subject: 'ชุมนุม', room: '-', teacher: '-' },
         ]
       };
 
