@@ -56,6 +56,8 @@
                 <option value="ม.3/1">ม.3/1 พิเศษ</option>
                 <option value="ม.3/2">ม.3/2</option>
                 <option value="ม.3/3">ม.3/3</option>
+                <option value="ม.4/1">ม.4/1 Talent</option>
+                <option value="ม.4/3">ม.4/3 (Gifted English)</option>
               </select>
               <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 absolute right-3 top-3.5 pointer-events-none"></i>
             </div>
@@ -81,15 +83,14 @@
 
 
     <!-- ========================================== -->
-    <!-- 2. MAIN APP & 21st.dev HERO SECTION       -->
+    <!-- 2. MAIN APP & HERO SECTION                 -->
     <!-- ========================================== -->
     <div id="mainDashboard" class="hidden flex-col min-h-screen overflow-x-hidden">
       
-      <!-- Responsive Header Nav (Inspired by 21st.dev) -->
+      <!-- Responsive Header Nav -->
       <header class="py-4 md:py-6 bg-white/80 backdrop-blur-md sticky top-0 z-40 border-b border-slate-200/60">
         <div class="max-w-7xl px-4 mx-auto sm:px-6 lg:px-8">
           <div class="flex items-center justify-between">
-            <!-- Brand Logo -->
             <div class="flex-shrink-0">
               <a href="#" class="flex items-center space-x-2 rounded outline-none">
                 <div class="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-white">
@@ -99,45 +100,30 @@
               </a>
             </div>
 
-            <!-- Mobile Hamburger Button -->
             <div class="flex lg:hidden">
-              <button
-                type="button"
-                className="text-slate-900 p-2"
-                onclick="toggleMobileMenu()"
-              >
+              <button type="button" class="text-slate-900 p-2" onclick="toggleMobileMenu()">
                 <i data-lucide="menu" class="w-6 h-6"></i>
               </button>
             </div>
 
-            <!-- Desktop Nav Links -->
             <div class="hidden lg:flex lg:ml-16 lg:items-center lg:justify-center lg:space-x-10">
               <span id="navGradeLabel" class="text-sm font-semibold text-slate-900 bg-slate-100 px-3 py-1 rounded-full">ห้องเรียน: ม.3/1 พิเศษ</span>
               <span id="navTimeText" class="text-sm font-medium text-slate-500">เวลา: --:--:--</span>
             </div>
 
-            <!-- Desktop Right Actions -->
             <div class="hidden lg:ml-auto lg:flex lg:items-center lg:space-x-4">
-              <button
-                onclick="requestNotificationPermission()"
-                class="inline-flex items-center space-x-2 px-4 py-2 text-sm font-bold text-slate-900 bg-slate-100 rounded-xl hover:bg-slate-200 transition-all"
-              >
+              <button onclick="requestNotificationPermission()" class="inline-flex items-center space-x-2 px-4 py-2 text-sm font-bold text-slate-900 bg-slate-100 rounded-xl hover:bg-slate-200 transition-all">
                 <i data-lucide="bell" class="w-4 h-4"></i>
                 <span>เปิดแจ้งเตือน</span>
               </button>
-
-              <button
-                onclick="handleLogout()"
-                class="inline-flex items-center justify-center px-5 py-2 text-sm font-bold text-white bg-slate-900 rounded-xl hover:bg-slate-700 transition-all"
-              >
+              <button onclick="handleLogout()" class="inline-flex items-center justify-center px-5 py-2 text-sm font-bold text-white bg-slate-900 rounded-xl hover:bg-slate-700 transition-all">
                 ออกจากระบบ
               </button>
             </div>
           </div>
 
-          <!-- Mobile Dropdown Navigation -->
           <div id="mobileMenu" class="hidden lg:hidden pt-4 pb-2 border-t border-slate-100 mt-4 space-y-3">
-            <div id="mobileGradeLabel" class="text-sm font-semibold text-slate-700 bg-slate-100 p-2.5 rounded-xl">ห้องเรียน: ม.3/1 พิเศษ</div>
+            <div id="mobileGradeLabel" class="text-sm font-semibold text-slate-700 bg-slate-100 p-2.5 rounded-xl">ห้องเรียน: --</div>
             <button onclick="requestNotificationPermission()" class="w-full text-left p-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-xl flex items-center space-x-2">
               <i data-lucide="bell" class="w-4 h-4"></i>
               <span>เปิดแจ้งเตือนเบราว์เซอร์</span>
@@ -149,13 +135,13 @@
         </div>
       </header>
 
-      <!-- Hero Banner Section (21st.dev Style) -->
+      <!-- Hero Banner Section -->
       <section class="pt-10 sm:pt-14 pb-12 bg-slate-50">
         <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div class="max-w-3xl mx-auto text-center">
             <h1 class="px-6 text-sm font-semibold tracking-wide text-blue-600 uppercase">Smart School Schedule System</h1>
             <p class="mt-4 text-4xl font-extrabold text-slate-900 sm:text-5xl lg:text-6xl tracking-tight">
-              ไม่พลาดทุกคาบเรียนด้วยระบบ
+              ไม่พลาดทุกคาบเรียนด้วยระบบ{" "}
               <span class="relative inline-flex">
                 <span class="bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] blur-lg filter opacity-30 absolute inset-0"></span>
                 <span class="relative bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">ClassKhab</span>
@@ -167,13 +153,11 @@
           </div>
         </div>
 
-        <!-- Dashboard UI Container (21st.dev Illustration Container) -->
+        <!-- Dashboard UI Container -->
         <div class="mt-8 px-4 mx-auto max-w-6xl sm:px-6 lg:px-8">
           <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-200/80 space-y-6">
             
-            <!-- Live Class Tracker Banner -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-              <!-- Current Active Class -->
               <div class="md:col-span-2 bg-gradient-to-br from-slate-900 to-slate-800 text-white p-6 rounded-2xl shadow-md flex flex-col justify-between">
                 <div>
                   <div class="flex items-center justify-between mb-3">
@@ -197,7 +181,6 @@
                 </div>
               </div>
 
-              <!-- Next Class -->
               <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-between">
                 <div>
                   <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 bg-slate-200 px-3 py-1 rounded-full">คาบถัดไป</span>
@@ -211,7 +194,6 @@
               </div>
             </div>
 
-            <!-- Day Selector & Schedule Grid -->
             <div>
               <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 mb-4 border-b border-slate-100 gap-2">
                 <h3 class="font-bold text-slate-800 text-base">ตารางเรียนสัปดาห์นี้</h3>
@@ -225,16 +207,13 @@
                 </div>
               </div>
 
-              <div id="scheduleContainer" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- Schedule output -->
-              </div>
+              <div id="scheduleContainer" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
             </div>
 
           </div>
         </div>
       </section>
 
-      <!-- Footer -->
       <footer class="mt-auto bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-400">
         <p>© ClassKhab • Powered by Tailwind CSS & GitHub Pages</p>
       </footer>
@@ -264,7 +243,6 @@
           { day: 'จันทร์', period: 6, subject: 'พ23104', room: 'สน.กรีฑา', teacher: 'ครูเพชรสุพร' },
           { day: 'จันทร์', period: 7, subject: 'พ23102', room: 'หอประชุม 1', teacher: 'ครูสรไกร' },
           { day: 'จันทร์', period: 8, subject: 'ค23102', room: '416', teacher: 'ครูสันติ' },
-          
           { day: 'อังคาร', period: 1, subject: 'ว23202', room: '613', teacher: 'ครูคาวิน' },
           { day: 'อังคาร', period: 2, subject: 'อ23102', room: '111', teacher: 'ครูนันทร์ทัตน์' },
           { day: 'อังคาร', period: 3, subject: 'แนะแนว', room: '437', teacher: 'ครูทีปกร' },
@@ -273,7 +251,6 @@
           { day: 'อังคาร', period: 6, subject: 'ค23102', room: '416', teacher: 'ครูสันติ' },
           { day: 'อังคาร', period: 7, subject: 'ส23102', room: '317', teacher: 'ครูนิศากรณ์' },
           { day: 'อังคาร', period: 8, subject: 'ง23102', room: 'เกษตร 1', teacher: 'ครูธัญญารัตน์' },
-
           { day: 'พุธ', period: 1, subject: 'ท23102', room: '502', teacher: 'ครูปัทมาวรรณ' },
           { day: 'พุธ', period: 2, subject: 'E20206', room: '617', teacher: 'ครู Ronalie' },
           { day: 'พุธ', period: 3, subject: 'ส23102', room: '317', teacher: 'ครูนิศากรณ์' },
@@ -282,7 +259,6 @@
           { day: 'พุธ', period: 6, subject: 'ศ23102', room: '306', teacher: 'ครูสุเมธ' },
           { day: 'พุธ', period: 7, subject: 'ศ23102', room: '306', teacher: 'ครูสุเมธ' },
           { day: 'พุธ', period: 8, subject: 'กิจกรรม', room: '-', teacher: '-' },
-
           { day: 'พฤหัสบดี', period: 1, subject: 'อ23102', room: '111', teacher: 'ครูนันทร์ทัตน์' },
           { day: 'พฤหัสบดี', period: 2, subject: 'ค23204', room: '412', teacher: 'ครูวาสนา' },
           { day: 'พฤหัสบดี', period: 3, subject: 'ว23191', room: '121', teacher: 'ครูชมัยพร' },
@@ -291,7 +267,6 @@
           { day: 'พฤหัสบดี', period: 6, subject: 'ส23102', room: '317', teacher: 'ครูนิศากรณ์' },
           { day: 'พฤหัสบดี', period: 7, subject: 'ว23102', room: '221', teacher: 'ครูคาวิน' },
           { day: 'พฤหัสบดี', period: 8, subject: 'ว23102', room: '221', teacher: 'ครูคาวิน' },
-
           { day: 'ศุกร์', period: 1, subject: 'ส20206', room: '423', teacher: 'ครูธนชัย' },
           { day: 'ศุกร์', period: 2, subject: 'ว23202', room: '613', teacher: 'ครูคาวิน' },
           { day: 'ศุกร์', period: 3, subject: 'ว23202', room: '613', teacher: 'ครูคาวิน' },
@@ -299,6 +274,101 @@
           { day: 'ศุกร์', period: 5, subject: 'ส23131', room: '328', teacher: 'ครูอานนท์' },
           { day: 'ศุกร์', period: 6, subject: 'ท23102', room: '502', teacher: 'ครูปัทมาวรรณ' },
           { day: 'ศุกร์', period: 7, subject: 'อบรมจริยธรรม', room: '-', teacher: '-' },
+          { day: 'ศุกร์', period: 8, subject: 'ชุมนุม', room: '-', teacher: '-' },
+        ],
+        'ม.3/2': [],
+        'ม.3/3': [],
+        'ม.4/1': [
+          { day: 'จันทร์', period: 1, subject: 'ว30242', room: '621', teacher: 'ครูกฤติยา' },
+          { day: 'จันทร์', period: 2, subject: 'ว30242', room: '621', teacher: 'ครูกฤติยา' },
+          { day: 'จันทร์', period: 3, subject: 'ว30202', room: '222', teacher: 'ครูธนิกานต์' },
+          { day: 'จันทร์', period: 4, subject: 'ว30202', room: '222', teacher: 'ครูธนิกานต์' },
+          { day: 'จันทร์', period: 5, subject: 'พักกลางวัน', room: '-', teacher: '-' },
+          { day: 'จันทร์', period: 6, subject: 'ค31102', room: '421', teacher: 'ครูนันทชัย' },
+          { day: 'จันทร์', period: 7, subject: 'ว30287', room: '627', teacher: 'ครูสุดารัตน์' },
+          { day: 'จันทร์', period: 8, subject: 'ว30287', room: '627', teacher: 'ครูสุดารัตน์' },
+          { day: 'จันทร์', period: 9, subject: 'ศ31102', room: '301', teacher: 'ครูศุภวิชญ์' },
+          
+          { day: 'อังคาร', period: 1, subject: 'ค31202', room: '421', teacher: 'ครูนันทชัย' },
+          { day: 'อังคาร', period: 2, subject: 'ค31202', room: '421', teacher: 'ครูนันทชัย' },
+          { day: 'อังคาร', period: 3, subject: 'E30202', room: '618', teacher: 'ครู Mae' },
+          { day: 'อังคาร', period: 4, subject: 'ง31102', room: 'คหกรรม 1', teacher: 'ครูจิราภรณ์' },
+          { day: 'อังคาร', period: 5, subject: 'พักกลางวัน', room: '-', teacher: '-' },
+          { day: 'อังคาร', period: 6, subject: 'อ31102', room: '114', teacher: 'ครูอัจฉรา' },
+          { day: 'อังคาร', period: 7, subject: 'ท31102', room: '515', teacher: 'ครูสุวิมล' },
+          { day: 'อังคาร', period: 8, subject: 'ว30202', room: '222', teacher: 'ครูธนิกานต์' },
+
+          { day: 'พุธ', period: 1, subject: 'ว30297', room: '122', teacher: 'ครูวีระพล' },
+          { day: 'พุธ', period: 2, subject: 'ว30297', room: '122', teacher: 'ครูวีระพล' },
+          { day: 'พุธ', period: 3, subject: 'อ31102', room: '114', teacher: 'ครูอัจฉรา' },
+          { day: 'พุธ', period: 4, subject: 'ค31204', room: '427', teacher: 'ครูธิวัฒน์' },
+          { day: 'พุธ', period: 5, subject: 'พักกลางวัน', room: '-', teacher: '-' },
+          { day: 'พุธ', period: 6, subject: 'E30202', room: '618', teacher: 'ครู Mae' },
+          { day: 'พุธ', period: 7, subject: 'แนะแนว', room: '438', teacher: 'ครูกาญจนา' },
+          { day: 'พุธ', period: 8, subject: 'พ31102', room: 'อาคารพละ', teacher: 'ครูธนกฤต' },
+
+          { day: 'พฤหัสบดี', period: 1, subject: 'ว30222', room: '222', teacher: 'ครูสุดารัตน์' },
+          { day: 'พฤหัสบดี', period: 2, subject: 'ว30222', room: '222', teacher: 'ครูสุดารัตน์' },
+          { day: 'พฤหัสบดี', period: 3, subject: 'ค31202', room: '421', teacher: 'ครูนันทชัย' },
+          { day: 'พฤหัสบดี', period: 4, subject: 'ส31102', room: '325', teacher: 'ครูกัญญาวีร์' },
+          { day: 'พฤหัสบดี', period: 5, subject: 'พักกลางวัน', room: '-', teacher: '-' },
+          { day: 'พฤหัสบดี', period: 6, subject: 'ค31204', room: '427', teacher: 'ครูธิวัฒน์' },
+          { day: 'พฤหัสบดี', period: 7, subject: 'ว30242', room: '638', teacher: 'ครูกฤติยา' },
+          { day: 'พฤหัสบดี', period: 8, subject: 'ส30131', room: '327', teacher: 'ครูสุทธิรัตน์' },
+
+          { day: 'ศุกร์', period: 1, subject: 'ส30202', room: '214', teacher: 'ครูนิศากรณ์' },
+          { day: 'ศุกร์', period: 2, subject: 'ท31102', room: '515', teacher: 'ครูสุวิมล' },
+          { day: 'ศุกร์', period: 3, subject: 'ส31102', room: '325', teacher: 'ครูกัญญาวีร์' },
+          { day: 'ศุกร์', period: 4, subject: 'ค31102', room: '421', teacher: 'ครูนันทชัย' },
+          { day: 'ศุกร์', period: 5, subject: 'พักกลางวัน', room: '-', teacher: '-' },
+          { day: 'ศุกร์', period: 6, subject: 'ว31191', room: '122', teacher: 'ครูแสงเดือน' },
+          { day: 'ศุกร์', period: 7, subject: 'ว30222', room: '222', teacher: 'ครูสุดารัตน์' },
+          { day: 'ศุกร์', period: 8, subject: 'ชุมนุม', room: '-', teacher: '-' },
+        ],
+        'ม.4/3': [
+          { day: 'จันทร์', period: 1, subject: 'ว30222', room: '222', teacher: 'ครูสุดารัตน์' },
+          { day: 'จันทร์', period: 2, subject: 'ว31191', room: '122', teacher: 'ครูแสงเดือน' },
+          { day: 'จันทร์', period: 3, subject: 'อ31102', room: '112', teacher: 'ครูปริญภา' },
+          { day: 'จันทร์', period: 4, subject: 'ง31102', room: 'คหกรรม 1', teacher: 'ครูจิราภรณ์' },
+          { day: 'จันทร์', period: 5, subject: 'พักกลางวัน', room: '-', teacher: '-' },
+          { day: 'จันทร์', period: 6, subject: 'ว30242', room: '638', teacher: 'ครูกฤติยา' },
+          { day: 'จันทร์', period: 7, subject: 'ค31202', room: '422', teacher: 'ครูพิชญานี' },
+          { day: 'จันทร์', period: 8, subject: 'ส31102', room: '321', teacher: 'ครูกรรณิการ์' },
+          
+          { day: 'อังคาร', period: 1, subject: 'ค31102', room: '432', teacher: 'ครูขนิษฐา' },
+          { day: 'อังคาร', period: 2, subject: 'อ31102', room: '112', teacher: 'ครูปริญภา' },
+          { day: 'อังคาร', period: 3, subject: 'ว30242', room: '621', teacher: 'ครูกฤติยา' },
+          { day: 'อังคาร', period: 4, subject: 'ว30242', room: '621', teacher: 'ครูกฤติยา' },
+          { day: 'อังคาร', period: 5, subject: 'พักกลางวัน', room: '-', teacher: '-' },
+          { day: 'อังคาร', period: 6, subject: 'อ30233', room: '123', teacher: 'ครูวราภรณ์' },
+          { day: 'อังคาร', period: 7, subject: 'อ30229', room: '114', teacher: 'ครูอัจฉรา' },
+          { day: 'อังคาร', period: 8, subject: 'ศ31102', room: '301', teacher: 'ครูศุภวิชญ์' },
+
+          { day: 'พุธ', period: 1, subject: 'ว30222', room: '222', teacher: 'ครูสุดารัตน์' },
+          { day: 'พุธ', period: 2, subject: 'ว30222', room: '222', teacher: 'ครูสุดารัตน์' },
+          { day: 'พุธ', period: 3, subject: 'ว30202', room: '211', teacher: 'ครูธนิกานต์' },
+          { day: 'พุธ', period: 4, subject: 'ว30202', room: '211', teacher: 'ครูธนิกานต์' },
+          { day: 'พุธ', period: 5, subject: 'พักกลางวัน', room: '-', teacher: '-' },
+          { day: 'พุธ', period: 6, subject: 'ส30131', room: '327', teacher: 'ครูสุทธิรัตน์' },
+          { day: 'พุธ', period: 7, subject: 'ท33102', room: '501', teacher: 'ครูอุเทน' },
+          { day: 'พุธ', period: 8, subject: 'E30202', room: '618', teacher: 'ครู Mae' },
+
+          { day: 'พฤหัสบดี', period: 1, subject: 'อ30233', room: '123', teacher: 'ครูวราภรณ์' },
+          { day: 'พฤหัสบดี', period: 2, subject: 'ว30202', room: '211', teacher: 'ครูธนิกานต์' },
+          { day: 'พฤหัสบดี', period: 3, subject: 'อ30229', room: '114', teacher: 'ครูอัจฉรา' },
+          { day: 'พฤหัสบดี', period: 4, subject: 'ค31202', room: '422', teacher: 'ครูพิชญานี' },
+          { day: 'พฤหัสบดี', period: 5, subject: 'พักกลางวัน', room: '-', teacher: '-' },
+          { day: 'พฤหัสบดี', period: 6, subject: 'แนะแนว', room: '438', teacher: 'ครูกาญจนา' },
+          { day: 'พฤหัสบดี', period: 7, subject: 'ค31102', room: '432', teacher: 'ครูขนิษฐา' },
+          { day: 'พฤหัสบดี', period: 8, subject: 'ค้นคว้า', room: '-', teacher: '-' },
+
+          { day: 'ศุกร์', period: 1, subject: 'ส30202', room: '114', teacher: 'ครูอัจฉรา' },
+          { day: 'ศุกร์', period: 2, subject: 'ท33102', room: '501', teacher: 'ครูอุเทน' },
+          { day: 'ศุกร์', period: 3, subject: 'ค31202', room: '422', teacher: 'ครูพิชญานี' },
+          { day: 'ศุกร์', period: 4, subject: 'E30202', room: '618', teacher: 'ครู Mae' },
+          { day: 'ศุกร์', period: 5, subject: 'พักกลางวัน', room: '-', teacher: '-' },
+          { day: 'ศุกร์', period: 6, subject: 'พ31102', room: 'อาคารพละ', teacher: 'ครูธนกฤต' },
+          { day: 'ศุกร์', period: 7, subject: 'ส31102', room: '321', teacher: 'ครูกรรณิการ์' },
           { day: 'ศุกร์', period: 8, subject: 'ชุมนุม', room: '-', teacher: '-' },
         ]
       };
@@ -353,8 +423,8 @@
         document.getElementById('mainDashboard').classList.remove('hidden');
         document.getElementById('mainDashboard').classList.add('flex');
 
-        document.getElementById('navGradeLabel').textContent = `ห้องเรียน: ${currentGrade} พิเศษ`;
-        document.getElementById('mobileGradeLabel').textContent = `ห้องเรียน: ${currentGrade} พิเศษ`;
+        document.getElementById('navGradeLabel').textContent = `ห้องเรียน: ${currentGrade}`;
+        document.getElementById('mobileGradeLabel').textContent = `ห้องเรียน: ${currentGrade}`;
 
         renderSchedule();
         updateTimeTracker();
