@@ -140,10 +140,6 @@
                 <i data-lucide="bell" class="w-4 h-4"></i>
                 <span class="pushLabel">เปิดแจ้งเตือน</span>
               </button>
-              <a id="lineLinkDesktop" href="#" target="_blank" rel="noopener" class="hidden inline-flex items-center space-x-2 px-4 py-2 text-sm font-bold text-green-700 bg-green-50 rounded-xl hover:bg-green-100 transition-all">
-                <i data-lucide="message-circle" class="w-4 h-4"></i>
-                <span>รับทางไลน์</span>
-              </a>
               <a id="sgsLinkDesktop" href="#" target="_blank" rel="noopener" class="hidden inline-flex items-center space-x-2 px-4 py-2 text-sm font-bold text-slate-900 bg-slate-100 rounded-xl hover:bg-slate-200 transition-all">
                 <i data-lucide="graduation-cap" class="w-4 h-4"></i>
                 <span>ดูเกรด (SGS)</span>
@@ -160,10 +156,6 @@
               <i data-lucide="bell" class="w-4 h-4"></i>
               <span class="pushLabel">เปิดแจ้งเตือน</span>
             </button>
-            <a id="lineLinkMobile" href="#" target="_blank" rel="noopener" class="hidden w-full text-left p-2.5 text-sm font-medium text-green-700 hover:bg-green-50 rounded-xl flex items-center space-x-2">
-              <i data-lucide="message-circle" class="w-4 h-4"></i>
-              <span>รับทางไลน์</span>
-            </a>
             <a id="sgsLinkMobile" href="#" target="_blank" rel="noopener" class="hidden w-full text-left p-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-xl flex items-center space-x-2">
               <i data-lucide="graduation-cap" class="w-4 h-4"></i>
               <span>ดูเกรด (SGS)</span>
@@ -870,7 +862,6 @@
       // ---- ตั้งค่าหลังสร้างโปรเจกต์ (anon key ใส่ในเว็บได้ เพราะ RLS อนุญาตอ่านอย่างเดียว) ----
       const SUPABASE_URL = 'https://apolfnkholadtprbyehh.supabase.co';       // เช่น 'https://xxxx.supabase.co'
       const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwb2xmbmtob2xhZHRwcmJ5ZWhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzODA4MzQsImV4cCI6MjEwODk1NjgzNH0.v1dzcZmhtQheVCtecQnWfnihSVEkRt9iIyiJjz-XpxM';
-      const LINE_ADD_FRIEND_URL = 'https://line.me/R/ti/p/@203ygyyz'; // เช่น 'https://lin.ee/xxxxxxx'
 
       const DAY_NAMES = { 1: 'จันทร์', 2: 'อังคาร', 3: 'พุธ', 4: 'พฤหัสบดี', 5: 'ศุกร์' };
 
@@ -1004,19 +995,14 @@
         updatePushButtons();
       }
 
-      const SGS_URL = ''; // ลิงก์ระบบ SGS ของโรงเรียน (ใส่แล้วปุ่ม "ดูเกรด" จะโผล่เอง)
+      const SGS_URL = 'https://sgs.bopp-obec.info/sgss/Security/SignIn.aspx'; // ลิงก์ระบบ SGS ของโรงเรียน (ใส่แล้วปุ่ม "ดูเกรด" จะโผล่เอง)
 
       function setupLineLink() {
-        [
-          [LINE_ADD_FRIEND_URL, ['lineLinkDesktop', 'lineLinkMobile']],
-          [SGS_URL, ['sgsLinkDesktop', 'sgsLinkMobile']],
-        ].forEach(([url, ids]) => {
-          if (!url) return;
-          ids.forEach((id) => {
-            const a = document.getElementById(id);
-            a.href = url;
-            a.classList.remove('hidden');
-          });
+        if (!SGS_URL) return;
+        ['sgsLinkDesktop', 'sgsLinkMobile'].forEach((id) => {
+          const a = document.getElementById(id);
+          a.href = SGS_URL;
+          a.classList.remove('hidden');
         });
       }
 
