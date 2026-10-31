@@ -134,13 +134,9 @@
 
             <div class="hidden lg:ml-auto lg:flex lg:items-center lg:space-x-4">
               <a id="lineLinkDesktop" href="#" target="_blank" rel="noopener" class="hidden inline-flex items-center space-x-2 px-4 py-2 text-sm font-bold text-white bg-green-600 rounded-xl hover:bg-green-700 transition-all">
-                <i data-lucide="message-circle" class="w-4 h-4"></i>
-                <span>รับแจ้งเตือนทางไลน์</span>
-              </a>
-              <button onclick="requestNotificationPermission()" class="inline-flex items-center space-x-2 px-4 py-2 text-sm font-bold text-slate-900 bg-slate-100 rounded-xl hover:bg-slate-200 transition-all">
                 <i data-lucide="bell" class="w-4 h-4"></i>
-                <span>เปิดแจ้งเตือน</span>
-              </button>
+                <span>เปิดแจ้งเตือน (ไลน์)</span>
+              </a>
               <button onclick="handleLogout()" class="inline-flex items-center justify-center px-5 py-2 text-sm font-bold text-white bg-slate-900 rounded-xl hover:bg-slate-700 transition-all">
                 ออกจากระบบ
               </button>
@@ -150,13 +146,9 @@
           <div id="mobileMenu" class="hidden lg:hidden pt-4 pb-2 border-t border-slate-100 mt-4 space-y-3">
             <div id="mobileGradeLabel" class="text-sm font-semibold text-slate-700 bg-slate-100 p-2.5 rounded-xl">ห้องเรียน: --</div>
             <a id="lineLinkMobile" href="#" target="_blank" rel="noopener" class="hidden w-full text-left p-2.5 text-sm font-medium text-green-700 hover:bg-green-50 rounded-xl flex items-center space-x-2">
-              <i data-lucide="message-circle" class="w-4 h-4"></i>
-              <span>รับแจ้งเตือนทางไลน์</span>
-            </a>
-            <button onclick="requestNotificationPermission()" class="w-full text-left p-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-xl flex items-center space-x-2">
               <i data-lucide="bell" class="w-4 h-4"></i>
-              <span>เปิดแจ้งเตือนเบราว์เซอร์</span>
-            </button>
+              <span>เปิดแจ้งเตือน (ไลน์)</span>
+            </a>
             <button onclick="handleLogout()" class="w-full text-center py-2.5 text-sm font-bold text-white bg-rose-600 rounded-xl">
               ออกจากระบบ
             </button>
@@ -1073,7 +1065,6 @@
           document.getElementById('nextSubject').textContent = nextItem.subject;
           document.getElementById('nextMeta').textContent = metaText(nextItem);
           document.getElementById('nextCountdown').textContent = `${nextItem.startMin - currentMinutes} นาที`;
-          notifyIfSoon(nextItem, nextItem.startMin - currentMinutes);
         } else {
           document.getElementById('nextSubject').textContent = 'หมดคาบเรียนวันนี้แล้ว';
           document.getElementById('nextMeta').textContent = 'ไม่มีคาบเรียนถัดไป';
@@ -1088,32 +1079,9 @@
         return parts.join(' | ');
       }
 
-      // แจ้งเตือนก่อนเริ่มคาบ 5 นาที (ทำงานเมื่อเปิดหน้าเว็บค้างไว้เท่านั้น)
-      const notified = new Set();
-      function notifyIfSoon(item, minsLeft) {
-        if (minsLeft !== 5 || item.subject === 'พักกลางวัน') return;
-        if (!('Notification' in window) || Notification.permission !== 'granted') return;
-        const key = new Date().toDateString() + item.period;
-        if (notified.has(key)) return;
-        notified.add(key);
-        new Notification('อีก 5 นาที: ' + item.subject, { body: metaText(item) });
-      }
-
       function timeToMinutes(tStr) {
         const [h, m] = tStr.split(':').map(Number);
         return h * 60 + m;
-      }
-
-      function requestNotificationPermission() {
-        if (!('Notification' in window)) {
-          alert('เบราว์เซอร์นี้ไม่รองรับการแจ้งเตือน');
-          return;
-        }
-        Notification.requestPermission().then((permission) => {
-          if (permission === 'granted') {
-            new Notification('ClassKhab', { body: 'เปิดระบบแจ้งเตือนเรียบร้อยแล้ว!' });
-          }
-        });
       }
     </script>
   </body>
