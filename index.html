@@ -84,7 +84,7 @@
           <div>
             <label class="block text-xs font-semibold text-slate-600 mb-1">รหัสผ่านห้องเรียน</label>
             <div class="relative">
-              <input type="password" id="loginPassword" placeholder="รหัสทดสอบ: 123456" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900" />
+              <input type="password" id="loginPassword" placeholder="รหัสผ่านห้อง" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900" />
               <i data-lucide="lock" class="w-4 h-4 text-slate-400 absolute right-3 top-3.5"></i>
             </div>
           </div>
@@ -130,6 +130,10 @@
             </div>
 
             <div class="hidden lg:ml-auto lg:flex lg:items-center lg:space-x-4">
+              <a id="lineLinkDesktop" href="#" target="_blank" rel="noopener" class="hidden inline-flex items-center space-x-2 px-4 py-2 text-sm font-bold text-white bg-green-600 rounded-xl hover:bg-green-700 transition-all">
+                <i data-lucide="message-circle" class="w-4 h-4"></i>
+                <span>รับแจ้งเตือนทางไลน์</span>
+              </a>
               <button onclick="requestNotificationPermission()" class="inline-flex items-center space-x-2 px-4 py-2 text-sm font-bold text-slate-900 bg-slate-100 rounded-xl hover:bg-slate-200 transition-all">
                 <i data-lucide="bell" class="w-4 h-4"></i>
                 <span>เปิดแจ้งเตือน</span>
@@ -142,6 +146,10 @@
 
           <div id="mobileMenu" class="hidden lg:hidden pt-4 pb-2 border-t border-slate-100 mt-4 space-y-3">
             <div id="mobileGradeLabel" class="text-sm font-semibold text-slate-700 bg-slate-100 p-2.5 rounded-xl">ห้องเรียน: --</div>
+            <a id="lineLinkMobile" href="#" target="_blank" rel="noopener" class="hidden w-full text-left p-2.5 text-sm font-medium text-green-700 hover:bg-green-50 rounded-xl flex items-center space-x-2">
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+              <span>รับแจ้งเตือนทางไลน์</span>
+            </a>
             <button onclick="requestNotificationPermission()" class="w-full text-left p-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-xl flex items-center space-x-2">
               <i data-lucide="bell" class="w-4 h-4"></i>
               <span>เปิดแจ้งเตือนเบราว์เซอร์</span>
@@ -917,8 +925,55 @@
       let currentGrade = localStorage.getItem('classkhab_grade') || null;
       let selectedDayFilter = 'all';
 
-      window.addEventListener('DOMContentLoaded', () => {
+      // ---- ตั้งค่าหลังสร้างโปรเจกต์ (anon key ใส่ในเว็บได้ เพราะ RLS อนุญาตอ่านอย่างเดียว) ----
+      const SUPABASE_URL = 'https://apolfnkholadtprbyehh.supabase.co';       // เช่น 'https://xxxx.supabase.co'
+      const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwb2xmbmtob2xhZHRwcmJ5ZWhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzODA4MzQsImV4cCI6MjEwODk1NjgzNH0.v1dzcZmhtQheVCtecQnWfnihSVEkRt9iIyiJjz-XpxM';
+      const LINE_ADD_FRIEND_URL = 'https://line.me/R/ti/p/@203ygyyz'; // เช่น 'https://lin.ee/xxxxxxx'
+
+      const DAY_NAMES = { 1: 'จันทร์', 2: 'อังคาร', 3: 'พุธ', 4: 'พฤหัสบดี', 5: 'ศุกร์' };
+
+      // ดึงตารางจาก Supabase -> ถ้าไม่ได้ใช้ schedule.json -> ถ้าไม่ได้ใช้ข้อมูลที่ฝังในไฟล์
+      async function loadSchedule() {
+        try {
+          if (!SUPABASE_URL || !SUPABASE_ANON_KEY) throw new Error('supabase not configured');
+          const res = await fetch(
+            `${SUPABASE_URL}/rest/v1/schedule_items?select=class_id,day,period,subject,room,teacher&limit=5000`,
+            { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } }
+          );
+          if (!res.ok) throw new Error('supabase ' + res.status);
+          const rows = await res.json();
+          if (!rows.length) throw new Error('empty');
+          const fresh = {};
+          rows.forEach((r) => {
+            (fresh[r.class_id] = fresh[r.class_id] || []).push({
+              day: DAY_NAMES[r.day], period: r.period, subject: r.subject,
+              room: r.room || '-', teacher: r.teacher || '-',
+            });
+          });
+          Object.values(fresh).forEach((a) => a.sort((x, y) => x.period - y.period));
+          Object.assign(scheduleData, fresh);
+          return;
+        } catch (e) { /* ลองแหล่งสำรอง */ }
+        try {
+          const res = await fetch('schedule.json', { cache: 'no-cache' });
+          if (!res.ok) throw new Error('schedule.json ' + res.status);
+          Object.assign(scheduleData, (await res.json()).classes);
+        } catch (e) { /* ใช้ข้อมูลที่ฝังในไฟล์ */ }
+      }
+
+      function setupLineLink() {
+        if (!LINE_ADD_FRIEND_URL) return;
+        ['lineLinkDesktop', 'lineLinkMobile'].forEach((id) => {
+          const a = document.getElementById(id);
+          a.href = LINE_ADD_FRIEND_URL;
+          a.classList.remove('hidden');
+        });
+      }
+
+      window.addEventListener('DOMContentLoaded', async () => {
         lucide.createIcons();
+        setupLineLink();
+        await loadSchedule();
         if (currentGrade) {
           showDashboard();
         } else {
@@ -931,20 +986,42 @@
         menu.classList.toggle('hidden');
       }
 
-      function handleLogin(e) {
+      // ตรวจรหัสผ่านที่ Edge Function verify-class (ไม่เก็บรหัสในโค้ดฝั่งเบราว์เซอร์)
+      async function handleLogin(e) {
         e.preventDefault();
         const selectedClass = document.getElementById('loginClass').value;
         const password = document.getElementById('loginPassword').value;
         const errDiv = document.getElementById('loginError');
-
-        if (password === '123456') {
-          errDiv.classList.add('hidden');
-          currentGrade = selectedClass;
-          localStorage.setItem('classkhab_grade', currentGrade);
-          showDashboard();
-        } else {
-          errDiv.textContent = 'รหัสผ่านไม่ถูกต้อง! (ใช้รหัสผ่านทดสอบ: 123456)';
+        const showError = (msg) => {
+          errDiv.textContent = msg;
           errDiv.classList.remove('hidden');
+        };
+
+        if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+          showError('ระบบยังไม่ได้ตั้งค่าเซิร์ฟเวอร์');
+          return;
+        }
+        try {
+          const res = await fetch(`${SUPABASE_URL}/functions/v1/verify-class`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              apikey: SUPABASE_ANON_KEY,
+              Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+            },
+            body: JSON.stringify({ class_id: selectedClass, password }),
+          });
+          const result = res.ok ? await res.json() : { ok: false };
+          if (result.ok) {
+            errDiv.classList.add('hidden');
+            currentGrade = selectedClass;
+            localStorage.setItem('classkhab_grade', currentGrade);
+            showDashboard();
+          } else {
+            showError('รหัสผ่านไม่ถูกต้อง');
+          }
+        } catch (err) {
+          showError('เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ ลองใหม่อีกครั้ง');
         }
       }
 
