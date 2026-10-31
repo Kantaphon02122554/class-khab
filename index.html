@@ -30,10 +30,54 @@
         },
       };
     </script>
+    <script>
+      // ตั้งโหมดมืดก่อนวาดหน้า กันกะพริบ (จำค่าที่เลือกไว้ ไม่งั้นตามการตั้งค่าของเครื่อง)
+      try {
+        var _t = localStorage.getItem('classkhab_theme');
+        if (_t === 'dark' || (!_t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    </script>
     <style>
       body {
         font-family: 'Sarabun', 'Inter', sans-serif;
       }
+
+      /* แถบสถานะ (แจ้งเตือน/วันหยุด) */
+      .pb { border-radius: 1rem; padding: 0.75rem 1rem; font-size: 0.8125rem; display: flex; gap: 0.75rem; align-items: center; justify-content: space-between; flex-wrap: wrap; border: 1px solid; }
+      .pb button { font-weight: 700; padding: 0.375rem 0.875rem; border-radius: 0.625rem; background: rgba(0, 0, 0, 0.08); }
+      .pb-info { background: #eff6ff; border-color: #bfdbfe; color: #1e3a8a; }
+      .pb-ok { background: #ecfdf5; border-color: #a7f3d0; color: #065f46; }
+      .pb-warn { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+      .pb-err { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+      .pb-hol { background: #fdf4ff; border-color: #f5d0fe; color: #86198f; }
+
+      /* โหมดมืด: ทับสีคลาส Tailwind ที่ใช้ในหน้านี้ */
+      html.dark { color-scheme: dark; }
+      html.dark body { background: #0b1220 !important; color: #e2e8f0; }
+      html.dark .bg-white { background-color: #111a2e !important; }
+      html.dark .bg-white\/80 { background-color: rgba(11, 18, 32, 0.85) !important; }
+      html.dark .bg-slate-50 { background-color: #0b1220 !important; }
+      html.dark .bg-slate-100 { background-color: #1a2540 !important; }
+      html.dark .bg-slate-200 { background-color: #243152 !important; }
+      html.dark .bg-slate-900 { background-color: #334155 !important; }
+      html.dark .bg-blue-50 { background-color: #172554 !important; }
+      html.dark .text-slate-900, html.dark .text-slate-800 { color: #f1f5f9 !important; }
+      html.dark .text-slate-700 { color: #e2e8f0 !important; }
+      html.dark .text-slate-600 { color: #cbd5e1 !important; }
+      html.dark .text-slate-500 { color: #94a3b8 !important; }
+      html.dark .text-slate-400 { color: #7c8aa5 !important; }
+      html.dark .text-blue-600 { color: #60a5fa !important; }
+      html.dark .border-slate-100, html.dark .border-slate-200, html.dark .border-slate-200\/60, html.dark .border-slate-200\/80 { border-color: #243152 !important; }
+      html.dark .hover\:bg-slate-200:hover, html.dark .hover\:bg-slate-50:hover { background-color: #2d3b5f !important; }
+      html.dark select, html.dark input { color: #f1f5f9; }
+      html.dark .pb-info { background: #172554; border-color: #1e40af; color: #bfdbfe; }
+      html.dark .pb-ok { background: #052e22; border-color: #047857; color: #a7f3d0; }
+      html.dark .pb-warn { background: #3b2a06; border-color: #b45309; color: #fde68a; }
+      html.dark .pb-err { background: #3b0d0d; border-color: #b91c1c; color: #fecaca; }
+      html.dark .pb-hol { background: #3a0f3f; border-color: #a21caf; color: #f5d0fe; }
+      html.dark .pb button { background: rgba(255, 255, 255, 0.12); }
     </style>
   </head>
   <body class="h-full text-slate-800 antialiased bg-slate-50 flex flex-col">
@@ -136,6 +180,9 @@
             </div>
 
             <div class="hidden lg:ml-auto lg:flex lg:items-center lg:space-x-4">
+              <button onclick="toggleTheme()" title="สลับโหมดมืด/สว่าง" aria-label="สลับโหมดมืด/สว่าง" class="p-2 text-slate-600 bg-slate-100 rounded-xl hover:bg-slate-200 transition-all">
+                <i data-lucide="moon" class="w-4 h-4"></i>
+              </button>
               <button onclick="togglePush()" class="inline-flex items-center space-x-2 px-4 py-2 text-sm font-bold text-white bg-blue-600 rounded-xl hover:bg-blue-700 transition-all">
                 <i data-lucide="bell" class="w-4 h-4"></i>
                 <span class="pushLabel">เปิดแจ้งเตือน</span>
@@ -152,6 +199,10 @@
 
           <div id="mobileMenu" class="hidden lg:hidden pt-4 pb-2 border-t border-slate-100 mt-4 space-y-3">
             <div id="mobileGradeLabel" class="text-sm font-semibold text-slate-700 bg-slate-100 p-2.5 rounded-xl">ห้องเรียน: --</div>
+            <button onclick="toggleTheme()" class="w-full text-left p-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 rounded-xl flex items-center space-x-2">
+              <i data-lucide="moon" class="w-4 h-4"></i>
+              <span>สลับโหมดมืด/สว่าง</span>
+            </button>
             <button onclick="togglePush()" class="w-full text-left p-2.5 text-sm font-bold text-blue-700 hover:bg-blue-50 rounded-xl flex items-center space-x-2">
               <i data-lucide="bell" class="w-4 h-4"></i>
               <span class="pushLabel">เปิดแจ้งเตือน</span>
@@ -172,7 +223,7 @@
         <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div class="max-w-3xl mx-auto text-center">
             <h1 class="px-6 text-sm font-semibold tracking-wide text-blue-600 uppercase">Smart School Schedule System</h1>
-            <p class="mt-4 text-4xl font-extrabold text-slate-900 sm:text-5xl lg:text-6xl tracking-tight">
+            <p class="mt-4 text-3xl font-extrabold text-slate-900 sm:text-5xl lg:text-6xl tracking-tight">
               ไม่พลาดทุกคาบเรียนด้วยระบบ
               <span class="relative inline-flex">
                 <span class="bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] blur-lg filter opacity-30 absolute inset-0"></span>
@@ -187,8 +238,11 @@
 
         <!-- Dashboard UI Container -->
         <div class="mt-8 px-4 mx-auto max-w-6xl sm:px-6 lg:px-8">
-          <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-200/80 space-y-6">
-            
+          <div class="bg-white rounded-3xl p-4 sm:p-8 shadow-xl border border-slate-200/80 space-y-6">
+
+            <div id="holidayBanner" class="pb pb-hol hidden"></div>
+            <div id="pushBanner" class="pb pb-info hidden"></div>
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div class="md:col-span-2 bg-gradient-to-br from-slate-900 to-slate-800 text-white p-6 rounded-2xl shadow-md flex flex-col justify-between">
                 <div>
@@ -865,6 +919,16 @@
 
       const DAY_NAMES = { 1: 'จันทร์', 2: 'อังคาร', 3: 'พุธ', 4: 'พฤหัสบดี', 5: 'ศุกร์' };
 
+      // ชื่อวิชาจากรหัส (subjects.mjs ใช้ร่วมกับสคริปต์นำเข้า) ถ้าโหลดไม่ได้จะแสดงรหัสเดิม
+      let subjectNameFn = () => null;
+      async function loadSubjects() {
+        try {
+          subjectNameFn = (await import('./subjects.mjs')).subjectName;
+        } catch (e) { /* ใช้รหัสวิชาตามเดิม */ }
+      }
+      const subjectTitle = (it) => subjectNameFn(it.subject) || it.subject;
+      const codeSuffix = (it) => (subjectNameFn(it.subject) ? ' • ' + it.subject : '');
+
       // ดึงตารางจาก Supabase -> ถ้าไม่ได้ใช้ schedule.json -> ถ้าไม่ได้ใช้ข้อมูลที่ฝังในไฟล์
       async function loadSchedule() {
         try {
@@ -944,6 +1008,85 @@
         document.querySelectorAll('.pushLabel').forEach((el) => {
           el.textContent = sub ? 'ปิดแจ้งเตือน' : 'เปิดแจ้งเตือน';
         });
+        updatePushBanner();
+      }
+
+      // ปุ่มติดตั้งเป็นแอป (เฉพาะเบราว์เซอร์ที่รองรับ เช่น Chrome บน Android)
+      let deferredInstall = null;
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredInstall = e;
+        updatePushBanner();
+      });
+      async function installApp() {
+        if (!deferredInstall) return;
+        deferredInstall.prompt();
+        await deferredInstall.userChoice;
+        deferredInstall = null;
+        updatePushBanner();
+      }
+
+      // แถบบอกสถานะการแจ้งเตือนของเครื่องนี้
+      async function updatePushBanner() {
+        const el = document.getElementById('pushBanner');
+        if (!el) return;
+        const sub = await currentPushSub();
+        let cls = 'pb-info';
+        let html;
+        if (iosNeedsInstall()) {
+          cls = 'pb-warn';
+          html = '<span>iPhone/iPad: กดปุ่มแชร์ แล้วเลือก "เพิ่มไปยังหน้าจอโฮม" จากนั้นเปิดแอปจากหน้าจอโฮม จึงจะรับแจ้งเตือนได้</span>';
+        } else if (!pushSupported) {
+          cls = 'pb-warn';
+          html = '<span>เบราว์เซอร์นี้ไม่รองรับการแจ้งเตือน ลองใช้ Chrome</span>';
+        } else if (Notification.permission === 'denied') {
+          cls = 'pb-err';
+          html = '<span>การแจ้งเตือนถูกบล็อก เปิดได้ที่การตั้งค่าเว็บไซต์ของเบราว์เซอร์ (ไอคอนแม่กุญแจข้างที่อยู่เว็บ)</span>';
+        } else if (sub) {
+          cls = 'pb-ok';
+          html = `<span>✓ เครื่องนี้เปิดแจ้งเตือนอยู่ (ห้อง ${currentGrade}) จะเตือนก่อนเริ่มคาบ 5 นาที</span>`;
+        } else {
+          html = '<span>เปิดแจ้งเตือนเพื่อให้เตือนก่อนเริ่มคาบ 5 นาที แม้ปิดหน้าเว็บอยู่</span><button onclick="togglePush()">เปิดแจ้งเตือน</button>';
+        }
+        if (deferredInstall) html += '<button onclick="installApp()">ติดตั้งเป็นแอป</button>';
+        el.className = 'pb ' + cls;
+        el.innerHTML = html;
+      }
+
+      // ---- วันหยุด (ตาราง holidays ใน Supabase) ----
+      let todayHoliday = null; // null = ไม่ใช่วันหยุด, string = หมายเหตุวันหยุด
+      async function loadHoliday() {
+        const banner = document.getElementById('holidayBanner');
+        banner.classList.add('hidden');
+        todayHoliday = null;
+        let text = '';
+        try {
+          if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+            const date = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Bangkok' }).format(new Date());
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/holidays?select=note&date=eq.${date}`, {
+              headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+            });
+            const rows = res.ok ? await res.json() : [];
+            if (rows.length) {
+              todayHoliday = rows[0].note || '';
+              text = `วันนี้เป็นวันหยุด${todayHoliday ? ': ' + todayHoliday : ''} ไม่มีการแจ้งเตือน`;
+            }
+          }
+        } catch (e) { /* ไม่แสดงแถบ */ }
+        const dow = new Date().getDay();
+        if (todayHoliday === null && (dow === 0 || dow === 6)) {
+          text = `วันนี้เป็นวัน${dow === 0 ? 'อาทิตย์' : 'เสาร์'} ไม่มีเรียน`;
+        }
+        if (text) {
+          banner.textContent = text;
+          banner.classList.remove('hidden');
+        }
+        updateTimeTracker();
+      }
+
+      function toggleTheme() {
+        const dark = document.documentElement.classList.toggle('dark');
+        try { localStorage.setItem('classkhab_theme', dark ? 'dark' : 'light'); } catch (e) {}
       }
 
       // เปิด/ปิดแจ้งเตือนของเครื่องนี้ (ผูกกับห้องที่ล็อกอินอยู่)
@@ -1009,7 +1152,7 @@
       window.addEventListener('DOMContentLoaded', async () => {
         lucide.createIcons();
         setupLineLink();
-        await loadSchedule();
+        await Promise.all([loadSchedule(), loadSubjects()]);
         if (currentGrade) {
           showDashboard();
         } else {
@@ -1080,10 +1223,14 @@
         document.getElementById('navGradeLabel').textContent = `ห้องเรียน: ${currentGrade}`;
         document.getElementById('mobileGradeLabel').textContent = `ห้องเรียน: ${currentGrade}`;
 
-        renderSchedule();
+        // บนมือถือแสดงเฉพาะตารางของวันนี้ก่อน (วันเสาร์–อาทิตย์แสดงทั้งหมด) อ่านง่ายกว่าการ์ดยาวต่อกัน 5 วัน
+        const todayTab = [null, 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', null][new Date().getDay()];
+        if (window.innerWidth < 768 && selectedDayFilter === 'all' && todayTab) selectDay(todayTab);
+        else renderSchedule();
         updateTimeTracker();
         clearInterval(window._ck);
         window._ck = setInterval(updateTimeTracker, 1000);
+        loadHoliday();
         syncPush();
       }
 
@@ -1120,8 +1267,8 @@
             const timeStr = periods[item.period - 1].time;
             html += `
               <div class="bg-white p-3 rounded-xl border border-slate-200/80 text-xs">
-                <div class="font-bold text-slate-800">${item.subject} <span class="font-normal text-slate-400">(คาบ ${item.period})</span></div>
-                <div class="text-slate-500 text-[11px] mt-0.5">${timeStr}${item.room !== '-' ? ' • ห้อง ' + item.room : ''}${item.teacher !== '-' ? ' • ' + item.teacher : ''}</div>
+                <div class="font-bold text-slate-800">${subjectTitle(item)} <span class="font-normal text-slate-400">(คาบ ${item.period})</span></div>
+                <div class="text-slate-500 text-[11px] mt-0.5">${timeStr}${codeSuffix(item)}${item.room !== '-' ? ' • ห้อง ' + item.room : ''}${item.teacher !== '-' ? ' • ' + item.teacher : ''}</div>
               </div>
             `;
           });
@@ -1141,7 +1288,8 @@
         const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
         const data = scheduleData[currentGrade] || scheduleData['ม.3/1'];
-        const todayItems = data.filter((i) => i.day === todayName);
+        // วันหยุดตามตาราง holidays: ไม่ถือว่ามีคาบเรียน
+        const todayItems = todayHoliday !== null ? [] : data.filter((i) => i.day === todayName);
 
         let activeItem = null;
         let nextItem = null;
@@ -1160,7 +1308,7 @@
         }
 
         if (activeItem) {
-          document.getElementById('activeSubject').textContent = activeItem.subject;
+          document.getElementById('activeSubject').textContent = subjectTitle(activeItem);
           document.getElementById('activeMeta').textContent = metaText(activeItem);
           const remainingMinutes = activeItem.endMin - currentMinutes;
           const totalDuration = activeItem.endMin - activeItem.startMin;
@@ -1176,7 +1324,7 @@
         }
 
         if (nextItem) {
-          document.getElementById('nextSubject').textContent = nextItem.subject;
+          document.getElementById('nextSubject').textContent = subjectTitle(nextItem);
           document.getElementById('nextMeta').textContent = metaText(nextItem);
           document.getElementById('nextCountdown').textContent = `${nextItem.startMin - currentMinutes} นาที`;
         } else {
@@ -1188,6 +1336,7 @@
 
       function metaText(it) {
         const parts = [periods[it.period - 1].time];
+        if (subjectNameFn(it.subject)) parts.push(it.subject);
         if (it.room !== '-') parts.push('ห้อง ' + it.room);
         if (it.teacher !== '-') parts.push(it.teacher);
         return parts.join(' | ');
