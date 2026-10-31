@@ -53,6 +53,17 @@
       .pb-err { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
       .pb-hol { background: #fdf4ff; border-color: #f5d0fe; color: #86198f; }
 
+      /* ป้ายชนิดประกาศ / ปฏิทิน */
+      .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 99px; white-space: nowrap; }
+      .tag-announce, .tag-event { background: #dbeafe; color: #1e40af; }
+      .tag-homework { background: #fef3c7; color: #92400e; }
+      .tag-exam { background: #fee2e2; color: #991b1b; }
+      .tag-holiday { background: #fae8ff; color: #86198f; }
+      html.dark .tag-announce, html.dark .tag-event { background: #172554; color: #bfdbfe; }
+      html.dark .tag-homework { background: #3b2a06; color: #fde68a; }
+      html.dark .tag-exam { background: #3b0d0d; color: #fecaca; }
+      html.dark .tag-holiday { background: #3a0f3f; color: #f5d0fe; }
+
       /* โหมดมืด: ทับสีคลาส Tailwind ที่ใช้ในหน้านี้ */
       html.dark { color-scheme: dark; }
       html.dark body { background: #0b1220 !important; color: #e2e8f0; }
@@ -282,7 +293,12 @@
 
             <div>
               <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 mb-4 border-b border-slate-100 gap-2">
-                <h3 class="font-bold text-slate-800 text-base">ตารางเรียนสัปดาห์นี้</h3>
+                <div class="flex items-center gap-3">
+                  <h3 class="font-bold text-slate-800 text-base">ตารางเรียนสัปดาห์นี้</h3>
+                  <button id="shareBtn" onclick="shareTimetable()" class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg hover:opacity-80">
+                    <i data-lucide="share-2" class="w-3.5 h-3.5"></i><span>แชร์เป็นรูป</span>
+                  </button>
+                </div>
                 <div class="flex overflow-x-auto space-x-1 bg-slate-100 p-1 rounded-xl text-xs font-medium" id="dayTabs">
                   <button onclick="selectDay('จันทร์')" class="day-tab px-3 py-1.5 rounded-lg text-slate-600" data-day="จันทร์">จันทร์</button>
                   <button onclick="selectDay('อังคาร')" class="day-tab px-3 py-1.5 rounded-lg text-slate-600" data-day="อังคาร">อังคาร</button>
@@ -294,6 +310,42 @@
               </div>
 
               <div id="scheduleContainer" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+            </div>
+
+            <!-- ปฏิทินโรงเรียน -->
+            <div id="eventsSection" class="hidden">
+              <div class="pb-3 mb-4 border-b border-slate-100"><h3 class="font-bold text-slate-800 text-base">ปฏิทินโรงเรียน</h3></div>
+              <div id="eventsList" class="grid grid-cols-1 md:grid-cols-2 gap-2"></div>
+            </div>
+
+            <!-- ประกาศ / การบ้านของห้อง -->
+            <div id="annSection">
+              <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100 gap-2">
+                <h3 class="font-bold text-slate-800 text-base">ประกาศและการบ้านของห้อง <span id="annGrade"></span></h3>
+                <button id="annNewBtn" onclick="toggleAnnForm()" class="hidden flex-none whitespace-nowrap text-xs font-bold text-white bg-slate-900 px-3 py-1.5 rounded-lg hover:opacity-80">+ โพสต์</button>
+              </div>
+              <div id="annNeedLogin" class="pb pb-warn hidden">
+                <span>ต้องเข้าสู่ระบบใหม่หนึ่งครั้งเพื่อใช้ประกาศ/การบ้าน</span>
+                <button onclick="handleLogout()">ออกจากระบบแล้วเข้าใหม่</button>
+              </div>
+              <form id="annForm" class="hidden bg-slate-50 border border-slate-200 rounded-2xl p-4 mb-4 space-y-3" onsubmit="postAnnouncement(event)">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <select id="annKind" class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-800">
+                    <option value="homework">การบ้าน</option><option value="announce">ประกาศ</option><option value="exam">สอบ/ทดสอบ</option>
+                  </select>
+                  <input id="annTitle" maxlength="80" required placeholder="หัวข้อ เช่น ส่งใบงานวิทย์" class="sm:col-span-2 bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800" />
+                </div>
+                <textarea id="annBody" maxlength="500" rows="2" placeholder="รายละเอียด (ไม่บังคับ)" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800"></textarea>
+                <div class="flex flex-wrap items-center gap-3">
+                  <label class="text-xs text-slate-500">กำหนดส่ง/วันสอบ (ไม่บังคับ)</label>
+                  <input id="annDue" type="date" class="bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-sm text-slate-800" />
+                  <span class="flex-1"></span>
+                  <button type="button" onclick="toggleAnnForm(false)" class="text-xs font-bold text-slate-600 px-3 py-2">ยกเลิก</button>
+                  <button id="annSubmit" type="submit" class="text-xs font-bold text-white bg-blue-600 px-4 py-2 rounded-lg">โพสต์ (แจ้งเตือนทั้งห้อง)</button>
+                </div>
+                <p class="text-[11px] text-slate-500">โพสต์ได้ทุกคนในห้อง ขอให้ใช้เรื่องเรียนเท่านั้น ห้ามใส่ข้อมูลส่วนตัว (จำกัด 6 โพสต์ต่อชั่วโมง)</p>
+              </form>
+              <div id="annList" class="space-y-2"><p class="text-sm text-slate-500">กำลังโหลด…</p></div>
             </div>
 
           </div>
@@ -1084,6 +1136,184 @@
         updateTimeTracker();
       }
 
+      // ================= ปฏิทินโรงเรียน / ประกาศ-การบ้าน / แชร์ตารางเป็นรูป =================
+      const TH_MONTH = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+      const bkkToday = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Bangkok' }).format(new Date());
+      const dayNum = (s) => Math.round(Date.parse(s + 'T00:00:00Z') / 86400000);
+      const thDate = (s) => { const [, m, d] = s.split('-').map(Number); return `${d} ${TH_MONTH[m - 1]}`; };
+      const daysUntil = (s) => dayNum(s) - dayNum(bkkToday());
+      function mk(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+      const dueText = (s) => { const d = daysUntil(s); return d < 0 ? 'เลยกำหนด' : d === 0 ? 'วันนี้' : d === 1 ? 'พรุ่งนี้' : `อีก ${d} วัน`; };
+
+      // --- ปฏิทินโรงเรียน (events + วันหยุด) ---
+      async function loadEvents() {
+        const box = document.getElementById('eventsSection'), list = document.getElementById('eventsList');
+        box.classList.add('hidden'); list.textContent = '';
+        if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return;
+        const today = bkkToday(), h = { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` };
+        try {
+          const [ev, ho] = await Promise.all([
+            fetch(`${SUPABASE_URL}/rest/v1/events?select=date,end_date,title,kind,note&or=(date.gte.${today},end_date.gte.${today})&order=date.asc&limit=12`, { headers: h }).then((r) => (r.ok ? r.json() : [])),
+            fetch(`${SUPABASE_URL}/rest/v1/holidays?select=date,note&date=gte.${today}&order=date.asc&limit=40`, { headers: h }).then((r) => (r.ok ? r.json() : [])),
+          ]);
+          // วันหยุดที่ติดกันและชื่อเดียวกัน รวมเป็นช่วงเดียว (เช่น ปิดเทอม)
+          const hol = [];
+          for (const x of ho) {
+            const last = hol[hol.length - 1], title = x.note || 'วันหยุด';
+            if (last && last.title === title && dayNum(x.date) === dayNum(last.end || last.date) + 1) last.end = x.date;
+            else hol.push({ date: x.date, end: null, title, kind: 'holiday' });
+          }
+          const items = [...ev.map((e) => ({ date: e.date, end: e.end_date, title: e.title, kind: e.kind })), ...hol]
+            .sort((a, b) => a.date.localeCompare(b.date)).slice(0, 6);
+          if (!items.length) return;
+          const KIND = { event: 'กิจกรรม', exam: 'สอบ', holiday: 'หยุด' };
+          for (const it of items) {
+            const row = mk('div', 'flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5');
+            const when = it.date <= today && (it.end || it.date) >= today ? 'กำลังจัด' : dueText(it.date);
+            row.append(
+              mk('span', 'tag tag-' + it.kind, KIND[it.kind] || 'กิจกรรม'),
+              (() => { const d = mk('div', 'flex-1 min-w-0'); d.append(mk('div', 'text-sm font-bold text-slate-800 truncate', it.title), mk('div', 'text-[11px] text-slate-500', thDate(it.date) + (it.end ? ' – ' + thDate(it.end) : ''))); return d; })(),
+              mk('span', 'text-xs font-bold text-blue-600 whitespace-nowrap', when)
+            );
+            list.append(row);
+          }
+          box.classList.remove('hidden');
+        } catch (e) { /* ไม่แสดงส่วนนี้ */ }
+      }
+
+      // --- ประกาศ / การบ้านของห้อง ---
+      const getToken = () => { try { return localStorage.getItem('classkhab_token'); } catch (e) { return null; } };
+      async function annCall(body) {
+        const token = getToken();
+        if (!token) return { ok: false, error: 'auth' };
+        try {
+          const res = await fetch(`${SUPABASE_URL}/functions/v1/announcements`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+            body: JSON.stringify({ ...body, token }),
+          });
+          const j = await res.json().catch(() => ({}));
+          if (res.status === 401) localStorage.removeItem('classkhab_token');
+          return { ...j, status: res.status };
+        } catch (e) { return { ok: false, error: 'net' }; }
+      }
+      function toggleAnnForm(force) {
+        const f = document.getElementById('annForm');
+        const open = typeof force === 'boolean' ? force : f.classList.contains('hidden');
+        f.classList.toggle('hidden', !open);
+        if (open) document.getElementById('annTitle').focus();
+      }
+      const ago = (iso) => { const m = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 60000)); return m < 1 ? 'เมื่อสักครู่' : m < 60 ? `${m} นาทีที่แล้ว` : m < 1440 ? `${Math.round(m / 60)} ชม.ที่แล้ว` : `${Math.round(m / 1440)} วันที่แล้ว`; };
+      async function loadAnnouncements() {
+        document.getElementById('annGrade').textContent = currentGrade || '';
+        const list = document.getElementById('annList'), need = document.getElementById('annNeedLogin'), btn = document.getElementById('annNewBtn');
+        const reset = (msg) => { list.textContent = ''; if (msg) list.append(mk('p', 'text-sm text-slate-500', msg)); };
+        if (!getToken()) { need.classList.remove('hidden'); btn.classList.add('hidden'); toggleAnnForm(false); reset(''); return; }
+        need.classList.add('hidden');
+        const r = await annCall({ action: 'list' });
+        if (r.error === 'auth') { need.classList.remove('hidden'); btn.classList.add('hidden'); reset(''); return; }
+        btn.classList.remove('hidden');
+        if (!r.ok) return reset('โหลดประกาศไม่สำเร็จ ลองรีเฟรชอีกครั้ง');
+        if (!r.items.length) return reset('ยังไม่มีประกาศหรือการบ้านใน 30 วันนี้ กด "+ โพสต์" เพื่อเพิ่ม');
+        reset('');
+        const KIND = { announce: 'ประกาศ', homework: 'การบ้าน', exam: 'สอบ/ทดสอบ' };
+        // เรียงให้ที่มีกำหนดส่งใกล้ที่สุด (ยังไม่เลย) ขึ้นก่อน ที่เหลือเรียงตามเวลาโพสต์
+        const items = [...r.items].sort((a, b) => {
+          const ka = a.due_date && daysUntil(a.due_date) >= 0 ? 0 : 1, kb = b.due_date && daysUntil(b.due_date) >= 0 ? 0 : 1;
+          return ka - kb || (ka === 0 ? a.due_date.localeCompare(b.due_date) : b.created_at.localeCompare(a.created_at));
+        });
+        for (const it of items) {
+          const card = mk('div', 'bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3');
+          const head = mk('div', 'flex items-center gap-2 flex-wrap');
+          head.append(mk('span', 'tag tag-' + it.kind, KIND[it.kind]), mk('span', 'text-sm font-bold text-slate-800 flex-1 min-w-0 break-words', it.title));
+          if (it.due_date) head.append(mk('span', 'text-xs font-bold ' + (daysUntil(it.due_date) < 0 ? 'text-rose-600' : 'text-blue-600') + ' whitespace-nowrap', `${thDate(it.due_date)} · ${dueText(it.due_date)}`));
+          const del = mk('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', '🗑');
+          del.title = 'ลบ'; del.onclick = async () => { if (confirm('ลบโพสต์นี้?')) { await annCall({ action: 'delete', id: it.id }); loadAnnouncements(); } };
+          head.append(del);
+          card.append(head);
+          if (it.body) card.append(mk('p', 'text-sm text-slate-600 mt-1.5 whitespace-pre-wrap break-words', it.body));
+          card.append(mk('p', 'text-[11px] text-slate-400 mt-1.5', ago(it.created_at)));
+          list.append(card);
+        }
+      }
+      async function postAnnouncement(e) {
+        e.preventDefault();
+        const b = document.getElementById('annSubmit'); b.disabled = true; b.textContent = 'กำลังโพสต์…';
+        const r = await annCall({
+          action: 'post', kind: document.getElementById('annKind').value, title: document.getElementById('annTitle').value,
+          body: document.getElementById('annBody').value, due_date: document.getElementById('annDue').value || null,
+        });
+        b.disabled = false; b.textContent = 'โพสต์ (แจ้งเตือนทั้งห้อง)';
+        if (r.ok) { e.target.reset(); toggleAnnForm(false); loadAnnouncements(); }
+        else if (r.status === 429) alert('โพสต์ถี่เกินไป (สูงสุด 6 โพสต์ต่อชั่วโมง) รอสักครู่แล้วลองใหม่');
+        else if (r.error === 'auth') { alert('หมดอายุ ต้องเข้าสู่ระบบใหม่'); loadAnnouncements(); }
+        else alert('โพสต์ไม่สำเร็จ ตรวจหัวข้อแล้วลองอีกครั้ง');
+      }
+      document.addEventListener('visibilitychange', () => { if (!document.hidden && currentGrade) loadAnnouncements(); });
+
+      // --- แชร์ตารางเป็นรูป (วาดบน canvas แล้วเรียก Web Share / ดาวน์โหลด) ---
+      const SUBJ_COLOR = { 'ท': '#f97316', 'ค': '#3b82f6', 'ว': '#22c55e', 'ส': '#eab308', 'พ': '#ef4444', 'ศ': '#a855f7', 'ง': '#14b8a6', 'อ': '#ec4899', 'E': '#ec4899', 'จ': '#f43f5e', 'ญ': '#f43f5e' };
+      async function drawTimetable(dark) {
+        try { await Promise.all([document.fonts.load('800 40px Sarabun'), document.fonts.load('600 24px Sarabun')]); } catch (e) {}
+        const days = ['จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์'], data = scheduleData[currentGrade] || [];
+        const n = Math.max(8, ...data.map((i) => i.period));
+        const W = 1600, M = 48, LW = 150, HH = 236, RH = 140, FH = 96, CW = (W - 2 * M - LW) / n, H = HH + RH * 5 + FH + M / 2;
+        const c = Object.assign(document.createElement('canvas'), { width: W, height: H }), x = c.getContext('2d');
+        const C = dark ? { bg: '#0b1220', card: '#111a2e', line: '#243152', t1: '#f1f5f9', t2: '#94a3b8', t3: '#64748b' } : { bg: '#f8fafc', card: '#ffffff', line: '#e2e8f0', t1: '#0f172a', t2: '#475569', t3: '#94a3b8' };
+        const F = (w, s) => `${w} ${s}px Sarabun, sans-serif`;
+        const fit = (txt, maxW, w, s, min = 14) => { let size = s; x.font = F(w, size); while (x.measureText(txt).width > maxW && size > min) { size -= 1; x.font = F(w, size); } return txt; };
+        x.fillStyle = C.bg; x.fillRect(0, 0, W, H);
+        x.textBaseline = 'alphabetic'; x.textAlign = 'left';
+        x.fillStyle = C.t1; x.font = F(800, 64); x.fillText(`ตารางเรียน ${currentGrade}`, M, 98);
+        x.fillStyle = C.t2; x.font = F(600, 28); x.fillText('ภาคเรียนที่ 2/2569 · โรงเรียนท่าบ่อ', M, 142);
+        // หัวคอลัมน์ (คาบ + เวลาเริ่ม)
+        for (let p = 1; p <= n; p++) {
+          const cx = M + LW + (p - 1) * CW + CW / 2; x.textAlign = 'center';
+          x.fillStyle = C.t1; x.font = F(800, 26); x.fillText(`คาบ ${p}`, cx, HH - 34);
+          x.fillStyle = C.t3; x.font = F(600, 20); x.fillText((periods[p - 1] || { time: '' }).time.split('-')[0], cx, HH - 8);
+        }
+        days.forEach((d, r) => {
+          const y = HH + r * RH;
+          x.textAlign = 'left'; x.fillStyle = C.t1; x.font = F(800, 30); x.fillText(d, M, y + RH / 2 + 10);
+          for (let p = 1; p <= n; p++) {
+            const it = data.find((i) => i.day === d && i.period === p), cx = M + LW + (p - 1) * CW, w = CW - 8, h = RH - 10, yy = y + 2;
+            if (!it) continue;
+            const lunch = it.subject === 'พักกลางวัน', plain = it.room === '-' && it.teacher === '-';
+            const col = SUBJ_COLOR[it.subject[0]] || '#64748b';
+            x.fillStyle = lunch ? 'transparent' : C.card; x.strokeStyle = C.line; x.lineWidth = 2;
+            x.beginPath(); x.roundRect(cx, yy, w, h, 16); if (!lunch) x.fill(); x.stroke();
+            if (!lunch && !plain) { x.fillStyle = col; x.beginPath(); x.roundRect(cx, yy, 8, h, [16, 0, 0, 16]); x.fill(); }
+            x.textAlign = 'center';
+            const mx = cx + w / 2 + (lunch || plain ? 0 : 4);
+            x.fillStyle = lunch ? C.t3 : C.t1; fit(it.subject, w - 26, 800, lunch || plain ? 26 : 30); x.fillText(it.subject, mx, yy + (plain || lunch ? h / 2 + 9 : 50));
+            if (!lunch && !plain) {
+              x.fillStyle = C.t2; const room = it.room !== '-' ? `ห้อง ${it.room}` : ''; fit(room, w - 26, 600, 22); x.fillText(room, mx, yy + 82);
+              x.fillStyle = C.t3; const t = it.teacher !== '-' ? it.teacher : ''; fit(t, w - 26, 600, 19); x.fillText(t, mx, yy + 111);
+            }
+          }
+        });
+        x.textAlign = 'left'; x.fillStyle = C.t2; x.font = F(700, 26); x.fillText('ClassKhab', M, H - 46);
+        x.fillStyle = C.t3; x.font = F(600, 22); x.fillText('kantaphon02122554.github.io/class-khab  ·  รับแจ้งเตือนก่อนเริ่มคาบฟรี', M + 150, H - 46);
+        return c;
+      }
+      async function shareTimetable() {
+        const b = document.getElementById('shareBtn'), label = b.querySelector('span'), old = label.textContent;
+        label.textContent = 'กำลังสร้างรูป…'; b.disabled = true;
+        try {
+          const canvas = await drawTimetable(document.documentElement.classList.contains('dark'));
+          const blob = await new Promise((r) => canvas.toBlob(r, 'image/png'));
+          const name = `classkhab-${currentGrade.replace('ม.', 'M').replace('/', '-')}.png`;
+          const file = new File([blob], name, { type: 'image/png' });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            try { await navigator.share({ files: [file], title: `ตารางเรียน ${currentGrade}`, text: `ตารางเรียน ${currentGrade} จาก ClassKhab` }); return; }
+            catch (e) { if (e.name === 'AbortError') return; }
+          }
+          const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: name }); a.click();
+          setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+        } catch (e) { alert('สร้างรูปไม่สำเร็จ ลองใหม่อีกครั้ง'); }
+        finally { label.textContent = old; b.disabled = false; }
+      }
+
       function toggleTheme() {
         const dark = document.documentElement.classList.toggle('dark');
         try { localStorage.setItem('classkhab_theme', dark ? 'dark' : 'light'); } catch (e) {}
@@ -1195,6 +1425,7 @@
             errDiv.classList.add('hidden');
             currentGrade = selectedClass;
             localStorage.setItem('classkhab_grade', currentGrade);
+            if (result.token) localStorage.setItem('classkhab_token', result.token);   // โทเค็นห้อง ใช้กับประกาศ/การบ้าน
             showDashboard();
           } else {
             showError('รหัสผ่านไม่ถูกต้อง');
@@ -1206,6 +1437,7 @@
 
       function handleLogout() {
         localStorage.removeItem('classkhab_grade');
+        localStorage.removeItem('classkhab_token');
         currentGrade = null;
         showAuthScreen();
       }
@@ -1231,6 +1463,8 @@
         clearInterval(window._ck);
         window._ck = setInterval(updateTimeTracker, 1000);
         loadHoliday();
+        loadEvents();
+        loadAnnouncements();
         syncPush();
       }
 
