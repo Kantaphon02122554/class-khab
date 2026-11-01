@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>ClassKhab · แอดมิน</title>
+<link rel="icon" href="icon-192.png" />
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  /* หน้าแอดมิน (ส่วนตัว): ดูสถานะระบบ ClassKhab ได้ทุกเมื่อ — ข้อมูลทั้งหมดมาจาก Edge Function admin-status ซึ่งตรวจรหัสแอดมินที่เซิร์ฟเวอร์ */
+  :root { --bg: #0b1220; --card: #111a2e; --line: #243152; --t1: #f1f5f9; --t2: #94a3b8; --t3: #64748b; --ok: #22c55e; --warn: #f59e0b; --bad: #ef4444; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Sarabun', sans-serif; background: var(--bg); color: var(--t1); min-height: 100vh; padding: 16px; }
+  .wrap { max-width: 1040px; margin: 0 auto; }
+  header { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+  h1 { font-size: 20px; font-weight: 800; } h1 small { color: var(--t3); font-weight: 600; font-size: 13px; margin-left: 6px; }
+  .tools { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--t2); }
+  button { font-family: inherit; cursor: pointer; border: 0; border-radius: 10px; padding: 8px 14px; font-weight: 700; font-size: 13px; background: #1e293b; color: var(--t1); }
+  button:hover { filter: brightness(1.2); } button.pri { background: #2563eb; }
+
+  .hero { border-radius: 18px; padding: 18px 20px; display: flex; align-items: center; gap: 16px; border: 1px solid var(--line); background: var(--card); margin-bottom: 14px; }
+  .hero .dot { flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-size: 24px; }
+  .hero.ok .dot { background: rgba(34, 197, 94, 0.18); box-shadow: 0 0 22px rgba(34, 197, 94, 0.35); } .hero.warn .dot { background: rgba(245, 158, 11, 0.18); box-shadow: 0 0 22px rgba(245, 158, 11, 0.35); } .hero.bad .dot { background: rgba(239, 68, 68, 0.2); box-shadow: 0 0 22px rgba(239, 68, 68, 0.4); }
+  .hero h2 { font-size: 20px; font-weight: 800; } .hero p { color: var(--t2); font-size: 13px; margin-top: 2px; }
+  .alerts { margin-bottom: 14px; display: grid; gap: 8px; }
+  .alert { border-radius: 12px; padding: 10px 14px; font-size: 14px; border: 1px solid; }
+  .alert.red { background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.5); color: #fecaca; } .alert.yellow { background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.45); color: #fde68a; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; }
+  .card h3 { font-size: 14px; color: var(--t2); font-weight: 700; margin-bottom: 12px; letter-spacing: 0.02em; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 7px 0; border-bottom: 1px solid rgba(36, 49, 82, 0.6); font-size: 14px; }
+  .row:last-child { border-bottom: 0; } .row span:first-child { color: var(--t2); } .row b { font-weight: 800; text-align: right; }
+  .big { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; } .sub { color: var(--t3); font-size: 12px; }
+  .chk { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(36, 49, 82, 0.6); font-size: 14px; } .chk:last-child { border-bottom: 0; }
+  .chk i { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 8px var(--ok); } .chk.fail i { background: var(--bad); box-shadow: 0 0 8px var(--bad); }
+  .chk .nm { flex: 1; min-width: 0; } .chk .dt { color: var(--t3); font-size: 12px; } .chk .ms { color: var(--t2); font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .bars { display: flex; align-items: flex-end; gap: 6px; height: 64px; margin-top: 6px; } .bars div { flex: 1; background: #3b82f6; border-radius: 4px 4px 0 0; min-height: 3px; position: relative; } .bars div span { position: absolute; left: 0; right: 0; bottom: -18px; text-align: center; font-size: 10px; color: var(--t3); }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; } .chip { background: #1a2540; border-radius: 99px; padding: 3px 11px; font-size: 13px; } .chip b { margin-left: 6px; color: #93c5fd; }
+  .muted { color: var(--t3); font-size: 13px; }
+
+  #login { max-width: 360px; margin: 14vh auto 0; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 26px; text-align: center; }
+  #login h1 { margin-bottom: 6px; } #login p { color: var(--t2); font-size: 13px; margin-bottom: 16px; }
+  #login input { width: 100%; background: var(--bg); border: 1px solid var(--line); color: var(--t1); border-radius: 12px; padding: 11px 14px; font-size: 15px; margin-bottom: 12px; font-family: inherit; }
+  #login .err { color: #fca5a5; font-size: 13px; margin-bottom: 10px; min-height: 18px; }
+  #login label { display: flex; gap: 8px; align-items: center; font-size: 12px; color: var(--t2); justify-content: center; margin-bottom: 14px; }
+  .hidden { display: none !important; }
+  @media (max-width: 520px) { body { padding: 12px; } .big { font-size: 26px; } }
+</style>
+</head>
+<body>
+
+<div id="login">
+  <h1>ClassKhab · แอดมิน</h1>
+  <p>เฉพาะผู้ดูแลระบบ ใส่รหัสแอดมิน</p>
+  <form onsubmit="signIn(event)">
+    <input id="pw" type="password" autocomplete="current-password" placeholder="รหัสแอดมิน" required />
+    <div class="err" id="loginErr"></div>
+    <label><input type="checkbox" id="remember" style="width:auto;margin:0" /> จำไว้ในเครื่องนี้</label>
+    <button class="pri" type="submit" id="loginBtn" style="width:100%">เข้าสู่ระบบ</button>
+  </form>
+</div>
+
+<div class="wrap hidden" id="app">
+  <header>
+    <h1>ClassKhab · แอดมิน<small id="ver"></small></h1>
+    <div class="tools">
+      <span id="stamp">—</span>
+      <label style="display:flex;gap:5px;align-items:center"><input type="checkbox" id="auto" checked /> รีเฟรชอัตโนมัติ 30 วิ</label>
+      <button onclick="refresh()" id="refBtn">รีเฟรช</button>
+      <button onclick="signOut()">ออก</button>
+    </div>
+  </header>
+
+  <div class="hero" id="hero"><div class="dot" id="heroDot">…</div><div><h2 id="heroT">กำลังตรวจ…</h2><p id="heroP"></p></div></div>
+  <div class="alerts" id="alerts"></div>
+
+  <div class="grid">
+    <div class="card"><h3>เช็กสดทุกส่วน</h3><div id="checks"></div></div>
+
+    <div class="card"><h3>ตัวส่งแจ้งเตือน (cron ทุกนาที)</h3>
+      <div class="row"><span>รันล่าสุด</span><b id="cLast">—</b></div>
+      <div class="row"><span>รันสำเร็จ 60 นาทีที่แล้ว</span><b id="cRuns">—</b></div>
+      <div class="row"><span>ล้มเหลว 24 ชม.</span><b id="cFail">—</b></div>
+      <div class="row"><span>ตอบผิดปกติ 60 นาที</span><b id="cBad">—</b></div>
+      <div class="row"><span>แจ้งเตือนส่งไปล่าสุด</span><b id="nLast">—</b></div>
+      <div class="row"><span>ส่งไปแล้ว 24 ชม.</span><b id="n24">—</b></div>
+      <p class="sub" style="margin-top:12px">แจ้งเตือนส่ง 7 วันล่าสุด (จำนวนห้อง×คาบ ต่อวัน)</p>
+      <div class="bars" id="bars" style="margin-bottom:22px"></div>
+    </div>
+
+    <div class="card"><h3>ผู้ใช้แจ้งเตือน</h3>
+      <div class="big" id="pushTotal">—</div><div class="sub">เครื่องที่เปิดแจ้งเตือน (Web Push) · เพิ่มใหม่ 24 ชม.: <b id="pushNew">—</b></div>
+      <div class="chips" id="byClass" style="margin-top:12px"></div>
+      <div class="row" style="margin-top:12px"><span>ผู้ใช้บอตไลน์ (จำห้อง)</span><b id="lineUsers">—</b></div>
+    </div>
+
+    <div class="card"><h3>เนื้อหา</h3>
+      <div class="row"><span>ห้องในระบบ</span><b id="classes">—</b></div>
+      <div class="row"><span>คาบเรียนทั้งหมด</span><b id="items">—</b></div>
+      <div class="row"><span>ประกาศ/การบ้าน 7 วัน</span><b id="ann">—</b></div>
+      <div class="row"><span>กิจกรรมที่กำลังจะมา</span><b id="ev">—</b></div>
+      <div class="row"><span>วันหยุดที่กำลังจะมา</span><b id="hol">—</b></div>
+      <p class="muted" style="margin-top:10px" id="contentNote"></p>
+    </div>
+  </div>
+  <p class="muted" style="margin-top:16px;text-align:center">เปิดเว็บ: <a style="color:#93c5fd" href="./" target="_blank" rel="noopener">ClassKhab</a> · หน้านี้อ่านอย่างเดียว ไม่เปลี่ยนแปลงข้อมูล</p>
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://apolfnkholadtprbyehh.supabase.co';
+  const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwb2xmbmtob2xhZHRwcmJ5ZWhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzODA4MzQsImV4cCI6MjEwODk1NjgzNH0.v1dzcZmhtQheVCtecQnWfnihSVEkRt9iIyiJjz-XpxM';
+  const $ = (id) => document.getElementById(id);
+  const store = { get: () => { try { return sessionStorage.getItem('ck_admin') || localStorage.getItem('ck_admin'); } catch (e) { return null; } },
+    set: (v, keep) => { try { sessionStorage.setItem('ck_admin', v); if (keep) localStorage.setItem('ck_admin', v); } catch (e) {} },
+    clear: () => { try { sessionStorage.removeItem('ck_admin'); localStorage.removeItem('ck_admin'); } catch (e) {} } };
+  const TH_M = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+  const fmt = (iso) => { if (!iso) return 'ไม่มี'; const d = new Date(iso); return `${d.getDate()} ${TH_M[d.getMonth()]} ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`; };
+  const ago = (iso) => { if (!iso) return 'ไม่มี'; const s = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 1000)); return s < 90 ? `${s} วินาทีที่แล้ว` : s < 5400 ? `${Math.round(s / 60)} นาทีที่แล้ว` : s < 129600 ? `${Math.round(s / 3600)} ชม.ที่แล้ว` : `${Math.round(s / 86400)} วันที่แล้ว`; };
+  const mk = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
+
+  async function call(password) {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/admin-status`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: ANON, Authorization: `Bearer ${ANON}` }, body: JSON.stringify({ password }) });
+    return { status: res.status, body: await res.json().catch(() => ({})) };
+  }
+  async function signIn(e) {
+    e.preventDefault(); const pw = $('pw').value.trim(), b = $('loginBtn'); b.disabled = true; b.textContent = 'กำลังตรวจ…'; $('loginErr').textContent = '';
+    try {
+      const r = await call(pw);
+      if (r.body.ok) { store.set(pw, $('remember').checked); show(); render(r.body); }
+      else $('loginErr').textContent = r.status === 401 ? 'รหัสไม่ถูกต้อง' : 'เซิร์ฟเวอร์ตอบผิดปกติ ลองใหม่';
+    } catch (err) { $('loginErr').textContent = 'เชื่อมต่อไม่ได้'; }
+    b.disabled = false; b.textContent = 'เข้าสู่ระบบ';
+  }
+  function show() { $('login').classList.add('hidden'); $('app').classList.remove('hidden'); }
+  function signOut() { store.clear(); location.reload(); }
+
+  let busy = false;
+  async function refresh() {
+    const pw = store.get(); if (!pw || busy) return; busy = true; $('refBtn').textContent = '…';
+    try {
+      const r = await call(pw);
+      if (r.status === 401) return signOut();
+      if (r.body.ok) render(r.body); else $('stamp').textContent = 'ดึงข้อมูลไม่สำเร็จ ลองใหม่';
+    } catch (e) { $('stamp').textContent = 'เชื่อมต่อไม่ได้ (เน็ตหลุด?)'; }
+    finally { busy = false; $('refBtn').textContent = 'รีเฟรช'; }
+  }
+
+  function render(d) {
+    const h = d.health, red = d.alerts.filter((a) => a.level === 'red').length, yel = d.alerts.filter((a) => a.level === 'yellow').length;
+    const hero = $('hero'); hero.className = 'hero ' + (red ? 'bad' : yel ? 'warn' : 'ok');
+    $('heroDot').textContent = red ? '✕' : yel ? '!' : '✓';
+    $('heroT').textContent = red ? 'ระบบมีปัญหา ต้องแก้' : yel ? 'ใช้งานได้ แต่มีเรื่องต้องดู' : 'ระบบปกติทุกอย่าง';
+    $('heroP').textContent = red ? `${red} เรื่องร้ายแรง${yel ? ` · ${yel} เรื่องที่ควรดู` : ''}` : yel ? `${yel} เรื่องที่ควรดู` : 'ตัวส่งแจ้งเตือนทำงาน ทุกฟังก์ชันตอบ เว็บเปิดได้';
+    const al = $('alerts'); al.textContent = ''; d.alerts.forEach((a) => al.append(mk('div', 'alert ' + a.level, (a.level === 'red' ? '🔴 ' : '🟡 ') + a.text)));
+    const ck = $('checks'); ck.textContent = '';
+    d.checks.forEach((c) => { const r = mk('div', 'chk' + (c.ok ? '' : ' fail')); const m = mk('div', 'nm'); m.append(mk('div', null, c.name), mk('div', 'dt', c.detail)); r.append(mk('i'), m, mk('span', 'ms', c.ms + ' ms')); ck.append(r); });
+
+    const lr = h.cron.last_run; $('cLast').textContent = lr ? `${ago(lr.start)} (${lr.status === 'succeeded' ? 'สำเร็จ' : lr.status})` : 'ไม่พบ';
+    $('cRuns').textContent = `${h.cron.runs_60m} / 60`; $('cFail').textContent = h.cron.failed_24h; $('cBad').textContent = h.http.bad_60m;
+    $('nLast').textContent = h.notify.last_sent ? `${ago(h.notify.last_sent)} · ${fmt(h.notify.last_sent)}` : 'ยังไม่เคยส่ง'; $('n24').textContent = h.notify.sent_24h;
+    const bars = $('bars'); bars.textContent = ''; const max = Math.max(1, ...h.notify.by_day.map((x) => x.n));
+    const days = []; for (let i = 6; i >= 0; i--) { const dt = new Date(Date.now() - i * 86400000); days.push(new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Bangkok' }).format(dt)); }
+    days.forEach((day) => { const n = (h.notify.by_day.find((x) => x.day === day) || {}).n || 0; const b = mk('div'); b.style.height = Math.max(3, (n / max) * 100) + '%'; b.title = `${day}: ${n}`; b.append(mk('span', null, `${Number(day.slice(8))}`)); bars.append(b); });
+
+    $('pushTotal').textContent = h.push.total; $('pushNew').textContent = h.push.new_24h;
+    const bc = $('byClass'); bc.textContent = ''; if (!h.push.by_class.length) bc.append(mk('span', 'muted', 'ยังไม่มี')); h.push.by_class.forEach((x) => { const c = mk('span', 'chip', x.class); c.append(mk('b', null, x.n)); bc.append(c); });
+    $('lineUsers').textContent = h.line_users;
+    $('classes').textContent = h.content.classes; $('items').textContent = h.content.items; $('ann').textContent = h.content.announcements_7d; $('ev').textContent = h.content.events_upcoming; $('hol').textContent = h.content.holidays_upcoming;
+    $('contentNote').textContent = (h.content.events_upcoming + h.content.holidays_upcoming === 0) ? 'ยังไม่มีกิจกรรม/วันหยุดในปฏิทิน (เพิ่มด้วย scripts/add-event.mjs และ add-holiday.mjs)' : '';
+    $('stamp').textContent = 'อัปเดต ' + fmt(d.generatedAt).split(' ').slice(-1)[0] + ' น.';
+    document.title = (red ? '🔴 ' : yel ? '🟡 ' : '🟢 ') + 'ClassKhab · แอดมิน';
+  }
+
+  if (store.get()) { show(); refresh(); }
+  setInterval(() => { if ($('auto').checked && !document.hidden) refresh(); }, 30000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) refresh(); });
+</script>
+</body>
+</html>
