@@ -40,6 +40,31 @@
   .chips { display: flex; flex-wrap: wrap; gap: 6px; } .chip { background: #1a2540; border-radius: 99px; padding: 3px 11px; font-size: 13px; } .chip b { margin-left: 6px; color: #93c5fd; }
   .muted { color: var(--t3); font-size: 13px; }
 
+  /* แท็บ + รายห้อง */
+  .tabs { display: flex; gap: 6px; margin-bottom: 14px; } .tabs button { background: transparent; color: var(--t2); border: 1px solid var(--line); } .tabs button.on { background: #2563eb; color: #fff; border-color: #2563eb; }
+  .rooms { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .room { text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; color: var(--t1); position: relative; }
+  .room:hover { border-color: #3b82f6; filter: none; } .room b { font-size: 17px; display: block; margin-bottom: 6px; }
+  .room small { display: block; color: var(--t2); font-size: 12px; line-height: 1.6; } .room .wdot { position: absolute; top: 12px; right: 12px; width: 8px; height: 8px; border-radius: 50%; background: var(--warn); }
+  .back { margin-bottom: 12px; } .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin-top: 14px; }
+  .tt { width: 100%; border-collapse: collapse; font-size: 12px; } .tt th, .tt td { border: 1px solid var(--line); padding: 4px 6px; text-align: center; white-space: nowrap; } .tt th { color: var(--t2); font-weight: 700; background: #0e1526; }
+  .post { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; margin-bottom: 8px; font-size: 14px; } .post .meta { color: var(--t3); font-size: 11px; margin-top: 4px; }
+  .post .top { display: flex; gap: 8px; align-items: flex-start; } .post .top b { flex: 1; word-break: break-word; } .x { background: transparent; color: var(--t3); padding: 0 4px; } .x:hover { color: var(--bad); }
+  .kd { font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 99px; background: #172554; color: #bfdbfe; white-space: nowrap; } .kd.homework { background: #3b2a06; color: #fde68a; } .kd.exam { background: #3b0d0d; color: #fecaca; }
+  /* ปุ่มแชทลอย + หน้าต่างส่งข้อความ */
+  #fab { position: fixed; right: 18px; bottom: 18px; width: 58px; height: 58px; border-radius: 50%; font-size: 26px; padding: 0; background: #2563eb; box-shadow: 0 6px 24px rgba(37, 99, 235, 0.55); z-index: 20; }
+  #modal { position: fixed; inset: 0; background: rgba(2, 6, 14, 0.72); z-index: 30; display: flex; align-items: flex-end; justify-content: center; padding: 0; } @media (min-width: 640px) { #modal { align-items: center; padding: 20px; } }
+  #modal .box { width: 100%; max-width: 520px; max-height: 92vh; overflow-y: auto; background: var(--card); border: 1px solid var(--line); border-radius: 20px 20px 0 0; padding: 20px; } @media (min-width: 640px) { #modal .box { border-radius: 20px; } }
+  #modal h2 { font-size: 18px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; }
+  #modal label.f { display: block; font-size: 12px; color: var(--t2); margin: 12px 0 5px; }
+  #modal input[type=text], #modal textarea, #modal select { width: 100%; background: var(--bg); border: 1px solid var(--line); color: var(--t1); border-radius: 10px; padding: 9px 12px; font-size: 14px; font-family: inherit; }
+  #modal textarea { resize: vertical; min-height: 70px; } .cnt { text-align: right; font-size: 11px; color: var(--t3); }
+  .aud { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; } .aud button { background: #1a2540; font-size: 12px; padding: 5px 11px; } .aud button.on { background: #2563eb; }
+  .preview { margin-top: 14px; background: #1b2236; border: 1px solid #2b3552; border-radius: 14px; padding: 11px 13px; display: flex; gap: 10px; } .preview .ap { flex: none; width: 34px; height: 34px; border-radius: 9px; background: #334155; display: grid; place-items: center; }
+  .preview b { display: block; font-size: 14px; } .preview span { font-size: 13px; color: #cbd5e1; word-break: break-word; } .preview small { color: var(--t3); font-size: 11px; }
+  .hist { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 12px; } .hist div { font-size: 12px; color: var(--t2); padding: 4px 0; } .hist b { color: var(--t1); }
+  .msg { margin-top: 12px; font-size: 13px; padding: 9px 12px; border-radius: 10px; background: rgba(34, 197, 94, 0.12); color: #bbf7d0; } .msg.err { background: rgba(239, 68, 68, 0.12); color: #fecaca; }
+
   #login { max-width: 360px; margin: 14vh auto 0; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 26px; text-align: center; }
   #login h1 { margin-bottom: 6px; } #login p { color: var(--t2); font-size: 13px; margin-bottom: 16px; }
   #login input { width: 100%; background: var(--bg); border: 1px solid var(--line); color: var(--t1); border-radius: 12px; padding: 11px 14px; font-size: 15px; margin-bottom: 12px; font-family: inherit; }
@@ -73,6 +98,8 @@
     </div>
   </header>
 
+  <div class="tabs"><button class="on" id="tabOverview" onclick="tab('overview')">ภาพรวม</button><button id="tabRooms" onclick="tab('rooms')">ห้อง</button></div>
+  <div id="viewOverview">
   <div class="hero" id="hero"><div class="dot" id="heroDot">…</div><div><h2 id="heroT">กำลังตรวจ…</h2><p id="heroP"></p></div></div>
   <div class="alerts" id="alerts"></div>
 
@@ -105,7 +132,35 @@
       <p class="muted" style="margin-top:10px" id="contentNote"></p>
     </div>
   </div>
+  </div>
+
+  <div id="viewRooms" class="hidden">
+    <div id="roomGrid"><p class="muted">กำลังโหลด…</p></div>
+    <div id="roomDetail" class="hidden"></div>
+  </div>
   <p class="muted" style="margin-top:16px;text-align:center">เปิดเว็บ: <a style="color:#93c5fd" href="./" target="_blank" rel="noopener">ClassKhab</a> · หน้านี้อ่านอย่างเดียว ไม่เปลี่ยนแปลงข้อมูล</p>
+</div>
+
+<button id="fab" class="hidden" title="ส่งข้อความหาทุกคน" onclick="openChat()">💬</button>
+
+<div id="modal" class="hidden" onclick="if(event.target===this)closeChat()">
+  <div class="box">
+    <h2>ส่งข้อความหาทุกคน <button class="x" onclick="closeChat()" style="font-size:22px">✕</button></h2>
+    <label class="f">ส่งถึง</label>
+    <div class="aud" id="audBtns"></div>
+    <label class="f">หัวข้อ (แสดงเป็นตัวหนา)</label>
+    <input type="text" id="mTitle" maxlength="60" placeholder="เช่น พรุ่งนี้หยุดเรียน" oninput="preview()" />
+    <div class="cnt"><span id="cT">0</span>/60</div>
+    <label class="f">ข้อความ (ไม่บังคับ)</label>
+    <textarea id="mBody" maxlength="200" placeholder="รายละเอียด" oninput="preview()"></textarea>
+    <div class="cnt"><span id="cB">0</span>/200</div>
+    <label class="f" style="display:flex;gap:8px;align-items:center;margin-top:12px"><input type="checkbox" id="mBanner" style="width:auto" /> ขึ้นแถบประกาศบนเว็บด้วย (สำหรับคนที่ไม่ได้เปิดแจ้งเตือน) นาน
+      <select id="mHours" style="width:auto"><option value="6">6 ชม.</option><option value="24" selected>24 ชม.</option><option value="72">3 วัน</option><option value="168">7 วัน</option></select></label>
+    <div class="preview"><div class="ap">🔔</div><div><b id="pvT">📢 หัวข้อ</b><span id="pvB">ข้อความจะแสดงตรงนี้</span><br><small>ClassKhab · ตอนนี้</small></div></div>
+    <div style="display:flex;gap:10px;margin-top:16px"><button class="pri" id="sendBtn" onclick="sendMsg()" style="flex:1">ตรวจจำนวนผู้รับ แล้วส่ง</button></div>
+    <div id="mMsg"></div>
+    <div class="hist"><b style="font-size:13px">ส่งล่าสุด</b><div id="mHist" class="muted">…</div></div>
+  </div>
 </div>
 
 <script>
@@ -120,8 +175,8 @@
   const ago = (iso) => { if (!iso) return 'ไม่มี'; const s = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 1000)); return s < 90 ? `${s} วินาทีที่แล้ว` : s < 5400 ? `${Math.round(s / 60)} นาทีที่แล้ว` : s < 129600 ? `${Math.round(s / 3600)} ชม.ที่แล้ว` : `${Math.round(s / 86400)} วันที่แล้ว`; };
   const mk = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
 
-  async function call(password) {
-    const res = await fetch(`${SUPABASE_URL}/functions/v1/admin-status`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: ANON, Authorization: `Bearer ${ANON}` }, body: JSON.stringify({ password }) });
+  async function call(password, extra = {}) {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/admin-status`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: ANON, Authorization: `Bearer ${ANON}` }, body: JSON.stringify({ password, ...extra }) });
     return { status: res.status, body: await res.json().catch(() => ({})) };
   }
   async function signIn(e) {
@@ -133,7 +188,7 @@
     } catch (err) { $('loginErr').textContent = 'เชื่อมต่อไม่ได้'; }
     b.disabled = false; b.textContent = 'เข้าสู่ระบบ';
   }
-  function show() { $('login').classList.add('hidden'); $('app').classList.remove('hidden'); }
+  function show() { $('login').classList.add('hidden'); $('app').classList.remove('hidden'); $('fab').classList.remove('hidden'); }
   function signOut() { store.clear(); location.reload(); }
 
   let busy = false;
@@ -172,6 +227,113 @@
     $('stamp').textContent = 'อัปเดต ' + fmt(d.generatedAt).split(' ').slice(-1)[0] + ' น.';
     document.title = (red ? '🔴 ' : yel ? '🟡 ' : '🟢 ') + 'ClassKhab · แอดมิน';
   }
+
+  // ======================= แท็บ "ห้อง" =======================
+  const api = async (extra) => { const r = await call(store.get(), extra); if (r.status === 401) { signOut(); throw new Error('auth'); } return r; };
+  const natural = (a, b) => a.class.localeCompare(b.class, 'th', { numeric: true });
+  const DAYS = ['จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์'], KIND = { announce: 'ประกาศ', homework: 'การบ้าน', exam: 'สอบ/ทดสอบ' };
+  let ROOMS = [];
+
+  function tab(name) {
+    $('viewOverview').classList.toggle('hidden', name !== 'overview'); $('viewRooms').classList.toggle('hidden', name !== 'rooms');
+    $('tabOverview').classList.toggle('on', name === 'overview'); $('tabRooms').classList.toggle('on', name === 'rooms');
+    if (name === 'rooms') { $('roomDetail').classList.add('hidden'); $('roomGrid').classList.remove('hidden'); loadRooms(); }
+  }
+  async function loadRooms() {
+    try {
+      const r = await api({ action: 'rooms' }); if (!r.body.ok) return; ROOMS = r.body.rooms.sort(natural);
+      const g = $('roomGrid'); g.textContent = ''; const wrap = mk('div', 'rooms');
+      ROOMS.forEach((x) => {
+        const b = mk('button', 'room'); b.onclick = () => openRoom(x.class);
+        b.append(mk('b', null, x.class), mk('small', null, `📱 ${x.push} เครื่องแจ้งเตือน`), mk('small', null, `💬 ${x.line} ไลน์ · 📌 ${x.ann_7d} โพสต์ 7 วัน`), mk('small', null, x.last_notified ? 'แจ้งเตือนล่าสุด ' + ago(x.last_notified) : 'ยังไม่เคยแจ้งเตือน'));
+        if (!x.items || !x.has_pw) b.append(mk('span', 'wdot'));
+        wrap.append(b);
+      });
+      g.append(wrap);
+    } catch (e) { /* ล็อกเอาต์แล้ว */ }
+  }
+  async function openRoom(id) {
+    const box = $('roomDetail'); $('roomGrid').classList.add('hidden'); box.classList.remove('hidden'); box.textContent = 'กำลังโหลด…';
+    const r = await api({ action: 'room', class_id: id }); if (!r.body.ok) { box.textContent = 'โหลดไม่สำเร็จ'; return; }
+    const d = r.body; box.textContent = '';
+    const back = mk('button', 'back', '← กลับไปเลือกห้อง'); back.onclick = () => { box.classList.add('hidden'); $('roomGrid').classList.remove('hidden'); loadRooms(); };
+    const head = mk('div', 'hero ok'); head.style.cssText = 'margin-bottom:0;justify-content:space-between;flex-wrap:wrap';
+    const hl = mk('div'); hl.append(mk('h2', null, 'ห้อง ' + d.class), mk('p', null, `📱 ${d.devices.length} เครื่องแจ้งเตือน · 💬 ${d.line} ผู้ใช้ไลน์ · รหัสห้อง ${d.has_pw ? 'ตั้งแล้ว' : 'ยังไม่ตั้ง'} · ${d.schedule.length} คาบ`));
+    const send = mk('button', 'pri', '💬 ส่งข้อความหาห้องนี้'); send.onclick = () => openChat([d.class]); head.append(hl, send);
+    box.append(back, head);
+
+    const two = mk('div', 'two');
+    // ตาราง
+    const c1 = mk('div', 'card'); c1.style.gridColumn = '1 / -1'; c1.append(mk('h3', null, 'ตารางเรียน'));
+    const maxP = Math.max(8, ...d.schedule.map((s) => s.period)); const tb = mk('table', 'tt'); const trh = mk('tr'); trh.append(mk('th', null, 'วัน'));
+    for (let p = 1; p <= maxP; p++) trh.append(mk('th', null, 'คาบ ' + p)); tb.append(trh);
+    DAYS.forEach((day) => { const tr = mk('tr'); tr.append(mk('th', null, day)); for (let p = 1; p <= maxP; p++) { const s = d.schedule.find((x) => x.day === DAYS.indexOf(day) + 1 && x.period === p); const td = mk('td', null, s ? s.subject : '—'); if (s) td.title = [s.room, s.teacher].filter((v) => v && v !== '-').join(' · '); tr.append(td); } tb.append(tr); });
+    const sc = mk('div'); sc.style.overflowX = 'auto'; sc.append(tb); c1.append(sc); two.append(c1);
+    // ประกาศ
+    const c2 = mk('div', 'card'); c2.append(mk('h3', null, `ประกาศ/การบ้านที่นักเรียนโพสต์ (${d.announcements.length})`));
+    if (!d.announcements.length) c2.append(mk('p', 'muted', 'ยังไม่มีโพสต์'));
+    d.announcements.forEach((a) => {
+      const p = mk('div', 'post'), top = mk('div', 'top'); top.append(mk('span', 'kd ' + a.kind, KIND[a.kind] || a.kind), mk('b', null, a.title));
+      const x = mk('button', 'x', '🗑'); x.title = 'ลบโพสต์นี้'; x.onclick = async () => { if (confirm(`ลบโพสต์ "${a.title}" ?`)) { await api({ action: 'delete_announcement', id: a.id }); openRoom(id); } }; top.append(x);
+      p.append(top); if (a.body) p.append(mk('div', 'muted', a.body)); p.append(mk('div', 'meta', `${fmt(a.created_at)}${a.due_date ? ' · กำหนด ' + a.due_date : ''}`)); c2.append(p);
+    });
+    two.append(c2);
+    // แจ้งเตือน + เครื่อง
+    const c3 = mk('div', 'card'); c3.append(mk('h3', null, 'แจ้งเตือนที่ส่งไปล่าสุด'));
+    if (!d.log.length) c3.append(mk('p', 'muted', 'ยังไม่เคยส่ง')); d.log.forEach((l) => { const r2 = mk('div', 'row'); r2.append(mk('span', null, `${l.day} · คาบ ${l.period}`), mk('b', null, fmt(l.sent_at))); c3.append(r2); });
+    c3.append(mk('h3', null, 'เครื่องที่เปิดแจ้งเตือน')); c3.lastChild.style.marginTop = '16px';
+    if (!d.devices.length) c3.append(mk('p', 'muted', 'ยังไม่มีเครื่อง')); d.devices.forEach((v) => { const r2 = mk('div', 'row'); r2.append(mk('span', null, v.kind), mk('b', null, 'สมัคร ' + ago(v.created_at))); c3.append(r2); });
+    two.append(c3); box.append(two);
+  }
+
+  // ======================= ปุ่มแชท: ส่งข้อความหาทุกคน =======================
+  let AUD = []; // [] = ทุกห้อง
+  async function openChat(preset) {
+    $('modal').classList.remove('hidden'); $('mMsg').textContent = '';
+    if (!ROOMS.length) { try { ROOMS = (await api({ action: 'rooms' })).body.rooms.sort(natural); } catch (e) { return; } }
+    AUD = preset || []; drawAud(); preview(); loadHist();
+    setTimeout(() => $('mTitle').focus(), 50);
+  }
+  function closeChat() { $('modal').classList.add('hidden'); }
+  function drawAud() {
+    const w = $('audBtns'); w.textContent = '';
+    const all = mk('button', AUD.length ? '' : 'on', '👥 ทุกห้อง'); all.onclick = () => { AUD = []; drawAud(); }; w.append(all);
+    ROOMS.forEach((r) => { const b = mk('button', AUD.includes(r.class) ? 'on' : '', r.class); b.onclick = () => { AUD = AUD.includes(r.class) ? AUD.filter((x) => x !== r.class) : [...AUD, r.class]; drawAud(); }; w.append(b); });
+  }
+  function preview() {
+    const t = $('mTitle').value.trim(), b = $('mBody').value.trim();
+    $('pvT').textContent = '📢 ' + (t || 'หัวข้อ'); $('pvB').textContent = b || 'เปิดดูรายละเอียดในเว็บ'; $('cT').textContent = $('mTitle').value.length; $('cB').textContent = $('mBody').value.length;
+  }
+  async function loadHist() {
+    try {
+      const r = await api({ action: 'broadcasts' }); const h = $('mHist'); h.textContent = '';
+      if (!r.body.items.length) { h.textContent = 'ยังไม่เคยส่ง'; return; }
+      r.body.items.forEach((i) => { const d = mk('div'); d.append(mk('b', null, i.title), document.createTextNode(` — ${i.audience} · ${i.sent}/${i.recipients} เครื่อง${i.banner ? ' · มีแถบ' : ''} · ${ago(i.created_at)}`)); h.append(d); });
+    } catch (e) { /* ล็อกเอาต์ */ }
+  }
+  async function sendMsg() {
+    const title = $('mTitle').value.trim(), body = $('mBody').value.trim(), banner = $('mBanner').checked, hours = Number($('mHours').value);
+    const msg = $('mMsg'); const show = (t, err) => { msg.className = 'msg' + (err ? ' err' : ''); msg.textContent = t; };
+    if (!title) return show('ใส่หัวข้อก่อน', true);
+    const btn = $('sendBtn'); btn.disabled = true; btn.textContent = 'กำลังตรวจ…';
+    try {
+      const base = { action: 'broadcast', title, body, classes: AUD, banner, banner_hours: hours };
+      const dry = await api({ ...base, dry: true });
+      if (!dry.body.ok) return show('ข้อมูลไม่ถูกต้อง (' + (dry.body.error || dry.status) + ')', true);
+      const n = dry.body.recipients;
+      if (n === 0 && !banner) return show(`ห้อง ${dry.body.audience} ยังไม่มีเครื่องไหนเปิดแจ้งเตือน (ติ๊ก "ขึ้นแถบประกาศ" เพื่อให้ขึ้นบนเว็บแทน)`, true);
+      const ok = confirm(`ส่งข้อความนี้ถึง ${n} เครื่อง (${dry.body.audience})\n\n📢 ${title}\n${body}\n\n${banner ? `+ ขึ้นแถบประกาศบนเว็บ ${hours} ชม. (ทุกคนที่เปิดเว็บเห็น)\n\n` : ''}ส่งแล้วเรียกคืนไม่ได้ ยืนยันส่ง?`);
+      if (!ok) return show('ยกเลิกแล้ว ยังไม่ได้ส่ง', true);
+      btn.textContent = 'กำลังส่ง…';
+      const r = await api({ ...base });
+      if (r.status === 429) return show('ส่งถี่เกินไป (สูงสุด 5 ครั้งต่อชั่วโมง) รอสักครู่', true);
+      if (!r.body.ok) return show('ส่งไม่สำเร็จ ลองใหม่', true);
+      show(`ส่งแล้ว: สำเร็จ ${r.body.sent}/${r.body.recipients} เครื่อง${r.body.failed ? ` · ล้มเหลว ${r.body.failed}` : ''}${r.body.removed ? ` · ลบเครื่องที่หมดอายุ ${r.body.removed}` : ''}${r.body.banner ? ' · ขึ้นแถบประกาศแล้ว' : ''}`);
+      $('mTitle').value = ''; $('mBody').value = ''; $('mBanner').checked = false; preview(); loadHist(); refresh();
+    } catch (e) { if (e.message !== 'auth') show('เชื่อมต่อไม่ได้ ยังไม่ได้ส่ง', true); }
+    finally { btn.disabled = false; btn.textContent = 'ตรวจจำนวนผู้รับ แล้วส่ง'; }
+  }
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeChat(); });
 
   if (store.get()) { show(); refresh(); }
   setInterval(() => { if ($('auto').checked && !document.hidden) refresh(); }, 30000);

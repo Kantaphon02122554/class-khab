@@ -251,6 +251,7 @@
         <div class="mt-8 px-4 mx-auto max-w-6xl sm:px-6 lg:px-8">
           <div class="bg-white rounded-3xl p-4 sm:p-8 shadow-xl border border-slate-200/80 space-y-6">
 
+            <div id="noticeBanner" class="pb pb-info hidden" role="status"></div>
             <div id="holidayBanner" class="pb pb-hol hidden"></div>
             <div id="pushBanner" class="pb pb-info hidden"></div>
 
@@ -1249,7 +1250,23 @@
         else if (r.error === 'auth') { alert('หมดอายุ ต้องเข้าสู่ระบบใหม่'); loadAnnouncements(); }
         else alert('โพสต์ไม่สำเร็จ ตรวจหัวข้อแล้วลองอีกครั้ง');
       }
-      document.addEventListener('visibilitychange', () => { if (!document.hidden && currentGrade) loadAnnouncements(); });
+      document.addEventListener('visibilitychange', () => { if (!document.hidden && currentGrade) { loadAnnouncements(); loadNotice(); } });
+
+      // --- แถบประกาศจากผู้ดูแล (site_notices: ส่งจากหน้าแอดมิน แสดงถึงเวลาหมดอายุ ผู้ใช้ปิดแถบนั้นได้) ---
+      async function loadNotice() {
+        const box = document.getElementById('noticeBanner');
+        try {
+          if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return;
+          const res = await fetch(`${SUPABASE_URL}/rest/v1/site_notices?select=id,message&expires_at=gt.${new Date().toISOString()}&order=created_at.desc&limit=1`, { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } });
+          const rows = res.ok ? await res.json() : [];
+          if (!rows.length || localStorage.getItem('classkhab_notice_x') === String(rows[0].id)) { box.classList.add('hidden'); return; }
+          box.textContent = '';
+          const msg = document.createElement('span'); msg.textContent = '📢 ' + rows[0].message;
+          const x = document.createElement('button'); x.textContent = 'ปิด';
+          x.onclick = () => { try { localStorage.setItem('classkhab_notice_x', String(rows[0].id)); } catch (e) {} box.classList.add('hidden'); };
+          box.append(msg, x); box.classList.remove('hidden');
+        } catch (e) { /* ไม่แสดงแถบ */ }
+      }
 
       // --- แชร์ตารางเป็นรูป (วาดบน canvas แล้วเรียก Web Share / ดาวน์โหลด) ---
       const SUBJ_COLOR = { 'ท': '#f97316', 'ค': '#3b82f6', 'ว': '#22c55e', 'ส': '#eab308', 'พ': '#ef4444', 'ศ': '#a855f7', 'ง': '#14b8a6', 'อ': '#ec4899', 'E': '#ec4899', 'จ': '#f43f5e', 'ญ': '#f43f5e' };
@@ -1464,6 +1481,7 @@
         window._ck = setInterval(updateTimeTracker, 1000);
         loadHoliday();
         loadEvents();
+        loadNotice();
         loadAnnouncements();
         syncPush();
       }
