@@ -380,8 +380,8 @@
             </div>
 
             <!-- แชตห้อง (นำร่อง) -->
-            <button id="chatFab" onclick="toggleChat()" aria-label="เปิดแชตห้อง" title="แชตห้อง" class="fixed right-4 bottom-4 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-[0_8px_24px_-4px_rgba(99,102,241,0.55)] transition hover:scale-105 active:scale-95">
-              <i data-lucide="message-circle" class="w-6 h-6"></i>
+            <button id="chatFab" onclick="toggleChat()" aria-label="เปิดแชตห้อง" title="แชตห้อง" class="hidden fixed right-4 bottom-4 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-[0_8px_24px_-4px_rgba(99,102,241,0.55)] transition hover:scale-105 active:scale-95">
+              <i data-lucide="message-circle" class="w-6 h-6"></i><span id="fabDot" class="hidden absolute -right-0.5 -top-0.5 h-3.5 w-3.5 rounded-full border-2 border-zinc-900 bg-rose-500"></span>
             </button>
             <div id="chatSection">
               <div id="chatPanel" class="chat-msg hidden fixed z-40 inset-x-0 bottom-0 sm:inset-x-auto sm:right-4 sm:bottom-24 sm:w-96 flex-col overflow-hidden rounded-t-3xl sm:rounded-2xl border border-white/10 bg-gradient-to-b from-zinc-900 to-zinc-950 shadow-[0_24px_64px_-16px_rgba(0,0,0,0.5)] max-h-[85vh]">
@@ -395,6 +395,7 @@
                   </div>
                   <button onclick="toggleChat(false)" aria-label="ปิดแชต" class="rounded-lg bg-white/5 px-3 py-1.5 text-xs text-white/60 transition-colors hover:bg-white/10 hover:text-white">ปิด</button>
                 </div>
+                <div class="flex gap-1.5 px-4 pt-3"><button id="tabClass" onclick="setChatChannel('class')" class="rounded-lg px-3 py-1.5 text-xs font-medium transition-colors">ห้องเรา</button><button id="tabAdmin" onclick="setChatChannel('admin')" class="rounded-lg px-3 py-1.5 text-xs font-medium transition-colors">คุยกับแอดมิน<span id="adminDot" class="hidden ml-1.5 inline-block h-2 w-2 rounded-full bg-rose-500"></span></button></div>
                 <div id="chatNotice" class="hidden mx-4 mt-3 rounded-xl border border-amber-400/30 bg-amber-400/10 px-3 py-2 text-xs text-amber-200"></div>
                 <form id="chatNickForm" class="chat-scroll hidden space-y-3 overflow-y-auto p-4" onsubmit="saveNick(event)">
                   <p class="text-sm font-medium text-white">ก่อนเข้าแชต ตั้งชื่อเล่น</p>
@@ -418,7 +419,7 @@
                         <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></svg>
                       </button>
                     </form>
-                    <p class="mt-2 px-1 text-[11px] text-white/40">คุณคือ <b id="chatMe" class="text-white/70"></b> · ห้ามส่งเบอร์/ไอดี/ลิงก์ · ส่งได้ทุก 5 วินาที</p>
+                    <p id="chatHint" class="mt-2 px-1 text-[11px] text-white/40"></p>
                   </div>
                 </div>
               </div>
@@ -1350,8 +1351,9 @@
         if (open) document.getElementById('annTitle').focus();
       }
       const ago = (iso) => { const m = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 60000)); return m < 1 ? 'เมื่อสักครู่' : m < 60 ? `${m} นาทีที่แล้ว` : m < 1440 ? `${Math.round(m / 60)} ชม.ที่แล้ว` : `${Math.round(m / 1440)} วันที่แล้ว`; };
-      // --- แชตห้อง (นำร่อง): เปิดเมื่อกดปุ่มเท่านั้น ดึงข้อความเป็นช่วงๆ ขณะเปิดอยู่และหน้าจอไม่ถูกซ่อน ---
-      let chatOpen = false, chatLast = 0, chatTimer = null, chatIdle = 0, chatBusy = false;
+      // --- แชตห้อง (นำร่อง): ปุ่มลอยขึ้นเมื่อห้องนี้เปิดแชต ดึงข้อความเป็นช่วงๆ เฉพาะตอนเปิดแผงและแท็บไม่ถูกซ่อน ---
+      // มี 2 ช่อง: 'class' = แชตห้อง, 'admin' = คุยส่วนตัวกับแอดมิน (เห็นเฉพาะเครื่องตัวเองกับแอดมิน)
+      let chatOpen = false, chatChannel = 'class', chatLast = 0, chatTimer = null, chatIdle = 0, chatBusy = false, chatMyNick = '', fabAvail = false, adminSeenMax = 0;
       const CHAT_ERR = {
         filter_link: 'ห้ามส่งลิงก์', filter_contact: 'ห้ามส่งเบอร์โทร ไอดีไลน์ หรืออีเมล', filter_word: 'ข้อความมีคำที่ไม่อนุญาต ปรับถ้อยคำแล้วส่งใหม่', filter_empty: 'พิมพ์ข้อความก่อน',
         slow: 'ส่งเร็วเกินไป รอ 5 วินาทีแล้วส่งใหม่', rate: 'ส่งบ่อยเกินไป รอสักครู่', busy: 'ห้องนี้คุยกันถี่มาก รอสักครู่แล้วลองใหม่',
@@ -1359,6 +1361,22 @@
         nick_taken: 'ชื่อนี้มีคนใช้แล้ว เลือกชื่ออื่น', nick_length: 'ชื่อต้องยาว 2–16 ตัวอักษร', nick_chars: 'ใช้ได้เฉพาะตัวอักษรไทย อังกฤษ ตัวเลข และเว้นวรรค',
         nick_reserved: 'ชื่อนี้ใช้ไม่ได้ (คล้ายผู้ดูแล/ครู)', nick_word: 'ชื่อนี้มีคำที่ไม่อนุญาต',
       };
+      const adminSeen = () => { try { return Number(localStorage.getItem('classkhab_admin_seen') || 0); } catch (e) { return 0; } };
+      function markAdminSeen(id) { if (id > adminSeen()) { try { localStorage.setItem('classkhab_admin_seen', String(id)); } catch (e) { /* ไม่เก็บ */ } } }
+      function setDots(adminLast) {
+        const has = adminLast > adminSeen() && !(chatOpen && chatChannel === 'admin');
+        document.getElementById('adminDot').classList.toggle('hidden', !has);
+        document.getElementById('fabDot').classList.toggle('hidden', !has);
+      }
+      function updateFab() {
+        document.getElementById('chatFab').classList.toggle('hidden', !fabAvail || (chatOpen && window.innerWidth < 640));   // มือถือ: แผงเต็มล่าง ซ่อนปุ่มลอยตอนเปิด
+      }
+      async function chatPeek() {   // ตอนเปิดเว็บ: ถามว่าห้องนี้เปิดแชตไหม (ปิด = ไม่แสดงปุ่ม)
+        const r = await chatCall({ action: 'peek' });
+        fabAvail = r.error === 'auth' || (r.ok && r.enabled);   // ยังไม่มีโทเค็น: แสดงปุ่มไว้ให้กดแล้วบอกให้เข้าสู่ระบบใหม่
+        updateFab();
+        if (r.ok && r.enabled) setDots(r.admin_last || 0);
+      }
       async function chatCall(body) {
         const token = getToken();
         if (!token) return { ok: false, error: 'auth' };
@@ -1377,6 +1395,22 @@
         const n = document.getElementById('chatNotice');
         n.textContent = msg || ''; n.classList.toggle('hidden', !msg);
       }
+      function setHint() {
+        const h = document.getElementById('chatHint'); h.textContent = '';
+        if (chatChannel === 'admin') { h.textContent = 'ข้อความถึงแอดมินเท่านั้น เพื่อนในห้องไม่เห็น · ห้ามส่งเบอร์/ไอดี/ลิงก์ · ส่งได้ทุก 5 วินาที'; return; }
+        h.append('คุณคือ ', mk('b', 'text-white/70', chatMyNick), ' · ห้ามส่งเบอร์/ไอดี/ลิงก์ · ส่งได้ทุก 5 วินาที');
+      }
+      function paintTabs() {
+        const on = 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white', off = 'bg-white/5 text-white/60 hover:bg-white/10';
+        const base = 'rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ';
+        document.getElementById('tabClass').className = base + (chatChannel === 'class' ? on : off);
+        document.getElementById('tabAdmin').className = base + (chatChannel === 'admin' ? on : off);
+      }
+      function setChatChannel(ch) {
+        chatChannel = ch; chatLast = 0; chatIdle = 0; paintTabs(); chatNotice('');
+        document.getElementById('chatList').textContent = '';
+        chatLoad(true);
+      }
       function stopChatTimer() { clearTimeout(chatTimer); chatTimer = null; }
       function scheduleChat() {
         stopChatTimer();
@@ -1387,53 +1421,65 @@
         chatOpen = typeof force === 'boolean' ? force : !chatOpen;
         document.getElementById('chatGrade').textContent = currentGrade || '';
         document.getElementById('chatPanel').classList.toggle('hidden', !chatOpen);
-        document.getElementById('chatFab').classList.toggle('hidden', chatOpen && window.innerWidth < 640);   // มือถือ: แผงเต็มล่าง ซ่อนปุ่มลอยตอนเปิด
-        if (chatOpen) { chatLast = 0; chatIdle = 0; chatLoad(true).then(scheduleChat); } else stopChatTimer();
+        updateFab();
+        if (chatOpen) { chatLast = 0; chatIdle = 0; paintTabs(); chatLoad(true).then(scheduleChat); } else stopChatTimer();
       }
       async function chatLoad(full) {
         if (chatBusy) return; chatBusy = true;
+        const ch = chatChannel;
         try {
-          const r = await chatCall({ action: 'list', after: full ? 0 : chatLast });
+          const r = await chatCall({ action: ch === 'admin' ? 'admin_list' : 'list', after: full ? 0 : chatLast });
+          if (ch !== chatChannel) return;   // สลับแท็บระหว่างรอ
           const form = document.getElementById('chatNickForm'), box = document.getElementById('chatBox');
           if (r.error === 'auth') { chatNotice('ต้องเข้าสู่ระบบห้องใหม่หนึ่งครั้งก่อนใช้แชต (กดออกจากระบบแล้วใส่รหัสห้องอีกครั้ง)'); form.classList.add('hidden'); box.classList.add('hidden'); return; }
           if (!r.ok) { chatNotice('โหลดแชตไม่สำเร็จ ลองใหม่อีกครั้ง'); return; }
           if (!r.enabled) { chatNotice('ห้องนี้ยังไม่เปิดให้ใช้แชต (กำลังทดลองกับบางห้อง)'); form.classList.add('hidden'); box.classList.add('hidden'); return; }
           chatNotice(r.banned ? CHAT_ERR.banned : '');
-          if (!r.nick) { form.classList.remove('hidden'); box.classList.add('hidden'); return; }
+          if (ch === 'class') {
+            if (!r.nick) { form.classList.remove('hidden'); box.classList.add('hidden'); setDots(r.admin_last || 0); return; }
+            chatMyNick = r.nick; setDots(r.admin_last || 0);
+          }
           form.classList.add('hidden'); box.classList.remove('hidden');
-          document.getElementById('chatMe').textContent = r.nick;
-          renderChat(r.items, full);
+          setHint();
+          if (ch === 'admin') {
+            const items = r.items.map((x) => ({ id: x.id, nick: x.from_admin ? 'แอดมิน' : 'คุณ', body: x.body, created_at: x.created_at, own: !x.from_admin, reported: true, admin: x.from_admin }));
+            renderChat(items, full, 'admin', 'ยังไม่มีข้อความ พิมพ์ถึงแอดมินได้เลย (แจ้งตารางผิด ปัญหาการใช้งาน ฯลฯ)');
+            for (const x of r.items) if (x.from_admin) adminSeenMax = Math.max(adminSeenMax, x.id);
+            markAdminSeen(adminSeenMax); setDots(0);
+          } else renderChat(r.items, full, 'class', 'ยังไม่มีข้อความ ลองทักทายเพื่อนดู');
           if (r.last) chatLast = r.last;
           chatIdle = r.items.length ? 0 : chatIdle + 1;
         } finally { chatBusy = false; }
       }
-      function renderChat(items, full) {
+      function renderChat(items, full, ch, emptyText) {
         const list = document.getElementById('chatList');
         const nearBottom = list.scrollHeight - list.scrollTop - list.clientHeight < 80;
         if (full) list.textContent = '';
-        if (full && !items.length) { const hint = mk('p', 'text-xs text-white/40 text-center py-6', 'ยังไม่มีข้อความ ลองทักทายเพื่อนดู'); hint.dataset.empty = '1'; list.append(hint); }
+        if (full && !items.length) { const hint = mk('p', 'text-xs text-white/40 text-center py-6', emptyText); hint.dataset.empty = '1'; list.append(hint); }
         else if (items.length) { const hint = list.querySelector('[data-empty]'); if (hint) hint.remove(); }
         for (const it of items) {
           if (list.querySelector(`[data-id="${it.id}"]`)) continue;
           const own = it.own;
           const row = mk('div', 'chat-msg flex w-full ' + (own ? 'justify-end' : 'justify-start')); row.dataset.id = it.id;
           const wrap = mk('div', 'flex max-w-[85%] items-end gap-2' + (own ? ' flex-row-reverse' : ''));
-          if (!own) wrap.append(mk('div', 'flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-xs font-bold text-white', Array.from(it.nick)[0] || '?'));
+          if (!own) wrap.append(mk('div', 'flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ' + (it.admin ? 'from-emerald-500 to-teal-600' : 'from-indigo-500 to-violet-600') + ' text-xs font-bold text-white', it.admin ? 'A' : (Array.from(it.nick)[0] || '?')));
           const col = mk('div', 'min-w-0');
           const meta = mk('div', 'mb-0.5 flex items-center gap-1.5 px-1 text-[10px] text-white/40' + (own ? ' justify-end' : ''));
-          if (!own) meta.append(mk('span', 'font-medium text-white/70', it.nick));
+          if (!own) meta.append(mk('span', 'font-medium ' + (it.admin ? 'text-emerald-300' : 'text-white/70'), it.nick));
           meta.append(mk('span', null, new Date(it.created_at).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })));
-          if (own) {
-            const del = mk('button', 'px-1 text-white/30 hover:text-rose-400', '🗑'); del.title = 'ลบข้อความของฉัน';
-            del.onclick = async () => { await chatCall({ action: 'delete', id: it.id }); row.remove(); };
-            meta.append(del);
-          } else if (!it.reported) {
-            const rep = mk('button', 'px-1 text-white/30 hover:text-rose-400', '🚩'); rep.title = 'รายงานข้อความนี้';
-            rep.onclick = async () => {
-              if (!confirm('รายงานข้อความนี้ว่าไม่เหมาะสม?\nถ้ามีหลายคนรายงาน ข้อความจะถูกซ่อน')) return;
-              const r = await chatCall({ action: 'report', id: it.id }); alert(r.ok ? 'ส่งรายงานแล้ว ขอบคุณครับ' : 'รายงานไม่สำเร็จ'); if (r.ok) rep.remove();
-            };
-            meta.append(rep);
+          if (ch === 'class') {
+            if (own) {
+              const del = mk('button', 'px-1 text-white/30 hover:text-rose-400', '🗑'); del.title = 'ลบข้อความของฉัน';
+              del.onclick = async () => { await chatCall({ action: 'delete', id: it.id }); row.remove(); };
+              meta.append(del);
+            } else if (!it.reported) {
+              const rep = mk('button', 'px-1 text-white/30 hover:text-rose-400', '🚩'); rep.title = 'รายงานข้อความนี้';
+              rep.onclick = async () => {
+                if (!confirm('รายงานข้อความนี้ว่าไม่เหมาะสม?\nถ้ามีหลายคนรายงาน ข้อความจะถูกซ่อน')) return;
+                const r = await chatCall({ action: 'report', id: it.id }); alert(r.ok ? 'ส่งรายงานแล้ว ขอบคุณครับ' : 'รายงานไม่สำเร็จ'); if (r.ok) rep.remove();
+              };
+              meta.append(rep);
+            }
           }
           const bubble = mk('div', 'break-words whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed ' + (own
             ? 'rounded-tr-md bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_8px_24px_-4px_rgba(99,102,241,0.4)]'
@@ -1455,12 +1501,11 @@
         const input = document.getElementById('chatInput'), btn = document.getElementById('chatSend');
         const body = input.value.trim(); if (!body) return;
         btn.disabled = true;
-        const r = await chatCall({ action: 'post', body });
+        const r = await chatCall({ action: chatChannel === 'admin' ? 'admin_post' : 'post', body });
         btn.disabled = false;
         if (r.ok) { input.value = ''; chatNotice(''); chatIdle = 0; await chatLoad(false); }
         else chatNotice(CHAT_ERR[r.error] || 'ส่งไม่สำเร็จ ลองใหม่อีกครั้ง');
       }
-
       const getDone = () => { try { return new Set(JSON.parse(localStorage.getItem('classkhab_done') || '[]')); } catch (e) { return new Set(); } };
       function setDone(id, on) {
         const s = getDone(); on ? s.add(id) : s.delete(id);
@@ -1747,7 +1792,7 @@
       }
 
       function handleLogout() {
-        toggleChat(false);
+        toggleChat(false); fabAvail = false; updateFab();
         localStorage.removeItem('classkhab_grade');
         localStorage.removeItem('classkhab_token');
         currentGrade = null;
@@ -1779,6 +1824,7 @@
         loadVerified();
         loadNotice();
         loadAnnouncements();
+        chatPeek();
         syncPush();
       }
 

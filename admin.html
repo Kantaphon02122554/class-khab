@@ -271,6 +271,18 @@
         });
         g.append(cs);
       }
+      const at = await api({ action: 'achat_threads' });   // กล่องข้อความจากนักเรียนถึงแอดมิน
+      if (at.body.ok && at.body.threads.length) {
+        const ca = mk('div', 'card'); ca.append(mk('h3', null, `📨 ข้อความถึงแอดมิน (${at.body.unread} ยังไม่อ่าน)`));
+        at.body.threads.forEach((t) => {
+          const p = mk('div', 'post'); p.style.cursor = 'pointer';
+          const top = mk('div', 'top'); top.append(mk('b', null, `[${t.class_id}] ${t.nick || 'ไม่มีชื่อเล่น'} #${t.thread}${t.unread ? ` · 🔴 ${t.unread} ใหม่` : ''}`));
+          p.append(top, mk('div', 'muted', (t.from_admin ? 'คุณ: ' : '') + t.last), mk('div', 'meta', fmt(t.last_at)));
+          p.onclick = () => openThread(t.class_id, t.thread, t.nick);
+          ca.append(p);
+        });
+        g.append(ca);
+      }
       const wrap = mk('div', 'rooms');
       ROOMS.forEach((x) => {
         const b = mk('button', 'room'); b.onclick = () => openRoom(x.class);
@@ -280,6 +292,21 @@
       });
       g.append(wrap);
     } catch (e) { /* ล็อกเอาต์แล้ว */ }
+  }
+  // เธรดคุยส่วนตัวนักเรียน ↔ แอดมิน (เปิดแล้วทำเครื่องหมายว่าอ่านแล้ว)
+  async function openThread(cls, thread, nick) {
+    const r = await api({ action: 'achat_thread', class_id: cls, thread }); if (!r.body.ok) return;
+    const ov = mk('div'); ov.style.cssText = 'position:fixed;inset:0;background:var(--backdrop);z-index:40;display:flex;align-items:center;justify-content:center;padding:12px';
+    const box = mk('div', 'card'); box.style.cssText = 'width:100%;max-width:520px;max-height:90vh;display:flex;flex-direction:column;gap:8px';
+    const hd = mk('div', 'top'); const ttl = mk('h3', null, `[${cls}] ${nick || 'ไม่มีชื่อเล่น'} #${thread}`); ttl.style.cssText = 'flex:1;margin:0';
+    const close = mk('button', 'x', '✕'); close.onclick = () => { ov.remove(); loadRooms(); }; hd.append(ttl, close);
+    const list = mk('div'); list.style.cssText = 'overflow-y:auto;flex:1;min-height:120px;max-height:50vh';
+    r.body.messages.forEach((m) => { const d = mk('div', 'post'); if (m.from_admin) d.style.background = 'var(--chip)'; d.append(mk('b', null, (m.from_admin ? 'แอดมิน: ' : 'นักเรียน: ') + m.body), mk('div', 'meta', fmt(m.created_at))); list.append(d); });
+    const ta = mk('textarea'); ta.maxLength = 500; ta.placeholder = 'พิมพ์ตอบ… (ส่งถึงเครื่องนี้เครื่องเดียว)';
+    ta.style.cssText = 'width:100%;min-height:70px;background:var(--bg);border:1px solid var(--line);color:var(--t1);border-radius:10px;padding:9px 12px;font:inherit;font-size:14px;resize:vertical';
+    const send = mk('button', 'pri', 'ส่งตอบ');
+    send.onclick = async () => { const body = ta.value.trim(); if (!body) return; send.disabled = true; await api({ action: 'achat_reply', class_id: cls, thread, body }); ov.remove(); openThread(cls, thread, nick); };
+    box.append(hd, list, ta, send); ov.append(box); document.body.append(ov); list.scrollTop = list.scrollHeight;
   }
   async function openRoom(id) {
     const box = $('roomDetail'); $('roomGrid').classList.add('hidden'); box.classList.remove('hidden'); box.textContent = 'กำลังโหลด…';
