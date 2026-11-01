@@ -301,6 +301,7 @@
                     <i data-lucide="share-2" class="w-3.5 h-3.5"></i><span>แชร์เป็นรูป</span>
                   </button>
                   <span id="verifiedBadge" class="text-[11px] font-bold px-2 py-1 rounded-lg hidden"></span>
+                  <button id="reportModeBtn" onclick="toggleReportMode()" class="text-[11px] font-bold text-slate-500 px-2 py-1 rounded-lg hover:text-rose-600">🚩 แจ้งตารางผิด</button>
                 </div>
                 <div class="flex overflow-x-auto space-x-1 bg-slate-100 p-1 rounded-xl text-xs font-medium" id="dayTabs">
                   <button onclick="selectDay('จันทร์')" class="day-tab px-3 py-1.5 rounded-lg text-slate-600" data-day="จันทร์">จันทร์</button>
@@ -1181,6 +1182,20 @@
           el.textContent = v ? `✓ โรงเรียนตรวจตารางแล้ว ${thDate(v.slice(0, 10))}` : 'ยังไม่ได้ตรวจกับโรงเรียน · เจอผิดกด 🚩';
         } catch (e) { /* ไม่แสดงป้าย */ }
       }
+      // โหมดแจ้งตารางผิด: กดปุ่มหัวตาราง แล้วแตะคาบที่ไม่ตรงความจริง (ปกติไม่มีปุ่มธงรกทุกคาบ)
+      let reportMode = false;
+      function toggleReportMode(force) {
+        reportMode = typeof force === 'boolean' ? force : !reportMode;
+        const b = document.getElementById('reportModeBtn');
+        b.textContent = reportMode ? '✕ ยกเลิก · แตะคาบที่ผิด' : '🚩 แจ้งตารางผิด';
+        b.className = 'text-[11px] font-bold px-2 py-1 rounded-lg ' + (reportMode ? 'bg-rose-50 text-rose-600' : 'text-slate-500 hover:text-rose-600');
+        renderSchedule();
+      }
+      async function cardTap(dayName, period) {
+        if (!reportMode) return;
+        await reportSlot(dayName, period);
+        toggleReportMode(false);
+      }
       async function reportSlot(dayName, period) {
         const day = ['จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์'].indexOf(dayName) + 1;
         if (!day) return;
@@ -1615,9 +1630,8 @@
           dayItems.forEach((item) => {
             const timeStr = periods[item.period - 1].time;
             html += `
-              <div class="bg-white p-3 rounded-xl border border-slate-200/80 text-xs relative">
-                <button type="button" onclick="reportSlot('${day}', ${item.period})" title="คาบนี้ไม่ตรงความจริง? แจ้งผู้ดูแล" class="absolute top-2 right-2 text-slate-300 hover:text-rose-500 text-xs px-1">🚩</button>
-                <div class="font-bold text-slate-800 pr-6">${subjectTitle(item)} <span class="font-normal text-slate-400">(คาบ ${item.period})</span></div>
+              <div class="bg-white p-3 rounded-xl border text-xs ${reportMode ? 'border-rose-300 ring-1 ring-rose-200 cursor-pointer' : 'border-slate-200/80'}" onclick="cardTap('${day}', ${item.period})">
+                <div class="font-bold text-slate-800">${subjectTitle(item)} <span class="font-normal text-slate-400">(คาบ ${item.period})</span></div>
                 <div class="text-slate-500 text-[11px] mt-0.5">${timeStr}${codeSuffix(item)}${item.room !== '-' ? ' • ห้อง ' + item.room : ''}${item.teacher !== '-' ? ' • ' + item.teacher : ''}</div>
               </div>
             `;
