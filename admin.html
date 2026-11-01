@@ -9,15 +9,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700;800&display=swap" rel="stylesheet" />
 <style>
   /* หน้าแอดมิน (ส่วนตัว): ดูสถานะระบบ ClassKhab ได้ทุกเมื่อ — ข้อมูลทั้งหมดมาจาก Edge Function admin-status ซึ่งตรวจรหัสแอดมินที่เซิร์ฟเวอร์ */
-  /* ธีมสว่างเป็นค่าเริ่มต้น (โทนครีม เรียบ) ตามด้วยโหมดมืดเมื่อเครื่องตั้งไว้ */
-  :root { --bg: #f6f4ef; --card: #ffffff; --line: #e7e2d8; --t1: #1e293b; --t2: #64748b; --t3: #94a3b8; --ok: #16a34a; --warn: #d97706; --bad: #dc2626;
-    --btn: #eef0f4; --chip: #eef2f7; --chip-b: #2563eb; --th: #f6f4ef; --prev: #f1f5f9; --prev-line: #e2e8f0; --prev-t: #334155; --ap: #e2e8f0;
-    --kd: #dbeafe; --kd-t: #1e40af; --kd-hw: #fef3c7; --kd-hw-t: #92400e; --kd-ex: #fee2e2; --kd-ex-t: #991b1b;
-    --al-red-t: #b91c1c; --al-yel-t: #92400e; --msg-ok: #166534; --msg-bad: #b91c1c; --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px -14px rgba(15, 23, 42, 0.14); --backdrop: rgba(30, 41, 59, 0.4); }
-  @media (prefers-color-scheme: dark) { :root { --bg: #0b1220; --card: #111a2e; --line: #243152; --t1: #f1f5f9; --t2: #94a3b8; --t3: #64748b; --ok: #22c55e; --warn: #f59e0b; --bad: #ef4444;
+  :root { --bg: #0b1220; --card: #111a2e; --line: #243152; --t1: #f1f5f9; --t2: #94a3b8; --t3: #64748b; --ok: #22c55e; --warn: #f59e0b; --bad: #ef4444;
     --btn: #1e293b; --chip: #1a2540; --chip-b: #93c5fd; --th: #0e1526; --prev: #1b2236; --prev-line: #2b3552; --prev-t: #cbd5e1; --ap: #334155;
     --kd: #172554; --kd-t: #bfdbfe; --kd-hw: #3b2a06; --kd-hw-t: #fde68a; --kd-ex: #3b0d0d; --kd-ex-t: #fecaca;
-    --al-red-t: #fecaca; --al-yel-t: #fde68a; --msg-ok: #bbf7d0; --msg-bad: #fecaca; --shadow: none; --backdrop: rgba(2, 6, 14, 0.72); } }
+    --al-red-t: #fecaca; --al-yel-t: #fde68a; --msg-ok: #bbf7d0; --msg-bad: #fecaca; --shadow: none; --backdrop: rgba(2, 6, 14, 0.72); }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Sarabun', sans-serif; background: var(--bg); color: var(--t1); min-height: 100vh; padding: 16px; }
   .wrap { max-width: 1040px; margin: 0 auto; }
@@ -27,7 +22,7 @@
   button { font-family: inherit; cursor: pointer; border: 0; border-radius: 10px; padding: 8px 14px; font-weight: 700; font-size: 13px; background: var(--btn); color: var(--t1); }
   button:hover { filter: brightness(0.96); } button.pri { background: #2563eb; color: #fff; }
 
-  .hero { border-radius: 20px; padding: 18px 20px; display: flex; align-items: center; gap: 16px; border: 1px solid var(--line); background: var(--card); margin-bottom: 14px; box-shadow: var(--shadow); }
+  .hero { border-radius: 18px; padding: 18px 20px; display: flex; align-items: center; gap: 16px; border: 1px solid var(--line); background: var(--card); margin-bottom: 14px; }
   .hero .dot { flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-size: 24px; }
   .hero.ok .dot { background: rgba(34, 197, 94, 0.18); box-shadow: 0 0 22px rgba(34, 197, 94, 0.35); } .hero.warn .dot { background: rgba(245, 158, 11, 0.18); box-shadow: 0 0 22px rgba(245, 158, 11, 0.35); } .hero.bad .dot { background: rgba(239, 68, 68, 0.2); box-shadow: 0 0 22px rgba(239, 68, 68, 0.4); }
   .hero h2 { font-size: 20px; font-weight: 800; } .hero p { color: var(--t2); font-size: 13px; margin-top: 2px; }
@@ -36,7 +31,7 @@
   .alert.red { background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.5); color: var(--al-red-t); } .alert.yellow { background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.45); color: var(--al-yel-t); }
 
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 16px 18px; box-shadow: var(--shadow); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; }
   .card h3 { font-size: 14px; color: var(--t2); font-weight: 700; margin-bottom: 12px; letter-spacing: 0.02em; }
   .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
   .row:last-child { border-bottom: 0; } .row span:first-child { color: var(--t2); } .row b { font-weight: 800; text-align: right; }
@@ -51,7 +46,7 @@
   /* แท็บ + รายห้อง */
   .tabs { display: flex; gap: 6px; margin-bottom: 14px; } .tabs button { background: transparent; color: var(--t2); border: 1px solid var(--line); } .tabs button.on { background: #2563eb; color: #fff; border-color: #2563eb; }
   .rooms { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-  .room { text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); padding: 12px 14px; color: var(--t1); position: relative; }
+  .room { text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; color: var(--t1); position: relative; }
   .room:hover { border-color: #3b82f6; filter: none; } .room b { font-size: 17px; display: block; margin-bottom: 6px; }
   .room small { display: block; color: var(--t2); font-size: 12px; line-height: 1.6; } .room .wdot { position: absolute; top: 12px; right: 12px; width: 8px; height: 8px; border-radius: 50%; background: var(--warn); }
   .back { margin-bottom: 12px; } .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin-top: 14px; }
@@ -73,8 +68,7 @@
   .hist { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 12px; } .hist div { font-size: 12px; color: var(--t2); padding: 4px 0; } .hist b { color: var(--t1); }
   .msg { margin-top: 12px; font-size: 13px; padding: 9px 12px; border-radius: 10px; background: rgba(34, 197, 94, 0.12); color: var(--msg-ok); } .msg.err { background: rgba(239, 68, 68, 0.12); color: var(--msg-bad); }
 
-  #login { max-width: 360px; margin: 10vh auto 0; background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 26px; text-align: center; box-shadow: var(--shadow); }
-  #login svg { width: 100%; max-width: 240px; margin: 0 auto 8px; display: block; }
+  #login { max-width: 360px; margin: 14vh auto 0; background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 26px; text-align: center; }
   #login h1 { margin-bottom: 6px; } #login p { color: var(--t2); font-size: 13px; margin-bottom: 16px; }
   #login input { width: 100%; background: var(--bg); border: 1px solid var(--line); color: var(--t1); border-radius: 12px; padding: 11px 14px; font-size: 15px; margin-bottom: 12px; font-family: inherit; }
   #login .err { color: var(--bad); font-size: 13px; margin-bottom: 10px; min-height: 18px; }
@@ -86,19 +80,6 @@
 <body>
 
 <div id="login">
-  <svg viewBox="0 0 320 170" aria-hidden="true">
-    <ellipse cx="160" cy="156" rx="132" ry="9" style="fill:var(--line)"/>
-    <rect x="92" y="18" width="136" height="112" rx="16" style="fill:var(--card);stroke:var(--line)" stroke-width="2"/>
-    <path d="M92 34a16 16 0 0 1 16-16h104a16 16 0 0 1 16 16v10H92z" fill="#bfdbfe"/>
-    <circle cx="108" cy="31" r="3" fill="#fff" opacity=".9"/><circle cx="120" cy="31" r="3" fill="#fff" opacity=".9"/>
-    <rect x="104" y="56" width="30" height="16" rx="5" fill="#fde68a"/><rect x="145" y="56" width="30" height="16" rx="5" fill="#bfdbfe"/><rect x="186" y="56" width="30" height="16" rx="5" fill="#fecdd3"/>
-    <rect x="104" y="80" width="30" height="16" rx="5" fill="#bbf7d0"/><rect x="145" y="80" width="30" height="16" rx="5" fill="#e9d5ff"/><rect x="186" y="80" width="30" height="16" rx="5" fill="#fde68a"/>
-    <rect x="104" y="104" width="30" height="16" rx="5" fill="#bfdbfe"/><rect x="145" y="104" width="30" height="16" rx="5" fill="#fecdd3"/><rect x="186" y="104" width="30" height="16" rx="5" fill="#bbf7d0"/>
-    <circle cx="58" cy="108" r="28" fill="#fef3c7" stroke="#f59e0b" stroke-width="3"/>
-    <path d="M58 108V92M58 108l12 6" stroke="#b45309" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="58" cy="108" r="3" fill="#b45309"/>
-    <path d="M262 82c-13 0-21 9-21 22v12l-7 9h56l-7-9v-12c0-13-8-22-21-22z" fill="#fecdd3" stroke="#fb7185" stroke-width="2" stroke-linejoin="round"/>
-    <circle cx="262" cy="132" r="5" fill="#fb7185"/><circle cx="282" cy="88" r="7" fill="#ef4444"/>
-  </svg>
   <h1>ClassKhab · แอดมิน</h1>
   <p>เฉพาะผู้ดูแลระบบ ใส่รหัสแอดมิน</p>
   <form onsubmit="signIn(event)">

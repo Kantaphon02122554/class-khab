@@ -64,25 +64,6 @@
       html.dark .tag-exam { background: #3b0d0d; color: #fecaca; }
       html.dark .tag-holiday { background: #3a0f3f; color: #f5d0fe; }
 
-      /* โทนสว่าง เรียบ ครีมอ่อน + ภาพประกอบ */
-      :root { --ill-card: #ffffff; --ill-line: #d9d4c8; }
-      html.dark { --ill-card: #1a2540; --ill-line: #334155; }
-      .paper-bg { background: linear-gradient(180deg, #fbf9f5 0%, #f1f5f9 100%); }
-      .auth-bg { background: radial-gradient(circle at 15% 8%, #dbeafe 0, transparent 42%), radial-gradient(circle at 88% 92%, rgba(253, 230, 138, 0.55) 0, transparent 40%), #fbf9f5; }
-      .soft-card { background: #fff; border: 1px solid #e8e4dc; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 10px 28px -16px rgba(15, 23, 42, 0.16); }
-      .item-card { background: #fff; border: 1px solid #ece8df; border-left-width: 4px; border-radius: 1rem; }
-      .acc-announce { border-left-color: #60a5fa; } .acc-homework { border-left-color: #fbbf24; } .acc-exam { border-left-color: #fb7185; }
-      .date-chip { flex: none; width: 2.75rem; text-align: center; border-radius: 0.75rem; background: #f1f5f9; padding: 0.3rem 0; line-height: 1.1; }
-      .date-chip b { display: block; font-size: 1.05rem; font-weight: 800; color: #1e293b; } .date-chip span { font-size: 10px; font-weight: 700; color: #64748b; }
-      .empty-state { text-align: center; padding: 0.75rem 0 0.5rem; color: #64748b; font-size: 0.8125rem; } .empty-state svg { width: 9rem; margin: 0 auto 0.25rem; display: block; }
-      html.dark .paper-bg { background: #0b1220; }
-      html.dark .auth-bg { background: #0b1220; }
-      html.dark .soft-card { background: #111a2e; border-color: #243152; box-shadow: none; }
-      html.dark .item-card { background: #0f172a; border-color: #243152; border-left-color: inherit; }
-      html.dark .acc-announce { border-left-color: #60a5fa; } html.dark .acc-homework { border-left-color: #fbbf24; } html.dark .acc-exam { border-left-color: #fb7185; }
-      html.dark .date-chip { background: #1a2540; } html.dark .date-chip b { color: #f1f5f9; } html.dark .date-chip span { color: #94a3b8; }
-      html.dark .empty-state { color: #94a3b8; }
-
       /* โหมดมืด: ทับสีคลาส Tailwind ที่ใช้ในหน้านี้ */
       html.dark { color-scheme: dark; }
       html.dark body { background: #0b1220 !important; color: #e2e8f0; }
@@ -112,37 +93,16 @@
   </head>
   <body class="h-full text-slate-800 antialiased bg-slate-50 flex flex-col">
 
-    <!-- ภาพประกอบ (วาดเอง): กระดานตาราง + นาฬิกา + กระดิ่ง ใช้ซ้ำด้วย <use> -->
-    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-      <symbol id="ill-schedule" viewBox="0 0 320 170">
-        <ellipse cx="160" cy="156" rx="132" ry="9" style="fill:var(--ill-line);opacity:.55"/>
-        <rect x="92" y="18" width="136" height="112" rx="16" style="fill:var(--ill-card);stroke:var(--ill-line)" stroke-width="2"/>
-        <path d="M92 34a16 16 0 0 1 16-16h104a16 16 0 0 1 16 16v10H92z" fill="#bfdbfe"/>
-        <circle cx="108" cy="31" r="3" fill="#fff" opacity=".9"/><circle cx="120" cy="31" r="3" fill="#fff" opacity=".9"/>
-        <rect x="104" y="56" width="30" height="16" rx="5" fill="#fde68a"/><rect x="145" y="56" width="30" height="16" rx="5" fill="#bfdbfe"/><rect x="186" y="56" width="30" height="16" rx="5" fill="#fecdd3"/>
-        <rect x="104" y="80" width="30" height="16" rx="5" fill="#bbf7d0"/><rect x="145" y="80" width="30" height="16" rx="5" fill="#e9d5ff"/><rect x="186" y="80" width="30" height="16" rx="5" fill="#fde68a"/>
-        <rect x="104" y="104" width="30" height="16" rx="5" fill="#bfdbfe"/><rect x="145" y="104" width="30" height="16" rx="5" fill="#fecdd3"/><rect x="186" y="104" width="30" height="16" rx="5" fill="#bbf7d0"/>
-        <circle cx="58" cy="108" r="28" fill="#fef3c7" stroke="#f59e0b" stroke-width="3"/>
-        <path d="M58 108V92M58 108l12 6" stroke="#b45309" stroke-width="3" stroke-linecap="round" fill="none"/><circle cx="58" cy="108" r="3" fill="#b45309"/>
-        <path d="M262 82c-13 0-21 9-21 22v12l-7 9h56l-7-9v-12c0-13-8-22-21-22z" fill="#fecdd3" stroke="#fb7185" stroke-width="2" stroke-linejoin="round"/>
-        <circle cx="262" cy="132" r="5" fill="#fb7185"/><circle cx="282" cy="88" r="7" fill="#ef4444"/>
-        <path d="M40 40v10M35 45h10M286 40v8M282 44h8" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round"/>
-      </symbol>
-      <symbol id="ill-empty" viewBox="0 0 200 110">
-        <ellipse cx="100" cy="98" rx="72" ry="7" style="fill:var(--ill-line);opacity:.55"/>
-        <rect x="56" y="14" width="88" height="70" rx="12" style="fill:var(--ill-card);stroke:var(--ill-line)" stroke-width="2"/>
-        <rect x="68" y="30" width="46" height="8" rx="4" fill="#bfdbfe"/><rect x="68" y="46" width="64" height="8" rx="4" fill="#fde68a"/><rect x="68" y="62" width="34" height="8" rx="4" fill="#fecdd3"/>
-        <circle cx="146" cy="70" r="16" fill="#bbf7d0" stroke="#4ade80" stroke-width="2"/><path d="M139 70l5 5 9-10" stroke="#16a34a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-      </symbol>
-    </svg>
 
     <!-- ========================================== -->
     <!-- 1. AUTHENTICATION MODAL / SCREEN           -->
     <!-- ========================================== -->
-    <div id="authScreen" class="min-h-screen flex items-center justify-center p-4 auth-bg fixed inset-0 z-50 overflow-y-auto">
-      <div class="w-full max-w-md soft-card p-8 rounded-3xl relative my-8">
+    <div id="authScreen" class="min-h-screen flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-md fixed inset-0 z-50 overflow-y-auto">
+      <div class="w-full max-w-md bg-white p-8 rounded-3xl shadow-2xl border border-slate-100 relative my-8">
         <div class="text-center mb-6">
-          <svg class="w-full max-w-[260px] mx-auto -mt-2 mb-2" viewBox="0 0 320 170" aria-hidden="true"><use href="#ill-schedule" /></svg>
+          <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-slate-900 flex items-center justify-center text-white shadow-lg">
+            <i data-lucide="book-open" class="w-6 h-6"></i>
+          </div>
           <h1 class="text-2xl font-bold text-slate-900">เข้าสู่ระบบ ClassKhab</h1>
           <p class="text-xs text-slate-500 mt-1">เลือกระดับชั้นเรียนเพื่อดูตารางสอนโรงเรียนท่าบ่อ</p>
         </div>
@@ -151,7 +111,7 @@
           <div>
             <label class="block text-xs font-semibold text-slate-600 mb-1">เลือกระดับชั้น / ห้องเรียน</label>
             <div class="relative">
-              <select id="loginClass" class="w-full appearance-none pr-9 bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900">
+              <select id="loginClass" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900">
                 <optgroup label="ระดับชั้น ม.2">
                   <option value="ม.2/1">ม.2/1 พิเศษ วิทย์-คณิต</option>
                 </optgroup>
@@ -275,13 +235,16 @@
       </header>
 
       <!-- Hero Banner Section -->
-      <section class="pt-8 sm:pt-12 pb-12 paper-bg">
+      <section class="pt-10 sm:pt-14 pb-12 bg-slate-50">
         <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <div class="max-w-2xl mx-auto text-center">
-            <svg class="w-full max-w-[280px] sm:max-w-[320px] mx-auto" viewBox="0 0 320 170" aria-hidden="true"><use href="#ill-schedule" /></svg>
-            <h1 class="mt-2 text-xs font-semibold tracking-widest text-blue-600 uppercase">Smart School Schedule System</h1>
-            <p class="mt-3 text-3xl font-extrabold text-slate-900 sm:text-5xl tracking-tight">
-              ไม่พลาดทุกคาบเรียนกับ <span class="text-blue-600">ClassKhab</span>
+          <div class="max-w-3xl mx-auto text-center">
+            <h1 class="px-6 text-sm font-semibold tracking-wide text-blue-600 uppercase">Smart School Schedule System</h1>
+            <p class="mt-4 text-3xl font-extrabold text-slate-900 sm:text-5xl lg:text-6xl tracking-tight">
+              ไม่พลาดทุกคาบเรียนด้วยระบบ
+              <span class="relative inline-flex">
+                <span class="bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] blur-lg filter opacity-30 absolute inset-0"></span>
+                <span class="relative bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">ClassKhab</span>
+              </span>
             </p>
             <p class="mt-4 text-base sm:text-lg text-slate-600">
               เช็กตารางเรียนรายวัน คาบเรียนปัจจุบัน และนับถอยหลังคาบถัดไปแบบเรียลไทม์ โรงเรียนท่าบ่อ
@@ -291,7 +254,7 @@
 
         <!-- Dashboard UI Container -->
         <div class="mt-8 px-4 mx-auto max-w-6xl sm:px-6 lg:px-8">
-          <div class="soft-card rounded-3xl p-4 sm:p-8 space-y-6">
+          <div class="bg-white rounded-3xl p-4 sm:p-8 shadow-xl border border-slate-200/80 space-y-6">
 
             <div id="noticeBanner" class="pb pb-info hidden" role="status"></div>
             <div id="holidayBanner" class="pb pb-hol hidden"></div>
@@ -1273,11 +1236,9 @@
           if (!items.length) return;
           const KIND = { event: 'กิจกรรม', exam: 'สอบ', holiday: 'หยุด' };
           for (const it of items) {
-            const row = mk('div', 'item-card acc-' + (it.kind === 'exam' ? 'exam' : 'announce') + ' flex items-center gap-3 px-3 py-2.5');
+            const row = mk('div', 'flex items-center gap-3 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5');
             const when = it.date <= today && (it.end || it.date) >= today ? 'กำลังจัด' : dueText(it.date);
-            const chip = mk('div', 'date-chip'); chip.append(mk('b', null, String(Number(it.date.slice(8, 10)))), mk('span', null, TH_MONTH[Number(it.date.slice(5, 7)) - 1]));
             row.append(
-              chip,
               mk('span', 'tag tag-' + it.kind, KIND[it.kind] || 'กิจกรรม'),
               (() => { const d = mk('div', 'flex-1 min-w-0'); d.append(mk('div', 'text-sm font-bold text-slate-800 truncate', it.title), mk('div', 'text-[11px] text-slate-500', thDate(it.date) + (it.end ? ' – ' + thDate(it.end) : ''))); return d; })(),
               mk('span', 'text-xs font-bold text-blue-600 whitespace-nowrap', when)
@@ -1338,14 +1299,7 @@
         if (r.error === 'auth') { need.classList.remove('hidden'); btn.classList.add('hidden'); reset(''); return; }
         btn.classList.remove('hidden');
         if (!r.ok) return reset('โหลดประกาศไม่สำเร็จ ลองรีเฟรชอีกครั้ง');
-        if (!r.items.length) {
-          reset('');
-          const es = mk('div', 'empty-state');
-          es.innerHTML = '<svg viewBox="0 0 200 110" aria-hidden="true"><use href="#ill-empty" /></svg>';   // ภาพประกอบคงที่ ไม่มีข้อมูลผู้ใช้
-          es.append(mk('p', null, 'ยังไม่มีประกาศหรือการบ้านใน 30 วันนี้ กด "+ โพสต์" เพื่อเพิ่ม'));
-          list.append(es);
-          return;
-        }
+        if (!r.items.length) return reset('ยังไม่มีประกาศหรือการบ้านใน 30 วันนี้ กด "+ โพสต์" เพื่อเพิ่ม');
         reset('');
         const KIND = { announce: 'ประกาศ', homework: 'การบ้าน', exam: 'สอบ/ทดสอบ' };
         examSrc.ann = r.items.filter((x) => x.kind === 'exam' && x.due_date && daysUntil(x.due_date) >= 0).map((x) => ({ title: x.title, date: x.due_date, end: null }));
@@ -1363,7 +1317,7 @@
         if (pending) list.append(mk('p', 'text-xs font-bold text-amber-700', `ยังไม่เสร็จ ${pending} รายการที่ใกล้ส่ง/สอบ`));
         for (const it of items) {
           const isDone = done.has(it.id);
-          const card = mk('div', 'item-card acc-' + it.kind + ' px-3.5 py-3' + (isDone ? ' opacity-60' : ''));
+          const card = mk('div', 'bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3' + (isDone ? ' opacity-60' : ''));
           const head = mk('div', 'flex items-center gap-2 flex-wrap');
           if (isTask(it)) {
             const cb = mk('input'); cb.type = 'checkbox'; cb.checked = isDone; cb.className = 'w-4 h-4 accent-emerald-600'; cb.title = 'ทำแล้ว (เก็บในเครื่องนี้)';
