@@ -1184,6 +1184,17 @@
 
       // --- ประกาศ / การบ้านของห้อง ---
       const getToken = () => { try { return localStorage.getItem('classkhab_token'); } catch (e) { return null; } };
+      // รหัสสุ่มประจำเครื่อง ใช้รู้ว่าโพสต์ไหนเป็นของตัวเอง (ไม่ผูกกับชื่อใคร)
+      function getDevice() {
+        try {
+          let d = localStorage.getItem('classkhab_device');
+          if (!d) {
+            d = Array.from(crypto.getRandomValues(new Uint8Array(12)), (x) => x.toString(16).padStart(2, '0')).join('');
+            localStorage.setItem('classkhab_device', d);
+          }
+          return d;
+        } catch (e) { return undefined; }
+      }
       async function annCall(body) {
         const token = getToken();
         if (!token) return { ok: false, error: 'auth' };
@@ -1191,7 +1202,7 @@
           const res = await fetch(`${SUPABASE_URL}/functions/v1/announcements`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
-            body: JSON.stringify({ ...body, token }),
+            body: JSON.stringify({ ...body, token, device: getDevice() }),
           });
           const j = await res.json().catch(() => ({}));
           if (res.status === 401) localStorage.removeItem('classkhab_token');
@@ -1228,9 +1239,22 @@
           const head = mk('div', 'flex items-center gap-2 flex-wrap');
           head.append(mk('span', 'tag tag-' + it.kind, KIND[it.kind]), mk('span', 'text-sm font-bold text-slate-800 flex-1 min-w-0 break-words', it.title));
           if (it.due_date) head.append(mk('span', 'text-xs font-bold ' + (daysUntil(it.due_date) < 0 ? 'text-rose-600' : 'text-blue-600') + ' whitespace-nowrap', `${thDate(it.due_date)} · ${dueText(it.due_date)}`));
-          const del = mk('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', '🗑');
-          del.title = 'ลบ'; del.onclick = async () => { if (confirm('ลบโพสต์นี้?')) { await annCall({ action: 'delete', id: it.id }); loadAnnouncements(); } };
-          head.append(del);
+          if (it.own) {
+            const del = mk('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', '🗑');
+            del.title = 'ลบโพสต์ของฉัน'; del.onclick = async () => { if (confirm('ลบโพสต์นี้?')) { await annCall({ action: 'delete', id: it.id }); loadAnnouncements(); } };
+            head.append(del);
+          } else if (it.reported) {
+            head.append(mk('span', 'text-[11px] text-slate-400', 'รายงานแล้ว'));
+          } else {
+            const rep = mk('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', '🚩');
+            rep.title = 'รายงานโพสต์นี้ (ไม่เหมาะสม/ผิดห้อง)';
+            rep.onclick = async () => {
+              if (!confirm('รายงานโพสต์นี้ว่าไม่เหมาะสม?\nถ้ามีหลายคนรายงาน โพสต์จะถูกซ่อนและส่งให้ผู้ดูแลตรวจ')) return;
+              const r = await annCall({ action: 'report', id: it.id });
+              alert(r.ok ? 'ส่งรายงานแล้ว ขอบคุณครับ' : 'รายงานไม่สำเร็จ ลองใหม่อีกครั้ง'); loadAnnouncements();
+            };
+            head.append(rep);
+          }
           card.append(head);
           if (it.body) card.append(mk('p', 'text-sm text-slate-600 mt-1.5 whitespace-pre-wrap break-words', it.body));
           card.append(mk('p', 'text-[11px] text-slate-400 mt-1.5', ago(it.created_at)));

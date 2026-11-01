@@ -242,7 +242,19 @@
   async function loadRooms() {
     try {
       const r = await api({ action: 'rooms' }); if (!r.body.ok) return; ROOMS = r.body.rooms.sort(natural);
-      const g = $('roomGrid'); g.textContent = ''; const wrap = mk('div', 'rooms');
+      const g = $('roomGrid'); g.textContent = '';
+      const rp = await api({ action: 'reports' });   // โพสต์ที่ถูกรายงาน
+      if (rp.body.ok && rp.body.items.length) {
+        const cf = mk('div', 'card'); cf.append(mk('h3', null, `🚩 โพสต์ที่ถูกรายงาน (${rp.body.items.length})`));
+        rp.body.items.forEach((a) => {
+          const p = mk('div', 'post'), top = mk('div', 'top'); top.append(mk('span', 'kd ' + a.kind, KIND[a.kind] || a.kind), mk('b', null, `[${a.class_id}] ${a.title}`));
+          const x = mk('button', 'x', '🗑'); x.title = 'ลบโพสต์นี้'; x.onclick = async () => { if (confirm(`ลบโพสต์ "${a.title}" ?`)) { await api({ action: 'delete_announcement', id: a.id }); loadRooms(); } }; top.append(x);
+          p.append(top); if (a.body) p.append(mk('div', 'muted', a.body));
+          p.append(mk('div', 'meta', `${fmt(a.created_at)} · ผู้โพสต์ #${a.poster || 'ไม่ทราบ'} · 🚩 ${a.reports} รายงาน${a.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}`)); cf.append(p);
+        });
+        g.append(cf);
+      }
+      const wrap = mk('div', 'rooms');
       ROOMS.forEach((x) => {
         const b = mk('button', 'room'); b.onclick = () => openRoom(x.class);
         b.append(mk('b', null, x.class), mk('small', null, `📱 ${x.push} เครื่องแจ้งเตือน`), mk('small', null, `💬 ${x.line} ไลน์ · 📌 ${x.ann_7d} โพสต์ 7 วัน`), mk('small', null, x.last_notified ? 'แจ้งเตือนล่าสุด ' + ago(x.last_notified) : 'ยังไม่เคยแจ้งเตือน'));
@@ -275,7 +287,7 @@
     d.announcements.forEach((a) => {
       const p = mk('div', 'post'), top = mk('div', 'top'); top.append(mk('span', 'kd ' + a.kind, KIND[a.kind] || a.kind), mk('b', null, a.title));
       const x = mk('button', 'x', '🗑'); x.title = 'ลบโพสต์นี้'; x.onclick = async () => { if (confirm(`ลบโพสต์ "${a.title}" ?`)) { await api({ action: 'delete_announcement', id: a.id }); openRoom(id); } }; top.append(x);
-      p.append(top); if (a.body) p.append(mk('div', 'muted', a.body)); p.append(mk('div', 'meta', `${fmt(a.created_at)}${a.due_date ? ' · กำหนด ' + a.due_date : ''}`)); c2.append(p);
+      p.append(top); if (a.body) p.append(mk('div', 'muted', a.body)); p.append(mk('div', 'meta', `${fmt(a.created_at)}${a.due_date ? ' · กำหนด ' + a.due_date : ''} · ผู้โพสต์ #${a.poster || 'ไม่ทราบ'}${a.reports ? ` · 🚩 ${a.reports} รายงาน${a.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : ''}`)); c2.append(p);
     });
     two.append(c2);
     // แจ้งเตือน + เครื่อง
