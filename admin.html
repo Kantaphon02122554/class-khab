@@ -254,6 +254,20 @@
         });
         g.append(cf);
       }
+      const sr = await api({ action: 'schedule_reports' });   // รายงานตารางผิด
+      if (sr.body.ok && sr.body.items.length) {
+        const cs = mk('div', 'card'); cs.append(mk('h3', null, `📝 รายงานตารางผิด (${sr.body.items.length} คาบ)`));
+        sr.body.items.forEach((g) => {
+          const p = mk('div', 'post'), top = mk('div', 'top');
+          top.append(mk('b', null, `[${g.class_id}] วัน${DAYS[g.day - 1]} คาบ ${g.period} · ${g.ids.length} คนแจ้ง`));
+          const open = mk('button', 'x', '👁'); open.title = 'ดูตารางห้องนี้'; open.onclick = () => openRoom(g.class_id);
+          const ok = mk('button', 'x', '✓'); ok.title = 'ปิดรายงาน (แก้แล้ว/ไม่ใช่ข้อผิดพลาด)'; ok.onclick = async () => { await api({ action: 'resolve_reports', ids: g.ids }); loadRooms(); };
+          top.append(open, ok); p.append(top);
+          if (g.notes.length) p.append(mk('div', 'muted', g.notes.slice(0, 3).join(' | ')));
+          cs.append(p);
+        });
+        g.append(cs);
+      }
       const wrap = mk('div', 'rooms');
       ROOMS.forEach((x) => {
         const b = mk('button', 'room'); b.onclick = () => openRoom(x.class);
@@ -271,7 +285,10 @@
     const back = mk('button', 'back', '← กลับไปเลือกห้อง'); back.onclick = () => { box.classList.add('hidden'); $('roomGrid').classList.remove('hidden'); loadRooms(); };
     const head = mk('div', 'hero ok'); head.style.cssText = 'margin-bottom:0;justify-content:space-between;flex-wrap:wrap';
     const hl = mk('div'); hl.append(mk('h2', null, 'ห้อง ' + d.class), mk('p', null, `📱 ${d.devices.length} เครื่องแจ้งเตือน · 💬 ${d.line} ผู้ใช้ไลน์ · รหัสห้อง ${d.has_pw ? 'ตั้งแล้ว' : 'ยังไม่ตั้ง'} · ${d.schedule.length} คาบ`));
-    const send = mk('button', 'pri', '💬 ส่งข้อความหาห้องนี้'); send.onclick = () => openChat([d.class]); head.append(hl, send);
+    const send = mk('button', 'pri', '💬 ส่งข้อความหาห้องนี้'); send.onclick = () => openChat([d.class]);
+    const ver = mk('button', null, d.verified_at ? `✓ ตรวจแล้ว ${fmt(d.verified_at)} (กดเพื่อยกเลิก)` : '☐ ทำเครื่องหมายว่าตารางตรวจแล้ว');
+    ver.onclick = async () => { await api({ action: 'verify_class', class_id: d.class, verified: !d.verified_at }); openRoom(id); };
+    head.append(hl, send, ver);
     box.append(back, head);
 
     const two = mk('div', 'two');

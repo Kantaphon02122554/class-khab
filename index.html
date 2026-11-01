@@ -253,6 +253,7 @@
 
             <div id="noticeBanner" class="pb pb-info hidden" role="status"></div>
             <div id="holidayBanner" class="pb pb-hol hidden"></div>
+            <div id="examBanner" class="pb pb-warn hidden"></div>
             <div id="pushBanner" class="pb pb-info hidden"></div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -299,6 +300,7 @@
                   <button id="shareBtn" onclick="shareTimetable()" class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg hover:opacity-80">
                     <i data-lucide="share-2" class="w-3.5 h-3.5"></i><span>แชร์เป็นรูป</span>
                   </button>
+                  <span id="verifiedBadge" class="text-[11px] font-bold px-2 py-1 rounded-lg hidden"></span>
                 </div>
                 <div class="flex overflow-x-auto space-x-1 bg-slate-100 p-1 rounded-xl text-xs font-medium" id="dayTabs">
                   <button onclick="selectDay('จันทร์')" class="day-tab px-3 py-1.5 rounded-lg text-slate-600" data-day="จันทร์">จันทร์</button>
@@ -1146,6 +1148,49 @@
       function mk(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
       const dueText = (s) => { const d = daysUntil(s); return d < 0 ? 'เลยกำหนด' : d === 0 ? 'วันนี้' : d === 1 ? 'พรุ่งนี้' : `อีก ${d} วัน`; };
 
+      // --- แถบนับถอยหลังสอบ: รวมสอบจากปฏิทินโรงเรียน (events) กับโพสต์ "สอบ/ทดสอบ" ของห้องที่มีวันกำหนด ---
+      const examSrc = { ev: [], ann: [] };
+      function renderExamBanner() {
+        const box = document.getElementById('examBanner');
+        const today = bkkToday();
+        const list = [...examSrc.ev, ...examSrc.ann]
+          .filter((x) => (x.end || x.date) >= today)
+          .sort((a, b) => a.date.localeCompare(b.date));
+        box.textContent = '';
+        if (!list.length) { box.classList.add('hidden'); return; }
+        const first = list[0];
+        const live = first.date <= today;
+        const when = live ? 'กำลังสอบ/วันนี้' : dueText(first.date);
+        box.append(mk('span', 'font-bold', `📝 ${first.title} · ${thDate(first.date)} · ${when}`));
+        if (list.length > 1) box.append(mk('span', 'text-xs opacity-80', `ถัดไป: ${list[1].title} (${thDate(list[1].date)})${list.length > 2 ? ` +อีก ${list.length - 2}` : ''}`));
+        box.classList.remove('hidden');
+      }
+
+      // --- ป้าย "ตรวจแล้ว" ของตาราง + ปุ่มแจ้งตารางผิด ---
+      async function loadVerified() {
+        const el = document.getElementById('verifiedBadge');
+        el.classList.add('hidden');
+        if (!SUPABASE_URL || !SUPABASE_ANON_KEY || !currentGrade) return;
+        try {
+          const r = await fetch(`${SUPABASE_URL}/rest/v1/classes?select=verified_at&id=eq.${encodeURIComponent(currentGrade)}`, {
+            headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+          });
+          const rows = r.ok ? await r.json() : [];
+          const v = rows[0] && rows[0].verified_at;
+          el.className = 'text-[11px] font-bold px-2 py-1 rounded-lg ' + (v ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700');
+          el.textContent = v ? `✓ โรงเรียนตรวจตารางแล้ว ${thDate(v.slice(0, 10))}` : 'ยังไม่ได้ตรวจกับโรงเรียน · เจอผิดกด 🚩';
+        } catch (e) { /* ไม่แสดงป้าย */ }
+      }
+      async function reportSlot(dayName, period) {
+        const day = ['จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์'].indexOf(dayName) + 1;
+        if (!day) return;
+        if (!getToken()) { alert('ต้องเข้าสู่ระบบห้องใหม่หนึ่งครั้งก่อนจึงจะแจ้งได้ (กดออกจากระบบแล้วใส่รหัสห้องอีกครั้ง)'); return; }
+        const note = prompt(`แจ้งว่า วัน${dayName} คาบ ${period} ไม่ตรงความจริง\nผิดตรงไหน? (เช่น วิชาจริงคือ…, ครูเปลี่ยน, ห้องเปลี่ยน) เว้นว่างได้`, '');
+        if (note === null) return;
+        const r = await annCall({ action: 'schedule_report', day, period, note });
+        alert(r.ok ? 'ส่งแจ้งผู้ดูแลแล้ว ขอบคุณครับ' : r.status === 429 ? 'แจ้งถี่เกินไป รอสักครู่แล้วลองใหม่' : 'ส่งไม่สำเร็จ ลองใหม่อีกครั้ง');
+      }
+
       // --- ปฏิทินโรงเรียน (events + วันหยุด) ---
       async function loadEvents() {
         const box = document.getElementById('eventsSection'), list = document.getElementById('eventsList');
@@ -1164,6 +1209,8 @@
             if (last && last.title === title && dayNum(x.date) === dayNum(last.end || last.date) + 1) last.end = x.date;
             else hol.push({ date: x.date, end: null, title, kind: 'holiday' });
           }
+          examSrc.ev = ev.filter((e) => e.kind === 'exam').map((e) => ({ title: e.title, date: e.date, end: e.end_date }));
+          renderExamBanner();
           const items = [...ev.map((e) => ({ date: e.date, end: e.end_date, title: e.title, kind: e.kind })), ...hol]
             .sort((a, b) => a.date.localeCompare(b.date)).slice(0, 6);
           if (!items.length) return;
@@ -1216,7 +1263,13 @@
         if (open) document.getElementById('annTitle').focus();
       }
       const ago = (iso) => { const m = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 60000)); return m < 1 ? 'เมื่อสักครู่' : m < 60 ? `${m} นาทีที่แล้ว` : m < 1440 ? `${Math.round(m / 60)} ชม.ที่แล้ว` : `${Math.round(m / 1440)} วันที่แล้ว`; };
+      const getDone = () => { try { return new Set(JSON.parse(localStorage.getItem('classkhab_done') || '[]')); } catch (e) { return new Set(); } };
+      function setDone(id, on) {
+        const s = getDone(); on ? s.add(id) : s.delete(id);
+        try { localStorage.setItem('classkhab_done', JSON.stringify([...s].slice(-200))); } catch (e) { /* ไม่เก็บ */ }
+      }
       async function loadAnnouncements() {
+        examSrc.ann = [];
         document.getElementById('annGrade').textContent = currentGrade || '';
         const list = document.getElementById('annList'), need = document.getElementById('annNeedLogin'), btn = document.getElementById('annNewBtn');
         const reset = (msg) => { list.textContent = ''; if (msg) list.append(mk('p', 'text-sm text-slate-500', msg)); };
@@ -1229,15 +1282,29 @@
         if (!r.items.length) return reset('ยังไม่มีประกาศหรือการบ้านใน 30 วันนี้ กด "+ โพสต์" เพื่อเพิ่ม');
         reset('');
         const KIND = { announce: 'ประกาศ', homework: 'การบ้าน', exam: 'สอบ/ทดสอบ' };
-        // เรียงให้ที่มีกำหนดส่งใกล้ที่สุด (ยังไม่เลย) ขึ้นก่อน ที่เหลือเรียงตามเวลาโพสต์
+        examSrc.ann = r.items.filter((x) => x.kind === 'exam' && x.due_date && daysUntil(x.due_date) >= 0).map((x) => ({ title: x.title, date: x.due_date, end: null }));
+        renderExamBanner();
+        // "ทำแล้ว" เก็บในเครื่องนี้เท่านั้น (ไม่ส่งขึ้นเซิร์ฟเวอร์)
+        const done = getDone();
+        const isTask = (x) => (x.kind === 'homework' || x.kind === 'exam') && x.due_date && daysUntil(x.due_date) >= 0;
+        // เรียงให้ที่มีกำหนดส่งใกล้ที่สุด (ยังไม่เลย) ขึ้นก่อน ที่ทำแล้วไปท้าย ที่เหลือเรียงตามเวลาโพสต์
         const items = [...r.items].sort((a, b) => {
+          const da = done.has(a.id) ? 1 : 0, db2 = done.has(b.id) ? 1 : 0;
           const ka = a.due_date && daysUntil(a.due_date) >= 0 ? 0 : 1, kb = b.due_date && daysUntil(b.due_date) >= 0 ? 0 : 1;
-          return ka - kb || (ka === 0 ? a.due_date.localeCompare(b.due_date) : b.created_at.localeCompare(a.created_at));
+          return da - db2 || ka - kb || (ka === 0 ? a.due_date.localeCompare(b.due_date) : b.created_at.localeCompare(a.created_at));
         });
+        const pending = items.filter((x) => isTask(x) && !done.has(x.id)).length;
+        if (pending) list.append(mk('p', 'text-xs font-bold text-amber-700', `ยังไม่เสร็จ ${pending} รายการที่ใกล้ส่ง/สอบ`));
         for (const it of items) {
-          const card = mk('div', 'bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3');
+          const isDone = done.has(it.id);
+          const card = mk('div', 'bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3' + (isDone ? ' opacity-60' : ''));
           const head = mk('div', 'flex items-center gap-2 flex-wrap');
-          head.append(mk('span', 'tag tag-' + it.kind, KIND[it.kind]), mk('span', 'text-sm font-bold text-slate-800 flex-1 min-w-0 break-words', it.title));
+          if (isTask(it)) {
+            const cb = mk('input'); cb.type = 'checkbox'; cb.checked = isDone; cb.className = 'w-4 h-4 accent-emerald-600'; cb.title = 'ทำแล้ว (เก็บในเครื่องนี้)';
+            cb.onchange = () => { setDone(it.id, cb.checked); loadAnnouncements(); };
+            head.append(cb);
+          }
+          head.append(mk('span', 'tag tag-' + it.kind, KIND[it.kind]), mk('span', 'text-sm font-bold text-slate-800 flex-1 min-w-0 break-words' + (isDone ? ' line-through' : ''), it.title));
           if (it.due_date) head.append(mk('span', 'text-xs font-bold ' + (daysUntil(it.due_date) < 0 ? 'text-rose-600' : 'text-blue-600') + ' whitespace-nowrap', `${thDate(it.due_date)} · ${dueText(it.due_date)}`));
           if (it.own) {
             const del = mk('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', '🗑');
@@ -1510,6 +1577,7 @@
         window._ck = setInterval(updateTimeTracker, 1000);
         loadHoliday();
         loadEvents();
+        loadVerified();
         loadNotice();
         loadAnnouncements();
         syncPush();
@@ -1547,8 +1615,9 @@
           dayItems.forEach((item) => {
             const timeStr = periods[item.period - 1].time;
             html += `
-              <div class="bg-white p-3 rounded-xl border border-slate-200/80 text-xs">
-                <div class="font-bold text-slate-800">${subjectTitle(item)} <span class="font-normal text-slate-400">(คาบ ${item.period})</span></div>
+              <div class="bg-white p-3 rounded-xl border border-slate-200/80 text-xs relative">
+                <button type="button" onclick="reportSlot('${day}', ${item.period})" title="คาบนี้ไม่ตรงความจริง? แจ้งผู้ดูแล" class="absolute top-2 right-2 text-slate-300 hover:text-rose-500 text-xs px-1">🚩</button>
+                <div class="font-bold text-slate-800 pr-6">${subjectTitle(item)} <span class="font-normal text-slate-400">(คาบ ${item.period})</span></div>
                 <div class="text-slate-500 text-[11px] mt-0.5">${timeStr}${codeSuffix(item)}${item.room !== '-' ? ' • ห้อง ' + item.room : ''}${item.teacher !== '-' ? ' • ' + item.teacher : ''}</div>
               </div>
             `;
