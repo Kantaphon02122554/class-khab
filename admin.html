@@ -310,6 +310,33 @@
       p.append(top); if (a.body) p.append(mk('div', 'muted', a.body)); p.append(mk('div', 'meta', `${fmt(a.created_at)}${a.due_date ? ' · กำหนด ' + a.due_date : ''} · ผู้โพสต์ #${a.poster || 'ไม่ทราบ'}${a.reports ? ` · 🚩 ${a.reports} รายงาน${a.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : ''}`)); c2.append(p);
     });
     two.append(c2);
+    // แชตห้อง (นำร่อง): เปิด/ปิด + ดูข้อความ + ลบ + ระงับเครื่อง
+    const chat = await api({ action: 'chat_room', class_id: id });
+    if (chat.body.ok) {
+      const cc = mk('div', 'card'), ch = chat.body;
+      const hd = mk('div', 'top'); hd.style.cssText = 'margin-bottom:10px;align-items:center';
+      const ttl = mk('h3', null, `💬 แชตห้อง (${ch.members} คนตั้งชื่อเล่นแล้ว)`); ttl.style.cssText = 'flex:1;margin:0';
+      const tg = mk('button', ch.enabled ? null : 'pri', ch.enabled ? '■ ปิดแชตห้องนี้' : '▶ เปิดแชตห้องนี้');
+      tg.onclick = async () => {
+        if (!ch.enabled && !confirm(`เปิดแชตให้ห้อง ${d.class}? นักเรียนในห้องจะเห็นปุ่มแชตและคุยกันได้ทันที`)) return;
+        await api({ action: 'chat_toggle', class_id: d.class, enabled: !ch.enabled }); openRoom(id);
+      };
+      hd.append(ttl, tg); cc.append(hd);
+      if (ch.bans.length) cc.append(mk('div', 'muted', 'ระงับอยู่: ' + ch.bans.map((x) => `#${x.poster} (ถึง ${fmt(x.until)})`).join(', ')));
+      if (!ch.messages.length) cc.append(mk('p', 'muted', 'ยังไม่มีข้อความ'));
+      ch.messages.forEach((m) => {
+        const p = mk('div', 'post'), top = mk('div', 'top');
+        top.append(mk('b', null, `${m.nick}: ${m.body}`));
+        const ban = mk('button', 'x', '🚫'); ban.title = 'ระงับเครื่องนี้ 24 ชม.';
+        ban.onclick = async () => { if (confirm(`ระงับผู้ส่ง #${m.poster} (${m.nick}) 24 ชั่วโมง?`)) { await api({ action: 'chat_ban', class_id: d.class, poster: m.poster, hours: 24 }); openRoom(id); } };
+        const del = mk('button', 'x', '🗑'); del.title = 'ลบข้อความนี้';
+        del.onclick = async () => { await api({ action: 'chat_delete', id: m.id }); openRoom(id); };
+        top.append(ban, del); p.append(top);
+        p.append(mk('div', 'meta', `${fmt(m.created_at)} · ผู้ส่ง #${m.poster}${m.reports ? ` · 🚩 ${m.reports} รายงาน${m.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : ''}`));
+        cc.append(p);
+      });
+      two.append(cc);
+    }
     // แจ้งเตือน + เครื่อง
     const c3 = mk('div', 'card'); c3.append(mk('h3', null, 'แจ้งเตือนที่ส่งไปล่าสุด'));
     if (!d.log.length) c3.append(mk('p', 'muted', 'ยังไม่เคยส่ง')); d.log.forEach((l) => { const r2 = mk('div', 'row'); r2.append(mk('span', null, `${l.day} · คาบ ${l.period}`), mk('b', null, fmt(l.sent_at))); c3.append(r2); });

@@ -373,6 +373,38 @@
               <div id="annList" class="space-y-2"><p class="text-sm text-slate-500">กำลังโหลด…</p></div>
             </div>
 
+            <!-- แชตห้อง (นำร่อง) -->
+            <div id="chatSection">
+              <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100 gap-2">
+                <h3 class="font-bold text-slate-800 text-base">แชตห้อง <span id="chatGrade"></span></h3>
+                <button id="chatToggleBtn" onclick="toggleChat()" class="flex-none whitespace-nowrap text-xs font-bold text-white bg-slate-900 px-3 py-1.5 rounded-lg hover:opacity-80">💬 เปิดแชต</button>
+              </div>
+              <div id="chatPanel" class="hidden space-y-3">
+                <div id="chatNotice" class="pb pb-warn hidden"></div>
+                <form id="chatNickForm" class="hidden bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3" onsubmit="saveNick(event)">
+                  <p class="text-sm font-bold text-slate-800">ก่อนเข้าแชต ตั้งชื่อเล่น</p>
+                  <ul class="text-xs text-slate-600 list-disc pl-4 space-y-1">
+                    <li>ใช้ชื่อเล่นหรือชื่อที่ไม่ใช่ชื่อจริง ห้ามใส่เบอร์โทร ไอดีไลน์ อีเมล หรือลิงก์</li>
+                    <li>พูดจาสุภาพ ห้ามด่าทอ ล้อเลียน หรือแกล้งกัน ข้อความไม่เหมาะสมกด 🚩 รายงานได้</li>
+                    <li>ผู้ดูแลลบข้อความและระงับการใช้งานได้ ระบบเก็บรหัสเครื่องที่ส่งข้อความเพื่อตามเรื่องที่ร้องเรียน (ไม่มีชื่อจริง) และลบข้อความเก่าอัตโนมัติหลัง 30 วัน</li>
+                    <li>ตั้งแล้วเปลี่ยนเองไม่ได้ ใช้ได้ 2–16 ตัวอักษร ไทย/อังกฤษ/ตัวเลข</li>
+                  </ul>
+                  <div class="flex gap-2">
+                    <input id="chatNick" maxlength="16" required placeholder="ชื่อเล่นในแชต" class="flex-1 min-w-0 bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800" />
+                    <button id="chatNickBtn" type="submit" class="text-xs font-bold text-white bg-blue-600 px-4 py-2 rounded-lg">ยอมรับกติกา เข้าแชต</button>
+                  </div>
+                </form>
+                <div id="chatBox" class="hidden">
+                  <div id="chatList" class="h-72 overflow-y-auto bg-slate-50 border border-slate-200 rounded-2xl p-3 space-y-2"></div>
+                  <form id="chatForm" class="flex gap-2 mt-2" onsubmit="sendChat(event)">
+                    <input id="chatInput" maxlength="300" autocomplete="off" placeholder="พิมพ์ข้อความ…" class="flex-1 min-w-0 bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800" />
+                    <button id="chatSend" type="submit" class="flex-none text-xs font-bold text-white bg-blue-600 px-4 py-2 rounded-lg">ส่ง</button>
+                  </form>
+                  <p class="text-[11px] text-slate-500 mt-1">คุณคือ <b id="chatMe"></b> · ห้ามส่งเบอร์/ไอดี/ลิงก์ · ส่งได้ทุก 5 วินาที</p>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
@@ -1300,6 +1332,109 @@
         if (open) document.getElementById('annTitle').focus();
       }
       const ago = (iso) => { const m = Math.max(0, Math.round((Date.now() - Date.parse(iso)) / 60000)); return m < 1 ? 'เมื่อสักครู่' : m < 60 ? `${m} นาทีที่แล้ว` : m < 1440 ? `${Math.round(m / 60)} ชม.ที่แล้ว` : `${Math.round(m / 1440)} วันที่แล้ว`; };
+      // --- แชตห้อง (นำร่อง): เปิดเมื่อกดปุ่มเท่านั้น ดึงข้อความเป็นช่วงๆ ขณะเปิดอยู่และหน้าจอไม่ถูกซ่อน ---
+      let chatOpen = false, chatLast = 0, chatTimer = null, chatIdle = 0, chatBusy = false;
+      const CHAT_ERR = {
+        filter_link: 'ห้ามส่งลิงก์', filter_contact: 'ห้ามส่งเบอร์โทร ไอดีไลน์ หรืออีเมล', filter_word: 'ข้อความมีคำที่ไม่อนุญาต ปรับถ้อยคำแล้วส่งใหม่', filter_empty: 'พิมพ์ข้อความก่อน',
+        slow: 'ส่งเร็วเกินไป รอ 5 วินาทีแล้วส่งใหม่', rate: 'ส่งบ่อยเกินไป รอสักครู่', busy: 'ห้องนี้คุยกันถี่มาก รอสักครู่แล้วลองใหม่',
+        banned: 'ผู้ดูแลระงับการใช้งานแชตของเครื่องนี้ชั่วคราว', closed: 'ห้องนี้ปิดแชตอยู่',
+        nick_taken: 'ชื่อนี้มีคนใช้แล้ว เลือกชื่ออื่น', nick_length: 'ชื่อต้องยาว 2–16 ตัวอักษร', nick_chars: 'ใช้ได้เฉพาะตัวอักษรไทย อังกฤษ ตัวเลข และเว้นวรรค',
+        nick_reserved: 'ชื่อนี้ใช้ไม่ได้ (คล้ายผู้ดูแล/ครู)', nick_word: 'ชื่อนี้มีคำที่ไม่อนุญาต',
+      };
+      async function chatCall(body) {
+        const token = getToken();
+        if (!token) return { ok: false, error: 'auth' };
+        try {
+          const res = await fetch(`${SUPABASE_URL}/functions/v1/chat`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+            body: JSON.stringify({ ...body, token, device: getDevice() }),
+          });
+          const j = await res.json().catch(() => ({}));
+          if (res.status === 401) localStorage.removeItem('classkhab_token');
+          return { ...j, status: res.status };
+        } catch (e) { return { ok: false, error: 'net' }; }
+      }
+      function chatNotice(msg) {
+        const n = document.getElementById('chatNotice');
+        n.textContent = msg || ''; n.classList.toggle('hidden', !msg);
+      }
+      function stopChatTimer() { clearTimeout(chatTimer); chatTimer = null; }
+      function scheduleChat() {
+        stopChatTimer();
+        if (!chatOpen) return;
+        chatTimer = setTimeout(async () => { if (!document.hidden) await chatLoad(false); scheduleChat(); }, chatIdle >= 5 ? 15000 : 6000);
+      }
+      function toggleChat(force) {
+        chatOpen = typeof force === 'boolean' ? force : !chatOpen;
+        document.getElementById('chatGrade').textContent = currentGrade || '';
+        document.getElementById('chatPanel').classList.toggle('hidden', !chatOpen);
+        document.getElementById('chatToggleBtn').textContent = chatOpen ? 'ปิดแชต' : '💬 เปิดแชต';
+        if (chatOpen) { chatLast = 0; chatIdle = 0; chatLoad(true).then(scheduleChat); } else stopChatTimer();
+      }
+      async function chatLoad(full) {
+        if (chatBusy) return; chatBusy = true;
+        try {
+          const r = await chatCall({ action: 'list', after: full ? 0 : chatLast });
+          const form = document.getElementById('chatNickForm'), box = document.getElementById('chatBox');
+          if (r.error === 'auth') { chatNotice('ต้องเข้าสู่ระบบห้องใหม่หนึ่งครั้งก่อนใช้แชต (กดออกจากระบบแล้วใส่รหัสห้องอีกครั้ง)'); form.classList.add('hidden'); box.classList.add('hidden'); return; }
+          if (!r.ok) { chatNotice('โหลดแชตไม่สำเร็จ ลองใหม่อีกครั้ง'); return; }
+          if (!r.enabled) { chatNotice('ห้องนี้ยังไม่เปิดให้ใช้แชต (กำลังทดลองกับบางห้อง)'); form.classList.add('hidden'); box.classList.add('hidden'); return; }
+          chatNotice(r.banned ? CHAT_ERR.banned : '');
+          if (!r.nick) { form.classList.remove('hidden'); box.classList.add('hidden'); return; }
+          form.classList.add('hidden'); box.classList.remove('hidden');
+          document.getElementById('chatMe').textContent = r.nick;
+          renderChat(r.items, full);
+          if (r.last) chatLast = r.last;
+          chatIdle = r.items.length ? 0 : chatIdle + 1;
+        } finally { chatBusy = false; }
+      }
+      function renderChat(items, full) {
+        const list = document.getElementById('chatList');
+        const nearBottom = list.scrollHeight - list.scrollTop - list.clientHeight < 80;
+        if (full) list.textContent = '';
+        if (full && !items.length) { const hint = mk('p', 'text-xs text-slate-500 text-center py-6', 'ยังไม่มีข้อความ ลองทักทายเพื่อนดู'); hint.dataset.empty = '1'; list.append(hint); }
+        else if (items.length) { const hint = list.querySelector('[data-empty]'); if (hint) hint.remove(); }
+        for (const it of items) {
+          if (list.querySelector(`[data-id="${it.id}"]`)) continue;
+          const row = mk('div', 'bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm'); row.dataset.id = it.id;
+          const head = mk('div', 'flex items-center gap-2');
+          head.append(mk('span', 'text-xs font-bold ' + (it.own ? 'text-blue-600' : 'text-slate-700'), it.nick), mk('span', 'text-[10px] text-slate-400 flex-1', new Date(it.created_at).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })));
+          if (it.own) {
+            const del = mk('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', '🗑'); del.title = 'ลบข้อความของฉัน';
+            del.onclick = async () => { await chatCall({ action: 'delete', id: it.id }); row.remove(); };
+            head.append(del);
+          } else if (!it.reported) {
+            const rep = mk('button', 'text-xs text-slate-300 hover:text-rose-500 px-1', '🚩'); rep.title = 'รายงานข้อความนี้';
+            rep.onclick = async () => {
+              if (!confirm('รายงานข้อความนี้ว่าไม่เหมาะสม?\nถ้ามีหลายคนรายงาน ข้อความจะถูกซ่อน')) return;
+              const r = await chatCall({ action: 'report', id: it.id }); alert(r.ok ? 'ส่งรายงานแล้ว ขอบคุณครับ' : 'รายงานไม่สำเร็จ'); if (r.ok) rep.remove();
+            };
+            head.append(rep);
+          }
+          row.append(head, mk('p', 'text-slate-800 break-words whitespace-pre-wrap', it.body));
+          list.append(row);
+        }
+        if (full || nearBottom) list.scrollTop = list.scrollHeight;
+      }
+      async function saveNick(e) {
+        e.preventDefault();
+        const btn = document.getElementById('chatNickBtn'); btn.disabled = true;
+        const r = await chatCall({ action: 'nick', nick: document.getElementById('chatNick').value });
+        btn.disabled = false;
+        if (r.ok) { chatNotice(''); chatLoad(true); } else chatNotice(CHAT_ERR[r.error] || (r.error === 'auth' ? 'ต้องเข้าสู่ระบบห้องใหม่ก่อน' : 'ตั้งชื่อไม่สำเร็จ ลองใหม่อีกครั้ง'));
+      }
+      async function sendChat(e) {
+        e.preventDefault();
+        const input = document.getElementById('chatInput'), btn = document.getElementById('chatSend');
+        const body = input.value.trim(); if (!body) return;
+        btn.disabled = true;
+        const r = await chatCall({ action: 'post', body });
+        btn.disabled = false;
+        if (r.ok) { input.value = ''; chatNotice(''); chatIdle = 0; await chatLoad(false); }
+        else chatNotice(CHAT_ERR[r.error] || 'ส่งไม่สำเร็จ ลองใหม่อีกครั้ง');
+      }
+
       const getDone = () => { try { return new Set(JSON.parse(localStorage.getItem('classkhab_done') || '[]')); } catch (e) { return new Set(); } };
       function setDone(id, on) {
         const s = getDone(); on ? s.add(id) : s.delete(id);
@@ -1586,6 +1721,7 @@
       }
 
       function handleLogout() {
+        toggleChat(false);
         localStorage.removeItem('classkhab_grade');
         localStorage.removeItem('classkhab_token');
         currentGrade = null;
