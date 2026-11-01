@@ -11,7 +11,7 @@ self.addEventListener('push', (event) => {
       icon: 'icon-192.png',
       badge: 'icon-192.png',
       vibrate: [200, 100, 200],
-      tag: 'classkhab',
+      tag: d.tag || 'classkhab',
       renotify: true,
       data: { url: d.url },
     })

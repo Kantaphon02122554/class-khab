@@ -96,6 +96,7 @@
     <div class="tools">
       <span id="stamp">—</span>
       <label style="display:flex;gap:5px;align-items:center"><input type="checkbox" id="auto" checked /> รีเฟรชอัตโนมัติ 30 วิ</label>
+      <button onclick="pushBtnToggle()" id="pushBtn" title="รับแจ้งเตือนเข้าเครื่องนี้เมื่อระบบมีปัญหาหรือมีข้อความ/รายงานใหม่">🔕 รับแจ้งเตือนแอดมิน: …</button>
       <button onclick="refresh()" id="refBtn">รีเฟรช</button>
       <button onclick="signOut()">ออก</button>
     </div>
@@ -191,7 +192,44 @@
     } catch (err) { $('loginErr').textContent = 'เชื่อมต่อไม่ได้'; }
     b.disabled = false; b.textContent = 'เข้าสู่ระบบ';
   }
-  function show() { $('login').classList.add('hidden'); $('app').classList.remove('hidden'); $('fab').classList.remove('hidden'); }
+  function show() { $('login').classList.add('hidden'); $('app').classList.remove('hidden'); $('fab').classList.remove('hidden'); setTimeout(pushBtnInit, 300); }
+
+  // ---------- แจ้งเตือนแอดมินเข้าเครื่องนี้ (Web Push) ----------
+  // ระบบตรวจสุขภาพทุก 5 นาที และแจ้งเมื่อมีปัญหา/ข้อความใหม่/รายงานใหม่ (ดู monitor ใน admin-status)
+  const ADMIN_VAPID = 'BMW2pFwN9oOPbLJssW-M0OWkUkUjWA71UvujHl6EUSRPjViqtdHDwsdslL4sF9mgULmroD0H40BKXMlFu_eUvi4';
+  const b64uToU8 = (s) => { const raw = atob((s + '='.repeat((4 - (s.length % 4)) % 4)).replace(/-/g, '+').replace(/_/g, '/')); return Uint8Array.from(raw, (c) => c.charCodeAt(0)); };
+  const pushOk = 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
+  async function currentSub() { try { const reg = await navigator.serviceWorker.getRegistration(); return reg ? await reg.pushManager.getSubscription() : null; } catch (e) { return null; } }
+  async function pushBtnInit() {
+    const b = $('pushBtn'); if (!b) return;
+    if (!pushOk) { b.textContent = '🔕 เครื่องนี้ไม่รองรับแจ้งเตือน'; b.disabled = true; return; }
+    const sub = await currentSub();
+    let on = false;
+    if (sub) { try { const r = await call(store.get(), { action: 'admin_push_status', endpoint: sub.endpoint }); on = !!(r.body && r.body.subscribed); } catch (e) { /* ไม่รู้สถานะ */ } }
+    b.textContent = on ? '🔔 รับแจ้งเตือนแอดมิน: เปิด' : '🔕 รับแจ้งเตือนแอดมิน: ปิด'; b.dataset.on = on ? '1' : '';
+  }
+  async function pushBtnToggle() {
+    const b = $('pushBtn'); b.disabled = true;
+    try {
+      if (/iphone|ipad|ipod/i.test(navigator.userAgent) && !(window.navigator.standalone || matchMedia('(display-mode: standalone)').matches)) {
+        alert('บน iPhone/iPad: ต้องกดแชร์ > "เพิ่มไปยังหน้าจอโฮม" แล้วเปิดหน้าแอดมินจากไอคอนบนหน้าจอโฮม ถึงจะรับแจ้งเตือนได้'); return;
+      }
+      const reg = await navigator.serviceWorker.register('sw.js'); await navigator.serviceWorker.ready;
+      let sub = await reg.pushManager.getSubscription();
+      if (b.dataset.on && sub) {
+        // ลบเฉพาะรายการฝั่งแอดมิน ไม่ยกเลิกการสมัครของเบราว์เซอร์ (ถ้าเครื่องนี้เปิดแจ้งเตือนของห้องไว้ด้วย จะได้ไม่หาย)
+        await call(store.get(), { action: 'admin_push_unsubscribe', endpoint: sub.endpoint });
+      } else {
+        if ((await Notification.requestPermission()) !== 'granted') { alert('ยังไม่ได้อนุญาตการแจ้งเตือน เปิดได้ที่การตั้งค่าของเบราว์เซอร์'); return; }
+        const created = !sub;   // เบราว์เซอร์เดียวกันมีการสมัคร push ได้ชุดเดียวต่อเว็บ: ถ้ามีแล้ว (เช่น แจ้งเตือนห้อง) ใช้ชุดเดิมร่วมกัน
+        if (!sub) sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64uToU8(ADMIN_VAPID) });
+        const r = await call(store.get(), { action: 'admin_push_subscribe', subscription: sub.toJSON() });
+        if (!r.body || !r.body.ok) { if (created) await sub.unsubscribe(); alert(r.body && r.body.error === 'full' ? 'มีเครื่องรับแจ้งเตือนครบ 5 เครื่องแล้ว' : 'บันทึกไม่สำเร็จ ลองใหม่อีกครั้ง'); return; }
+        await call(store.get(), { action: 'admin_push_test' });
+      }
+    } catch (e) { alert('ตั้งค่าแจ้งเตือนไม่สำเร็จ: ' + (e && e.message ? e.message : e)); }
+    finally { b.disabled = false; pushBtnInit(); }
+  }
   function signOut() { store.clear(); location.reload(); }
 
   let busy = false;
