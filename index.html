@@ -1038,9 +1038,9 @@
               apikey: SUPABASE_ANON_KEY,
               Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
             },
-            body: JSON.stringify(body),
+            body: JSON.stringify({ ...body, token: localStorage.getItem('classkhab_token') || undefined }),
           });
-          return res.ok ? await res.json() : { ok: false };
+          return res.ok ? await res.json() : { ok: false, status: res.status };
         } catch (e) {
           return { ok: false };
         }
@@ -1367,7 +1367,10 @@
             const r = await callPushApi({ action: 'subscribe', class_id: currentGrade, subscription: sub.toJSON() });
             if (!r.ok) {
               await sub.unsubscribe();
-              alert('บันทึกการแจ้งเตือนไม่สำเร็จ ลองใหม่อีกครั้ง');
+              alert(r.status === 401
+                ? 'ต้องเข้าสู่ระบบห้องใหม่ก่อน: กดออกจากระบบ แล้วใส่รหัสห้องอีกครั้ง จากนั้นเปิดแจ้งเตือน'
+                : r.status === 429 ? 'ห้องนี้มีอุปกรณ์เปิดแจ้งเตือนครบจำนวนแล้ว แจ้งผู้ดูแล'
+                : 'บันทึกการแจ้งเตือนไม่สำเร็จ ลองใหม่อีกครั้ง');
               return;
             }
             alert(`เปิดแจ้งเตือนแล้ว ระบบจะเตือนก่อนเริ่มคาบ (ห้อง ${currentGrade})`);
@@ -1437,8 +1440,10 @@
             },
             body: JSON.stringify({ class_id: selectedClass, password }),
           });
-          const result = res.ok ? await res.json() : { ok: false };
-          if (result.ok) {
+          const result = res.ok ? await res.json() : { ok: false, rate: res.status === 429 };
+          if (result.rate) {
+            showError('ใส่รหัสผิดหลายครั้งเกินไป รอสักครู่แล้วลองใหม่');
+          } else if (result.ok) {
             errDiv.classList.add('hidden');
             currentGrade = selectedClass;
             localStorage.setItem('classkhab_grade', currentGrade);
