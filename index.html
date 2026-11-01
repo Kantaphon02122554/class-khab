@@ -1199,8 +1199,9 @@
           });
           const rows = r.ok ? await r.json() : [];
           const v = rows[0] && rows[0].verified_at;
-          el.className = 'text-[11px] font-bold px-2 py-1 rounded-lg ' + (v ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700');
-          el.textContent = v ? `✓ โรงเรียนตรวจตารางแล้ว ${thDate(v.slice(0, 10))}` : 'ยังไม่ได้ตรวจกับโรงเรียน · เจอผิดกด 🚩';
+          if (!v) return;   // ยังไม่ตรวจ: ไม่แสดงอะไร (แสดงเฉพาะห้องที่แอดมินติ๊กว่าตรวจแล้ว)
+          el.className = 'text-[11px] font-bold px-2 py-1 rounded-lg bg-emerald-50 text-emerald-700';
+          el.textContent = `✓ โรงเรียนตรวจตารางแล้ว ${thDate(v.slice(0, 10))}`;
         } catch (e) { /* ไม่แสดงป้าย */ }
       }
       // โหมดแจ้งตารางผิด: กดปุ่มหัวตาราง แล้วแตะคาบที่ไม่ตรงความจริง (ปกติไม่มีปุ่มธงรกทุกคาบ)
