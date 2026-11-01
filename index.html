@@ -64,6 +64,12 @@
       html.dark .tag-exam { background: #3b0d0d; color: #fecaca; }
       html.dark .tag-holiday { background: #3a0f3f; color: #f5d0fe; }
 
+      /* แชตห้อง: เด้งเข้าทีละข้อความ + แถบเลื่อนบาง */
+      @keyframes chatPop { from { opacity: 0; transform: translateY(12px) scale(0.96); } to { opacity: 1; transform: none; } }
+      .chat-msg { animation: chatPop 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+      .chat-scroll { scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.12) transparent; }
+      @media (prefers-reduced-motion: reduce) { .chat-msg { animation: none; } }
+
       /* โหมดมืด: ทับสีคลาส Tailwind ที่ใช้ในหน้านี้ */
       html.dark { color-scheme: dark; }
       html.dark body { background: #0b1220 !important; color: #e2e8f0; }
@@ -374,37 +380,48 @@
             </div>
 
             <!-- แชตห้อง (นำร่อง) -->
-            <button id="chatFab" onclick="toggleChat()" aria-label="เปิดแชตห้อง" title="แชตห้อง" class="fixed right-4 bottom-4 z-30 w-14 h-14 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-2xl shadow-lg">💬</button>
+            <button id="chatFab" onclick="toggleChat()" aria-label="เปิดแชตห้อง" title="แชตห้อง" class="fixed right-4 bottom-4 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-[0_8px_24px_-4px_rgba(99,102,241,0.55)] transition hover:scale-105 active:scale-95">
+              <i data-lucide="message-circle" class="w-6 h-6"></i>
+            </button>
             <div id="chatSection">
-              <div id="chatPanel" class="hidden fixed z-40 inset-x-0 bottom-0 sm:inset-x-auto sm:right-4 sm:bottom-24 sm:w-96 bg-white border border-slate-200 rounded-t-3xl sm:rounded-3xl shadow-2xl p-4 space-y-3 max-h-[85vh] overflow-y-auto">
-                <div class="flex items-center justify-between">
-                  <h3 class="font-bold text-slate-800 text-base">แชตห้อง <span id="chatGrade"></span></h3>
-                  <button onclick="toggleChat(false)" aria-label="ปิดแชต" class="text-slate-500 hover:text-slate-800 text-lg px-2">✕</button>
+              <div id="chatPanel" class="chat-msg hidden fixed z-40 inset-x-0 bottom-0 sm:inset-x-auto sm:right-4 sm:bottom-24 sm:w-96 flex-col overflow-hidden rounded-t-3xl sm:rounded-2xl border border-white/10 bg-gradient-to-b from-zinc-900 to-zinc-950 shadow-[0_24px_64px_-16px_rgba(0,0,0,0.5)] max-h-[85vh]">
+                <div class="flex items-center justify-between border-b border-white/5 px-4 py-3">
+                  <div class="flex items-center gap-2">
+                    <div class="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600"><i data-lucide="users" class="w-4 h-4 text-white"></i></div>
+                    <div>
+                      <h3 class="text-sm font-medium text-white">แชตห้อง <span id="chatGrade"></span></h3>
+                      <p class="text-xs text-white/40">คุยกันสุภาพนะ</p>
+                    </div>
+                  </div>
+                  <button onclick="toggleChat(false)" aria-label="ปิดแชต" class="rounded-lg bg-white/5 px-3 py-1.5 text-xs text-white/60 transition-colors hover:bg-white/10 hover:text-white">ปิด</button>
                 </div>
-                <div id="chatNotice" class="pb pb-warn hidden"></div>
-                <form id="chatNickForm" class="hidden bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3" onsubmit="saveNick(event)">
-                  <p class="text-sm font-bold text-slate-800">ก่อนเข้าแชต ตั้งชื่อเล่น</p>
-                  <ul class="text-xs text-slate-600 list-disc pl-4 space-y-1">
+                <div id="chatNotice" class="hidden mx-4 mt-3 rounded-xl border border-amber-400/30 bg-amber-400/10 px-3 py-2 text-xs text-amber-200"></div>
+                <form id="chatNickForm" class="chat-scroll hidden space-y-3 overflow-y-auto p-4" onsubmit="saveNick(event)">
+                  <p class="text-sm font-medium text-white">ก่อนเข้าแชต ตั้งชื่อเล่น</p>
+                  <ul class="list-disc space-y-1 pl-4 text-xs text-white/60">
                     <li>ใช้ชื่อเล่นหรือชื่อที่ไม่ใช่ชื่อจริง ห้ามใส่เบอร์โทร ไอดีไลน์ อีเมล หรือลิงก์</li>
                     <li>พูดจาสุภาพ ห้ามด่าทอ ล้อเลียน หรือแกล้งกัน ข้อความไม่เหมาะสมกด 🚩 รายงานได้</li>
                     <li>ผู้ดูแลลบข้อความและระงับการใช้งานได้ ระบบเก็บรหัสเครื่องที่ส่งข้อความเพื่อตามเรื่องที่ร้องเรียน (ไม่มีชื่อจริง) และลบข้อความเก่าอัตโนมัติหลัง 30 วัน</li>
                     <li>ตั้งแล้วเปลี่ยนเองไม่ได้ ใช้ได้ 2–16 ตัวอักษร ไทย/อังกฤษ/ตัวเลข</li>
                   </ul>
                   <div class="flex gap-2">
-                    <input id="chatNick" maxlength="16" required placeholder="ชื่อเล่นในแชต" class="flex-1 min-w-0 bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800" />
-                    <button id="chatNickBtn" type="submit" class="text-xs font-bold text-white bg-blue-600 px-4 py-2 rounded-lg">ยอมรับกติกา เข้าแชต</button>
+                    <input id="chatNick" maxlength="16" required placeholder="ชื่อเล่นในแชต" class="min-w-0 flex-1 rounded-xl border border-white/10 bg-zinc-800/50 px-4 py-2 text-sm text-white outline-none placeholder:text-white/30 focus:border-white/20" />
+                    <button id="chatNickBtn" type="submit" class="flex-none rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-4 py-2 text-xs font-medium text-white hover:opacity-90">ยอมรับกติกา เข้าแชต</button>
                   </div>
                 </form>
                 <div id="chatBox" class="hidden">
-                  <div id="chatList" class="h-64 sm:h-72 overflow-y-auto bg-slate-50 border border-slate-200 rounded-2xl p-3 space-y-2"></div>
-                  <form id="chatForm" class="flex gap-2 mt-2" onsubmit="sendChat(event)">
-                    <input id="chatInput" maxlength="300" autocomplete="off" placeholder="พิมพ์ข้อความ…" class="flex-1 min-w-0 bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800" />
-                    <button id="chatSend" type="submit" class="flex-none text-xs font-bold text-white bg-blue-600 px-4 py-2 rounded-lg">ส่ง</button>
-                  </form>
-                  <p class="text-[11px] text-slate-500 mt-1">คุณคือ <b id="chatMe"></b> · ห้ามส่งเบอร์/ไอดี/ลิงก์ · ส่งได้ทุก 5 วินาที</p>
+                  <div id="chatList" class="chat-scroll h-64 sm:h-80 space-y-3 overflow-y-auto p-4"></div>
+                  <div class="border-t border-white/5 p-3">
+                    <form id="chatForm" class="flex items-center gap-2 rounded-xl border border-white/10 bg-zinc-800/50 px-4 py-2 focus-within:border-white/20 focus-within:bg-zinc-800/70" onsubmit="sendChat(event)">
+                      <input id="chatInput" maxlength="300" autocomplete="off" placeholder="พิมพ์ข้อความ…" class="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-white/30" />
+                      <button id="chatSend" type="submit" aria-label="ส่งข้อความ" class="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-indigo-600 text-white transition-colors hover:bg-indigo-500 disabled:bg-white/5 disabled:text-white/30">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></svg>
+                      </button>
+                    </form>
+                    <p class="mt-2 px-1 text-[11px] text-white/40">คุณคือ <b id="chatMe" class="text-white/70"></b> · ห้ามส่งเบอร์/ไอดี/ลิงก์ · ส่งได้ทุก 5 วินาที</p>
+                  </div>
                 </div>
               </div>
-            </div>
 
           </div>
         </div>
@@ -1394,26 +1411,34 @@
         const list = document.getElementById('chatList');
         const nearBottom = list.scrollHeight - list.scrollTop - list.clientHeight < 80;
         if (full) list.textContent = '';
-        if (full && !items.length) { const hint = mk('p', 'text-xs text-slate-500 text-center py-6', 'ยังไม่มีข้อความ ลองทักทายเพื่อนดู'); hint.dataset.empty = '1'; list.append(hint); }
+        if (full && !items.length) { const hint = mk('p', 'text-xs text-white/40 text-center py-6', 'ยังไม่มีข้อความ ลองทักทายเพื่อนดู'); hint.dataset.empty = '1'; list.append(hint); }
         else if (items.length) { const hint = list.querySelector('[data-empty]'); if (hint) hint.remove(); }
         for (const it of items) {
           if (list.querySelector(`[data-id="${it.id}"]`)) continue;
-          const row = mk('div', 'bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm'); row.dataset.id = it.id;
-          const head = mk('div', 'flex items-center gap-2');
-          head.append(mk('span', 'text-xs font-bold ' + (it.own ? 'text-blue-600' : 'text-slate-700'), it.nick), mk('span', 'text-[10px] text-slate-400 flex-1', new Date(it.created_at).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })));
-          if (it.own) {
-            const del = mk('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', '🗑'); del.title = 'ลบข้อความของฉัน';
+          const own = it.own;
+          const row = mk('div', 'chat-msg flex w-full ' + (own ? 'justify-end' : 'justify-start')); row.dataset.id = it.id;
+          const wrap = mk('div', 'flex max-w-[85%] items-end gap-2' + (own ? ' flex-row-reverse' : ''));
+          if (!own) wrap.append(mk('div', 'flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-xs font-bold text-white', Array.from(it.nick)[0] || '?'));
+          const col = mk('div', 'min-w-0');
+          const meta = mk('div', 'mb-0.5 flex items-center gap-1.5 px-1 text-[10px] text-white/40' + (own ? ' justify-end' : ''));
+          if (!own) meta.append(mk('span', 'font-medium text-white/70', it.nick));
+          meta.append(mk('span', null, new Date(it.created_at).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })));
+          if (own) {
+            const del = mk('button', 'px-1 text-white/30 hover:text-rose-400', '🗑'); del.title = 'ลบข้อความของฉัน';
             del.onclick = async () => { await chatCall({ action: 'delete', id: it.id }); row.remove(); };
-            head.append(del);
+            meta.append(del);
           } else if (!it.reported) {
-            const rep = mk('button', 'text-xs text-slate-300 hover:text-rose-500 px-1', '🚩'); rep.title = 'รายงานข้อความนี้';
+            const rep = mk('button', 'px-1 text-white/30 hover:text-rose-400', '🚩'); rep.title = 'รายงานข้อความนี้';
             rep.onclick = async () => {
               if (!confirm('รายงานข้อความนี้ว่าไม่เหมาะสม?\nถ้ามีหลายคนรายงาน ข้อความจะถูกซ่อน')) return;
               const r = await chatCall({ action: 'report', id: it.id }); alert(r.ok ? 'ส่งรายงานแล้ว ขอบคุณครับ' : 'รายงานไม่สำเร็จ'); if (r.ok) rep.remove();
             };
-            head.append(rep);
+            meta.append(rep);
           }
-          row.append(head, mk('p', 'text-slate-800 break-words whitespace-pre-wrap', it.body));
+          const bubble = mk('div', 'break-words whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed ' + (own
+            ? 'rounded-tr-md bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_8px_24px_-4px_rgba(99,102,241,0.4)]'
+            : 'rounded-tl-md border border-white/10 bg-zinc-800/90 text-zinc-100 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)]'), it.body);
+          col.append(meta, bubble); wrap.append(col); row.append(wrap);
           list.append(row);
         }
         if (full || nearBottom) list.scrollTop = list.scrollHeight;
