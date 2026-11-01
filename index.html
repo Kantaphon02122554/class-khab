@@ -382,6 +382,38 @@
               <div id="annList" class="space-y-2"><p class="text-sm text-slate-500">กำลังโหลด…</p></div>
             </div>
 
+            <!-- คลังสรุป/ชีทรายห้อง (ขึ้นเมื่อห้องนี้เปิดแชต) -->
+            <div id="studySection" class="hidden">
+              <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100 gap-2">
+                <h3 class="font-bold text-slate-800 text-base">📚 คลังสรุป/ชีท <span id="studyGrade"></span></h3>
+                <div class="flex gap-2">
+                  <button id="studyNewBtn" onclick="toggleStudyForm()" class="hidden flex-none whitespace-nowrap text-xs font-bold text-white bg-slate-900 px-3 py-1.5 rounded-lg hover:opacity-80">+ เพิ่มชีท</button>
+                  <button id="studyOpenBtn" onclick="toggleStudy()" class="flex-none whitespace-nowrap text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg hover:opacity-80">เปิดคลัง</button>
+                </div>
+              </div>
+              <div id="studyBody" class="hidden space-y-3">
+                <div id="studyNotice" class="pb pb-warn hidden"></div>
+                <form id="studyForm" class="hidden bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3" onsubmit="postStudy(event)">
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <select id="studySubject" class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-800"></select>
+                    <input id="studyTitle" maxlength="80" required placeholder="หัวข้อ เช่น สรุปบทที่ 3 แรงและการเคลื่อนที่" class="sm:col-span-2 bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800" />
+                  </div>
+                  <textarea id="studyText" maxlength="1000" rows="3" placeholder="เนื้อหาสรุปสั้นๆ (ไม่บังคับถ้าแนบลิงก์/ไฟล์)" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800"></textarea>
+                  <input id="studyLink" maxlength="300" placeholder="ลิงก์ (Google Drive/Docs, YouTube, Canva, Notion, Quizlet, Wordwall)" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800" />
+                  <div>
+                    <label class="text-xs text-slate-500">แนบรูปหรือ PDF (ไม่บังคับ) รูปจะถูกย่อให้อัตโนมัติ · PDF ไม่เกิน 1.5 MB</label>
+                    <input id="studyFile" type="file" accept="image/*,application/pdf" class="mt-1 block w-full text-xs text-slate-600" />
+                  </div>
+                  <div class="flex items-center gap-3">
+                    <span class="flex-1 text-[11px] text-slate-500">ใช้เรื่องเรียนเท่านั้น ใช้ของที่ทำเองหรือที่แชร์ได้ ห้ามรูปคน/หน้าเพื่อน ห้ามใส่ข้อมูลส่วนตัว (จำกัด 3 โพสต์ต่อชั่วโมง)</span>
+                    <button type="button" onclick="toggleStudyForm(false)" class="text-xs font-bold text-slate-600 px-3 py-2">ยกเลิก</button>
+                    <button id="studySubmit" type="submit" class="text-xs font-bold text-white bg-blue-600 px-4 py-2 rounded-lg">เพิ่มเข้าคลัง</button>
+                  </div>
+                </form>
+                <div id="studyFilter" class="flex flex-wrap gap-1.5"></div>
+                <div id="studyList" class="space-y-2"></div>
+              </div>
+            </div>
             <!-- แชตห้อง (นำร่อง) -->
             <button id="chatFab" onclick="toggleChat()" aria-label="เปิดแชตห้อง" title="แชตห้อง" class="hidden fixed right-4 bottom-4 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-[0_8px_24px_-4px_rgba(99,102,241,0.55)] transition hover:scale-105 active:scale-95">
               <i data-lucide="message-circle" class="w-6 h-6"></i><span id="fabDot" class="hidden absolute -right-0.5 -top-0.5 h-3.5 w-3.5 rounded-full border-2 border-zinc-900 bg-rose-500"></span>
@@ -1379,6 +1411,7 @@
         fabAvail = r.error === 'auth' || (r.ok && r.enabled);   // ยังไม่มีโทเค็น: แสดงปุ่มไว้ให้กดแล้วบอกให้เข้าสู่ระบบใหม่
         updateFab();
         if (r.ok && r.enabled) setDots(r.admin_last || 0);
+        document.getElementById('studySection').classList.toggle('hidden', !(r.ok && r.enabled));
       }
       async function chatCall(body) {
         const token = getToken();
@@ -1508,6 +1541,139 @@
         btn.disabled = false;
         if (r.ok) { input.value = ''; chatNotice(''); chatIdle = 0; await chatLoad(false); }
         else chatNotice(CHAT_ERR[r.error] || 'ส่งไม่สำเร็จ ลองใหม่อีกครั้ง');
+      }
+      // --- คลังสรุป/ชีทรายห้อง: ใครในห้องก็เพิ่มได้ (ข้อความ/ลิงก์ที่อนุญาต/รูป/PDF) เห็นเฉพาะในห้อง; ขึ้นเมื่อห้องเปิดแชต ---
+      let studyOpen = false, studyFilterSubject = '', studyItems = [];
+      const STUDY_ERR = {
+        filter_link: 'ห้ามใส่ลิงก์ในข้อความ ใส่ในช่อง "ลิงก์" แทน', filter_contact: 'ห้ามใส่เบอร์โทร ไอดีไลน์ หรืออีเมล', filter_word: 'ข้อความมีคำที่ไม่อนุญาต',
+        link_host: 'ลิงก์ต้องเป็น https และจากเว็บที่อนุญาต (Google Drive/Docs, YouTube, Canva, Notion, Quizlet, Wordwall)',
+        subject: 'เลือกวิชาจากรายการ', title: 'ใส่หัวข้อก่อน', empty: 'ใส่เนื้อหา ลิงก์ หรือแนบไฟล์อย่างน้อยหนึ่งอย่าง',
+        rate: 'โพสต์ถี่เกินไป (สูงสุด 3 ครั้งต่อชั่วโมง) รอสักครู่', busy: 'ห้องนี้เพิ่มชีทถี่มาก รอสักครู่', full: 'คลังของห้องมีไฟล์ครบจำนวนแล้ว ลบอันเก่าก่อน',
+        too_big: 'ไฟล์ใหญ่เกินไป (รูปย่ออัตโนมัติ, PDF ไม่เกิน 1.5 MB)', file_type: 'รองรับเฉพาะรูปภาพและ PDF', banned: 'ผู้ดูแลระงับการใช้งานของเครื่องนี้ชั่วคราว', closed: 'ห้องนี้ยังไม่เปิดใช้งาน',
+      };
+      async function studyCall(body) {
+        const token = getToken();
+        if (!token) return { ok: false, error: 'auth' };
+        try {
+          const res = await fetch(`${SUPABASE_URL}/functions/v1/study`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+            body: JSON.stringify({ ...body, token, device: getDevice() }),
+          });
+          const j = await res.json().catch(() => ({}));
+          if (res.status === 401) localStorage.removeItem('classkhab_token');
+          return { ...j, status: res.status };
+        } catch (e) { return { ok: false, error: 'net' }; }
+      }
+      function studyNotice(msg) { const n = document.getElementById('studyNotice'); n.textContent = msg || ''; n.classList.toggle('hidden', !msg); }
+      function toggleStudy(force) {
+        studyOpen = typeof force === 'boolean' ? force : !studyOpen;
+        document.getElementById('studyGrade').textContent = currentGrade || '';
+        document.getElementById('studyBody').classList.toggle('hidden', !studyOpen);
+        document.getElementById('studyNewBtn').classList.toggle('hidden', !studyOpen);
+        document.getElementById('studyOpenBtn').textContent = studyOpen ? 'ซ่อนคลัง' : 'เปิดคลัง';
+        if (studyOpen) loadStudy(); else toggleStudyForm(false);
+      }
+      function toggleStudyForm(force) {
+        const f = document.getElementById('studyForm');
+        const open = typeof force === 'boolean' ? force : f.classList.contains('hidden');
+        f.classList.toggle('hidden', !open);
+        if (open) document.getElementById('studyTitle').focus();
+      }
+      async function loadStudy() {
+        const list = document.getElementById('studyList');
+        list.textContent = ''; list.append(mk('p', 'text-sm text-slate-500', 'กำลังโหลด…'));
+        const r = await studyCall({ action: 'list' });
+        list.textContent = '';
+        if (r.error === 'auth') { studyNotice('ต้องเข้าสู่ระบบห้องใหม่หนึ่งครั้งก่อนใช้คลัง (กดออกจากระบบแล้วใส่รหัสห้องอีกครั้ง)'); return; }
+        if (!r.ok || !r.enabled) { studyNotice(r.ok ? 'ห้องนี้ยังไม่เปิดใช้คลัง' : 'โหลดคลังไม่สำเร็จ ลองใหม่อีกครั้ง'); return; }
+        studyNotice(r.banned ? STUDY_ERR.banned : '');
+        studyItems = r.items;
+        const sel = document.getElementById('studySubject'); sel.textContent = '';
+        for (const s of r.subjects) { const o = mk('option', null, s); o.value = s; sel.append(o); }
+        renderStudy();
+      }
+      function renderStudy() {
+        const chips = document.getElementById('studyFilter'), list = document.getElementById('studyList');
+        chips.textContent = ''; list.textContent = '';
+        const subs = [...new Set(studyItems.map((x) => x.subject))];
+        const mkChip = (label, val) => {
+          const on = studyFilterSubject === val;
+          const b = mk('button', 'text-xs font-bold px-3 py-1 rounded-full ' + (on ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'), label);
+          b.onclick = () => { studyFilterSubject = val; renderStudy(); }; return b;
+        };
+        if (subs.length > 1) { chips.append(mkChip('ทั้งหมด', '')); subs.forEach((s) => chips.append(mkChip(s, s))); }
+        const items = studyItems.filter((x) => !studyFilterSubject || x.subject === studyFilterSubject);
+        if (!items.length) { list.append(mk('p', 'text-sm text-slate-500', 'ยังไม่มีชีทในคลังนี้ กด "+ เพิ่มชีท" เพื่อแชร์สรุปให้เพื่อน')); return; }
+        for (const it of items) {
+          const card = mk('div', 'bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3');
+          const head = mk('div', 'flex items-center gap-2 flex-wrap');
+          head.append(mk('span', 'tag tag-announce', it.subject), mk('span', 'text-sm font-bold text-slate-800 flex-1 min-w-0 break-words', it.title));
+          if (it.own) {
+            const del = mk('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', '🗑'); del.title = 'ลบชีทของฉัน';
+            del.onclick = async () => { if (confirm('ลบชีทนี้?')) { await studyCall({ action: 'delete', id: it.id }); loadStudy(); } };
+            head.append(del);
+          } else if (!it.reported) {
+            const rep = mk('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', '🚩'); rep.title = 'รายงานชีทนี้';
+            rep.onclick = async () => {
+              if (!confirm('รายงานว่าชีทนี้ไม่เหมาะสม/ละเมิดลิขสิทธิ์/ผิดห้อง?\nถ้ามีหลายคนรายงาน จะถูกซ่อน')) return;
+              const r = await studyCall({ action: 'report', id: it.id }); alert(r.ok ? 'ส่งรายงานแล้ว ขอบคุณครับ' : 'รายงานไม่สำเร็จ'); if (r.ok) rep.remove();
+            };
+            head.append(rep);
+          }
+          card.append(head);
+          if (it.body) card.append(mk('p', 'text-sm text-slate-600 mt-1.5 whitespace-pre-wrap break-words', it.body));
+          if (it.file_url && it.file_kind === 'image' && it.file_url.startsWith('https://')) {
+            const a = mk('a'); a.href = it.file_url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+            const img = mk('img', 'mt-2 max-h-64 rounded-lg border border-slate-200'); img.src = it.file_url; img.alt = it.title; img.loading = 'lazy';
+            a.append(img); card.append(a);
+          }
+          const acts = mk('div', 'flex flex-wrap gap-2 mt-2');
+          if (it.link_url && it.link_url.startsWith('https://')) { const a = mk('a', 'text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg', '🔗 เปิดลิงก์'); a.href = it.link_url; a.target = '_blank'; a.rel = 'noopener noreferrer'; acts.append(a); }
+          if (it.file_url && it.file_kind === 'pdf' && it.file_url.startsWith('https://')) { const a = mk('a', 'text-xs font-bold text-rose-600 bg-rose-50 px-3 py-1.5 rounded-lg', '📄 เปิด PDF' + (it.file_name ? ' · ' + it.file_name : '')); a.href = it.file_url; a.target = '_blank'; a.rel = 'noopener noreferrer'; acts.append(a); }
+          if (acts.children.length) card.append(acts);
+          card.append(mk('p', 'text-[11px] text-slate-400 mt-1.5', `${it.nick} · ${ago(it.created_at)}`));
+          list.append(card);
+        }
+      }
+      // ย่อรูปเป็น JPEG (ด้านยาวไม่เกิน 1280px) ก่อนส่ง: เล็กลง และตัดข้อมูลตำแหน่ง/EXIF ออก
+      function shrinkImage(file) {
+        return new Promise((resolve, reject) => {
+          const url = URL.createObjectURL(file), img = new Image();
+          img.onload = () => {
+            URL.revokeObjectURL(url);
+            const k = Math.min(1, 1280 / Math.max(img.width, img.height)), c = document.createElement('canvas');
+            c.width = Math.max(1, Math.round(img.width * k)); c.height = Math.max(1, Math.round(img.height * k));
+            c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+            let q = 0.8, data = c.toDataURL('image/jpeg', q);
+            while (data.length * 0.75 > 600000 && q > 0.35) { q -= 0.15; data = c.toDataURL('image/jpeg', q); }
+            resolve(data.split(',')[1]);
+          };
+          img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('อ่านรูปไม่ได้')); };
+          img.src = url;
+        });
+      }
+      const fileToBase64 = (file) => new Promise((resolve, reject) => { const r = new FileReader(); r.onload = () => resolve(String(r.result).split(',')[1]); r.onerror = () => reject(new Error('อ่านไฟล์ไม่ได้')); r.readAsDataURL(file); });
+      async function postStudy(e) {
+        e.preventDefault();
+        const btn = document.getElementById('studySubmit'); btn.disabled = true; btn.textContent = 'กำลังส่ง…';
+        try {
+          const f = document.getElementById('studyFile').files[0]; let file = null;
+          if (f) {
+            if (f.type === 'application/pdf') {
+              if (f.size > 1500000) { studyNotice(STUDY_ERR.too_big); return; }
+              file = { name: f.name, data: await fileToBase64(f) };
+            } else if (f.type.startsWith('image/')) file = { name: f.name, data: await shrinkImage(f) };
+            else { studyNotice(STUDY_ERR.file_type); return; }
+          }
+          const r = await studyCall({
+            action: 'post', subject: document.getElementById('studySubject').value, title: document.getElementById('studyTitle').value,
+            body: document.getElementById('studyText').value, link: document.getElementById('studyLink').value, file,
+          });
+          if (r.ok) { document.getElementById('studyForm').reset(); toggleStudyForm(false); studyNotice(''); loadStudy(); }
+          else studyNotice(STUDY_ERR[r.error] || (r.error === 'auth' ? 'ต้องเข้าสู่ระบบห้องใหม่ก่อน' : 'เพิ่มไม่สำเร็จ ลองใหม่อีกครั้ง'));
+        } catch (err) { studyNotice(String(err.message || err)); }
+        finally { btn.disabled = false; btn.textContent = 'เพิ่มเข้าคลัง'; }
       }
       const getDone = () => { try { return new Set(JSON.parse(localStorage.getItem('classkhab_done') || '[]')); } catch (e) { return new Set(); } };
       function setDone(id, on) {
@@ -1795,7 +1961,7 @@
       }
 
       function handleLogout() {
-        toggleChat(false); fabAvail = false; updateFab();
+        toggleChat(false); fabAvail = false; updateFab(); toggleStudy(false); document.getElementById('studySection').classList.add('hidden');
         localStorage.removeItem('classkhab_grade');
         localStorage.removeItem('classkhab_token');
         currentGrade = null;

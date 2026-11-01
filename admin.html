@@ -402,7 +402,26 @@
       });
       two.append(cc);
     }
-    // แจ้งเตือน + เครื่อง
+    // คลังสรุป/ชีทของห้อง: ดู ลบ (รูป/PDF เปิดผ่านลิงก์ชั่วคราว)
+    const st = await api({ action: 'study_list', class_id: id });
+    if (st.body.ok) {
+      const cs = mk('div', 'card'); cs.append(mk('h3', null, `📚 คลังสรุป/ชีท (${st.body.items.length})`));
+      if (!st.body.items.length) cs.append(mk('p', 'muted', 'ยังไม่มีชีท'));
+      st.body.items.forEach((m) => {
+        const p = mk('div', 'post'), top = mk('div', 'top');
+        top.append(mk('span', 'kd', m.subject), mk('b', null, m.title));
+        const del = mk('button', 'x', '🗑'); del.title = 'ลบชีทนี้ (รวมไฟล์)';
+        del.onclick = async () => { if (confirm(`ลบชีท "${m.title}" ?`)) { await api({ action: 'study_delete', id: m.id }); openRoom(id); } };
+        top.append(del); p.append(top);
+        if (m.body) p.append(mk('div', 'muted', m.body));
+        const links = mk('div', 'meta');
+        if (m.link_url) { const a = mk('a', null, '🔗 ลิงก์'); a.href = m.link_url; a.target = '_blank'; a.rel = 'noopener noreferrer'; links.append(a, document.createTextNode(' · ')); }
+        if (m.file_url) { const a = mk('a', null, m.file_kind === 'pdf' ? '📄 PDF' : '🖼 รูป'); a.href = m.file_url; a.target = '_blank'; a.rel = 'noopener noreferrer'; links.append(a, document.createTextNode(' · ')); }
+        links.append(document.createTextNode(`${fmt(m.created_at)} · ผู้โพสต์ #${m.poster}${m.hidden ? ' · ซ่อน' : ''}${m.reports ? ` · 🚩 ${m.reports} รายงาน${m.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : ''}`));
+        p.append(links); cs.append(p);
+      });
+      two.append(cs);
+    }    // แจ้งเตือน + เครื่อง
     const c3 = mk('div', 'card'); c3.append(mk('h3', null, 'แจ้งเตือนที่ส่งไปล่าสุด'));
     if (!d.log.length) c3.append(mk('p', 'muted', 'ยังไม่เคยส่ง')); d.log.forEach((l) => { const r2 = mk('div', 'row'); r2.append(mk('span', null, `${l.day} · คาบ ${l.period}`), mk('b', null, fmt(l.sent_at))); c3.append(r2); });
     c3.append(mk('h3', null, 'เครื่องที่เปิดแจ้งเตือน')); c3.lastChild.style.marginTop = '16px';
