@@ -2760,7 +2760,7 @@
     "day": "พฤหัสบดี",
     "period": 8,
     "subject": "ง23102",
-    "room": "คหกรรม 1",
+    "room": "คหกรรม1",
     "teacher": "ครูวีรญา"
    },
    {
@@ -3543,7 +3543,7 @@
     "day": "พุธ",
     "period": 7,
     "subject": "ง23102",
-    "room": "คหกรรม 2",
+    "room": "คหกรรม2",
     "teacher": "ครูวีรญา"
    },
    {
@@ -3627,7 +3627,7 @@
     "day": "ศุกร์",
     "period": 3,
     "subject": "ง23102",
-    "room": "คหกรรม 2",
+    "room": "คหกรรม2",
     "teacher": "ครูวีรญา"
    },
    {
@@ -4010,7 +4010,7 @@
     "period": 1,
     "subject": "แนะแนว",
     "room": "435",
-    "teacher": "ครูภัสพ์มณ"
+    "teacher": "ครูปภัสพ์มณ"
    },
    {
     "day": "อังคาร",
@@ -4058,7 +4058,7 @@
     "day": "อังคาร",
     "period": 8,
     "subject": "ง22102",
-    "room": "คหกรรม 1",
+    "room": "คหกรรม1",
     "teacher": "ครูธมลวรรณ"
    },
    {
@@ -4066,20 +4066,20 @@
     "period": 1,
     "subject": "ว22202",
     "room": "621",
-    "teacher": "ครูวีแชน"
+    "teacher": "ครูวีแซน"
    },
    {
     "day": "พุธ",
     "period": 2,
     "subject": "ว22202",
     "room": "621",
-    "teacher": "ครูวีแชน"
+    "teacher": "ครูวีแซน"
    },
    {
     "day": "พุธ",
     "period": 3,
     "subject": "ง22102",
-    "room": "คหกรรม 1",
+    "room": "คหกรรม1",
     "teacher": "ครูธมลวรรณ"
    },
    {
@@ -4185,7 +4185,7 @@
     "period": 2,
     "subject": "ว22202",
     "room": "621",
-    "teacher": "ครูวีแชน"
+    "teacher": "ครูวีแซน"
    },
    {
     "day": "ศุกร์",
@@ -4319,7 +4319,7 @@
     "day": "อังคาร",
     "period": 4,
     "subject": "ง31102",
-    "room": "คหกรรม 1",
+    "room": "คหกรรม1",
     "teacher": "ครูจิราภรณ์"
    },
    {
@@ -4834,7 +4834,7 @@
     "day": "จันทร์",
     "period": 4,
     "subject": "ง31102",
-    "room": "คหกรรม 1",
+    "room": "คหกรรม1",
     "teacher": "ครูจิราภรณ์"
    },
    {
@@ -5081,6 +5081,4518 @@
     "subject": "ส31102",
     "room": "321",
     "teacher": "ครูกรรณิการ์"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 8,
+    "subject": "ชุมนุม",
+    "room": "-",
+    "teacher": "-"
+   }
+  ],
+  "ม.4/3": [
+   {
+    "day": "จันทร์",
+    "period": 1,
+    "subject": "ว30242",
+    "room": "638",
+    "teacher": "ครูศิรวิชญ์"
+   },
+   {
+    "day": "จันทร์",
+    "period": 2,
+    "subject": "ว30242",
+    "room": "638",
+    "teacher": "ครูศิรวิชญ์"
+   },
+   {
+    "day": "จันทร์",
+    "period": 3,
+    "subject": "ว30287",
+    "room": "627",
+    "teacher": "ครูสุดารัตน์"
+   },
+   {
+    "day": "จันทร์",
+    "period": 4,
+    "subject": "ว30287",
+    "room": "627",
+    "teacher": "ครูสุดารัตน์"
+   },
+   {
+    "day": "จันทร์",
+    "period": 5,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 6,
+    "subject": "ว30202",
+    "room": "226",
+    "teacher": "ครูธนิกานต์"
+   },
+   {
+    "day": "จันทร์",
+    "period": 7,
+    "subject": "อ31102",
+    "room": "114",
+    "teacher": "ครูอัจฉรา"
+   },
+   {
+    "day": "จันทร์",
+    "period": 8,
+    "subject": "ค31202",
+    "room": "421",
+    "teacher": "ครูนันทชัย"
+   },
+   {
+    "day": "อังคาร",
+    "period": 1,
+    "subject": "ว30202",
+    "room": "214",
+    "teacher": "ครูธนิกานต์"
+   },
+   {
+    "day": "อังคาร",
+    "period": 2,
+    "subject": "ว30202",
+    "room": "214",
+    "teacher": "ครูธนิกานต์"
+   },
+   {
+    "day": "อังคาร",
+    "period": 3,
+    "subject": "ว30222",
+    "room": "222",
+    "teacher": "ครูสุดารัตน์"
+   },
+   {
+    "day": "อังคาร",
+    "period": 4,
+    "subject": "ว30222",
+    "room": "222",
+    "teacher": "ครูสุดารัตน์"
+   },
+   {
+    "day": "อังคาร",
+    "period": 5,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 6,
+    "subject": "E30202",
+    "room": "618",
+    "teacher": "ครูMae"
+   },
+   {
+    "day": "อังคาร",
+    "period": 7,
+    "subject": "ส30131",
+    "room": "327",
+    "teacher": "ครูสุทธิรัตน์"
+   },
+   {
+    "day": "อังคาร",
+    "period": 8,
+    "subject": "ท31102",
+    "room": "515",
+    "teacher": "ครูสุวิมล"
+   },
+   {
+    "day": "พุธ",
+    "period": 1,
+    "subject": "E30202",
+    "room": "618",
+    "teacher": "ครูMae"
+   },
+   {
+    "day": "พุธ",
+    "period": 2,
+    "subject": "ค31202",
+    "room": "421",
+    "teacher": "ครูนันทชัย"
+   },
+   {
+    "day": "พุธ",
+    "period": 3,
+    "subject": "ค31202",
+    "room": "421",
+    "teacher": "ครูนันทชัย"
+   },
+   {
+    "day": "พุธ",
+    "period": 4,
+    "subject": "พ31102",
+    "room": "อาคารพละ",
+    "teacher": "ครูธนกฤต"
+   },
+   {
+    "day": "พุธ",
+    "period": 5,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 6,
+    "subject": "ค31204",
+    "room": "427",
+    "teacher": "ครูอธิวัฒน์"
+   },
+   {
+    "day": "พุธ",
+    "period": 7,
+    "subject": "ส31102",
+    "room": "321",
+    "teacher": "ครูกรรณิการ์"
+   },
+   {
+    "day": "พุธ",
+    "period": 8,
+    "subject": "ว31191",
+    "room": "122",
+    "teacher": "ครูแสงเดือน"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 1,
+    "subject": "ค31204",
+    "room": "427",
+    "teacher": "ครูอธิวัฒน์"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 2,
+    "subject": "อ31102",
+    "room": "114",
+    "teacher": "ครูอัจฉรา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 3,
+    "subject": "ท31102",
+    "room": "515",
+    "teacher": "ครูสุวิมล"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 4,
+    "subject": "ง31102",
+    "room": "คหกรรม1",
+    "teacher": "ครูจิราภรณ์"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 5,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 6,
+    "subject": "ค31102",
+    "room": "421",
+    "teacher": "ครูนันทชัย"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 7,
+    "subject": "ศ31102",
+    "room": "301",
+    "teacher": "ครูศุภวิชญ์"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 1,
+    "subject": "ส30202",
+    "room": "611",
+    "teacher": "ครูศิรวิชญ์"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 2,
+    "subject": "ว30222",
+    "room": "222",
+    "teacher": "ครูสุดารัตน์"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 3,
+    "subject": "ค31102",
+    "room": "421",
+    "teacher": "ครูนันทชัย"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 4,
+    "subject": "แนะแนว",
+    "room": "438",
+    "teacher": "ครูกาญจนา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 5,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 6,
+    "subject": "ส31102",
+    "room": "321",
+    "teacher": "ครูกรรณิการ์"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 7,
+    "subject": "ว30242",
+    "room": "638",
+    "teacher": "ครูศิรวิชญ์"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 8,
+    "subject": "ชุมนุม",
+    "room": "-",
+    "teacher": "-"
+   }
+  ],
+  "ม.6/9": [
+   {
+    "day": "จันทร์",
+    "period": 1,
+    "subject": "ท30242",
+    "room": "ห้องสมุด",
+    "teacher": "ครูมามาส"
+   },
+   {
+    "day": "จันทร์",
+    "period": 2,
+    "subject": "E30206",
+    "room": "617",
+    "teacher": "ครู Nathasia"
+   },
+   {
+    "day": "จันทร์",
+    "period": 3,
+    "subject": "ว30123",
+    "room": "226",
+    "teacher": "ครูสิทธิโชค"
+   },
+   {
+    "day": "จันทร์",
+    "period": 4,
+    "subject": "ว30123",
+    "room": "226",
+    "teacher": "ครูสิทธิโชค"
+   },
+   {
+    "day": "จันทร์",
+    "period": 5,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 6,
+    "subject": "แนะแนว",
+    "room": "118",
+    "teacher": "นัฐริยา"
+   },
+   {
+    "day": "จันทร์",
+    "period": 7,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 8,
+    "subject": "จ33211",
+    "room": "126",
+    "teacher": "ครูดวงตา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 1,
+    "subject": "จ33202",
+    "room": "126",
+    "teacher": "ครูดวงตา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 2,
+    "subject": "ส33102",
+    "room": "322",
+    "teacher": "ครูสถาพร"
+   },
+   {
+    "day": "อังคาร",
+    "period": 3,
+    "subject": "อ33102",
+    "room": "117",
+    "teacher": "ครูรัญญา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 4,
+    "subject": "ว30123",
+    "room": "611",
+    "teacher": "ครูสิทธิโชค"
+   },
+   {
+    "day": "อังคาร",
+    "period": 5,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 6,
+    "subject": "ว33202",
+    "room": "122",
+    "teacher": "ครูแสงเดือน"
+   },
+   {
+    "day": "อังคาร",
+    "period": 7,
+    "subject": "ว33202",
+    "room": "122",
+    "teacher": "ครูแสงเดือน"
+   },
+   {
+    "day": "อังคาร",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 1,
+    "subject": "จ33202",
+    "room": "126",
+    "teacher": "ครูดวงตา"
+   },
+   {
+    "day": "พุธ",
+    "period": 2,
+    "subject": "จ33202",
+    "room": "126",
+    "teacher": "ครูดวงตา"
+   },
+   {
+    "day": "พุธ",
+    "period": 3,
+    "subject": "ท30242",
+    "room": "ห้องสมุด",
+    "teacher": "ครูมามาส"
+   },
+   {
+    "day": "พุธ",
+    "period": 4,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 5,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 6,
+    "subject": "อ33102",
+    "room": "117",
+    "teacher": "ครูรัญญา"
+   },
+   {
+    "day": "พุธ",
+    "period": 7,
+    "subject": "ท33102",
+    "room": "516",
+    "teacher": "ครูรัทยา"
+   },
+   {
+    "day": "พุธ",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 1,
+    "subject": "ส33102",
+    "room": "322",
+    "teacher": "ครูสถาพร"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 2,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 3,
+    "subject": "พ33102",
+    "room": "ห้องพละ",
+    "teacher": "ครูสมสุข"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 4,
+    "subject": "ค33102",
+    "room": "426",
+    "teacher": "ครูภรณ์อุบล"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 5,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 6,
+    "subject": "ท33102",
+    "room": "516",
+    "teacher": "ครูรัทยา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 7,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 1,
+    "subject": "ส30206",
+    "room": "432",
+    "teacher": "ขนิษฐา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 2,
+    "subject": "จ33202",
+    "room": "126",
+    "teacher": "ครูดวงตา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 3,
+    "subject": "จ33202",
+    "room": "126",
+    "teacher": "ครูดวงตา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 4,
+    "subject": "ค33102",
+    "room": "426",
+    "teacher": "ครูภรณ์อุบล"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 5,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 6,
+    "subject": "ศ33102",
+    "room": "301",
+    "teacher": "ณรงฤทธิ์"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 7,
+    "subject": "E30206",
+    "room": "617",
+    "teacher": "ครู Nathasia"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 8,
+    "subject": "ชุมนุม",
+    "room": "-",
+    "teacher": "-"
+   }
+  ],
+  "ม.2/2": [
+   {
+    "day": "จันทร์",
+    "period": 1,
+    "subject": "E20204",
+    "room": "616",
+    "teacher": "ครูMargiely"
+   },
+   {
+    "day": "จันทร์",
+    "period": 2,
+    "subject": "อ22102",
+    "room": "636",
+    "teacher": "ครูเนรัญ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 3,
+    "subject": "พ22102",
+    "room": "สน.บาสฯ",
+    "teacher": "ครูประเสริฐ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 5,
+    "subject": "ส22102",
+    "room": "325",
+    "teacher": "ครูกัญชญาวี"
+   },
+   {
+    "day": "จันทร์",
+    "period": 6,
+    "subject": "ว22202",
+    "room": "621",
+    "teacher": "ครูวีแซน"
+   },
+   {
+    "day": "จันทร์",
+    "period": 7,
+    "subject": "ว22102",
+    "room": "228",
+    "teacher": "ครูสุจิตรา"
+   },
+   {
+    "day": "จันทร์",
+    "period": 8,
+    "subject": "ว22102",
+    "room": "228",
+    "teacher": "ครูสุจิตรา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 1,
+    "subject": "ง22102",
+    "room": "คหกรรม1",
+    "teacher": "ครูธมลวรรณ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 2,
+    "subject": "ส22131",
+    "room": "313",
+    "teacher": "ครูยุพิณ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 3,
+    "subject": "ส22102",
+    "room": "325",
+    "teacher": "ครูกัญชญาวี"
+   },
+   {
+    "day": "อังคาร",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 5,
+    "subject": "ศ22102",
+    "room": "บ้านดนตรี",
+    "teacher": "ครูนัฐธิกร"
+   },
+   {
+    "day": "อังคาร",
+    "period": 6,
+    "subject": "ศ22102",
+    "room": "บ้านดนตรี",
+    "teacher": "ครูนัฐธิกร"
+   },
+   {
+    "day": "อังคาร",
+    "period": 7,
+    "subject": "ท22102",
+    "room": "504",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 8,
+    "subject": "ค22102",
+    "room": "423",
+    "teacher": "ครูธนชัย"
+   },
+   {
+    "day": "พุธ",
+    "period": 1,
+    "subject": "ง22102",
+    "room": "คหกรรม1",
+    "teacher": "ครูธมลวรรณ"
+   },
+   {
+    "day": "พุธ",
+    "period": 2,
+    "subject": "ค22102",
+    "room": "423",
+    "teacher": "ครูธนชัย"
+   },
+   {
+    "day": "พุธ",
+    "period": 3,
+    "subject": "ท22102",
+    "room": "504",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "พุธ",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 5,
+    "subject": "ว22203",
+    "room": "228",
+    "teacher": "ครูชลธิชา"
+   },
+   {
+    "day": "พุธ",
+    "period": 6,
+    "subject": "อ22102",
+    "room": "636",
+    "teacher": "ครูเนรัญ"
+   },
+   {
+    "day": "พุธ",
+    "period": 7,
+    "subject": "ส22102",
+    "room": "325",
+    "teacher": "ครูกัญชญาวี"
+   },
+   {
+    "day": "พุธ",
+    "period": 8,
+    "subject": "กิจกรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 1,
+    "subject": "ค22102",
+    "room": "423",
+    "teacher": "ครูธนชัย"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 2,
+    "subject": "ว22102",
+    "room": "612",
+    "teacher": "ครูสุจิตรา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 3,
+    "subject": "อ22102",
+    "room": "636",
+    "teacher": "ครูเนรัญ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 5,
+    "subject": "แนะแนว",
+    "room": "435",
+    "teacher": "ครูปภัสพ์มณ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 6,
+    "subject": "ว22191",
+    "room": "121",
+    "teacher": "ครูวีระพล"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 7,
+    "subject": "ว22202",
+    "room": "621",
+    "teacher": "ครูวีแซน"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 8,
+    "subject": "ว22202",
+    "room": "621",
+    "teacher": "ครูวีแซน"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 1,
+    "subject": "ส20204",
+    "room": "121",
+    "teacher": "ครูชมัยพร"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 2,
+    "subject": "ท22102",
+    "room": "504",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 3,
+    "subject": "พ22104",
+    "room": "สน.วอลฯ2",
+    "teacher": "ครูภูมิอิสรา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 5,
+    "subject": "ค22204",
+    "room": "414",
+    "teacher": "ครูปนัดดา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 6,
+    "subject": "ค22204",
+    "room": "414",
+    "teacher": "ครูปนัดดา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 7,
+    "subject": "อบรมจริยธรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 8,
+    "subject": "ชุมนุม",
+    "room": "-",
+    "teacher": "-"
+   }
+  ],
+  "ม.2/3": [
+   {
+    "day": "จันทร์",
+    "period": 1,
+    "subject": "E22204",
+    "room": "624",
+    "teacher": "ครูEugene"
+   },
+   {
+    "day": "จันทร์",
+    "period": 2,
+    "subject": "ส22131",
+    "room": "624",
+    "teacher": "ครูยุพิณ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 3,
+    "subject": "M22102",
+    "room": "624",
+    "teacher": "ครูDalton"
+   },
+   {
+    "day": "จันทร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 5,
+    "subject": "อ22102",
+    "room": "624",
+    "teacher": "ครูMargiely"
+   },
+   {
+    "day": "จันทร์",
+    "period": 6,
+    "subject": "ง22102",
+    "room": "คหกรรม1",
+    "teacher": "ครูธมลวรรณ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 7,
+    "subject": "ท22102",
+    "room": "624",
+    "teacher": "ครูบัณฑิตา"
+   },
+   {
+    "day": "จันทร์",
+    "period": 8,
+    "subject": "ส22102",
+    "room": "624",
+    "teacher": "ครูสมชาย"
+   },
+   {
+    "day": "อังคาร",
+    "period": 1,
+    "subject": "ท22102",
+    "room": "624",
+    "teacher": "ครูบัณฑิตา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 2,
+    "subject": "ค22204",
+    "room": "624",
+    "teacher": "ครูปนัดดา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 3,
+    "subject": "ค22204",
+    "room": "624",
+    "teacher": "ครูปนัดดา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 5,
+    "subject": "M22102",
+    "room": "624",
+    "teacher": "ครูDalton"
+   },
+   {
+    "day": "อังคาร",
+    "period": 6,
+    "subject": "ว22202",
+    "room": "638",
+    "teacher": "ครูวีแซน"
+   },
+   {
+    "day": "อังคาร",
+    "period": 7,
+    "subject": "ง22102",
+    "room": "คหกรรม1",
+    "teacher": "ครูธมลวรรณ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 8,
+    "subject": "ส22102",
+    "room": "624",
+    "teacher": "ครูสมชาย"
+   },
+   {
+    "day": "พุธ",
+    "period": 1,
+    "subject": "M22102",
+    "room": "624",
+    "teacher": "ครูDalton"
+   },
+   {
+    "day": "พุธ",
+    "period": 2,
+    "subject": "E22204",
+    "room": "624",
+    "teacher": "ครูEugene"
+   },
+   {
+    "day": "พุธ",
+    "period": 3,
+    "subject": "อ22102",
+    "room": "624",
+    "teacher": "ครูMargiely"
+   },
+   {
+    "day": "พุธ",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 5,
+    "subject": "แนะแนว",
+    "room": "435",
+    "teacher": "ครูปภัสพ์มณ"
+   },
+   {
+    "day": "พุธ",
+    "period": 6,
+    "subject": "ว22202",
+    "room": "621",
+    "teacher": "ครูวีแซน"
+   },
+   {
+    "day": "พุธ",
+    "period": 7,
+    "subject": "ว22202",
+    "room": "621",
+    "teacher": "ครูวีแซน"
+   },
+   {
+    "day": "พุธ",
+    "period": 8,
+    "subject": "กิจกรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 1,
+    "subject": "ว22102",
+    "room": "612",
+    "teacher": "ครูสุจิตรา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 2,
+    "subject": "E22204",
+    "room": "624",
+    "teacher": "ครูEugene"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 3,
+    "subject": "ท22102",
+    "room": "624",
+    "teacher": "ครูบัณฑิตา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 5,
+    "subject": "พ22102",
+    "room": "สน.บาสฯ",
+    "teacher": "ครูประเสริฐ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 6,
+    "subject": "อ22102",
+    "room": "624",
+    "teacher": "ครูMargiely"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 7,
+    "subject": "ส22102",
+    "room": "624",
+    "teacher": "ครูสมชาย"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 8,
+    "subject": "Sc22191",
+    "room": "627",
+    "teacher": "ครูDalton"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 1,
+    "subject": "ส20204",
+    "room": "624",
+    "teacher": "ครูปริญนภา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 2,
+    "subject": "ว22102",
+    "room": "228",
+    "teacher": "ครูสุจิตรา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 3,
+    "subject": "ว22102",
+    "room": "228",
+    "teacher": "ครูสุจิตรา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 5,
+    "subject": "พ22104",
+    "room": "สน.วอลฯ2",
+    "teacher": "ครูภูมิอิสรา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 6,
+    "subject": "ศ22102",
+    "room": "บ้านดนตรี",
+    "teacher": "ครูนัฐธิกร"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 7,
+    "subject": "ศ22102",
+    "room": "บ้านดนตรี",
+    "teacher": "ครูนัฐธิกร"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 8,
+    "subject": "ชุมนุม",
+    "room": "-",
+    "teacher": "-"
+   }
+  ],
+  "ม.2/4": [
+   {
+    "day": "จันทร์",
+    "period": 1,
+    "subject": "ง22102",
+    "room": "คหกรรม1",
+    "teacher": "ครูธมลวรรณ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 2,
+    "subject": "ส22102",
+    "room": "325",
+    "teacher": "ครูกัญชญาวี"
+   },
+   {
+    "day": "จันทร์",
+    "period": 3,
+    "subject": "ค22102",
+    "room": "423",
+    "teacher": "ครูธนชัย"
+   },
+   {
+    "day": "จันทร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 5,
+    "subject": "อ22102",
+    "room": "112",
+    "teacher": "ครูศิริวิมล"
+   },
+   {
+    "day": "จันทร์",
+    "period": 6,
+    "subject": "ว22102",
+    "room": "228",
+    "teacher": "ครูชนะพล"
+   },
+   {
+    "day": "จันทร์",
+    "period": 7,
+    "subject": "แนะแนว",
+    "room": "435",
+    "teacher": "ครูปภัสพ์มณ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 8,
+    "subject": "I20202",
+    "room": "IS",
+    "teacher": "ครูศิริวิมล"
+   },
+   {
+    "day": "อังคาร",
+    "period": 1,
+    "subject": "ส22102",
+    "room": "325",
+    "teacher": "ครูกัญชญาวี"
+   },
+   {
+    "day": "อังคาร",
+    "period": 2,
+    "subject": "ศ22102",
+    "room": "บ้านดนตรี",
+    "teacher": "ครูนัฐธิกร"
+   },
+   {
+    "day": "อังคาร",
+    "period": 3,
+    "subject": "ศ22102",
+    "room": "บ้านดนตรี",
+    "teacher": "ครูนัฐธิกร"
+   },
+   {
+    "day": "อังคาร",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 5,
+    "subject": "ว22191",
+    "room": "121",
+    "teacher": "ครูวีระพล"
+   },
+   {
+    "day": "อังคาร",
+    "period": 6,
+    "subject": "ท22102",
+    "room": "504",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 7,
+    "subject": "พ22104",
+    "room": "สน.วอลฯ2",
+    "teacher": "ครูภูมิอิสรา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 8,
+    "subject": "I20202",
+    "room": "123",
+    "teacher": "ครูศิริวิมล"
+   },
+   {
+    "day": "พุธ",
+    "period": 1,
+    "subject": "ว22102",
+    "room": "613",
+    "teacher": "ครูชนะพล"
+   },
+   {
+    "day": "พุธ",
+    "period": 2,
+    "subject": "ว22102",
+    "room": "613",
+    "teacher": "ครูชนะพล"
+   },
+   {
+    "day": "พุธ",
+    "period": 3,
+    "subject": "ส22131",
+    "room": "313",
+    "teacher": "ครูยุพิณ"
+   },
+   {
+    "day": "พุธ",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 5,
+    "subject": "ส22102",
+    "room": "325",
+    "teacher": "ครูกัญชญาวี"
+   },
+   {
+    "day": "พุธ",
+    "period": 6,
+    "subject": "ท22102",
+    "room": "504",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "พุธ",
+    "period": 7,
+    "subject": "E20204",
+    "room": "616",
+    "teacher": "ครูMargiely"
+   },
+   {
+    "day": "พุธ",
+    "period": 8,
+    "subject": "กิจกรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 1,
+    "subject": "ท22102",
+    "room": "504",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 2,
+    "subject": "พ22102",
+    "room": "สน.บาสฯ",
+    "teacher": "ครูประเสริฐ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 3,
+    "subject": "ค22102",
+    "room": "423",
+    "teacher": "ครูธนชัย"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 5,
+    "subject": "ว20204",
+    "room": "227",
+    "teacher": "ครูชนะพล"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 6,
+    "subject": "ว20204",
+    "room": "227",
+    "teacher": "ครูชนะพล"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 7,
+    "subject": "อ22102",
+    "room": "117",
+    "teacher": "ครูศิริวิมล"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 1,
+    "subject": "ส20204",
+    "room": "112",
+    "teacher": "ครูศิริวิมล"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 2,
+    "subject": "อ22102",
+    "room": "123",
+    "teacher": "ครูศิริวิมล"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 3,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 5,
+    "subject": "ง22102",
+    "room": "คหกรรม1",
+    "teacher": "ครูธมลวรรณ"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 6,
+    "subject": "ค22102",
+    "room": "423",
+    "teacher": "ครูธนชัย"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 7,
+    "subject": "อบรมจริยธรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 8,
+    "subject": "ชุมนุม",
+    "room": "-",
+    "teacher": "-"
+   }
+  ],
+  "ม.2/5": [
+   {
+    "day": "จันทร์",
+    "period": 1,
+    "subject": "ค22102",
+    "room": "413",
+    "teacher": "ครูสังวาลย์"
+   },
+   {
+    "day": "จันทร์",
+    "period": 2,
+    "subject": "อ22102",
+    "room": "615",
+    "teacher": "ครูปฏิพล"
+   },
+   {
+    "day": "จันทร์",
+    "period": 3,
+    "subject": "ท22102",
+    "room": "514",
+    "teacher": "ครูบัณฑิตา"
+   },
+   {
+    "day": "จันทร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 5,
+    "subject": "ศ22102",
+    "room": "บ้านดนตรี",
+    "teacher": "ครูณรงค์ฤท"
+   },
+   {
+    "day": "จันทร์",
+    "period": 6,
+    "subject": "ศ22102",
+    "room": "บ้านดนตรี",
+    "teacher": "ครูณรงค์ฤท"
+   },
+   {
+    "day": "จันทร์",
+    "period": 7,
+    "subject": "พ22104",
+    "room": "สน.วอลฯ2",
+    "teacher": "ครูภูมิอิสรา"
+   },
+   {
+    "day": "จันทร์",
+    "period": 8,
+    "subject": "ว20294",
+    "room": "ห้องสมุด2",
+    "teacher": "ครูจุฑารัตน์"
+   },
+   {
+    "day": "อังคาร",
+    "period": 1,
+    "subject": "ค22102",
+    "room": "413",
+    "teacher": "ครูสังวาลย์"
+   },
+   {
+    "day": "อังคาร",
+    "period": 2,
+    "subject": "ว22102",
+    "room": "228",
+    "teacher": "ครูสุจิตรา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 3,
+    "subject": "ว22102",
+    "room": "228",
+    "teacher": "ครูสุจิตรา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 5,
+    "subject": "ง22102",
+    "room": "คหกรรม1",
+    "teacher": "ครูธมลวรรณ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 6,
+    "subject": "I20202",
+    "room": "514",
+    "teacher": "ครูบัณฑิตา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 7,
+    "subject": "แนะแนว",
+    "room": "435",
+    "teacher": "ครูปภัสพ์มณ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 1,
+    "subject": "I20202",
+    "room": "514",
+    "teacher": "ครูบัณฑิตา"
+   },
+   {
+    "day": "พุธ",
+    "period": 2,
+    "subject": "E20204",
+    "room": "616",
+    "teacher": "ครูMargiely"
+   },
+   {
+    "day": "พุธ",
+    "period": 3,
+    "subject": "ว22102",
+    "room": "228",
+    "teacher": "ครูสุจิตรา"
+   },
+   {
+    "day": "พุธ",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 5,
+    "subject": "ส22102",
+    "room": "324",
+    "teacher": "ครูธนากร"
+   },
+   {
+    "day": "พุธ",
+    "period": 6,
+    "subject": "พ22102",
+    "room": "สน.บาสฯ",
+    "teacher": "ครูประเสริฐ"
+   },
+   {
+    "day": "พุธ",
+    "period": 7,
+    "subject": "อ22102",
+    "room": "615",
+    "teacher": "ครูปฏิพล"
+   },
+   {
+    "day": "พุธ",
+    "period": 8,
+    "subject": "กิจกรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 1,
+    "subject": "ท22102",
+    "room": "514",
+    "teacher": "ครูบัณฑิตา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 2,
+    "subject": "ส22131",
+    "room": "313",
+    "teacher": "ครูยุพิณ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 3,
+    "subject": "ส22102",
+    "room": "324",
+    "teacher": "ครูธนากร"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 5,
+    "subject": "ว22191",
+    "room": "121",
+    "teacher": "ครูวีระพล"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 6,
+    "subject": "อ22102",
+    "room": "615",
+    "teacher": "ครูปฏิพล"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 7,
+    "subject": "ง22102",
+    "room": "คหกรรม1",
+    "teacher": "ครูธมลวรรณ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 1,
+    "subject": "ส20204",
+    "room": "514",
+    "teacher": "ครูบัณฑิตา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 2,
+    "subject": "ส22102",
+    "room": "324",
+    "teacher": "ครูธนากร"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 3,
+    "subject": "ท22102",
+    "room": "514",
+    "teacher": "ครูบัณฑิตา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 5,
+    "subject": "ค22102",
+    "room": "413",
+    "teacher": "ครูสังวาลย์"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 6,
+    "subject": "เพิ่มเวลารู้",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 7,
+    "subject": "อบรมจริยธรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 8,
+    "subject": "ชุมนุม",
+    "room": "-",
+    "teacher": "-"
+   }
+  ],
+  "ม.2/6": [
+   {
+    "day": "จันทร์",
+    "period": 1,
+    "subject": "แนะแนว",
+    "room": "435",
+    "teacher": "ครูปภัสพ์มณ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 2,
+    "subject": "ว20294",
+    "room": "ห้องสมุด2",
+    "teacher": "ครูจุฑารัตน์"
+   },
+   {
+    "day": "จันทร์",
+    "period": 3,
+    "subject": "ว20294",
+    "room": "ห้องสมุด2",
+    "teacher": "ครูจุฑารัตน์"
+   },
+   {
+    "day": "จันทร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 5,
+    "subject": "อ22102",
+    "room": "636",
+    "teacher": "ครูเนรัญ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 6,
+    "subject": "ค22102",
+    "room": "423",
+    "teacher": "ครูธนชัย"
+   },
+   {
+    "day": "จันทร์",
+    "period": 7,
+    "subject": "E20204",
+    "room": "616",
+    "teacher": "ครูMargiely"
+   },
+   {
+    "day": "จันทร์",
+    "period": 8,
+    "subject": "ว22191",
+    "room": "121",
+    "teacher": "ครูวีระพล"
+   },
+   {
+    "day": "อังคาร",
+    "period": 1,
+    "subject": "ค22102",
+    "room": "423",
+    "teacher": "ครูธนชัย"
+   },
+   {
+    "day": "อังคาร",
+    "period": 2,
+    "subject": "ง22102",
+    "room": "คหกรรม1",
+    "teacher": "ครูธมลวรรณ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 3,
+    "subject": "ท22102",
+    "room": "504",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 5,
+    "subject": "ส22102",
+    "room": "324",
+    "teacher": "ครูธนากร"
+   },
+   {
+    "day": "อังคาร",
+    "period": 6,
+    "subject": "I20202",
+    "room": "126",
+    "teacher": "ครูดวงตา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 7,
+    "subject": "ว20294",
+    "room": "ห้องสมุด2",
+    "teacher": "ครูจุฑารัตน์"
+   },
+   {
+    "day": "อังคาร",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 1,
+    "subject": "ส22102",
+    "room": "324",
+    "teacher": "ครูธนากร"
+   },
+   {
+    "day": "พุธ",
+    "period": 2,
+    "subject": "อ22102",
+    "room": "636",
+    "teacher": "ครูเนรัญ"
+   },
+   {
+    "day": "พุธ",
+    "period": 3,
+    "subject": "พ22102",
+    "room": "สน.บาสฯ",
+    "teacher": "ครูประเสริฐ"
+   },
+   {
+    "day": "พุธ",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 5,
+    "subject": "I20202",
+    "room": "IS",
+    "teacher": "ครูดวงตา"
+   },
+   {
+    "day": "พุธ",
+    "period": 6,
+    "subject": "ค22102",
+    "room": "423",
+    "teacher": "ครูธนชัย"
+   },
+   {
+    "day": "พุธ",
+    "period": 7,
+    "subject": "ท22102",
+    "room": "504",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "พุธ",
+    "period": 8,
+    "subject": "กิจกรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 1,
+    "subject": "ง22102",
+    "room": "คหกรรม1",
+    "teacher": "ครูธมลวรรณ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 2,
+    "subject": "ศ22102",
+    "room": "บ้านดนตรี",
+    "teacher": "ครูณรงค์ฤท"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 3,
+    "subject": "ศ22102",
+    "room": "บ้านดนตรี",
+    "teacher": "ครูณรงค์ฤท"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 5,
+    "subject": "ส22102",
+    "room": "324",
+    "teacher": "ครูธนากร"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 6,
+    "subject": "ท22102",
+    "room": "504",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 7,
+    "subject": "พ22104",
+    "room": "สน.วอลฯ2",
+    "teacher": "ครูภูมิอิสรา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 1,
+    "subject": "ส20204",
+    "room": "126",
+    "teacher": "ครูดวงตา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 2,
+    "subject": "อ22102",
+    "room": "636",
+    "teacher": "ครูเนรัญ"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 3,
+    "subject": "ว20294",
+    "room": "ห้องสมุด2",
+    "teacher": "ครูจุฑารัตน์"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 5,
+    "subject": "ส22131",
+    "room": "313",
+    "teacher": "ครูยุพิณ"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 6,
+    "subject": "เพิ่มเวลารู้",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 7,
+    "subject": "อบรมจริยธรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 8,
+    "subject": "ชุมนุม",
+    "room": "-",
+    "teacher": "-"
+   }
+  ],
+  "ม.2/7": [
+   {
+    "day": "จันทร์",
+    "period": 1,
+    "subject": "อ22102",
+    "room": "615",
+    "teacher": "ครูปฏิพล"
+   },
+   {
+    "day": "จันทร์",
+    "period": 2,
+    "subject": "ว22102",
+    "room": "227",
+    "teacher": "ครูชนะพล"
+   },
+   {
+    "day": "จันทร์",
+    "period": 3,
+    "subject": "ส22131",
+    "room": "313",
+    "teacher": "ครูยุพิณ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 5,
+    "subject": "ค22102",
+    "room": "413",
+    "teacher": "ครูสังวาลย์"
+   },
+   {
+    "day": "จันทร์",
+    "period": 6,
+    "subject": "ส22102",
+    "room": "323",
+    "teacher": "ครูสมชาย"
+   },
+   {
+    "day": "จันทร์",
+    "period": 7,
+    "subject": "I20202",
+    "room": "323",
+    "teacher": "ครูสมชาย"
+   },
+   {
+    "day": "จันทร์",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 1,
+    "subject": "ท22102",
+    "room": "501",
+    "teacher": "ครูชุติมณฑน"
+   },
+   {
+    "day": "อังคาร",
+    "period": 2,
+    "subject": "ส22102",
+    "room": "323",
+    "teacher": "ครูสมชาย"
+   },
+   {
+    "day": "อังคาร",
+    "period": 3,
+    "subject": "I20202",
+    "room": "IS",
+    "teacher": "ครูสมชาย"
+   },
+   {
+    "day": "อังคาร",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 5,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 6,
+    "subject": "พ22104",
+    "room": "สน.วอลฯ2",
+    "teacher": "ครูภูมิอิสรา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 7,
+    "subject": "อ22102",
+    "room": "615",
+    "teacher": "ครูปฏิพล"
+   },
+   {
+    "day": "อังคาร",
+    "period": 8,
+    "subject": "แนะแนว",
+    "room": "435",
+    "teacher": "ครูปภัสพ์มณ"
+   },
+   {
+    "day": "พุธ",
+    "period": 1,
+    "subject": "ส22102",
+    "room": "323",
+    "teacher": "ครูสมชาย"
+   },
+   {
+    "day": "พุธ",
+    "period": 2,
+    "subject": "พ22102",
+    "room": "สน.บาสฯ",
+    "teacher": "ครูประเสริฐ"
+   },
+   {
+    "day": "พุธ",
+    "period": 3,
+    "subject": "ท22102",
+    "room": "502",
+    "teacher": "ครูชุติมณฑน"
+   },
+   {
+    "day": "พุธ",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 5,
+    "subject": "ค22102",
+    "room": "413",
+    "teacher": "ครูสังวาลย์"
+   },
+   {
+    "day": "พุธ",
+    "period": 6,
+    "subject": "ว22102",
+    "room": "613",
+    "teacher": "ครูชนะพล"
+   },
+   {
+    "day": "พุธ",
+    "period": 7,
+    "subject": "ว22102",
+    "room": "613",
+    "teacher": "ครูชนะพล"
+   },
+   {
+    "day": "พุธ",
+    "period": 8,
+    "subject": "กิจกรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 1,
+    "subject": "ว22191",
+    "room": "121",
+    "teacher": "ครูวีระพล"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 2,
+    "subject": "ค22102",
+    "room": "413",
+    "teacher": "ครูสังวาลย์"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 3,
+    "subject": "ง22102",
+    "room": "คหกรรม1",
+    "teacher": "ครูธมลวรรณ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 5,
+    "subject": "อ22102",
+    "room": "615",
+    "teacher": "ครูปฏิพล"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 6,
+    "subject": "ศ22102",
+    "room": "306",
+    "teacher": "ครูสุเมธ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 7,
+    "subject": "ศ22102",
+    "room": "306",
+    "teacher": "ครูสุเมธ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 1,
+    "subject": "ส20204",
+    "room": "323",
+    "teacher": "ครูสมชาย"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 2,
+    "subject": "ง22102",
+    "room": "คหกรรม1",
+    "teacher": "ครูธมลวรรณ"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 3,
+    "subject": "E20204",
+    "room": "616",
+    "teacher": "ครูMargiely"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 5,
+    "subject": "ท22102",
+    "room": "501",
+    "teacher": "ครูชุติมณฑน"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 6,
+    "subject": "เพิ่มเวลารู้",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 7,
+    "subject": "อบรมจริยธรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 8,
+    "subject": "ชุมนุม",
+    "room": "-",
+    "teacher": "-"
+   }
+  ],
+  "ม.2/8": [
+   {
+    "day": "จันทร์",
+    "period": 1,
+    "subject": "ท22102",
+    "room": "505",
+    "teacher": "ครูชุติมณฑน"
+   },
+   {
+    "day": "จันทร์",
+    "period": 2,
+    "subject": "ศ22102",
+    "room": "306",
+    "teacher": "ครูสุเมธ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 3,
+    "subject": "ศ22102",
+    "room": "306",
+    "teacher": "ครูสุเมธ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 5,
+    "subject": "ง22102",
+    "room": "คหกรรม1",
+    "teacher": "ครูธมลวรรณ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 6,
+    "subject": "ส22102",
+    "room": "324",
+    "teacher": "ครูธนากร"
+   },
+   {
+    "day": "จันทร์",
+    "period": 7,
+    "subject": "อ22102",
+    "room": "636",
+    "teacher": "ครูเนรัญ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 8,
+    "subject": "I20202",
+    "room": "315",
+    "teacher": "ครูจันทร์เพ็"
+   },
+   {
+    "day": "อังคาร",
+    "period": 1,
+    "subject": "ว22191",
+    "room": "121",
+    "teacher": "ครูวีระพล"
+   },
+   {
+    "day": "อังคาร",
+    "period": 2,
+    "subject": "อ22102",
+    "room": "636",
+    "teacher": "ครูเนรัญ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 3,
+    "subject": "แนะแนว",
+    "room": "435",
+    "teacher": "ครูปภัสพ์มณ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 5,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 6,
+    "subject": "ส22131",
+    "room": "313",
+    "teacher": "ครูยุพิณ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 7,
+    "subject": "ค22102",
+    "room": "423",
+    "teacher": "ครูธนชัย"
+   },
+   {
+    "day": "อังคาร",
+    "period": 8,
+    "subject": "ว22102",
+    "room": "228",
+    "teacher": "ครูสุจิตรา"
+   },
+   {
+    "day": "พุธ",
+    "period": 1,
+    "subject": "ว22102",
+    "room": "228",
+    "teacher": "ครูสุจิตรา"
+   },
+   {
+    "day": "พุธ",
+    "period": 2,
+    "subject": "ว22102",
+    "room": "228",
+    "teacher": "ครูสุจิตรา"
+   },
+   {
+    "day": "พุธ",
+    "period": 3,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 5,
+    "subject": "ท22102",
+    "room": "505",
+    "teacher": "ครูชุติมณฑน"
+   },
+   {
+    "day": "พุธ",
+    "period": 6,
+    "subject": "ส22102",
+    "room": "324",
+    "teacher": "ครูธนากร"
+   },
+   {
+    "day": "พุธ",
+    "period": 7,
+    "subject": "ง22102",
+    "room": "คหกรรม1",
+    "teacher": "ครูธมลวรรณ"
+   },
+   {
+    "day": "พุธ",
+    "period": 8,
+    "subject": "กิจกรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 1,
+    "subject": "E20204",
+    "room": "616",
+    "teacher": "ครูMargiely"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 2,
+    "subject": "I20202",
+    "room": "IS",
+    "teacher": "ครูจันทร์เพ็"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 3,
+    "subject": "พ22104",
+    "room": "สน.วอลฯ2",
+    "teacher": "ครูภูมิอิสรา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 5,
+    "subject": "ท22102",
+    "room": "501",
+    "teacher": "ครูชุติมณฑน"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 6,
+    "subject": "ค22102",
+    "room": "423",
+    "teacher": "ครูธนชัย"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 7,
+    "subject": "อ22102",
+    "room": "636",
+    "teacher": "ครูเนรัญ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 1,
+    "subject": "ส20204",
+    "room": "502",
+    "teacher": "ครูปัทมาวรร"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 2,
+    "subject": "ค22102",
+    "room": "423",
+    "teacher": "ครูธนชัย"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 3,
+    "subject": "ส22102",
+    "room": "324",
+    "teacher": "ครูธนากร"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 5,
+    "subject": "พ22102",
+    "room": "สน.บาสฯ",
+    "teacher": "ครูประเสริฐ"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 6,
+    "subject": "เพิ่มเวลารู้",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 7,
+    "subject": "อบรมจริยธรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 8,
+    "subject": "ชุมนุม",
+    "room": "-",
+    "teacher": "-"
+   }
+  ],
+  "ม.2/9": [
+   {
+    "day": "จันทร์",
+    "period": 1,
+    "subject": "พ22104",
+    "room": "สน.วอลฯ2",
+    "teacher": "ครูภูมิอิสรา"
+   },
+   {
+    "day": "จันทร์",
+    "period": 2,
+    "subject": "ค22102",
+    "room": "413",
+    "teacher": "ครูสังวาลย์"
+   },
+   {
+    "day": "จันทร์",
+    "period": 3,
+    "subject": "ง22102",
+    "room": "คหกรรม1",
+    "teacher": "ครูปาจรีย์"
+   },
+   {
+    "day": "จันทร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 5,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 6,
+    "subject": "อ22102",
+    "room": "615",
+    "teacher": "ครูปฏิพล"
+   },
+   {
+    "day": "จันทร์",
+    "period": 7,
+    "subject": "ท22102",
+    "room": "503",
+    "teacher": "ครูชุติมณฑน"
+   },
+   {
+    "day": "จันทร์",
+    "period": 8,
+    "subject": "ส22102",
+    "room": "324",
+    "teacher": "ครูธนากร"
+   },
+   {
+    "day": "อังคาร",
+    "period": 1,
+    "subject": "อ22102",
+    "room": "615",
+    "teacher": "ครูปฏิพล"
+   },
+   {
+    "day": "อังคาร",
+    "period": 2,
+    "subject": "ส22102",
+    "room": "324",
+    "teacher": "ครูธนากร"
+   },
+   {
+    "day": "อังคาร",
+    "period": 3,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 5,
+    "subject": "ศ22102",
+    "room": "306",
+    "teacher": "ครูสุเมธ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 6,
+    "subject": "ศ22102",
+    "room": "306",
+    "teacher": "ครูสุเมธ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 7,
+    "subject": "ท22102",
+    "room": "503",
+    "teacher": "ครูชุติมณฑน"
+   },
+   {
+    "day": "อังคาร",
+    "period": 8,
+    "subject": "พ22102",
+    "room": "สน.บาสฯ",
+    "teacher": "ครูประเสริฐ"
+   },
+   {
+    "day": "พุธ",
+    "period": 1,
+    "subject": "ท22102",
+    "room": "505",
+    "teacher": "ครูชุติมณฑน"
+   },
+   {
+    "day": "พุธ",
+    "period": 2,
+    "subject": "ว20294",
+    "room": "ห้องสมุด2",
+    "teacher": "ครูจุฑารัตน์"
+   },
+   {
+    "day": "พุธ",
+    "period": 3,
+    "subject": "แนะแนว",
+    "room": "435",
+    "teacher": "ครูปภัสพ์มณ"
+   },
+   {
+    "day": "พุธ",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 5,
+    "subject": "E20204",
+    "room": "616",
+    "teacher": "ครูMargiely"
+   },
+   {
+    "day": "พุธ",
+    "period": 6,
+    "subject": "ค22102",
+    "room": "413",
+    "teacher": "ครูสังวาลย์"
+   },
+   {
+    "day": "พุธ",
+    "period": 7,
+    "subject": "ว22191",
+    "room": "122",
+    "teacher": "ครูวีระพล"
+   },
+   {
+    "day": "พุธ",
+    "period": 8,
+    "subject": "กิจกรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 1,
+    "subject": "อ22102",
+    "room": "615",
+    "teacher": "ครูปฏิพล"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 2,
+    "subject": "ง22102",
+    "room": "คหกรรม1",
+    "teacher": "ครูปาจรีย์"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 3,
+    "subject": "I20202",
+    "room": "317",
+    "teacher": "ครูนิศากรณ์"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 5,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 6,
+    "subject": "ว20294",
+    "room": "ห้องสมุด2",
+    "teacher": "ครูจุฑารัตน์"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 7,
+    "subject": "ว20294",
+    "room": "ห้องสมุด2",
+    "teacher": "ครูจุฑารัตน์"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 8,
+    "subject": "ส22102",
+    "room": "324",
+    "teacher": "ครูธนากร"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 1,
+    "subject": "ส20204",
+    "room": "314",
+    "teacher": "ครูจารุพรรณ"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 2,
+    "subject": "ส22131",
+    "room": "313",
+    "teacher": "ครูยุพิณ"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 3,
+    "subject": "ค22102",
+    "room": "413",
+    "teacher": "ครูสังวาลย์"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 5,
+    "subject": "I20202",
+    "room": "IS",
+    "teacher": "ครูจารุพรรณ"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 6,
+    "subject": "เพิ่มเวลารู้",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 7,
+    "subject": "อบรมจริยธรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 8,
+    "subject": "ชุมนุม",
+    "room": "-",
+    "teacher": "-"
+   }
+  ],
+  "ม.2/10": [
+   {
+    "day": "จันทร์",
+    "period": 1,
+    "subject": "อ22102",
+    "room": "636",
+    "teacher": "ครูเนรัญ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 2,
+    "subject": "แนะแนว",
+    "room": "435",
+    "teacher": "ครูปภัสพ์มณ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 3,
+    "subject": "ส22102",
+    "room": "325",
+    "teacher": "ครูกัญชญาวี"
+   },
+   {
+    "day": "จันทร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 5,
+    "subject": "ท22102",
+    "room": "504",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "จันทร์",
+    "period": 6,
+    "subject": "ส22131",
+    "room": "313",
+    "teacher": "ครูยุพิณ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 7,
+    "subject": "I20202",
+    "room": "IS",
+    "teacher": "ครูปฏิพล"
+   },
+   {
+    "day": "จันทร์",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 1,
+    "subject": "ว22102",
+    "room": "228",
+    "teacher": "ครูสุจิตรา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 2,
+    "subject": "ศ22102",
+    "room": "306",
+    "teacher": "ครูสุเมธ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 3,
+    "subject": "ศ22102",
+    "room": "306",
+    "teacher": "ครูสุเมธ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 5,
+    "subject": "อ22102",
+    "room": "636",
+    "teacher": "ครูเนรัญ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 6,
+    "subject": "ค22102",
+    "room": "423",
+    "teacher": "ครูธนชัย"
+   },
+   {
+    "day": "อังคาร",
+    "period": 7,
+    "subject": "ง22102",
+    "room": "คหกรรม2",
+    "teacher": "ครูปาจรีย์"
+   },
+   {
+    "day": "อังคาร",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 1,
+    "subject": "ส22102",
+    "room": "325",
+    "teacher": "ครูกัญชญาวี"
+   },
+   {
+    "day": "พุธ",
+    "period": 2,
+    "subject": "ท22102",
+    "room": "504",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "พุธ",
+    "period": 3,
+    "subject": "ค22102",
+    "room": "423",
+    "teacher": "ครูธนชัย"
+   },
+   {
+    "day": "พุธ",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 5,
+    "subject": "พ22102",
+    "room": "สน.บาสฯ",
+    "teacher": "ครูประเสริฐ"
+   },
+   {
+    "day": "พุธ",
+    "period": 6,
+    "subject": "ว22102",
+    "room": "228",
+    "teacher": "ครูสุจิตรา"
+   },
+   {
+    "day": "พุธ",
+    "period": 7,
+    "subject": "ว22102",
+    "room": "228",
+    "teacher": "ครูสุจิตรา"
+   },
+   {
+    "day": "พุธ",
+    "period": 8,
+    "subject": "กิจกรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 1,
+    "subject": "พ22104",
+    "room": "สน.วอลฯ2",
+    "teacher": "ครูภูมิอิสรา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 2,
+    "subject": "ว22191",
+    "room": "122",
+    "teacher": "ครูวีระพล"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 3,
+    "subject": "ท22102",
+    "room": "504",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 5,
+    "subject": "E20204",
+    "room": "616",
+    "teacher": "ครูMargiely"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 6,
+    "subject": "ส22102",
+    "room": "325",
+    "teacher": "ครูกัญชญาวี"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 7,
+    "subject": "I20202",
+    "room": "615",
+    "teacher": "ครูปฏิพล"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 1,
+    "subject": "ส20204",
+    "room": "615",
+    "teacher": "ครูปฏิพล"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 2,
+    "subject": "ง22102",
+    "room": "เกษตร1",
+    "teacher": "ครูปาจรีย์"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 3,
+    "subject": "อ22102",
+    "room": "636",
+    "teacher": "ครูเนรัญ"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 5,
+    "subject": "ค22102",
+    "room": "423",
+    "teacher": "ครูธนชัย"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 6,
+    "subject": "เพิ่มเวลารู้",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 7,
+    "subject": "อบรมจริยธรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 8,
+    "subject": "ชุมนุม",
+    "room": "-",
+    "teacher": "-"
+   }
+  ],
+  "ม.2/11": [
+   {
+    "day": "จันทร์",
+    "period": 1,
+    "subject": "ส22102",
+    "room": "324",
+    "teacher": "ครูธนากร"
+   },
+   {
+    "day": "จันทร์",
+    "period": 2,
+    "subject": "พ22104",
+    "room": "สน.วอลฯ2",
+    "teacher": "ครูภูมิอิสรา"
+   },
+   {
+    "day": "จันทร์",
+    "period": 3,
+    "subject": "อ22102",
+    "room": "615",
+    "teacher": "ครูปฏิพล"
+   },
+   {
+    "day": "จันทร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 5,
+    "subject": "ท22102",
+    "room": "514",
+    "teacher": "ครูบัณฑิตา"
+   },
+   {
+    "day": "จันทร์",
+    "period": 6,
+    "subject": "ศ22102",
+    "room": "306",
+    "teacher": "ครูสุเมธ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 7,
+    "subject": "ศ22102",
+    "room": "306",
+    "teacher": "ครูสุเมธ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 1,
+    "subject": "ส22131",
+    "room": "313",
+    "teacher": "ครูยุพิณ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 2,
+    "subject": "E20204",
+    "room": "616",
+    "teacher": "ครูMargiely"
+   },
+   {
+    "day": "อังคาร",
+    "period": 3,
+    "subject": "พ22102",
+    "room": "สน.บาสฯ",
+    "teacher": "ครูประเสริฐ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 5,
+    "subject": "ท22102",
+    "room": "514",
+    "teacher": "ครูบัณฑิตา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 6,
+    "subject": "ว22102",
+    "room": "228",
+    "teacher": "ครูสุจิตรา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 7,
+    "subject": "ว22102",
+    "room": "228",
+    "teacher": "ครูสุจิตรา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 1,
+    "subject": "ค22102",
+    "room": "413",
+    "teacher": "ครูสังวาลย์"
+   },
+   {
+    "day": "พุธ",
+    "period": 2,
+    "subject": "อ22102",
+    "room": "615",
+    "teacher": "ครูปฏิพล"
+   },
+   {
+    "day": "พุธ",
+    "period": 3,
+    "subject": "ท22102",
+    "room": "514",
+    "teacher": "ครูบัณฑิตา"
+   },
+   {
+    "day": "พุธ",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 5,
+    "subject": "ว22191",
+    "room": "122",
+    "teacher": "ครูวีระพล"
+   },
+   {
+    "day": "พุธ",
+    "period": 6,
+    "subject": "ง22102",
+    "room": "คหกรรม2",
+    "teacher": "ครูปาจรีย์"
+   },
+   {
+    "day": "พุธ",
+    "period": 7,
+    "subject": "I20202",
+    "room": "IS",
+    "teacher": "ครูเพชรสุพร"
+   },
+   {
+    "day": "พุธ",
+    "period": 8,
+    "subject": "กิจกรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 1,
+    "subject": "ส22102",
+    "room": "324",
+    "teacher": "ครูธนากร"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 2,
+    "subject": "แนะแนว",
+    "room": "435",
+    "teacher": "ครูปภัสพ์มณ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 3,
+    "subject": "ว22102",
+    "room": "228",
+    "teacher": "ครูสุจิตรา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 5,
+    "subject": "ง22102",
+    "room": "คหกรรม2",
+    "teacher": "ครูปาจรีย์"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 6,
+    "subject": "I20202",
+    "room": "สน.กรีฑา",
+    "teacher": "ครูเพชรสุพร"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 7,
+    "subject": "ค22102",
+    "room": "413",
+    "teacher": "ครูสังวาลย์"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 1,
+    "subject": "ส20204",
+    "room": "สน.กรีฑา",
+    "teacher": "ครูเพชรสุพร"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 2,
+    "subject": "ค22102",
+    "room": "413",
+    "teacher": "ครูสังวาลย์"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 3,
+    "subject": "อ22102",
+    "room": "615",
+    "teacher": "ครูปฏิพล"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 5,
+    "subject": "ส22102",
+    "room": "324",
+    "teacher": "ครูธนากร"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 6,
+    "subject": "เพิ่มเวลารู้",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 7,
+    "subject": "อบรมจริยธรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 8,
+    "subject": "ชุมนุม",
+    "room": "-",
+    "teacher": "-"
+   }
+  ],
+  "ม.2/12": [
+   {
+    "day": "จันทร์",
+    "period": 1,
+    "subject": "ส22102",
+    "room": "325",
+    "teacher": "ครูกัญชญาวี"
+   },
+   {
+    "day": "จันทร์",
+    "period": 2,
+    "subject": "ง22102",
+    "room": "คหกรรม1",
+    "teacher": "ครูปาจรีย์"
+   },
+   {
+    "day": "จันทร์",
+    "period": 3,
+    "subject": "พ22104",
+    "room": "สน.วอลฯ2",
+    "teacher": "ครูภูมิอิสรา"
+   },
+   {
+    "day": "จันทร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 5,
+    "subject": "ว20294",
+    "room": "ห้องสมุด2",
+    "teacher": "ครูจุฑารัตน์"
+   },
+   {
+    "day": "จันทร์",
+    "period": 6,
+    "subject": "ค22102",
+    "room": "413",
+    "teacher": "ครูสังวาลย์"
+   },
+   {
+    "day": "จันทร์",
+    "period": 7,
+    "subject": "ศ22102",
+    "room": "511",
+    "teacher": "ครูยลดา"
+   },
+   {
+    "day": "จันทร์",
+    "period": 8,
+    "subject": "ศ22102",
+    "room": "511",
+    "teacher": "ครูยลดา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 1,
+    "subject": "อ22102",
+    "room": "636",
+    "teacher": "ครูเนรัญ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 2,
+    "subject": "ว20294",
+    "room": "ห้องสมุด2",
+    "teacher": "ครูจุฑารัตน์"
+   },
+   {
+    "day": "อังคาร",
+    "period": 3,
+    "subject": "ว20294",
+    "room": "ห้องสมุด2",
+    "teacher": "ครูจุฑารัตน์"
+   },
+   {
+    "day": "อังคาร",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 5,
+    "subject": "ส22102",
+    "room": "325",
+    "teacher": "ครูกัญชญาวี"
+   },
+   {
+    "day": "อังคาร",
+    "period": 6,
+    "subject": "E20204",
+    "room": "616",
+    "teacher": "ครูMargiely"
+   },
+   {
+    "day": "อังคาร",
+    "period": 7,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 1,
+    "subject": "ส22131",
+    "room": "313",
+    "teacher": "ครูยุพิณ"
+   },
+   {
+    "day": "พุธ",
+    "period": 2,
+    "subject": "ส22102",
+    "room": "325",
+    "teacher": "ครูกัญชญาวี"
+   },
+   {
+    "day": "พุธ",
+    "period": 3,
+    "subject": "อ22102",
+    "room": "636",
+    "teacher": "ครูเนรัญ"
+   },
+   {
+    "day": "พุธ",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 5,
+    "subject": "I20202",
+    "room": "504",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "พุธ",
+    "period": 6,
+    "subject": "ท22102",
+    "room": "514",
+    "teacher": "ครูบัณฑิตา"
+   },
+   {
+    "day": "พุธ",
+    "period": 7,
+    "subject": "ค22102",
+    "room": "413",
+    "teacher": "ครูสังวาลย์"
+   },
+   {
+    "day": "พุธ",
+    "period": 8,
+    "subject": "กิจกรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 1,
+    "subject": "ง22102",
+    "room": "เกษตร1",
+    "teacher": "ครูปาจรีย์"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 2,
+    "subject": "ท22102",
+    "room": "514",
+    "teacher": "ครูบัณฑิตา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 3,
+    "subject": "ค22102",
+    "room": "413",
+    "teacher": "ครูสังวาลย์"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 5,
+    "subject": "I20202",
+    "room": "IS",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 6,
+    "subject": "อ22102",
+    "room": "636",
+    "teacher": "ครูเนรัญ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 7,
+    "subject": "พ22102",
+    "room": "สน.บาสฯ",
+    "teacher": "ครูประเสริฐ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 1,
+    "subject": "ส20204",
+    "room": "504",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 2,
+    "subject": "ท22102",
+    "room": "514",
+    "teacher": "ครูบัณฑิตา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 3,
+    "subject": "แนะแนว",
+    "room": "435",
+    "teacher": "ครูปภัสพ์มณ"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 5,
+    "subject": "ว22191",
+    "room": "122",
+    "teacher": "ครูวีระพล"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 6,
+    "subject": "เพิ่มเวลารู้",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 7,
+    "subject": "อบรมจริยธรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 8,
+    "subject": "ชุมนุม",
+    "room": "-",
+    "teacher": "-"
+   }
+  ],
+  "ม.2/13": [
+   {
+    "day": "จันทร์",
+    "period": 1,
+    "subject": "ส22102",
+    "room": "323",
+    "teacher": "ครูสมชาย"
+   },
+   {
+    "day": "จันทร์",
+    "period": 2,
+    "subject": "ค22102",
+    "room": "423",
+    "teacher": "ครูธนชัย"
+   },
+   {
+    "day": "จันทร์",
+    "period": 3,
+    "subject": "แนะแนว",
+    "room": "435",
+    "teacher": "ครูปภัสพ์มณ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 5,
+    "subject": "I20202",
+    "room": "IS",
+    "teacher": "ครูสุเมธ"
+   },
+   {
+    "day": "จันทร์",
+    "period": 6,
+    "subject": "ง22102",
+    "room": "เกษตร1",
+    "teacher": "ครูปาจรีย์"
+   },
+   {
+    "day": "จันทร์",
+    "period": 7,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 8,
+    "subject": "ส22131",
+    "room": "313",
+    "teacher": "ครูยุพิณ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 1,
+    "subject": "พ22104",
+    "room": "สน.วอลฯ2",
+    "teacher": "ครูภูมิอิสรา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 2,
+    "subject": "ว22191",
+    "room": "122",
+    "teacher": "ครูวีระพล"
+   },
+   {
+    "day": "อังคาร",
+    "period": 3,
+    "subject": "อ22102",
+    "room": "615",
+    "teacher": "ครูปฏิพล"
+   },
+   {
+    "day": "อังคาร",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 5,
+    "subject": "พ22102",
+    "room": "อาคารพละ",
+    "teacher": "ครูประเสริฐ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 6,
+    "subject": "ส22102",
+    "room": "323",
+    "teacher": "ครูสมชาย"
+   },
+   {
+    "day": "อังคาร",
+    "period": 7,
+    "subject": "ท22102",
+    "room": "514",
+    "teacher": "ครูบัณฑิตา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 1,
+    "subject": "ศ22102",
+    "room": "511",
+    "teacher": "ครูยลดา"
+   },
+   {
+    "day": "พุธ",
+    "period": 2,
+    "subject": "ศ22102",
+    "room": "511",
+    "teacher": "ครูยลดา"
+   },
+   {
+    "day": "พุธ",
+    "period": 3,
+    "subject": "ส22102",
+    "room": "323",
+    "teacher": "ครูสมชาย"
+   },
+   {
+    "day": "พุธ",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 5,
+    "subject": "ท22102",
+    "room": "514",
+    "teacher": "ครูบัณฑิตา"
+   },
+   {
+    "day": "พุธ",
+    "period": 6,
+    "subject": "อ22102",
+    "room": "615",
+    "teacher": "ครูปฏิพล"
+   },
+   {
+    "day": "พุธ",
+    "period": 7,
+    "subject": "ค22102",
+    "room": "423",
+    "teacher": "ครูธนชัย"
+   },
+   {
+    "day": "พุธ",
+    "period": 8,
+    "subject": "กิจกรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 1,
+    "subject": "ว20294",
+    "room": "ห้องสมุด2",
+    "teacher": "ครูจุฑารัตน์"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 2,
+    "subject": "ว20294",
+    "room": "ห้องสมุด2",
+    "teacher": "ครูจุฑารัตน์"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 3,
+    "subject": "I20202",
+    "room": "306",
+    "teacher": "ครูสุเมธ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 5,
+    "subject": "ท22102",
+    "room": "514",
+    "teacher": "ครูบัณฑิตา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 6,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 7,
+    "subject": "E20204",
+    "room": "616",
+    "teacher": "ครูMargiely"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 8,
+    "subject": "ง22102",
+    "room": "เกษตร1",
+    "teacher": "ครูปาจรีย์"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 1,
+    "subject": "ส20204",
+    "room": "306",
+    "teacher": "ครูสุเมธ"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 2,
+    "subject": "อ22102",
+    "room": "615",
+    "teacher": "ครูปฏิพล"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 3,
+    "subject": "ค22102",
+    "room": "423",
+    "teacher": "ครูธนชัย"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 5,
+    "subject": "ว20294",
+    "room": "ห้องสมุด2",
+    "teacher": "ครูจุฑารัตน์"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 6,
+    "subject": "เพิ่มเวลารู้",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 7,
+    "subject": "อบรมจริยธรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 8,
+    "subject": "ชุมนุม",
+    "room": "-",
+    "teacher": "-"
+   }
+  ],
+  "ม.2/14": [
+   {
+    "day": "จันทร์",
+    "period": 1,
+    "subject": "ว22191",
+    "room": "128",
+    "teacher": "ครูวีระพล"
+   },
+   {
+    "day": "จันทร์",
+    "period": 2,
+    "subject": "I20202",
+    "room": "บ้านดนตรี",
+    "teacher": "ครูนัฐธิกร"
+   },
+   {
+    "day": "จันทร์",
+    "period": 3,
+    "subject": "ค22102",
+    "room": "413",
+    "teacher": "ครูสังวาลย์"
+   },
+   {
+    "day": "จันทร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 5,
+    "subject": "ส22102",
+    "room": "324",
+    "teacher": "ครูธนากร"
+   },
+   {
+    "day": "จันทร์",
+    "period": 6,
+    "subject": "ท22102",
+    "room": "504",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "จันทร์",
+    "period": 7,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 1,
+    "subject": "ส22102",
+    "room": "324",
+    "teacher": "ครูธนากร"
+   },
+   {
+    "day": "อังคาร",
+    "period": 2,
+    "subject": "ศ22102",
+    "room": "511",
+    "teacher": "ครูยลดา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 3,
+    "subject": "ศ22102",
+    "room": "511",
+    "teacher": "ครูยลดา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 5,
+    "subject": "ง22102",
+    "room": "โรงฝึก2",
+    "teacher": "ครูวรณัฐ"
+   },
+   {
+    "day": "อังคาร",
+    "period": 6,
+    "subject": "ค22102",
+    "room": "413",
+    "teacher": "ครูสังวาลย์"
+   },
+   {
+    "day": "อังคาร",
+    "period": 7,
+    "subject": "E20204",
+    "room": "616",
+    "teacher": "ครูMargiely"
+   },
+   {
+    "day": "อังคาร",
+    "period": 8,
+    "subject": "I20202",
+    "room": "IS",
+    "teacher": "ครูนัฐธิกร"
+   },
+   {
+    "day": "พุธ",
+    "period": 1,
+    "subject": "ท22102",
+    "room": "504",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "พุธ",
+    "period": 2,
+    "subject": "ค22102",
+    "room": "413",
+    "teacher": "ครูสังวาลย์"
+   },
+   {
+    "day": "พุธ",
+    "period": 3,
+    "subject": "ง22102",
+    "room": "โรงฝึก2",
+    "teacher": "ครูวรณัฐ"
+   },
+   {
+    "day": "พุธ",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 5,
+    "subject": "ว20294",
+    "room": "ห้องสมุด2",
+    "teacher": "ครูจุฑารัตน์"
+   },
+   {
+    "day": "พุธ",
+    "period": 6,
+    "subject": "ว20294",
+    "room": "ห้องสมุด2",
+    "teacher": "ครูจุฑารัตน์"
+   },
+   {
+    "day": "พุธ",
+    "period": 7,
+    "subject": "อ22102",
+    "room": "636",
+    "teacher": "ครูเนรัญ"
+   },
+   {
+    "day": "พุธ",
+    "period": 8,
+    "subject": "กิจกรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 1,
+    "subject": "แนะแนว",
+    "room": "435",
+    "teacher": "ครูปภัสพ์มณ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 2,
+    "subject": "อ22102",
+    "room": "636",
+    "teacher": "ครูเนรัญ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 3,
+    "subject": "พ22102",
+    "room": "อาคารพละ",
+    "teacher": "ครูประเสริฐ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 5,
+    "subject": "ส22131",
+    "room": "313",
+    "teacher": "ครูยุพิณ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 6,
+    "subject": "พ22104",
+    "room": "สน.วอลฯ2",
+    "teacher": "ครูภูมิอิสรา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 7,
+    "subject": "ส22102",
+    "room": "324",
+    "teacher": "ครูธนากร"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 1,
+    "subject": "ส20204",
+    "room": "บ้านดนตรี",
+    "teacher": "ครูนัฐธิกร"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 2,
+    "subject": "ว20294",
+    "room": "ห้องสมุด2",
+    "teacher": "ครูจุฑารัตน์"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 3,
+    "subject": "ท22102",
+    "room": "504",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 4,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 5,
+    "subject": "อ22102",
+    "room": "636",
+    "teacher": "ครูเนรัญ"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 6,
+    "subject": "เพิ่มเวลารู้",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 7,
+    "subject": "อบรมจริยธรรม",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 8,
+    "subject": "ชุมนุม",
+    "room": "-",
+    "teacher": "-"
+   }
+  ],
+  "ม.5/12": [
+   {
+    "day": "จันทร์",
+    "period": 1,
+    "subject": "ค32102",
+    "room": "425",
+    "teacher": "ครูเอกราช"
+   },
+   {
+    "day": "จันทร์",
+    "period": 2,
+    "subject": "I30202",
+    "room": "IS",
+    "teacher": "ครูพงศยา"
+   },
+   {
+    "day": "จันทร์",
+    "period": 3,
+    "subject": "ท32102",
+    "room": "517",
+    "teacher": "ครูพงศยา"
+   },
+   {
+    "day": "จันทร์",
+    "period": 4,
+    "subject": "อ32102",
+    "room": "632",
+    "teacher": "ครูชินมนา"
+   },
+   {
+    "day": "จันทร์",
+    "period": 5,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 6,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "จันทร์",
+    "period": 7,
+    "subject": "ท30212",
+    "room": "504",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "จันทร์",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 1,
+    "subject": "ท30212",
+    "room": "504",
+    "teacher": "ครูธัญสุดา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 2,
+    "subject": "ค32102",
+    "room": "425",
+    "teacher": "ครูเอกราช"
+   },
+   {
+    "day": "อังคาร",
+    "period": 3,
+    "subject": "ง32102",
+    "room": "คหกรรม2",
+    "teacher": "ครูน้ำทิพย์"
+   },
+   {
+    "day": "อังคาร",
+    "period": 4,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 5,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "อังคาร",
+    "period": 6,
+    "subject": "ส32102",
+    "room": "312",
+    "teacher": "ครูมัทนา"
+   },
+   {
+    "day": "อังคาร",
+    "period": 7,
+    "subject": "ท30241",
+    "room": "518",
+    "teacher": "ครูอามร"
+   },
+   {
+    "day": "อังคาร",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 1,
+    "subject": "ว32191",
+    "room": "128",
+    "teacher": "ครูศิริประภา"
+   },
+   {
+    "day": "พุธ",
+    "period": 2,
+    "subject": "E30204",
+    "room": "637",
+    "teacher": "ครูPutriahay"
+   },
+   {
+    "day": "พุธ",
+    "period": 3,
+    "subject": "ส30133",
+    "room": "312",
+    "teacher": "ครูมัทนา"
+   },
+   {
+    "day": "พุธ",
+    "period": 4,
+    "subject": "ศ30221",
+    "room": "ทูบี",
+    "teacher": "ครูณัฐุฒิ์"
+   },
+   {
+    "day": "พุธ",
+    "period": 5,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 6,
+    "subject": "แนะแนว",
+    "room": "118",
+    "teacher": "ครูณัฐริยา"
+   },
+   {
+    "day": "พุธ",
+    "period": 7,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พุธ",
+    "period": 8,
+    "subject": "ญ30204",
+    "room": "124",
+    "teacher": "ครูปรโมทย์"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 1,
+    "subject": "พ32102",
+    "room": "หอประชุม",
+    "teacher": "ครูชีชะ"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 2,
+    "subject": "ส32102",
+    "room": "312",
+    "teacher": "ครูมัทนา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 3,
+    "subject": "ส30253",
+    "room": "326",
+    "teacher": "ครูศศิประภา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 4,
+    "subject": "ศ30221",
+    "room": "ทูบี",
+    "teacher": "ครูณัฐุฒิ์"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 5,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 6,
+    "subject": "อ32102",
+    "room": "632",
+    "teacher": "ครูชินมนา"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 7,
+    "subject": "ญ30204",
+    "room": "126",
+    "teacher": "ครูปรโมทย์"
+   },
+   {
+    "day": "พฤหัสบดี",
+    "period": 8,
+    "subject": "ค้นคว้า",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 1,
+    "subject": "ส30204",
+    "room": "517",
+    "teacher": "ครูพงศยา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 2,
+    "subject": "ศ32102",
+    "room": "511",
+    "teacher": "ครูยลดา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 3,
+    "subject": "ท32102",
+    "room": "517",
+    "teacher": "ครูพงศยา"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 4,
+    "subject": "ท30241",
+    "room": "517",
+    "teacher": "ครูอามร"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 5,
+    "subject": "พักกลางวัน",
+    "room": "-",
+    "teacher": "-"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 6,
+    "subject": "E30204",
+    "room": "636",
+    "teacher": "ครูPutriahay"
+   },
+   {
+    "day": "ศุกร์",
+    "period": 7,
+    "subject": "I30202",
+    "room": "IS",
+    "teacher": "ครูพงศยา"
    },
    {
     "day": "ศุกร์",
