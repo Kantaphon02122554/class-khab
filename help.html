@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="th" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>วิธีใช้ ClassKhab</title>
+    <link rel="icon" href="icon-192.png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <script>
+      tailwind.config = { darkMode: 'class', theme: { extend: { fontFamily: { sans: ['Sarabun', 'sans-serif'] } } } };
+    </script>
+    <script>
+      // ใช้โหมดสว่าง/มืดเดียวกับหน้าหลัก (จำค่าที่เลือกไว้ ไม่งั้นตามเครื่อง)
+      try {
+        var _t = localStorage.getItem('classkhab_theme');
+        if (_t === 'dark' || (!_t && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+      } catch (e) {}
+    </script>
+    <style>
+      body { font-family: 'Sarabun', sans-serif; }
+      details > summary { list-style: none; cursor: pointer; }
+      details > summary::-webkit-details-marker { display: none; }
+      details[open] > summary .chev { transform: rotate(180deg); }
+      .chev { transition: transform 0.2s; }
+      .step { counter-increment: s; }
+      .steps > li::before { counter-increment: s; content: counter(s); }
+    </style>
+  </head>
+  <body class="h-full bg-slate-50 text-slate-800 antialiased dark:bg-[#0b1220] dark:text-slate-200">
+    <header class="sticky top-0 z-10 border-b border-slate-200/70 bg-white/85 backdrop-blur dark:border-slate-700/60 dark:bg-[#0b1220]/85">
+      <div class="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
+        <a href="./" class="text-lg font-extrabold tracking-tight text-slate-900 dark:text-white">ClassKhab <span class="text-sm font-semibold text-slate-500 dark:text-slate-400">· วิธีใช้</span></a>
+        <a href="./" class="rounded-xl bg-slate-900 px-4 py-2 text-sm font-bold text-white hover:opacity-90 dark:bg-slate-700">← กลับหน้าตาราง</a>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-3xl space-y-3 px-4 py-6">
+      <p class="text-sm text-slate-600 dark:text-slate-400">แตะหัวข้อเพื่อดูวิธีทำทีละขั้น ถ้ายังติดปัญหา เปิดหัวข้อ "ถามแอดมิน" ด้านล่างสุด</p>
+
+      <details class="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-[#111a2e]" open>
+        <summary class="flex items-center justify-between gap-3 font-bold text-slate-900 dark:text-white">1. เข้าสู่ระบบ <span class="chev text-slate-400">⌄</span></summary>
+        <ol class="mt-3 space-y-2 text-sm text-slate-700 dark:text-slate-300 list-decimal pl-5">
+          <li>เลือกห้องเรียนของตัวเองในรายการ</li>
+          <li>ใส่ <b>รหัสผ่านห้อง</b> ขอรหัสได้จากหัวหน้าห้องหรือเพื่อนในห้อง (ทุกคนในห้องใช้รหัสเดียวกัน)</li>
+          <li>กด "เข้าใช้งานตารางเรียน" ครั้งหน้าเว็บจะจำห้องไว้ให้ ไม่ต้องใส่ซ้ำ</li>
+        </ol>
+        <p class="mt-3 rounded-xl bg-amber-50 p-3 text-xs text-amber-800 dark:bg-amber-900/30 dark:text-amber-200">ไม่ควรบอกรหัสห้องกับคนนอกห้อง ถ้าใส่ผิดหลายครั้งติดกัน ระบบจะล็อกชั่วคราว รอสักครู่แล้วลองใหม่</p>
+      </details>
+
+      <details class="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-[#111a2e]">
+        <summary class="flex items-center justify-between gap-3 font-bold text-slate-900 dark:text-white">2. เปิดแจ้งเตือนก่อนเริ่มคาบ <span class="chev text-slate-400">⌄</span></summary>
+        <div class="mt-3 space-y-4 text-sm text-slate-700 dark:text-slate-300">
+          <div>
+            <p class="font-bold text-slate-900 dark:text-white">Android / Chrome / คอมพิวเตอร์</p>
+            <ol class="mt-1 list-decimal space-y-1 pl-5">
+              <li>กดปุ่ม <b>"เปิดแจ้งเตือน"</b> บนหัวเว็บ (บนมือถืออยู่ในเมนู ☰)</li>
+              <li>เมื่อเบราว์เซอร์ถาม กด <b>"อนุญาต"</b></li>
+              <li>ระบบจะเตือนตอนจบคาบก่อนหน้า (คาบแรกของวันเตือนก่อนเริ่ม 15 นาที)</li>
+            </ol>
+          </div>
+          <div>
+            <p class="font-bold text-slate-900 dark:text-white">iPhone / iPad (ต้องทำขั้นตอนเพิ่ม)</p>
+            <ol class="mt-1 list-decimal space-y-1 pl-5">
+              <li>เปิดเว็บด้วย <b>Safari</b> (ไม่ใช่ Chrome) ต้องใช้ iOS 16.4 ขึ้นไป</li>
+              <li>กดปุ่มแชร์ (ไอคอนสี่เหลี่ยมมีลูกศรขึ้น) แล้วเลือก <b>"เพิ่มไปยังหน้าจอโฮม"</b></li>
+              <li>เปิดแอป ClassKhab <b>จากไอคอนบนหน้าจอโฮม</b> แล้วกด "เปิดแจ้งเตือน" อนุญาตการแจ้งเตือน</li>
+            </ol>
+          </div>
+          <div>
+            <p class="font-bold text-slate-900 dark:text-white">ถ้าแจ้งเตือนไม่เด้ง</p>
+            <ul class="mt-1 list-disc space-y-1 pl-5">
+              <li>เช็กว่าอนุญาตการแจ้งเตือนของเบราว์เซอร์/แอปแล้ว (ในการตั้งค่าเครื่อง)</li>
+              <li>ปิดโหมดประหยัดแบตเตอรี่ หรือตั้ง Chrome ให้ทำงานเบื้องหลังได้ โหมดห้ามรบกวนอาจกดแจ้งเตือนไว้</li>
+              <li>ใส่หูฟังอยู่ หน้าจออาจไม่สว่าง แต่ยังมีเสียง/สั่นตามปกติ</li>
+              <li>กด "ปิดแจ้งเตือน" แล้วเปิดใหม่อีกครั้ง</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <details class="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-[#111a2e]">
+        <summary class="flex items-center justify-between gap-3 font-bold text-slate-900 dark:text-white">3. ติดตั้งเป็นแอป (เปิดได้เร็ว) <span class="chev text-slate-400">⌄</span></summary>
+        <ul class="mt-3 list-disc space-y-1 pl-5 text-sm text-slate-700 dark:text-slate-300">
+          <li><b>Android/Chrome:</b> เมนู ⋮ → "ติดตั้งแอป" หรือ "เพิ่มลงในหน้าจอหลัก"</li>
+          <li><b>iPhone/iPad:</b> Safari → ปุ่มแชร์ → "เพิ่มไปยังหน้าจอโฮม"</li>
+          <li>อัปเดตเว็บแล้ว แอปที่ติดตั้งไว้จะได้เวอร์ชันใหม่เองเมื่อเปิดครั้งถัดไป ไม่ต้องติดตั้งซ้ำ</li>
+        </ul>
+      </details>
+
+      <details class="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-[#111a2e]">
+        <summary class="flex items-center justify-between gap-3 font-bold text-slate-900 dark:text-white">4. การบ้าน ประกาศ และนับถอยหลังสอบ <span class="chev text-slate-400">⌄</span></summary>
+        <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-700 dark:text-slate-300">
+          <li><b>โพสต์:</b> ที่ส่วน "ประกาศและการบ้านของห้อง" กด "+ โพสต์" เลือกประเภท (การบ้าน/ประกาศ/สอบ) ใส่หัวข้อและกำหนดส่ง เพื่อนในห้องจะเห็นและได้แจ้งเตือน (จำกัด 6 โพสต์ต่อชั่วโมง)</li>
+          <li><b>ติ๊กทำแล้ว:</b> ช่องสี่เหลี่ยมหน้าการบ้านเก็บไว้ในเครื่องคุณเท่านั้น เพื่อนไม่เห็น งานที่ทำแล้วจะจางและไปอยู่ท้ายรายการ</li>
+          <li><b>เตือนตอนเย็น:</b> ถ้ามีการบ้านหรือสอบครบกำหนดพรุ่งนี้ ระบบเตือนเวลา 18:00</li>
+          <li><b>แถบนับถอยหลังสอบ:</b> ขึ้นที่ด้านบนเมื่อมีสอบที่โรงเรียนประกาศหรือมีโพสต์ประเภท "สอบ" ที่ใส่วันไว้</li>
+          <li><b>รายงานโพสต์ไม่เหมาะสม:</b> กด 🚩 ที่โพสต์ ถ้ามีหลายคนรายงาน โพสต์จะถูกซ่อน ห้ามใส่ข้อมูลส่วนตัว (เบอร์โทร ไอดีไลน์) ในโพสต์</li>
+        </ul>
+      </details>
+
+      <details class="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-[#111a2e]">
+        <summary class="flex items-center justify-between gap-3 font-bold text-slate-900 dark:text-white">5. แชตห้อง (ทดลองใช้ในบางห้อง) <span class="chev text-slate-400">⌄</span></summary>
+        <div class="mt-3 space-y-3 text-sm text-slate-700 dark:text-slate-300">
+          <p>ปุ่มแชตวงกลมมุมขวาล่างจะขึ้นเฉพาะห้องที่ผู้ดูแลเปิดให้ใช้ ถ้าไม่เห็นปุ่ม แปลว่าห้องคุณยังไม่เปิด</p>
+          <ol class="list-decimal space-y-1 pl-5">
+            <li>กดปุ่มแชต อ่านกติกา แล้ว <b>ตั้งชื่อเล่น</b> (ไม่ใช่ชื่อจริง ตั้งแล้วเปลี่ยนเองไม่ได้)</li>
+            <li>พิมพ์ข้อความแล้วกดปุ่มส่ง ส่งได้ทุก 5 วินาที</li>
+            <li>ลบข้อความของตัวเองด้วย 🗑 ข้อความที่ไม่เหมาะสมของคนอื่นกด 🚩 รายงาน</li>
+          </ol>
+          <ul class="list-disc space-y-1 pl-5">
+            <li>ห้ามส่งเบอร์โทร ไอดีไลน์ อีเมล ลิงก์ และคำหยาบ ระบบจะไม่ส่งข้อความนั้นให้</li>
+            <li>แชตเก็บไว้ 30 วันแล้วลบเองอัตโนมัติ ผู้ดูแลลบข้อความและระงับการใช้งานได้ ระบบเก็บรหัสเครื่องที่ส่งข้อความเพื่อตามเรื่องร้องเรียน (ไม่มีชื่อจริง)</li>
+            <li><b>แท็บ "คุยกับแอดมิน":</b> ส่งข้อความส่วนตัวถึงผู้ดูแล เพื่อนในห้องไม่เห็น ใช้แจ้งปัญหา เช่น ตารางผิด</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-[#111a2e]">
+        <summary class="flex items-center justify-between gap-3 font-bold text-slate-900 dark:text-white">6. ฟีเจอร์อื่นๆ <span class="chev text-slate-400">⌄</span></summary>
+        <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-700 dark:text-slate-300">
+          <li><b>แชร์ตารางเป็นรูป:</b> ปุ่ม "แชร์เป็นรูป" ข้างหัวข้อตารางเรียน บันทึกหรือส่งต่อรูปตารางไปกลุ่มไลน์ได้</li>
+          <li><b>โหมดมืด/สว่าง:</b> ปุ่มรูปพระจันทร์บนหัวเว็บ</li>
+          <li><b>แจ้งตารางผิด:</b> กด "🚩 แจ้งตารางผิด" ข้างหัวข้อตาราง แล้วแตะคาบที่ไม่ตรงความจริง พิมพ์ว่าผิดตรงไหน (ไม่บังคับ) ส่งให้ผู้ดูแลตรวจ</li>
+          <li><b>ดูเกรด:</b> ปุ่ม "ดูเกรด (SGS)" พาไประบบ SGS ของโรงเรียน</li>
+          <li><b>ปฏิทินโรงเรียน:</b> วันหยุดและกิจกรรมที่โรงเรียนประกาศ ถ้าเป็นวันหยุดจะไม่มีแจ้งเตือนคาบ</li>
+        </ul>
+      </details>
+
+      <details class="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-[#111a2e]">
+        <summary class="flex items-center justify-between gap-3 font-bold text-slate-900 dark:text-white">7. คำถามที่พบบ่อย <span class="chev text-slate-400">⌄</span></summary>
+        <dl class="mt-3 space-y-3 text-sm text-slate-700 dark:text-slate-300">
+          <div><dt class="font-bold text-slate-900 dark:text-white">ใส่รหัสห้องแล้วเข้าไม่ได้</dt><dd>เช็กว่าเลือกห้องถูกและพิมพ์รหัสครบ (ตัวพิมพ์เล็ก/ใหญ่ มีขีดคั่น) ถ้ายังไม่ได้ ถามรหัสใหม่จากหัวหน้าห้อง</dd></div>
+          <div><dt class="font-bold text-slate-900 dark:text-white">ขึ้น "ใส่รหัสผิดหลายครั้งเกินไป"</dt><dd>ระบบจำกัดจำนวนครั้งเพื่อกันคนเดารหัส รอสักครู่ (ประมาณ 15 นาที) แล้วลองใหม่</dd></div>
+          <div><dt class="font-bold text-slate-900 dark:text-white">ขึ้นให้ "ออกจากระบบแล้วเข้าใหม่"</dt><dd>เป็นปกติหลังระบบอัปเดต กด "ออกจากระบบ" แล้วใส่รหัสห้องอีกครั้ง ครั้งเดียวก็พอ</dd></div>
+          <div><dt class="font-bold text-slate-900 dark:text-white">ตารางไม่ตรงกับที่เรียนจริง</dt><dd>ตารางทั้งหมดถอดจากตารางของโรงเรียนด้วยมือ อาจผิดบางช่อง กด "แจ้งตารางผิด" ที่คาบนั้น (ดูหัวข้อ 6)</dd></div>
+          <div><dt class="font-bold text-slate-900 dark:text-white">เปลี่ยนเครื่อง/ห้อง</dt><dd>กด "ออกจากระบบ" แล้วเลือกห้องใหม่ เครื่องใหม่ต้องเปิดแจ้งเตือนใหม่</dd></div>
+        </dl>
+      </details>
+
+      <details class="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-[#111a2e]">
+        <summary class="flex items-center justify-between gap-3 font-bold text-slate-900 dark:text-white">ถามแอดมิน / ติดต่อ <span class="chev text-slate-400">⌄</span></summary>
+        <div class="mt-3 space-y-2 text-sm text-slate-700 dark:text-slate-300">
+          <p>ถ้าห้องของคุณเปิดแชตแล้ว ใช้แท็บ <b>"คุยกับแอดมิน"</b> ในแผงแชต หรือบอกหัวหน้าห้อง/เพื่อนที่ดูแลเว็บให้ช่วยส่งต่อ</p>
+          <p class="text-xs text-slate-500 dark:text-slate-400">ClassKhab เป็นเว็บเสริมที่นักเรียนทำเพื่อช่วยดูตารางและเตือนคาบเรียน ไม่ใช่ช่องทางทางการของโรงเรียน ถ้าข้อมูลสำคัญ (วันสอบ วันหยุด) ควรตรวจกับประกาศของโรงเรียนอีกครั้ง</p>
+        </div>
+      </details>
+    </main>
+
+    <footer class="pb-8 text-center text-xs text-slate-400">© ClassKhab · โรงเรียนท่าบ่อ</footer>
+  </body>
+</html>
