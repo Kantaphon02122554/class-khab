@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ClassKhab - แพลตฟอร์มแจ้งเตือนตารางเรียนอัจฉริยะ</title>
     <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" type="image/png" href="icon-192.png" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <meta name="theme-color" content="#0F172A" />
     <!-- Tailwind CSS CDN -->
@@ -70,6 +71,10 @@
       .chat-scroll { scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.12) transparent; }
       @media (prefers-reduced-motion: reduce) { .chat-msg { animation: none; } }
 
+      /* ตราโรงเรียน: พื้นดำมุมมน เส้นสีขาว (ในไฟล์ SVG) โหมดมืดเพิ่มขอบบางให้เห็นขอบพื้นดำ */
+      .crest { display: block; }
+      html.dark .crest { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.22); border-radius: 22%; }
+
       /* โหมดมืด: ทับสีคลาส Tailwind ที่ใช้ในหน้านี้ */
       html.dark { color-scheme: dark; }
       html.dark body { background: #0b1220 !important; color: #e2e8f0; }
@@ -106,9 +111,7 @@
     <div id="authScreen" class="min-h-screen flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-md fixed inset-0 z-50 overflow-y-auto">
       <div class="w-full max-w-md bg-white p-8 rounded-3xl shadow-2xl border border-slate-100 relative my-8">
         <div class="text-center mb-6">
-          <div class="w-12 h-12 mx-auto mb-3 rounded-2xl bg-slate-900 flex items-center justify-center text-white shadow-lg">
-            <i data-lucide="book-open" class="w-6 h-6"></i>
-          </div>
+          <img src="crest.svg" alt="โลโก้ โรงเรียนท่าบ่อ" class="crest mx-auto mb-3 h-20 w-20" />
           <h1 class="text-2xl font-bold text-slate-900">เข้าสู่ระบบ ClassKhab</h1>
           <p class="text-xs text-slate-500 mt-1">เลือกระดับชั้นเรียนเพื่อดูตารางสอนโรงเรียนท่าบ่อ</p>
         </div>
@@ -157,6 +160,17 @@
                   <option value="ม.4/2">ม.4/2 Talent</option>
                   <option value="ม.4/3">ม.4/3 Gift.S</option>
                   <option value="ม.4/4">ม.4/4 Gifted English</option>
+                  <option value="ม.4/5">ม.4/5 วิทย์-คณิต (สาธารณสุข)</option>
+                  <option value="ม.4/6">ม.4/6 วิทย์-คณิต (เตรียมวิศวะ)</option>
+                  <option value="ม.4/7">ม.4/7 วิทย์-คณิต</option>
+                  <option value="ม.4/8">ม.4/8 วิทย์-คณิต</option>
+                  <option value="ม.4/9(JAP)">ม.4/9(JAP) อังกฤษ-ญี่ปุ่น</option>
+                  <option value="ม.4/9(KOR)">ม.4/9(KOR) อังกฤษ-เกาหลี</option>
+                  <option value="ม.4/9(CHI)">ม.4/9(CHI) อังกฤษ-จีน</option>
+                  <option value="ม.4/10">ม.4/10 Sport Talented</option>
+                  <option value="ม.4/11">ม.4/11 วิชาชีพ (ศิลป์-ธุรกิจ)</option>
+                  <option value="ม.4/12">ม.4/12 ภาษา-สังคม</option>
+                  <option value="ม.4/13">ม.4/13 ภาษา-สังคม</option>
                 </optgroup>
                 <optgroup label="ระดับชั้น ม.5">
                   <option value="ม.5/12">ม.5/12</option>
@@ -200,9 +214,7 @@
           <div class="flex items-center justify-between">
             <div class="flex-shrink-0">
               <a href="#" class="flex items-center space-x-2 rounded outline-none">
-                <div class="w-8 h-8 rounded-lg bg-slate-900 flex items-center justify-center text-white">
-                  <i data-lucide="book-open" class="w-4 h-4"></i>
-                </div>
+                <img src="crest.svg" alt="โลโก้ โรงเรียนท่าบ่อ" class="crest h-9 w-9" />
                 <span class="text-xl font-extrabold tracking-tight text-slate-900">ClassKhab</span>
               </a>
             </div>
