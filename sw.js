@@ -10,7 +10,9 @@ self.addEventListener('push', (event) => {
       body: d.body,
       icon: 'icon-192.png',
       badge: 'icon-192.png',
-      vibrate: [200, 100, 200],
+      vibrate: [400, 150, 400, 150, 700],   // สั่นยาวขึ้นให้รู้ตัว (เสียงกำหนดโดยเครื่อง เว็บเปลี่ยนเสียงเองไม่ได้)
+      silent: false,
+      requireInteraction: true,             // คอม: แจ้งเตือนค้างจนกดปิด ไม่หายเองใน 5 วิ
       tag: d.tag || 'classkhab',
       renotify: true,
       data: { url: d.url },
