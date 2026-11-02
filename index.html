@@ -2020,6 +2020,22 @@
         document.getElementById('mainDashboard').classList.add('hidden');
       }
 
+      // สถิติผู้ใช้ต่อวัน: ส่งสัญญาณสั้นๆ วันละครั้งต่อเครื่อง (รหัสสุ่มประจำเครื่อง + ห้อง ไม่มีชื่อ/IP) ให้หน้าแอดมินทำกราฟ
+      async function logVisit() {
+        try {
+          if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return;
+          const day = bkkToday();
+          if (localStorage.getItem('classkhab_visit') === day) return;
+          const dev = getDevice(); if (!dev) return;
+          const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/log_visit`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` },
+            body: JSON.stringify({ p_device: dev, p_class: teacherMode ? 'ครู' : (currentGrade || '') }),
+          });
+          if (res.ok) localStorage.setItem('classkhab_visit', day);
+        } catch (e) { /* ไม่กระทบการใช้งาน */ }
+      }
+
       function showDashboard() {
         document.getElementById('authScreen').classList.add('hidden');
         document.getElementById('mainDashboard').classList.remove('hidden');
@@ -2038,6 +2054,7 @@
         loadHoliday();
         loadEvents();
         loadNotice();
+        logVisit();
         if (!teacherMode) { loadVerified(); loadAnnouncements(); chatPeek(); syncPush(); }
       }
 
