@@ -74,7 +74,7 @@
       /* ตราโรงเรียน: พื้นดำมุมมน เส้นสีขาว (ในไฟล์ SVG) โหมดมืดเพิ่มขอบบางให้เห็นขอบพื้นดำ */
       .crest { display: block; }
       /* โหมดครู: ซ่อนของที่ผูกกับห้อง (แจ้งเตือนห้อง ประกาศ แชต คลังชีท แชร์ภาพ ตรวจตาราง) */
-      body.teacher-mode #pushBanner, body.teacher-mode #annSection, body.teacher-mode #studySection, body.teacher-mode #chatFab, body.teacher-mode #shareBtn, body.teacher-mode #verifiedBadge, body.teacher-mode #reportModeBtn { display: none !important; }
+      body.teacher-mode #annSection, body.teacher-mode #studySection, body.teacher-mode #chatFab, body.teacher-mode #shareBtn, body.teacher-mode #verifiedBadge, body.teacher-mode #reportModeBtn { display: none !important; }
       html.dark .crest { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.22); border-radius: 22%; }
 
       /* โหมดมืด: ทับสีคลาส Tailwind ที่ใช้ในหน้านี้ */
@@ -298,6 +298,7 @@
             <div id="noticeBanner" class="pb pb-info hidden" role="status"></div>
             <div id="holidayBanner" class="pb pb-hol hidden"></div>
             <div id="examBanner" class="pb pb-warn hidden"></div>
+            <div id="offlineBar" class="pb pb-warn hidden"><span>📴 ออฟไลน์ — กำลังแสดงข้อมูลที่เคยโหลดไว้ อาจไม่ใช่ข้อมูลล่าสุด</span></div>
             <div id="pushBanner" class="pb pb-info hidden"></div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -1176,7 +1177,7 @@
         return ios && !standalone;
       }
 
-      async function callPushApi(body) {
+      async function callPushApi(body, tokenOverride) {
         if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return { ok: false };
         try {
           const res = await fetch(`${SUPABASE_URL}/functions/v1/push-subscribe`, {
@@ -1186,7 +1187,7 @@
               apikey: SUPABASE_ANON_KEY,
               Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
             },
-            body: JSON.stringify({ ...body, token: localStorage.getItem('classkhab_token') || undefined }),
+            body: JSON.stringify({ ...body, token: tokenOverride || localStorage.getItem('classkhab_token') || undefined }),
           });
           return res.ok ? await res.json() : { ok: false, status: res.status };
         } catch (e) {
@@ -1245,7 +1246,7 @@
           html = '<span>การแจ้งเตือนถูกบล็อก เปิดได้ที่การตั้งค่าเว็บไซต์ของเบราว์เซอร์ (ไอคอนแม่กุญแจข้างที่อยู่เว็บ)</span>';
         } else if (sub) {
           cls = 'pb-ok';
-          html = `<span>✓ เครื่องนี้เปิดแจ้งเตือนอยู่ (ห้อง ${currentGrade}) จะเตือนก่อนเริ่มคาบ</span>`;
+          html = `<span>✓ เครื่องนี้เปิดแจ้งเตือนอยู่ (ห้อง ${currentGrade}) จะเตือนก่อนเริ่มคาบ · <a href="help.html#sound" class="underline">ตั้งเสียงให้ดังขึ้น</a></span>`;
         } else {
           html = '<span>เปิดแจ้งเตือนเพื่อให้เตือนก่อนเริ่มคาบ แม้ปิดหน้าเว็บอยู่</span><button onclick="togglePush()">เปิดแจ้งเตือน</button>';
         }
@@ -2026,6 +2027,48 @@
         document.getElementById('mainDashboard').classList.add('hidden');
       }
 
+      // ---- แจ้งเตือนก่อนคาบสำหรับครู (โทเค็นครูจาก verify-class เก็บใน classkhab_teacher) ----
+      const teacherToken = () => { try { return (JSON.parse(localStorage.getItem('classkhab_teacher') || 'null') || {}).token || null; } catch (e) { return null; } };
+      async function updateTeacherPushBanner() {
+        const el = document.getElementById('pushBanner'); if (!el) return;
+        const sub = await currentPushSub();
+        let cls = 'pb-info', html;
+        if (iosNeedsInstall()) { cls = 'pb-warn'; html = '<span>iPhone/iPad: กดปุ่มแชร์ แล้วเลือก "เพิ่มไปยังหน้าจอโฮม" จากนั้นเปิดแอปจากหน้าจอโฮม จึงจะรับแจ้งเตือนได้</span>'; }
+        else if (!pushSupported) { cls = 'pb-warn'; html = '<span>เบราว์เซอร์นี้ไม่รองรับการแจ้งเตือน ลองใช้ Chrome</span>'; }
+        else if (!teacherToken()) { cls = 'pb-warn'; html = '<span>ออกจากระบบแล้วเข้าใหม่ด้วยรหัสครูอีกครั้ง จึงจะเปิดแจ้งเตือนคาบสอนได้</span>'; }
+        else if (Notification.permission === 'denied') { cls = 'pb-err'; html = '<span>การแจ้งเตือนถูกบล็อก เปิดได้ที่การตั้งค่าเว็บไซต์ของเบราว์เซอร์</span>'; }
+        else if (sub) { cls = 'pb-ok'; html = '<span>✓ เครื่องนี้เปิดแจ้งเตือนคาบสอนอยู่ · <a href="help.html#sound" class="underline">ตั้งเสียงให้ดังขึ้น</a></span><button onclick="toggleTeacherPush()">ปิดแจ้งเตือน</button>'; }
+        else html = '<span>เปิดแจ้งเตือนเพื่อให้เตือนก่อนเริ่มคาบสอน แม้ปิดหน้าเว็บอยู่</span><button onclick="toggleTeacherPush()">เปิดแจ้งเตือน</button>';
+        el.className = 'pb ' + cls; el.innerHTML = html;
+      }
+      async function toggleTeacherPush() {
+        if (iosNeedsInstall() || !pushSupported || !teacherToken()) return updateTeacherPushBanner();
+        try {
+          const reg = await navigator.serviceWorker.register('sw.js'); await navigator.serviceWorker.ready;
+          let sub = await reg.pushManager.getSubscription();
+          if (sub) { await callPushApi({ action: 'unsubscribe', subscription: sub.toJSON() }); await sub.unsubscribe(); }
+          else {
+            if ((await Notification.requestPermission()) !== 'granted') { alert('ยังไม่ได้อนุญาตการแจ้งเตือน เปิดได้ที่การตั้งค่าของเบราว์เซอร์'); return; }
+            sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64uToUint8(VAPID_PUBLIC_KEY) });
+            const r = await callPushApi({ action: 'subscribe_teacher', subscription: sub.toJSON() }, teacherToken());
+            if (!r.ok) { await sub.unsubscribe(); alert(r.status === 429 ? 'เปิดแจ้งเตือนครบ 5 เครื่องแล้ว' : r.status === 401 ? 'ออกจากระบบแล้วเข้าใหม่ด้วยรหัสครู จากนั้นลองเปิดแจ้งเตือนอีกครั้ง' : 'บันทึกการแจ้งเตือนไม่สำเร็จ ลองใหม่อีกครั้ง'); return; }
+            alert('เปิดแจ้งเตือนแล้ว ระบบจะเตือนก่อนเริ่มคาบสอน');
+          }
+        } catch (e) { alert('เปิดแจ้งเตือนไม่สำเร็จ: ' + (e && e.message ? e.message : e)); }
+        updateTeacherPushBanner();
+      }
+      // เครื่องที่เปิดแจ้งเตือนไว้แล้ว: ต่ออายุการสมัครกับบัญชีครูเงียบๆ (กรณีเครื่องนี้เคยสมัครไว้ก่อนมีโหมดครู)
+      async function syncTeacherPush() {
+        const sub = await currentPushSub(), tok = teacherToken();
+        if (sub && tok && Notification.permission === 'granted') await callPushApi({ action: 'subscribe_teacher', subscription: sub.toJSON() }, tok);
+        updateTeacherPushBanner();
+      }
+
+      // แถบ "ออฟไลน์" ให้รู้ว่ากำลังดูข้อมูลที่เคยโหลดไว้
+      function updateOfflineBar() { const b = document.getElementById('offlineBar'); if (b) b.classList.toggle('hidden', navigator.onLine !== false); }
+      window.addEventListener('online', updateOfflineBar);
+      window.addEventListener('offline', updateOfflineBar);
+
       // สถิติผู้ใช้ต่อวัน: ส่งสัญญาณสั้นๆ วันละครั้งต่อเครื่อง (รหัสสุ่มประจำเครื่อง + ห้อง ไม่มีชื่อ/IP) ให้หน้าแอดมินทำกราฟ
       async function logVisit() {
         try {
@@ -2061,7 +2104,9 @@
         loadEvents();
         loadNotice();
         logVisit();
-        if (!teacherMode) { loadVerified(); loadAnnouncements(); chatPeek(); syncPush(); }
+        updateOfflineBar();
+        if (teacherMode) syncTeacherPush();
+        else { loadVerified(); loadAnnouncements(); chatPeek(); syncPush(); }
       }
 
       function selectDay(dayName) {
