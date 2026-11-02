@@ -73,6 +73,8 @@
 
       /* ตราโรงเรียน: พื้นดำมุมมน เส้นสีขาว (ในไฟล์ SVG) โหมดมืดเพิ่มขอบบางให้เห็นขอบพื้นดำ */
       .crest { display: block; }
+      /* โหมดครู: ซ่อนของที่ผูกกับห้อง (แจ้งเตือนห้อง ประกาศ แชต คลังชีท แชร์ภาพ ตรวจตาราง) */
+      body.teacher-mode #pushBanner, body.teacher-mode #annSection, body.teacher-mode #studySection, body.teacher-mode #chatFab, body.teacher-mode #shareBtn, body.teacher-mode #verifiedBadge, body.teacher-mode #reportModeBtn { display: none !important; }
       html.dark .crest { box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.22); border-radius: 22%; }
 
       /* โหมดมืด: ทับสีคลาส Tailwind ที่ใช้ในหน้านี้ */
@@ -1094,6 +1096,24 @@
 
       const DAY_NAMES = { 1: 'จันทร์', 2: 'อังคาร', 3: 'พุธ', 4: 'พฤหัสบดี', 5: 'ศุกร์' };
 
+      // ---- โหมดครู: ล็อกอินด้วยรหัสครูอย่างเดียว (KRU-XXXX-XXXXXXXX) ตารางส่งกลับมากับการล็อกอิน ไม่ได้เก็บในตารางที่ anon อ่านได้ ----
+      let teacherMode = false;
+      const TEACHER_RE = /^kru-?[a-z0-9]{4}-?[a-z0-9]{8}$/i;
+      function enterTeacher(t) {
+        teacherMode = true;
+        currentGrade = 'ครู:' + t.name;
+        scheduleData[currentGrade] = (t.schedule || [])
+          .map((s) => ({ day: DAY_NAMES[s.day], period: s.period, subject: s.subject, room: s.room || '-', teacher: s.class ? 'ชั้น ' + s.class : '-' }))
+          .filter((x) => x.day && periods[x.period - 1])
+          .sort((a, b) => a.period - b.period);
+        document.body.classList.add('teacher-mode');
+      }
+      function leaveTeacher() {
+        teacherMode = false;
+        document.body.classList.remove('teacher-mode');
+        try { localStorage.removeItem('classkhab_teacher'); } catch (e) { /* ไม่เป็นไร */ }
+      }
+
       // ชื่อวิชาจากรหัส (subjects.mjs ใช้ร่วมกับสคริปต์นำเข้า) ถ้าโหลดไม่ได้จะแสดงรหัสเดิม
       let subjectNameFn = () => null;
       async function loadSubjects() {
@@ -1106,7 +1126,7 @@
 
       // ดึงตารางจาก Supabase -> ถ้าไม่ได้ใช้ schedule.json -> ถ้าไม่ได้ใช้ข้อมูลที่ฝังในไฟล์
       async function loadSchedule(classId) {
-        if (!classId) return;   // ยังไม่ล็อกอิน: ไม่ต้องโหลดตาราง (ดึงเฉพาะห้องตัวเอง ลดข้อมูลและโควตา)
+        if (!classId || teacherMode) return;   // ยังไม่ล็อกอิน: ไม่ต้องโหลดตาราง (ดึงเฉพาะห้องตัวเอง ลดข้อมูลและโควตา)
         try {
           if (!SUPABASE_URL || !SUPABASE_ANON_KEY) throw new Error('supabase not configured');
           const res = await fetch(
@@ -1766,7 +1786,7 @@
         else if (r.error === 'auth') { alert('หมดอายุ ต้องเข้าสู่ระบบใหม่'); loadAnnouncements(); }
         else alert('โพสต์ไม่สำเร็จ ตรวจหัวข้อแล้วลองอีกครั้ง');
       }
-      document.addEventListener('visibilitychange', () => { if (!document.hidden && currentGrade) { loadAnnouncements(); loadNotice(); } });
+      document.addEventListener('visibilitychange', () => { if (!document.hidden && currentGrade) { if (!teacherMode) loadAnnouncements(); loadNotice(); } });
 
       // --- แถบประกาศจากผู้ดูแล (site_notices: ส่งจากหน้าแอดมิน แสดงถึงเวลาหมดอายุ ผู้ใช้ปิดแถบนั้นได้) ---
       async function loadNotice() {
@@ -1918,6 +1938,7 @@
       window.addEventListener('DOMContentLoaded', async () => {
         lucide.createIcons();
         setupLineLink();
+        try { const st = JSON.parse(localStorage.getItem('classkhab_teacher') || 'null'); if (st && st.name) enterTeacher(st); } catch (e) { /* ล็อกอินครูใหม่ */ }
         await Promise.all([loadSchedule(currentGrade), loadSubjects()]);
         if (currentGrade) {
           showDashboard();
@@ -1936,6 +1957,7 @@
         e.preventDefault();
         const selectedClass = document.getElementById('loginClass').value;
         const password = document.getElementById('loginPassword').value;
+        const isTeacher = TEACHER_RE.test(password.trim());   // รหัสครู: ไม่ต้องเลือกห้อง
         const errDiv = document.getElementById('loginError');
         const showError = (msg) => {
           errDiv.textContent = msg;
@@ -1954,13 +1976,23 @@
               apikey: SUPABASE_ANON_KEY,
               Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
             },
-            body: JSON.stringify({ class_id: selectedClass, password }),
+            body: JSON.stringify({ class_id: isTeacher ? '__teacher__' : selectedClass, password: isTeacher ? password.trim() : password }),
           });
           const result = res.ok ? await res.json() : { ok: false, rate: res.status === 429 };
           if (result.rate) {
             showError('ใส่รหัสผิดหลายครั้งเกินไป รอสักครู่แล้วลองใหม่');
           } else if (result.ok) {
             errDiv.classList.add('hidden');
+            if (result.teacher) {
+              enterTeacher(result.teacher);
+              localStorage.setItem('classkhab_teacher', JSON.stringify(result.teacher));
+              localStorage.removeItem('classkhab_grade');
+              localStorage.removeItem('classkhab_token');
+              document.getElementById('loginPassword').value = '';
+              showDashboard();
+              return;
+            }
+            leaveTeacher();
             currentGrade = selectedClass;
             await loadSchedule(selectedClass);
             localStorage.setItem('classkhab_grade', currentGrade);
@@ -1979,6 +2011,7 @@
         localStorage.removeItem('classkhab_grade');
         localStorage.removeItem('classkhab_token');
         currentGrade = null;
+        leaveTeacher();
         showAuthScreen();
       }
 
@@ -1992,8 +2025,8 @@
         document.getElementById('mainDashboard').classList.remove('hidden');
         document.getElementById('mainDashboard').classList.add('flex');
 
-        document.getElementById('navGradeLabel').textContent = `ห้องเรียน: ${currentGrade}`;
-        document.getElementById('mobileGradeLabel').textContent = `ห้องเรียน: ${currentGrade}`;
+        document.getElementById('navGradeLabel').textContent = (teacherMode ? currentGrade.replace('ครู:', 'ตารางสอน: ') : `ห้องเรียน: ${currentGrade}`);
+        document.getElementById('mobileGradeLabel').textContent = (teacherMode ? currentGrade.replace('ครู:', 'ตารางสอน: ') : `ห้องเรียน: ${currentGrade}`);
 
         // บนมือถือแสดงเฉพาะตารางของวันนี้ก่อน (วันเสาร์–อาทิตย์แสดงทั้งหมด) อ่านง่ายกว่าการ์ดยาวต่อกัน 5 วัน
         const todayTab = [null, 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', null][new Date().getDay()];
@@ -2004,11 +2037,8 @@
         window._ck = setInterval(updateTimeTracker, 1000);
         loadHoliday();
         loadEvents();
-        loadVerified();
         loadNotice();
-        loadAnnouncements();
-        chatPeek();
-        syncPush();
+        if (!teacherMode) { loadVerified(); loadAnnouncements(); chatPeek(); syncPush(); }
       }
 
       function selectDay(dayName) {
