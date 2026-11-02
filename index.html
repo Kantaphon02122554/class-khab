@@ -1145,8 +1145,13 @@
           });
           Object.values(fresh).forEach((a) => a.sort((x, y) => x.period - y.period));
           Object.assign(scheduleData, fresh);
+          try { localStorage.setItem('classkhab_sched_' + classId, JSON.stringify(fresh[classId] || [])); } catch (e) { /* พื้นที่เต็ม ไม่เป็นไร */ }   // เก็บไว้ใช้ตอนออฟไลน์
           return;
         } catch (e) { /* ลองแหล่งสำรอง */ }
+        try {   // ออฟไลน์/เซิร์ฟเวอร์ล่ม: ใช้ตารางที่เคยโหลดล่าสุดของห้องนี้ (ใหม่กว่า schedule.json)
+          const saved = JSON.parse(localStorage.getItem('classkhab_sched_' + classId) || 'null');
+          if (Array.isArray(saved) && saved.length) { scheduleData[classId] = saved; return; }
+        } catch (e) { /* ลองแหล่งสำรองต่อ */ }
         try {
           const res = await fetch('schedule.json', { cache: 'no-cache' });
           if (!res.ok) throw new Error('schedule.json ' + res.status);
@@ -1938,6 +1943,7 @@
       window.addEventListener('DOMContentLoaded', async () => {
         lucide.createIcons();
         setupLineLink();
+        if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});   // แคชไฟล์เว็บให้เปิดออฟไลน์ได้ + รับแจ้งเตือน
         try { const st = JSON.parse(localStorage.getItem('classkhab_teacher') || 'null'); if (st && st.name) enterTeacher(st); } catch (e) { /* ล็อกอินครูใหม่ */ }
         await Promise.all([loadSchedule(currentGrade), loadSubjects()]);
         if (currentGrade) {
