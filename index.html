@@ -118,6 +118,25 @@
           <p class="text-xs text-slate-500 mt-1">เลือกระดับชั้นเรียนเพื่อดูตารางสอนโรงเรียนท่าบ่อ</p>
         </div>
 
+        <!-- ล็อกอินด้วยอีเมลโรงเรียน (OTP): แสดงเมื่อเปิดใช้ (OTP_ON) ฟอร์มรหัสห้องด้านล่างเป็นทางสำรอง -->
+        <div id="otpBox" class="hidden space-y-4">
+          <div id="otpStep1" class="space-y-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">เลขประจำตัวนักเรียน หรืออีเมลโรงเรียน</label>
+              <input type="text" id="otpEmail" inputmode="email" autocomplete="username" placeholder="เช่น 29468 หรือ 29468@thaboschool.ac.th" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900" onkeydown="if(event.key==='Enter'){event.preventDefault();otpSend();}" />
+              <p class="text-[11px] text-slate-500 mt-1">ระบบจะส่งรหัส 6 หลักไปที่อีเมลโรงเรียนของคุณ และพาเข้าห้องของคุณอัตโนมัติ</p>
+            </div>
+            <button type="button" id="otpSendBtn" onclick="otpSend()" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm rounded-xl shadow-md transition-all">ส่งรหัสเข้าอีเมล</button>
+          </div>
+          <div id="otpStep2" class="hidden space-y-3">
+            <p class="text-xs text-slate-600">ส่งรหัสไปที่ <b id="otpSentTo"></b> แล้ว (ใช้ได้ 10 นาที) ดูในกล่องจดหมาย หรือถ้าไม่เจอลองดูในจดหมายขยะ ถ้ารอเกิน 1–2 นาทีแล้วยังไม่มา ห้องของคุณอาจยังไม่เข้าระบบนี้ ให้กด "เปลี่ยนเลข/อีเมล" แล้วเลือก "เข้าด้วยรหัสห้องแทน"</p>
+            <input type="text" id="otpCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="รหัส 6 หลัก" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-center text-xl tracking-[0.4em] font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900" onkeydown="if(event.key==='Enter'){event.preventDefault();otpVerify();}" oninput="this.value=this.value.replace(/\D/g,'');if(this.value.length===6)otpVerify();" />
+            <button type="button" id="otpVerifyBtn" onclick="otpVerify()" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm rounded-xl shadow-md transition-all">เข้าสู่ระบบ</button>
+            <div class="flex items-center justify-between text-xs"><button type="button" id="otpResend" onclick="otpSend(true)" class="font-semibold text-blue-600 disabled:text-slate-400" disabled>ขอรหัสใหม่</button><button type="button" onclick="otpBack()" class="text-slate-500 hover:underline">เปลี่ยนเลข/อีเมล</button></div>
+          </div>
+          <div id="otpError" class="hidden text-xs text-rose-500 bg-rose-50 p-2.5 rounded-xl border border-rose-200"></div>
+          <button type="button" onclick="showRoomLogin(true)" class="w-full text-center text-xs font-semibold text-slate-500 hover:underline">เข้าด้วยรหัสห้องแทน</button>
+        </div>
         <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
           <div>
             <label class="block text-xs font-semibold text-slate-600 mb-1">เลือกระดับชั้น / ห้องเรียน</label>
@@ -1945,6 +1964,7 @@
       window.addEventListener('DOMContentLoaded', async () => {
         lucide.createIcons();
         setupLineLink();
+        initOtpUi();
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});   // แคชไฟล์เว็บให้เปิดออฟไลน์ได้ + รับแจ้งเตือน
         try { const st = JSON.parse(localStorage.getItem('classkhab_teacher') || 'null'); if (st && st.name) enterTeacher(st); } catch (e) { /* ล็อกอินครูใหม่ */ }
         await Promise.all([loadSchedule(currentGrade), loadSubjects()]);
@@ -1960,6 +1980,74 @@
         menu.classList.toggle('hidden');
       }
 
+      // ---- ล็อกอินด้วยอีเมลโรงเรียน (OTP) ----
+      // เปิดใช้จริงเมื่อฝั่งเซิร์ฟเวอร์พร้อม: เปลี่ยน OTP_DEFAULT เป็น true (ทดสอบก่อนได้ด้วย ?otp=1)
+      const OTP_DEFAULT = false, SCHOOL_DOMAIN = 'thaboschool.ac.th';
+      const OTP_ON = OTP_DEFAULT ? new URLSearchParams(location.search).get('otp') !== '0' : new URLSearchParams(location.search).get('otp') === '1';
+      let otpEmail = '', otpTimer = null;
+      const otpErr = (m) => { const e = document.getElementById('otpError'); e.textContent = m || ''; e.classList.toggle('hidden', !m); };
+      function showRoomLogin(on) {   // true = โชว์ฟอร์มรหัสห้อง (ทางสำรอง) / false = โชว์ OTP
+        document.getElementById('otpBox').classList.toggle('hidden', on || !OTP_ON);
+        document.getElementById('loginForm').classList.toggle('hidden', !on && OTP_ON);
+        const back = document.getElementById('otpBackLink'); if (back) back.classList.toggle('hidden', !on || !OTP_ON);
+      }
+      function initOtpUi() {
+        if (!OTP_ON) return;
+        const f = document.getElementById('loginForm');
+        f.insertAdjacentHTML('afterend', '<button type="button" id="otpBackLink" onclick="showRoomLogin(false)" class="hidden mt-3 w-full text-center text-xs font-semibold text-blue-600 hover:underline">← เข้าด้วยอีเมลโรงเรียน</button>');
+        showRoomLogin(false);
+      }
+      async function otpCall(fn, body) {
+        const res = await fetch(`${SUPABASE_URL}/functions/v1/${fn}`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify(body) });
+        let j = {}; try { j = await res.json(); } catch (e) { /* ไม่ใช่ JSON */ }
+        return { status: res.status, ...j };
+      }
+      function otpCooldown(sec) {
+        const b = document.getElementById('otpResend'); clearInterval(otpTimer); b.disabled = true;
+        let s = sec; b.textContent = `ขอรหัสใหม่ได้ใน ${s} วินาที`;
+        otpTimer = setInterval(() => { s--; if (s <= 0) { clearInterval(otpTimer); b.disabled = false; b.textContent = 'ขอรหัสใหม่'; } else b.textContent = `ขอรหัสใหม่ได้ใน ${s} วินาที`; }, 1000);
+      }
+      async function otpSend(again) {
+        otpErr('');
+        const raw = again ? otpEmail : document.getElementById('otpEmail').value.trim().toLowerCase();
+        const m = raw.match(/^(\d{4,8})(?:@(.+))?$/);
+        if (!m || (m[2] && m[2] !== SCHOOL_DOMAIN)) { otpErr('ใส่เลขประจำตัว หรืออีเมลโรงเรียนให้ถูกต้อง (เช่น 29468@' + SCHOOL_DOMAIN + ')'); return; }
+        otpEmail = `${m[1]}@${SCHOOL_DOMAIN}`;
+        const btn = document.getElementById('otpSendBtn'); btn.disabled = true; const old = btn.textContent; btn.textContent = 'กำลังส่ง…';
+        try {
+          const r = await otpCall('otp-request', { email: otpEmail });
+          if (r.ok) {
+            document.getElementById('otpSentTo').textContent = otpEmail;
+            document.getElementById('otpStep1').classList.add('hidden'); document.getElementById('otpStep2').classList.remove('hidden');
+            document.getElementById('otpCode').value = ''; document.getElementById('otpCode').focus(); otpCooldown(60);
+          } else if (r.status === 429) otpErr('ขอรหัสบ่อยเกินไป รอสักครู่แล้วลองใหม่');
+          else if (r.error === 'mail') otpErr('ส่งอีเมลไม่สำเร็จ ลองใหม่อีกครั้ง หรือเข้าด้วยรหัสห้องแทน');
+          else otpErr('ขอรหัสไม่สำเร็จ ตรวจเลขประจำตัวแล้วลองใหม่');
+        } catch (e) { otpErr('เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ ลองใหม่อีกครั้ง'); }
+        btn.disabled = false; btn.textContent = old;
+      }
+      function otpBack() { otpErr(''); clearInterval(otpTimer); document.getElementById('otpStep2').classList.add('hidden'); document.getElementById('otpStep1').classList.remove('hidden'); }
+      async function otpVerify() {
+        const code = document.getElementById('otpCode').value.replace(/\D/g, '');
+        if (code.length !== 6) { otpErr('ใส่รหัส 6 หลัก'); return; }
+        otpErr('');
+        const btn = document.getElementById('otpVerifyBtn'); btn.disabled = true;
+        try {
+          const r = await otpCall('otp-verify', { email: otpEmail, code });
+          if (r.ok) {
+            leaveTeacher();
+            localStorage.setItem('classkhab_token', r.token);
+            localStorage.setItem('classkhab_student', JSON.stringify({ id: r.student_id, sid: r.sid }));
+            currentGrade = r.class_id; await loadSchedule(r.class_id);
+            localStorage.setItem('classkhab_grade', currentGrade);
+            clearInterval(otpTimer); document.getElementById('otpStep2').classList.add('hidden'); document.getElementById('otpStep1').classList.remove('hidden');
+            showDashboard();
+          } else if (r.status === 429) otpErr('ใส่รหัสผิดหลายครั้งเกินไป รอสักครู่แล้วลองใหม่');
+          else if (r.error === 'wrong') { otpErr(`รหัสไม่ถูกต้อง (เหลืออีก ${r.left} ครั้ง)`); document.getElementById('otpCode').value = ''; }
+          else otpErr('รหัสหมดอายุหรือลองผิดเกินกำหนด กด "ขอรหัสใหม่"');
+        } catch (e) { otpErr('เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ ลองใหม่อีกครั้ง'); }
+        btn.disabled = false;
+      }
       // ตรวจรหัสผ่านที่ Edge Function verify-class (ไม่เก็บรหัสในโค้ดฝั่งเบราว์เซอร์)
       async function handleLogin(e) {
         e.preventDefault();
@@ -2001,6 +2089,7 @@
               return;
             }
             leaveTeacher();
+            localStorage.removeItem('classkhab_student');   // เข้าด้วยรหัสห้อง = ไม่ได้ระบุตัวตนรายคน
             currentGrade = selectedClass;
             await loadSchedule(selectedClass);
             localStorage.setItem('classkhab_grade', currentGrade);
@@ -2019,6 +2108,7 @@
         localStorage.removeItem('classkhab_grade');
         localStorage.removeItem('classkhab_token');
         currentGrade = null;
+        localStorage.removeItem('classkhab_student');
         leaveTeacher();
         showAuthScreen();
       }
