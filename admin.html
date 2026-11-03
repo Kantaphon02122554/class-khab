@@ -338,7 +338,7 @@
           const p = mk('div', 'post'), top = mk('div', 'top'); top.append(mk('span', 'kd ' + a.kind, KIND[a.kind] || a.kind), mk('b', null, `[${a.class_id}] ${a.title}`));
           const x = mk('button', 'x', '🗑'); x.title = 'ลบโพสต์นี้'; x.onclick = async () => { if (confirm(`ลบโพสต์ "${a.title}" ?`)) { await api({ action: 'delete_announcement', id: a.id }); loadRooms(); } }; top.append(x);
           p.append(top); if (a.body) p.append(mk('div', 'muted', a.body));
-          p.append(mk('div', 'meta', `${fmt(a.created_at)} · ผู้โพสต์ #${a.poster || 'ไม่ทราบ'} · 🚩 ${a.reports} รายงาน${a.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}`)); cf.append(p);
+          p.append(mk('div', 'meta', `${fmt(a.created_at)} · ผู้โพสต์ ${a.student_id ? 'เลข ' + a.student_id : '#' + (a.poster || 'ไม่ทราบ')} · 🚩 ${a.reports} รายงาน${a.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}`)); cf.append(p);
         });
         g.append(cf);
       }
@@ -419,7 +419,7 @@
     d.announcements.forEach((a) => {
       const p = mk('div', 'post'), top = mk('div', 'top'); top.append(mk('span', 'kd ' + a.kind, KIND[a.kind] || a.kind), mk('b', null, a.title));
       const x = mk('button', 'x', '🗑'); x.title = 'ลบโพสต์นี้'; x.onclick = async () => { if (confirm(`ลบโพสต์ "${a.title}" ?`)) { await api({ action: 'delete_announcement', id: a.id }); openRoom(id); } }; top.append(x);
-      p.append(top); if (a.body) p.append(mk('div', 'muted', a.body)); p.append(mk('div', 'meta', `${fmt(a.created_at)}${a.due_date ? ' · กำหนด ' + a.due_date : ''} · ผู้โพสต์ #${a.poster || 'ไม่ทราบ'}${a.reports ? ` · 🚩 ${a.reports} รายงาน${a.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : ''}`)); c2.append(p);
+      p.append(top); if (a.body) p.append(mk('div', 'muted', a.body)); p.append(mk('div', 'meta', `${fmt(a.created_at)}${a.due_date ? ' · กำหนด ' + a.due_date : ''} · ผู้โพสต์ ${a.student_id ? 'เลข ' + a.student_id : '#' + (a.poster || 'ไม่ทราบ')}${a.reports ? ` · 🚩 ${a.reports} รายงาน${a.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : ''}`)); c2.append(p);
     });
     two.append(c2);
     // แชตห้อง (นำร่อง): เปิด/ปิด + ดูข้อความ + ลบ + ระงับเครื่อง
@@ -444,7 +444,7 @@
         const del = mk('button', 'x', '🗑'); del.title = 'ลบข้อความนี้';
         del.onclick = async () => { await api({ action: 'chat_delete', id: m.id }); openRoom(id); };
         top.append(ban, del); p.append(top);
-        p.append(mk('div', 'meta', `${fmt(m.created_at)} · ผู้ส่ง #${m.poster}${m.reports ? ` · 🚩 ${m.reports} รายงาน${m.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : ''}`));
+        p.append(mk('div', 'meta', `${fmt(m.created_at)} · ผู้ส่ง ${m.student_id ? 'เลข ' + m.student_id : '#' + m.poster}${m.reports ? ` · 🚩 ${m.reports} รายงาน${m.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : ''}`));
         cc.append(p);
       });
       two.append(cc);
@@ -464,7 +464,7 @@
         const links = mk('div', 'meta');
         if (m.link_url) { const a = mk('a', null, '🔗 ลิงก์'); a.href = m.link_url; a.target = '_blank'; a.rel = 'noopener noreferrer'; links.append(a, document.createTextNode(' · ')); }
         if (m.file_url) { const a = mk('a', null, m.file_kind === 'pdf' ? '📄 PDF' : '🖼 รูป'); a.href = m.file_url; a.target = '_blank'; a.rel = 'noopener noreferrer'; links.append(a, document.createTextNode(' · ')); }
-        links.append(document.createTextNode(`${fmt(m.created_at)} · ผู้โพสต์ #${m.poster}${m.hidden ? ' · ซ่อน' : ''}${m.reports ? ` · 🚩 ${m.reports} รายงาน${m.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : ''}`));
+        links.append(document.createTextNode(`${fmt(m.created_at)} · ผู้โพสต์ ${m.student_id ? 'เลข ' + m.student_id : '#' + m.poster}${m.hidden ? ' · ซ่อน' : ''}${m.reports ? ` · 🚩 ${m.reports} รายงาน${m.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : ''}`));
         p.append(links); cs.append(p);
       });
       two.append(cs);
