@@ -40,11 +40,24 @@
         }
       } catch (e) {}
     </script>
+    <script>
+      // ดีไซน์ใหม่ (v2): เปิดด้วย ?ui=2 (จำไว้ในเครื่อง) ปิดด้วย ?ui=1 — ค่าเริ่มต้นยังเป็นดีไซน์เดิม
+      try {
+        var _u = new URLSearchParams(location.search).get('ui');
+        if (_u === '2') localStorage.setItem('classkhab_ui2', '1'); else if (_u === '1') localStorage.removeItem('classkhab_ui2');
+        var _c = new URLSearchParams(location.search).get('cards');
+        if (_c === '1') localStorage.setItem('classkhab_cards', '1'); else if (_c === '0') localStorage.removeItem('classkhab_cards');
+        if (localStorage.getItem('classkhab_cards') === '1' || localStorage.getItem('classkhab_ui2') === '1') document.documentElement.classList.add('cards');   // การ์ดงาน/แจ้งเตือนหน้าหลัก: ?cards=1 (โครงใหม่ ?ui=2 เปิดการ์ดด้วย)
+        if (localStorage.getItem('classkhab_ui2') === '1') {
+          document.documentElement.classList.add('ui2'); document.documentElement.dataset.view = 'home'; document.documentElement.dataset.room = 'ann';
+          var _l = document.createElement('link'); _l.rel = 'stylesheet'; _l.href = 'https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&display=swap'; document.head.appendChild(_l);
+        }
+      } catch (e) {}
+    </script>
     <style>
       body {
         font-family: 'Sarabun', 'Inter', sans-serif;
       }
-
       /* แถบสถานะ (แจ้งเตือน/วันหยุด) */
       .pb { border-radius: 1rem; padding: 0.75rem 1rem; font-size: 0.8125rem; display: flex; gap: 0.75rem; align-items: center; justify-content: space-between; flex-wrap: wrap; border: 1px solid; }
       .pb button { font-weight: 700; padding: 0.375rem 0.875rem; border-radius: 0.625rem; background: rgba(0, 0, 0, 0.08); }
@@ -71,6 +84,58 @@
       .chat-scroll { scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, 0.12) transparent; }
       @media (prefers-reduced-motion: reduce) { .chat-msg { animation: none; } }
 
+      /* ===== ดีไซน์ใหม่ (v2) — มีผลเมื่อเปิดด้วย ?ui=2 เท่านั้น (html.ui2) ===== */
+      html:not(.ui2) .v2-only { display: none !important; }
+      html.ui2 body { font-family: 'Anuphan', 'Sarabun', sans-serif; padding-bottom: 5.5rem; }
+      html.ui2 #chatFab, html.ui2 #mobileMenu, html.ui2 header button[onclick="toggleMobileMenu()"], html.ui2 #mainDashboard footer { display: none !important; }
+      html.ui2 header { padding-top: 0.6rem; padding-bottom: 0.6rem; }
+      html.ui2 .v2-hero { padding: 0.75rem 0 0 !important; background: transparent !important; }
+      html.ui2 .v2-hero > div.mt-8 { margin-top: 0 !important; }
+      html.ui2 #dashCard { display: flex; flex-direction: column; gap: 1rem; padding: 0; background: transparent !important; box-shadow: none; border: 0; border-radius: 0; max-width: 42rem; margin-left: auto; margin-right: auto; }
+      html.ui2 #dashCard > * { margin-top: 0 !important; }
+      html.ui2 #nowNextGrid { grid-template-columns: 1fr; }
+      html.ui2 #nowNextGrid > div:first-child { grid-column: auto; padding: 1.1rem 1.25rem; }
+      html.ui2:not([data-view="home"]) .v-home, html.ui2:not([data-view="room"]) .v-room, html.ui2:not([data-view="menu"]) .v-menu,
+      html.ui2:not([data-view="room"][data-room="ann"]) .v-room-ann, html.ui2:not([data-view="room"][data-room="study"]) .v-room-study, html.ui2:not([data-view="room"][data-room="chat"]) .v-room-chat { display: none !important; }
+      /* ===== การ์ดงาน/แจ้งเตือนหน้าหลัก (html.cards): แทนแถบ สอบ/ประกาศ/วันหยุด/เวลาชั่วคราว/แจ้งเตือน เดิม ===== */
+      html:not(.cards) #homeCards { display: none !important; }
+      html.cards #heroText, html.cards #examBanner, html.cards #noticeBanner, html.cards #holidayBanner, html.cards #periodBanner, html.cards #pushBanner { display: none !important; }
+      html.cards #heroSection { padding-top: 1rem; padding-bottom: 1rem; }
+      html.cards #heroSection > div.mt-8 { margin-top: 0; }
+      .hc { border: 1px solid; border-radius: 1rem; padding: 0.75rem 0.9rem; font-size: 0.875rem; display: flex; gap: 0.6rem; align-items: flex-start; }
+      .hc .hc-ic { font-size: 1.1rem; line-height: 1.4; flex: none; }
+      .hc .hc-body { flex: 1; min-width: 0; } .hc .hc-t { font-weight: 800; } .hc .hc-s { font-size: 0.8rem; opacity: 0.85; margin-top: 0.1rem; }
+      .hc .hc-x { flex: none; width: 2rem; height: 2rem; border-radius: 0.6rem; font-size: 0.9rem; opacity: 0.65; margin: -0.3rem -0.4rem 0 0; } .hc .hc-x:hover { opacity: 1; background: rgba(0, 0, 0, 0.06); }
+      .hc .hc-act { margin-top: 0.45rem; font-weight: 700; font-size: 0.8rem; padding: 0.4rem 0.8rem; border-radius: 0.6rem; background: rgba(0, 0, 0, 0.08); }
+      .hc label.hc-row { display: flex; align-items: center; gap: 0.55rem; padding: 0.3rem 0; min-height: 2.2rem; cursor: pointer; } .hc label.hc-row input { width: 1.1rem; height: 1.1rem; accent-color: #059669; flex: none; }
+      .hc-err { background: #fef2f2; border-color: #fecaca; color: #991b1b; } .hc-warn { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+      .hc-exam { background: #f5f3ff; border-color: #ddd6fe; color: #5b21b6; } .hc-info { background: #eff6ff; border-color: #bfdbfe; color: #1e3a8a; }
+      .hc-ok { background: #ecfdf5; border-color: #a7f3d0; color: #065f46; } .hc-gray { background: #f8fafc; border-color: #e2e8f0; color: #475569; }
+      html.dark .hc-err { background: #3b0d0d; border-color: #b91c1c; color: #fecaca; } html.dark .hc-warn { background: #3b2a06; border-color: #b45309; color: #fde68a; }
+      html.dark .hc-exam { background: #2e1065; border-color: #6d28d9; color: #ddd6fe; } html.dark .hc-info { background: #172554; border-color: #1e40af; color: #bfdbfe; }
+      html.dark .hc-ok { background: #052e22; border-color: #047857; color: #a7f3d0; } html.dark .hc-gray { background: #111a2e; border-color: #243152; color: #cbd5e1; }
+      html.dark .hc .hc-act { background: rgba(255, 255, 255, 0.12); }
+      /* ซ่อนตามหน้าจอด้วย id ตรงๆ (บางแถบถูกเขียนทับ className จึงใช้คลาสอย่างเดียวไม่พอ) */
+      html.ui2:not([data-view="home"]) :is(#noticeBanner, #holidayBanner, #periodBanner, #offlineBar, #pushBanner, #homeCards, #nowNextGrid, #scheduleBlock, #eventsSection) { display: none !important; }
+      html.ui2 #chatPanel { position: static !important; max-height: none !important; width: auto !important; min-height: 60vh; margin: 0 !important; border-radius: 1rem !important; }
+      html.ui2 #chatPanel button[onclick="toggleChat(false)"] { display: none; }
+      #navV2 { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; display: flex; background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(10px); border-top: 1px solid #e2e8f0; padding: 0.4rem 0.5rem calc(0.4rem + env(safe-area-inset-bottom)); }
+      html.dark #navV2 { background: rgba(11, 18, 32, 0.96); border-top-color: #243152; }
+      #navV2 button { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: #94a3b8; position: relative; padding: 0.3rem 0; background: transparent; }
+      #navV2 button.on { color: #0f172a; } html.dark #navV2 button.on { color: #fff; }
+      #navV2 button svg { width: 22px; height: 22px; }
+      @media (min-width: 1024px) { #navV2 { max-width: 28rem; left: 50%; right: auto; width: 100%; transform: translateX(-50%); border: 1px solid #e2e8f0; border-radius: 1rem 1rem 0 0; } }
+      body.teacher-mode #navRoom, body.teacher-mode .student-only { display: none !important; }
+      .v2-tabs { display: flex; border-bottom: 1px solid #e2e8f0; } html.dark .v2-tabs { border-bottom-color: #243152; }
+      .v2-tabs button { flex: 1; padding: 0.7rem 0.25rem; font-weight: 700; font-size: 0.9rem; color: #64748b; border-bottom: 2px solid transparent; }
+      .v2-tabs button.on { color: #0f172a; border-bottom-color: #0f172a; } html.dark .v2-tabs button.on { color: #fff; border-bottom-color: #fff; }
+      .v2-group { font-size: 0.75rem; font-weight: 700; color: #64748b; margin: 0.9rem 0.25rem 0.4rem; }
+      .v2-list { border: 1px solid #e2e8f0; border-radius: 1rem; overflow: hidden; background: #fff; } html.dark .v2-list { background: #111a2e; border-color: #243152; }
+      .v2-item { display: flex; align-items: center; gap: 0.75rem; width: 100%; text-align: left; padding: 0.85rem 1rem; font-weight: 600; border-bottom: 1px solid #f1f5f9; } html.dark .v2-item { border-bottom-color: #1a2540; }
+      .v2-item:last-child { border-bottom: 0; } .v2-item svg { width: 20px; height: 20px; flex: none; color: #64748b; } .v2-item small { color: #94a3b8; font-weight: 400; }
+      .v2-item .grow { flex: 1; min-width: 0; } .v2-item.danger { color: #be123c; } .v2-item.danger svg { color: #be123c; }
+      .v2-switch { width: 2.6rem; height: 1.5rem; border-radius: 99px; background: #cbd5e1; position: relative; flex: none; } .v2-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: left 0.15s; }
+      html.dark .v2-switch { background: #3b82f6; } html.dark .v2-switch::after { left: 23px; }
       /* ตราโรงเรียน: พื้นดำมุมมน เส้นสีขาว (ในไฟล์ SVG) โหมดมืดเพิ่มขอบบางให้เห็นขอบพื้นดำ */
       .crest { display: block; }
       /* โหมดครู: ซ่อนของที่ผูกกับห้อง (แจ้งเตือนห้อง ประกาศ แชต คลังชีท แชร์ภาพ ตรวจตาราง) */
@@ -294,9 +359,9 @@
       </header>
 
       <!-- Hero Banner Section -->
-      <section class="pt-10 sm:pt-14 pb-12 bg-slate-50">
+      <section id="heroSection" class="pt-10 sm:pt-14 pb-12 bg-slate-50">
         <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <div class="max-w-3xl mx-auto text-center">
+          <div id="heroText" class="max-w-3xl mx-auto text-center">
             <h1 class="px-6 text-sm font-semibold tracking-wide text-blue-600 uppercase">Smart School Schedule System</h1>
             <p class="mt-4 text-3xl font-extrabold text-slate-900 sm:text-5xl lg:text-6xl tracking-tight">
               ไม่พลาดทุกคาบเรียนด้วยระบบ
@@ -313,7 +378,7 @@
 
         <!-- Dashboard UI Container -->
         <div class="mt-8 px-4 mx-auto max-w-6xl sm:px-6 lg:px-8">
-          <div class="bg-white rounded-3xl p-4 sm:p-8 shadow-xl border border-slate-200/80 space-y-6">
+          <div id="dashCard" class="bg-white rounded-3xl p-4 sm:p-8 shadow-xl border border-slate-200/80 space-y-6">
 
             <div id="noticeBanner" class="pb pb-info hidden" role="status"></div>
             <div id="holidayBanner" class="pb pb-hol hidden"></div>
@@ -322,7 +387,8 @@
             <div id="offlineBar" class="pb pb-warn hidden"><span>📴 ออฟไลน์ — กำลังแสดงข้อมูลที่เคยโหลดไว้ อาจไม่ใช่ข้อมูลล่าสุด</span></div>
             <div id="pushBanner" class="pb pb-info hidden"></div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div id="homeCards" class="hidden space-y-2" aria-label="งานและแจ้งเตือนวันนี้"></div>
+            <div id="nowNextGrid" class="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div class="md:col-span-2 bg-gradient-to-br from-slate-900 to-slate-800 text-white p-6 rounded-2xl shadow-md flex flex-col justify-between">
                 <div>
                   <div class="flex items-center justify-between mb-3">
@@ -346,7 +412,7 @@
                 </div>
               </div>
 
-              <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-between">
+              <div id="nextCard" class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-between">
                 <div>
                   <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 bg-slate-200 px-3 py-1 rounded-full">คาบถัดไป</span>
                   <h4 id="nextSubject" class="text-xl font-bold text-slate-800 mt-3 mb-1">--</h4>
@@ -359,10 +425,11 @@
               </div>
             </div>
 
-            <div>
+            <!-- ว่าง: การ์ดย้ายไปอยู่เหนือการ์ดคาบปัจจุบัน (#homeCards) -->
+            <div id="scheduleBlock">
               <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 mb-4 border-b border-slate-100 gap-2">
                 <div class="flex items-center gap-3">
-                  <h3 class="font-bold text-slate-800 text-base">ตารางเรียนสัปดาห์นี้</h3>
+                  <h3 id="schedTitle" class="font-bold text-slate-800 text-base">ตารางเรียนสัปดาห์นี้</h3>
                   <button id="shareBtn" onclick="shareTimetable()" class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg hover:opacity-80">
                     <i data-lucide="share-2" class="w-3.5 h-3.5"></i><span>แชร์เป็นรูป</span>
                   </button>
@@ -388,8 +455,42 @@
               <div id="eventsList" class="grid grid-cols-1 md:grid-cols-2 gap-2"></div>
             </div>
 
-            <!-- ประกาศ / การบ้านของห้อง -->
-            <div id="annSection">
+            <!-- ห้องเรา (v2): หัวข้อ + แท็บ ประกาศ/การบ้าน · ชีท · แชต -->
+            <div id="roomTabs" class="v2-only">
+              <h2 class="text-2xl font-extrabold text-slate-900">ห้องเรา</h2>
+              <p id="roomSub" class="text-xs text-slate-500 mb-2">เห็นเฉพาะคนในห้อง</p>
+              <div class="v2-tabs">
+                <button id="rtAnn" onclick="setView('room','ann')" class="on">ประกาศ/การบ้าน</button>
+                <button id="rtStudy" onclick="setView('room','study')" class="hidden">ชีท</button>
+                <button id="rtChat" onclick="setView('room','chat')" class="hidden">แชต</button>
+              </div>
+            </div>
+
+            <!-- เมนู (v2) -->
+            <div id="menuV2" class="v2-only">
+              <h2 class="text-2xl font-extrabold text-slate-900 mb-3">เมนู</h2>
+              <div class="v2-list mb-1"><div class="v2-item"><div class="grow"><div id="menuWho" class="font-bold">ห้อง --</div><small id="menuWho2">เพื่อนเห็นแค่ชื่อเล่น</small></div></div></div>
+              <div class="v2-group">การใช้งาน</div>
+              <div class="v2-list">
+                <button class="v2-item" onclick="toggleTheme()"><i data-lucide="moon"></i><span class="grow">โหมดมืด</span><span class="v2-switch"></span></button>
+                <button class="v2-item" onclick="teacherMode ? toggleTeacherPush() : togglePush()"><i data-lucide="bell"></i><span class="grow">แจ้งเตือนก่อนคาบ</span><small class="pushLabel">เปิดแจ้งเตือน</small></button>
+                <a id="sgsLinkMenu" href="#" target="_blank" rel="noopener" class="hidden v2-item"><i data-lucide="graduation-cap"></i><span class="grow">ดูเกรด (SGS)</span><i data-lucide="external-link"></i></a>
+              </div>
+              <div class="v2-group">ช่วยเหลือ</div>
+              <div class="v2-list">
+                <button class="v2-item student-only" onclick="openAdminChat()"><i data-lucide="shield-check"></i><span class="grow">คุยกับแอดมิน <small>(ส่วนตัว)</small></span><span id="menuAdminDot" class="hidden w-2.5 h-2.5 rounded-full bg-rose-500"></span></button>
+                <button class="v2-item student-only" onclick="setView('home'); toggleReportMode(true)"><i data-lucide="flag"></i><span class="grow">แจ้งตารางผิด</span></button>
+                <a href="help.html" class="v2-item"><i data-lucide="circle-help"></i><span class="grow">วิธีใช้</span></a>
+                <a href="help.html#contact" class="v2-item student-only"><i data-lucide="heart"></i><span class="grow">บอกครูหรือผู้ใหญ่ <small>(ถ้ามีเรื่องไม่สบายใจ)</small></span></a>
+              </div>
+              <div class="v2-group">บัญชี</div>
+              <div class="v2-list">
+                <button class="v2-item" onclick="handleLogout()"><i data-lucide="graduation-cap"></i><span class="grow">เข้าด้วยรหัสครู <small>(เฉพาะครู)</small></span></button>
+                <button class="v2-item danger" onclick="handleLogout()"><i data-lucide="log-out"></i><span class="grow">ออกจากระบบ</span></button>
+              </div>
+            </div>
+
+            <!-- ประกาศ / การบ้านของห้อง -->            <div id="annSection">
               <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100 gap-2">
                 <h3 class="font-bold text-slate-800 text-base">ประกาศและการบ้านของห้อง <span id="annGrade"></span></h3>
                 <button id="annNewBtn" onclick="toggleAnnForm()" class="hidden flex-none whitespace-nowrap text-xs font-bold text-white bg-slate-900 px-3 py-1.5 rounded-lg hover:opacity-80">+ โพสต์</button>
@@ -502,10 +603,15 @@
       <footer class="mt-auto bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-400">
         <p>© ClassKhab • Powered by Tailwind CSS & GitHub Pages</p>
       </footer>
+      <!-- แถบล่าง (v2) -->
+      <nav id="navV2" class="v2-only" aria-label="เมนูหลัก">
+        <button id="navHome" class="on" onclick="setView('home')"><i data-lucide="calendar-days"></i><span>ตาราง</span></button>
+        <button id="navRoom" onclick="setView('room')"><i data-lucide="users"></i><span>ห้องเรา</span><span id="navRoomDot" class="hidden absolute top-1 left-1/2 ml-2 w-2 h-2 rounded-full bg-rose-500"></span></button>
+        <button id="navMenu" onclick="setView('menu')"><i data-lucide="menu"></i><span>เมนู</span></button>
+      </nav>
     </div>
 
-    <script>
-      const periods = [
+    <script>      const periods = [
         { p: 1, time: '08:20-09:10' },
         { p: 2, time: '09:15-10:05' },
         { p: 3, time: '10:20-11:10' },
@@ -1150,6 +1256,7 @@
       // วันที่อยู่ในช่วง = ทับเวลาคาบด้านบนตามที่ประกาศ; นอกช่วง/ออฟไลน์/ดึงไม่ได้ = ใช้เวลาปกติ (หรือค่าที่จำไว้ล่าสุดถ้ายังอยู่ในช่วง)
       const PERIODS_DEFAULT = periods.map((x) => ({ ...x }));
       function applyPeriodRow(row) {
+        window._periodRow = row && row.times ? row : null;
         periods.forEach((x, i) => { x.time = PERIODS_DEFAULT[i].time; });
         const bar = document.getElementById('periodBanner');
         if (!row || !row.times) { if (bar) bar.classList.add('hidden'); return; }
@@ -1302,6 +1409,7 @@
         if (deferredInstall) html += '<button onclick="installApp()">ติดตั้งเป็นแอป</button>';
         el.className = 'pb ' + cls;
         el.innerHTML = html;
+        window._pushNudge = { cls, text: ((el.querySelector('span') || {}).textContent || '').replace(/\s*·\s*ตั้งเสียงให้ดังขึ้น\s*$/, '') }; renderHomeCards();
       }
 
       // ---- วันหยุด (ตาราง holidays ใน Supabase) ----
@@ -1332,6 +1440,7 @@
           banner.textContent = text;
           banner.classList.remove('hidden');
         }
+        renderHomeCards();
         updateTimeTracker();
       }
 
@@ -1347,6 +1456,7 @@
       // --- แถบนับถอยหลังสอบ: รวมสอบจากปฏิทินโรงเรียน (events) กับโพสต์ "สอบ/ทดสอบ" ของห้องที่มีวันกำหนด ---
       const examSrc = { ev: [], ann: [] };
       function renderExamBanner() {
+        renderHomeCards();
         const box = document.getElementById('examBanner');
         const today = bkkToday();
         const list = [...examSrc.ev, ...examSrc.ann]
@@ -1421,6 +1531,7 @@
             else hol.push({ date: x.date, end: null, title, kind: 'holiday' });
           }
           examSrc.ev = ev.filter((e) => e.kind === 'exam').map((e) => ({ title: e.title, date: e.date, end: e.end_date }));
+          window._events = ev.filter((e) => e.kind === 'event').map((e) => ({ title: e.title, date: e.date, end: e.end_date }));
           renderExamBanner();
           const items = [...ev.map((e) => ({ date: e.date, end: e.end_date, title: e.title, kind: e.kind })), ...hol]
             .sort((a, b) => a.date.localeCompare(b.date)).slice(0, 6);
@@ -1494,6 +1605,7 @@
         document.getElementById('fabDot').classList.toggle('hidden', !has);
       }
       function updateFab() {
+        updateRoomTabs();
         document.getElementById('chatFab').classList.toggle('hidden', !fabAvail || (chatOpen && window.innerWidth < 640));   // มือถือ: แผงเต็มล่าง ซ่อนปุ่มลอยตอนเปิด
       }
       async function chatPeek() {   // ตอนเปิดเว็บ: ถามว่าห้องนี้เปิดแชตไหม (ปิด = ไม่แสดงปุ่ม)
@@ -1502,6 +1614,7 @@
         updateFab();
         if (r.ok && r.enabled) setDots(r.admin_last || 0);
         document.getElementById('studySection').classList.toggle('hidden', !(r.ok && r.enabled));
+        updateRoomTabs();
       }
       async function chatCall(body) {
         const token = getToken();
@@ -1771,7 +1884,7 @@
         try { localStorage.setItem('classkhab_done', JSON.stringify([...s].slice(-200))); } catch (e) { /* ไม่เก็บ */ }
       }
       async function loadAnnouncements() {
-        examSrc.ann = [];
+        examSrc.ann = []; window._annItems = [];
         document.getElementById('annGrade').textContent = currentGrade || '';
         const list = document.getElementById('annList'), need = document.getElementById('annNeedLogin'), btn = document.getElementById('annNewBtn');
         const reset = (msg) => { list.textContent = ''; if (msg) list.append(mk('p', 'text-sm text-slate-500', msg)); };
@@ -1781,8 +1894,9 @@
         if (r.error === 'auth') { need.classList.remove('hidden'); btn.classList.add('hidden'); reset(''); return; }
         btn.classList.remove('hidden');
         if (!r.ok) return reset('โหลดประกาศไม่สำเร็จ ลองรีเฟรชอีกครั้ง');
-        if (!r.items.length) return reset('ยังไม่มีประกาศหรือการบ้านใน 30 วันนี้ กด "+ โพสต์" เพื่อเพิ่ม');
+        if (!r.items.length) { renderHomeCards(); return reset('ยังไม่มีประกาศหรือการบ้านใน 30 วันนี้ กด "+ โพสต์" เพื่อเพิ่ม'); }
         reset('');
+        window._annItems = r.items; renderHomeCards();
         const KIND = { announce: 'ประกาศ', homework: 'การบ้าน', exam: 'สอบ/ทดสอบ' };
         examSrc.ann = r.items.filter((x) => x.kind === 'exam' && x.due_date && daysUntil(x.due_date) >= 0).map((x) => ({ title: x.title, date: x.due_date, end: null }));
         renderExamBanner();
@@ -1843,7 +1957,7 @@
         else if (r.error === 'auth') { alert('หมดอายุ ต้องเข้าสู่ระบบใหม่'); loadAnnouncements(); }
         else alert('โพสต์ไม่สำเร็จ ตรวจหัวข้อแล้วลองอีกครั้ง');
       }
-      document.addEventListener('visibilitychange', () => { if (!document.hidden && currentGrade) { if (!teacherMode) loadAnnouncements(); loadNotice(); } });
+      document.addEventListener('visibilitychange', () => { if (!document.hidden && currentGrade) { if (!teacherMode) loadAnnouncements(); loadNotice(); renderHomeCards(); } });
 
       // --- แถบประกาศจากผู้ดูแล (site_notices: ส่งจากหน้าแอดมิน แสดงถึงเวลาหมดอายุ ผู้ใช้ปิดแถบนั้นได้) ---
       async function loadNotice() {
@@ -1852,6 +1966,7 @@
           if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return;
           const res = await fetch(`${SUPABASE_URL}/rest/v1/site_notices?select=id,message&expires_at=gt.${new Date().toISOString()}&order=created_at.desc&limit=1`, { headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` } });
           const rows = res.ok ? await res.json() : [];
+          window._notice = rows.length ? { id: rows[0].id, message: rows[0].message } : null; renderHomeCards();
           if (!rows.length || localStorage.getItem('classkhab_notice_x') === String(rows[0].id)) { box.classList.add('hidden'); return; }
           box.textContent = '';
           const msg = document.createElement('span'); msg.textContent = '📢 ' + rows[0].message;
@@ -1985,7 +2100,7 @@
 
       function setupLineLink() {
         if (!SGS_URL) return;
-        ['sgsLinkDesktop', 'sgsLinkMobile'].forEach((id) => {
+        ['sgsLinkDesktop', 'sgsLinkMobile', 'sgsLinkMenu'].forEach((id) => {
           const a = document.getElementById(id);
           a.href = SGS_URL;
           a.classList.remove('hidden');
@@ -2141,6 +2256,7 @@
         currentGrade = null;
         localStorage.removeItem('classkhab_student');
         leaveTeacher();
+        if (UI2) document.documentElement.dataset.view = 'home';
         showAuthScreen();
       }
 
@@ -2162,6 +2278,7 @@
         else if (sub) { cls = 'pb-ok'; html = '<span>✓ เครื่องนี้เปิดแจ้งเตือนคาบสอนอยู่ · <a href="help.html#sound" class="underline">ตั้งเสียงให้ดังขึ้น</a></span><button onclick="toggleTeacherPush()">ปิดแจ้งเตือน</button>'; }
         else html = '<span>เปิดแจ้งเตือนเพื่อให้เตือนก่อนเริ่มคาบสอน แม้ปิดหน้าเว็บอยู่</span><button onclick="toggleTeacherPush()">เปิดแจ้งเตือน</button>';
         el.className = 'pb ' + cls; el.innerHTML = html;
+        window._pushNudge = { cls, text: ((el.querySelector('span') || {}).textContent || '').replace(/\s*·\s*ตั้งเสียงให้ดังขึ้น\s*$/, '') }; renderHomeCards();
       }
       async function toggleTeacherPush() {
         if (iosNeedsInstall() || !pushSupported || !teacherToken()) return updateTeacherPushBanner();
@@ -2191,6 +2308,138 @@
       window.addEventListener('online', updateOfflineBar);
       window.addEventListener('offline', updateOfflineBar);
 
+      // ===== ดีไซน์ใหม่ (v2): หน้าจอ ตาราง / ห้องเรา / เมนู + แถบด่วน + ตารางวันนี้ (ใช้เมื่อเปิดด้วย ?ui=2) =====
+      const UI2 = document.documentElement.classList.contains('ui2');
+      let v2Inited = false;
+      const V2_DAYS = ['อาทิตย์', 'จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์', 'เสาร์'];
+      function initV2() {
+        if (!UI2 || v2Inited) return; v2Inited = true;
+        const add = (id, cls) => { const e = document.getElementById(id); if (e) e.classList.add(cls); };
+        ['noticeBanner', 'holidayBanner', 'periodBanner', 'offlineBar', 'pushBanner', 'homeCards', 'nowNextGrid', 'scheduleBlock', 'eventsSection'].forEach((i) => add(i, 'v-home'));
+        add('roomTabs', 'v-room'); add('annSection', 'v-room-ann'); add('studySection', 'v-room-study'); add('chatSection', 'v-room-chat'); add('menuV2', 'v-menu');
+        const hero = document.getElementById('heroText'); if (hero && hero.closest('section')) hero.closest('section').classList.add('v2-hero');
+        const lbl = document.getElementById('navGradeLabel');
+        if (lbl && lbl.parentElement) { lbl.parentElement.classList.remove('hidden', 'lg:flex', 'lg:ml-16', 'lg:justify-center', 'lg:space-x-10'); lbl.parentElement.classList.add('flex', 'items-center', 'gap-3', 'ml-auto', 'mr-3'); }
+        const tm = document.getElementById('navTimeText'); if (tm) tm.classList.add('hidden', 'sm:inline');
+        history.replaceState({ v: 'home' }, '');
+        window.addEventListener('popstate', (e) => { const s = e.state; if (s && s.v) setView(s.v, s.r, true); else setView('home', null, true); });
+        if (window.lucide) lucide.createIcons();
+      }
+      // สลับหน้าจอ: home | room(ann|study|chat) | menu  (แชต/ชีทโหลดเมื่อเปิดแท็บนั้นเท่านั้น — ประหยัดโควตา)
+      function setView(view, room, noPush) {
+        if (!UI2) return;
+        const de = document.documentElement;
+        if (view === 'room') {
+          room = room || de.dataset.room || 'ann';
+          if (room === 'study' && document.getElementById('studySection').classList.contains('hidden')) room = 'ann';
+          if (room === 'chat' && !fabAvail) room = 'ann';
+        }
+        de.dataset.view = view; if (view === 'room') de.dataset.room = room;
+        const wantChat = view === 'room' && room === 'chat';
+        if (wantChat !== chatOpen) toggleChat(wantChat);
+        if (view === 'room' && room === 'study' && !studyOpen) toggleStudy(true);
+        ['Home:home', 'Room:room', 'Menu:menu'].forEach((x) => { const [n, v] = x.split(':'); document.getElementById('nav' + n).classList.toggle('on', v === view); });
+        [['rtAnn', 'ann'], ['rtStudy', 'study'], ['rtChat', 'chat']].forEach(([id, r]) => document.getElementById(id).classList.toggle('on', view === 'room' && room === r));
+        if (view === 'home') { updateTimeTracker(); renderSchedule(); }
+        window.scrollTo(0, 0);
+        if (!noPush) history.pushState({ v: view, r: room }, '');
+      }
+      function updateRoomTabs() {   // ซ่อนแท็บที่ห้องนี้ยังไม่เปิด (ชีท/แชต) จะได้ไม่มีคำถามว่าทำไมใช้ไม่ได้
+        if (!UI2) return;
+        const hasStudy = !document.getElementById('studySection').classList.contains('hidden');
+        document.getElementById('rtStudy').classList.toggle('hidden', !hasStudy);
+        document.getElementById('rtChat').classList.toggle('hidden', !fabAvail);
+        const de = document.documentElement;
+        if (de.dataset.view === 'room' && ((de.dataset.room === 'study' && !hasStudy) || (de.dataset.room === 'chat' && !fabAvail))) setView('room', 'ann', true);
+      }
+      function openAdminChat() { setView('room', 'chat'); setTimeout(() => setChatChannel('admin'), 0); }
+      function updateMenuV2() {
+        if (!UI2) return;
+        const lbl = (teacherMode ? currentGrade.replace('ครู:', 'ตารางสอน: ') : `ห้อง ${currentGrade}`);
+        document.getElementById('menuWho').textContent = lbl;
+        document.getElementById('menuWho2').textContent = teacherMode ? 'โหมดครู' : 'เพื่อนเห็นแค่ชื่อเล่น';
+        document.getElementById('roomSub').textContent = `${currentGrade || ''} · เห็นเฉพาะคนในห้อง`;
+        const adm = document.getElementById('adminDot'); const md = document.getElementById('menuAdminDot');
+        if (md) md.classList.toggle('hidden', !adm || adm.classList.contains('hidden'));
+        if (window.lucide) lucide.createIcons();
+      }
+      // ===== การ์ดงาน/แจ้งเตือนหน้าหลัก (เปิดด้วย ?cards=1 หรือ ?ui=2) =====
+      // ตัวสร้างการ์ดเป็นฟังก์ชันล้วน (ไม่แตะ DOM) ทดสอบใน Node ได้: ส่วนระหว่าง CARDS-CORE-START/END
+      /* CARDS-CORE-START */
+      const CARD_MAX = 3, CARD_KEY = 'classkhab_cards_v1';
+      function cardDayDiff(a, b) { return Math.round((Date.parse(b + 'T00:00:00Z') - Date.parse(a + 'T00:00:00Z')) / 86400000); }
+      function cardAddDays(day, n) { return new Date(Date.parse(day + 'T00:00:00Z') + n * 86400000).toISOString().slice(0, 10); }
+      // dismissed = { key: { until: 'YYYY-MM-DD' | 'forever', n? } }  until = วันแรกที่ให้แสดงอีกครั้ง
+      function cardHidden(dis, key, today) { const v = dis && dis[key]; if (!v) return false; return v.until === 'forever' || v.until > today; }
+      function cardDismissed(dis, card, today) {   // คืน dismissed ใหม่หลังกดปิดการ์ด (ไม่แก้ของเดิม)
+        const d = { ...(dis || {}) }, old = d[card.key] || {};
+        if (card.dismiss === 'forever') d[card.key] = { until: 'forever' };
+        else if (card.dismiss === 'day') d[card.key] = { until: cardAddDays(today, 1) };
+        else if (card.dismiss === 'week') { const n = (old.n || 0) + 1; d[card.key] = n >= 3 ? { until: 'forever', n } : { until: cardAddDays(today, 7), n }; }
+        for (const k of Object.keys(d)) if (d[k].until !== 'forever' && d[k].until < cardAddDays(today, -30)) delete d[k];   // ล้างของเก่า
+        return d;
+      }
+      function buildCards(s) {
+        const today = s.today, done = s.done || new Set(), thd = s.thDate || ((x) => x), ann = s.ann || [], cards = [];
+        const when = (d) => (d === 0 ? 'วันนี้' : d === 1 ? 'พรุ่งนี้' : 'อีก ' + d + ' วัน');
+        // 1) เวลาเรียนเปลี่ยน / วันหยุด (ปิดไม่ได้ เพราะกระทบทั้งวัน)
+        if (s.holiday !== null && s.holiday !== undefined) cards.push({ key: 'hol:' + today, prio: 1, tone: 'err', icon: '🔔', title: 'วันนี้เป็นวันหยุด' + (s.holiday ? ': ' + s.holiday : ''), dismiss: null });
+        if (s.periodRow && s.isSchoolDay) cards.push({ key: 'per:' + today, prio: 1, tone: 'err', icon: '⏱', title: 'วันนี้เวลาเรียนเปลี่ยน', text: s.periodRow.name + (s.periodRow.first ? ' · คาบ 1 เริ่ม ' + s.periodRow.first : ''), dismiss: null });
+        // 2) การบ้านใกล้ส่ง (วันนี้/พรุ่งนี้ ที่ยังไม่ติ๊กทำแล้ว) — ใช้ติ๊กแทนปุ่มปิด
+        const due = ann.filter((x) => x.kind === 'homework' && x.due_date && !done.has(x.id)).map((x) => ({ x, d: cardDayDiff(today, x.due_date) })).filter((o) => o.d >= 0 && o.d <= 1).sort((a, b) => a.d - b.d);
+        if (due.length) cards.push({ key: 'due:' + today, prio: 2, tone: 'warn', icon: '📋', title: due.every((o) => o.d === 0) ? `ส่งวันนี้ ${due.length} งาน` : due.every((o) => o.d === 1) ? `ส่งพรุ่งนี้ ${due.length} งาน` : `ใกล้ส่ง ${due.length} งาน`, rows: due.slice(0, 3).map((o) => ({ id: o.x.id, text: o.x.title, when: when(o.d) })), more: Math.max(0, due.length - 3), dismiss: null });
+        // 3) สอบใกล้ถึง (ภายใน 7 วัน เอาที่ใกล้สุดใบเดียว)
+        const ex = [...(s.exams || []).map((e) => ({ title: e.title, date: e.date })), ...ann.filter((x) => x.kind === 'exam' && x.due_date && !done.has(x.id)).map((x) => ({ title: x.title, date: x.due_date }))]
+          .map((e) => ({ e, d: cardDayDiff(today, e.date) })).filter((o) => o.d >= 0 && o.d <= 7).sort((a, b) => a.d - b.d);
+        if (ex.length) cards.push({ key: 'exam:' + ex[0].e.title + ':' + ex[0].e.date, prio: 3, tone: 'exam', icon: '✏️', title: `${ex[0].e.title} · ${when(ex[0].d)}`, text: thd(ex[0].e.date), dismiss: 'day' });
+        // 4) ประกาศ: แถบประกาศแอดมินที่ยังไม่หมดอายุ (ปิดถาวรต่อประกาศ) หรือประกาศห้องที่ใหม่ภายใน 48 ชม.
+        if (s.notice && s.notice.message) cards.push({ key: 'notice:' + s.notice.id, prio: 4, tone: 'info', icon: '📢', title: 'ประกาศ', text: s.notice.message, dismiss: 'forever' });
+        else { const a = ann.filter((x) => x.kind === 'announce' && x.created_at && Date.parse(x.created_at) > (s.nowMs || Date.now()) - 48 * 3600000).sort((p, q) => q.created_at.localeCompare(p.created_at))[0]; if (a) cards.push({ key: 'ann:' + a.id, prio: 4, tone: 'info', icon: '📢', title: 'ประกาศในห้อง', text: a.title, dismiss: 'forever' }); }
+        // 5) กิจกรรมโรงเรียนใกล้ถึง (ภายใน 3 วัน หรือกำลังจัด)
+        const ev = (s.events || []).map((e) => ({ e, d: cardDayDiff(today, e.date), end: e.end ? cardDayDiff(today, e.end) : cardDayDiff(today, e.date) })).filter((o) => (o.d >= 0 && o.d <= 3) || (o.d < 0 && o.end >= 0)).sort((a, b) => a.d - b.d)[0];
+        if (ev) cards.push({ key: 'ev:' + ev.e.title + ':' + ev.e.date, prio: 5, tone: 'ok', icon: '🎉', title: `${ev.e.title} · ${ev.d < 0 ? 'กำลังจัด' : when(ev.d)}`, text: thd(ev.e.date), dismiss: 'day' });
+        // กรองที่ผู้ใช้ปิดไว้ (ยกเว้นที่ปิดไม่ได้)
+        let out = cards.filter((c) => !c.dismiss || !cardHidden(s.dismissed, c.key, today)).sort((a, b) => a.prio - b.prio);
+        // 6) ชวนตั้งค่าแจ้งเตือน: ต่ำสุด แสดงเมื่อไม่มีการ์ดอื่นเท่านั้น (ซ่อน 7 วัน ขึ้นซ้ำได้ไม่เกิน 3 ครั้ง)
+        const n = s.nudge;
+        if (!out.length && n && n.cls !== 'pb-ok' && n.text && !cardHidden(s.dismissed, 'nudge', today)) out = [{ key: 'nudge', prio: 6, tone: 'gray', icon: '🔕', title: n.text, action: n.cls === 'pb-info' ? 'เปิดแจ้งเตือน' : null, dismiss: 'week' }];
+        return out;
+      }
+      /* CARDS-CORE-END */
+      const CARDS = document.documentElement.classList.contains('cards');
+      let cardsExpanded = false;
+      function readCardState() { try { return JSON.parse(localStorage.getItem(CARD_KEY) || '{}') || {}; } catch (e) { return {}; } }
+      function writeCardState(d) { try { localStorage.setItem(CARD_KEY, JSON.stringify(d)); } catch (e) { /* ใช้งานต่อได้ แค่ปิดไม่ติดข้ามรอบ */ } }
+      function renderHomeCards() {
+        const box = document.getElementById('homeCards'); if (!box) return;
+        if (!CARDS) { box.classList.add('hidden'); return; }
+        const today = bkkToday(), wd = new Date().getDay(), pr = window._periodRow;
+        let notice = window._notice || null; try { if (notice && localStorage.getItem('classkhab_notice_x') === String(notice.id)) notice = null; } catch (e) { /* ใช้ตามเดิม */ }
+        const all = buildCards({
+          today, nowMs: Date.now(), isSchoolDay: wd >= 1 && wd <= 5, holiday: todayHoliday, thDate,
+          periodRow: pr ? { name: pr.name, first: (periods[0].time || '').split('-')[0] } : null,
+          ann: window._annItems || [], done: getDone(), exams: examSrc.ev || [], notice, events: window._events || [], nudge: window._pushNudge || null, dismissed: readCardState(),
+        });
+        box.textContent = '';
+        if (!all.length) { box.classList.add('hidden'); return; }
+        box.classList.remove('hidden');
+        const show = cardsExpanded ? all : all.slice(0, CARD_MAX);
+        for (const c of show) {
+          const el = mk('div', 'hc hc-' + c.tone), body = mk('div', 'hc-body');
+          body.append(mk('div', 'hc-t', c.title)); if (c.text) body.append(mk('div', 'hc-s', c.text));
+          for (const r of (c.rows || [])) {
+            const lab = mk('label', 'hc-row'), cb = mk('input'); cb.type = 'checkbox'; cb.title = 'ทำแล้ว (เก็บในเครื่องนี้)';
+            cb.onchange = () => { setDone(r.id, true); renderHomeCards(); };
+            lab.append(cb, mk('span', 'flex-1 min-w-0 break-words', r.text), mk('b', 'text-xs whitespace-nowrap', r.when)); body.append(lab);
+          }
+          if (c.more) body.append(mk('div', 'hc-s', `และอีก ${c.more} งาน (ดูในประกาศและการบ้าน)`));
+          if (c.action) { const a = mk('button', 'hc-act', c.action); a.onclick = () => (teacherMode ? toggleTeacherPush() : togglePush()); body.append(a); }
+          el.append(mk('span', 'hc-ic', c.icon), body);
+          if (c.dismiss) { const x = mk('button', 'hc-x', '✕'); x.title = c.dismiss === 'forever' ? 'ปิด' : 'ซ่อน'; x.setAttribute('aria-label', x.title); x.onclick = () => { writeCardState(cardDismissed(readCardState(), c, today)); if (c.key.startsWith('notice:')) { try { localStorage.setItem('classkhab_notice_x', c.key.slice(7)); } catch (e) { /* ไม่เป็นไร */ } } renderHomeCards(); }; el.append(x); }
+          box.append(el);
+        }
+        if (all.length > CARD_MAX) { const m = mk('button', 'text-xs font-bold text-slate-500 w-full text-center py-1', cardsExpanded ? 'ซ่อน' : `ดูอีก ${all.length - CARD_MAX} เรื่อง`); m.onclick = () => { cardsExpanded = !cardsExpanded; renderHomeCards(); }; box.append(m); }
+      }
       // สถิติผู้ใช้ต่อวัน: ส่งสัญญาณสั้นๆ วันละครั้งต่อเครื่อง (รหัสสุ่มประจำเครื่อง + ห้อง ไม่มีชื่อ/IP) ให้หน้าแอดมินทำกราฟ
       async function logVisit() {
         try {
@@ -2208,6 +2457,7 @@
       }
 
       function showDashboard() {
+        if (UI2) { initV2(); setView('home', null, true); }
         document.getElementById('authScreen').classList.add('hidden');
         document.getElementById('mainDashboard').classList.remove('hidden');
         document.getElementById('mainDashboard').classList.add('flex');
@@ -2227,6 +2477,7 @@
         loadNotice();
         logVisit();
         updateOfflineBar();
+        updateMenuV2();
         if (teacherMode) syncTeacherPush();
         else { loadVerified(); loadAnnouncements(); chatPeek(); syncPush(); }
       }
