@@ -174,23 +174,36 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       #navV2 button.on { background: #f1f5f9; box-shadow: inset 0 1px 0 #fff, 0 1px 2px rgba(15, 23, 42, 0.12); }
       html.dark #navV2 button.on { background: rgba(255, 255, 255, 0.1); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08); }
       #navV2 button:active { transform: scale(0.96); }
-      /* หน้าเข้าสู่ระบบ (ui2): การ์ดสองฝั่ง แผงสีเข้มเลื่อนสลับด้านเมื่อเปลี่ยนวิธีเข้า (แนวคิดจากตัวอย่าง auth-switch ของ 21st.dev ปรับเป็นขาว-ดำตามแบรนด์ ไม่มีรหัสผ่าน/ปุ่มโซเชียล) */
+      /* หน้าเข้าสู่ระบบ (ui2): การ์ดสองฝั่ง วงกลมสีเข้มกวาดข้ามการ์ดเมื่อสลับวิธีเข้า (จังหวะเคลื่อนไหวตามตัวอย่าง auth-switch ของ 21st.dev ปรับเป็นขาว-ดำตามแบรนด์ ไม่มีรหัสผ่าน/ปุ่มโซเชียล) */
       .au-panel { display: none; }
       html.ui2 #authCard { max-width: 56rem; padding: 0; overflow: hidden; position: relative; display: block; }
-      html.ui2 .au-form { padding: 2rem 1.5rem; }
-      html.ui2 .au-panel { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.5rem; padding: 1.25rem 1.5rem; background: #0f172a; color: #fff; }
-      html.ui2 .au-panel .crest { width: 3rem; height: 3rem; } html.ui2 .au-pt { font-weight: 700; font-size: 1.25rem; } html.ui2 .au-pp { font-size: 0.8rem; color: #cbd5e1; line-height: 1.6; }
+      html.ui2 .au-form { padding: 2rem 1.5rem; position: relative; z-index: 5; }
+      html.ui2 .au-panel { display: block; background: #0f172a; color: #fff; padding: 1.25rem 1.5rem; }
+      html.ui2 .au-pr, html.ui2 #authCard[data-mode="room"] .au-pl { display: none; } html.ui2 #authCard[data-mode="room"] .au-pr { display: block; }
+      html.ui2 .au-c { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.5rem; }
+      html.ui2 .au-c .crest { width: 3rem; height: 3rem; } html.ui2 .au-pt { font-weight: 700; font-size: 1.25rem; } html.ui2 .au-pp { font-size: 0.8rem; color: #cbd5e1; line-height: 1.6; }
       html.ui2 .au-pb { display: none; }
       html.ui2 .au-form > div:first-child img { display: none; }
+      html.ui2 #otpBox:not(.hidden), html.ui2 #loginForm:not(.hidden) { animation: auFade .45s ease both; }
+      @keyframes auFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
       @media (min-width: 768px) {
         html.ui2 #authCard { min-height: 32rem; }
-        html.ui2 .au-panel { position: absolute; top: 0; bottom: 0; left: 0; width: 50%; justify-content: center; gap: 0.9rem; padding: 2.5rem; z-index: 2; transition: transform .7s cubic-bezier(.65, 0, .35, 1); }
-        html.ui2 .au-panel .crest { width: 5.5rem; height: 5.5rem; } html.ui2 .au-pt { font-size: 1.75rem; } html.ui2 .au-pp { font-size: 0.95rem; max-width: 18rem; }
+        html.ui2 #authCard::before { content: ''; position: absolute; width: 2000px; height: 2000px; top: -10%; right: 48%; transform: translateY(-50%); background: #0f172a; border-radius: 50%; transition: 1.8s ease-in-out; z-index: 2; }
+        html.dark.ui2 #authCard::before { background: #1e293b; }
+        html.ui2 #authCard[data-mode="room"]::before { transform: translate(100%, -50%); right: 52%; }
+        html.ui2 .au-panel { position: absolute; inset: 0; z-index: 3; display: grid; grid-template-columns: 1fr 1fr; background: none; padding: 0; pointer-events: none; }
+        html.ui2 .au-pr, html.ui2 #authCard[data-mode="room"] .au-pl, html.ui2 #authCard[data-mode="room"] .au-pr { display: flex; }
+        html.ui2 .au-pl, html.ui2 .au-pr { align-items: center; justify-content: center; padding: 2.5rem; }
+        html.ui2 .au-pl { pointer-events: auto; } html.ui2 #authCard[data-mode="room"] .au-pl { pointer-events: none; } html.ui2 #authCard[data-mode="room"] .au-pr { pointer-events: auto; }
+        html.ui2 .au-c { gap: 0.9rem; transition: transform 0.9s ease-in-out 0.6s; }
+        html.ui2 .au-pr .au-c { transform: translateX(800px); }
+        html.ui2 #authCard[data-mode="room"] .au-pl .au-c { transform: translateX(-800px); } html.ui2 #authCard[data-mode="room"] .au-pr .au-c { transform: translateX(0); }
+        html.ui2 .au-c .crest { width: 5.5rem; height: 5.5rem; } html.ui2 .au-pt { font-size: 1.75rem; } html.ui2 .au-pp { font-size: 0.95rem; max-width: 18rem; }
         html.ui2 .au-pb { display: inline-block; margin-top: 0.5rem; padding: 0.6rem 1.25rem; border: 1.5px solid rgba(255, 255, 255, 0.7); border-radius: 12px; font-weight: 700; font-size: 0.85rem; transition: background-color .2s; } html.ui2 .au-pb:hover { background: rgba(255, 255, 255, 0.12); }
-        html.ui2 .au-form { width: 50%; margin-left: 0; padding: 2.5rem 2rem; transform: translateX(100%); transition: transform .7s cubic-bezier(.65, 0, .35, 1); }
-        html.ui2 #authCard[data-mode="room"] .au-panel { transform: translateX(100%); } html.ui2 #authCard[data-mode="room"] .au-form { transform: translateX(0); }
+        html.ui2 .au-form { width: 50%; margin-left: 0; padding: 2.5rem 2rem; transform: translateX(100%); transition: transform 1s ease-in-out 0.7s; }
+        html.ui2 #authCard[data-mode="room"] .au-form { transform: translateX(0); }
       }
-      @media (prefers-reduced-motion: reduce) { html.ui2 .au-panel, html.ui2 .au-form { transition: none !important; } }
+      @media (prefers-reduced-motion: reduce) { html.ui2 #authCard::before, html.ui2 .au-c, html.ui2 .au-form { transition: none !important; } html.ui2 #otpBox, html.ui2 #loginForm { animation: none !important; } }
       /* หน้าโปรไฟล์ + โซเชียล (ui2) */
       html.ui2:not([data-view="social"]) .v-social { display: none !important; }
       .pf-card { display: flex; align-items: center; gap: 1rem; padding: 0.25rem 0 0.75rem; }
@@ -294,10 +307,18 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
     <div id="authScreen" class="min-h-screen flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-md fixed inset-0 z-50 overflow-y-auto">
       <div id="authCard" data-mode="otp" class="w-full max-w-md bg-white p-8 rounded-3xl shadow-2xl border border-slate-100 relative my-8">
         <div class="au-panel">
-          <img src="crest.svg" alt="" class="crest" />
-          <div class="au-pt">ClassKhab</div>
-          <p id="auPanelText" class="au-pp">ใช้อีเมลโรงเรียน เข้าห้องของคุณให้อัตโนมัติ ไม่ต้องจำรหัส</p>
-          <button type="button" id="auPanelBtn" class="au-pb" onclick="showRoomLogin(document.getElementById('authCard').dataset.mode !== 'room')">ยังไม่มีอีเมล? เข้าด้วยรหัสห้อง</button>
+          <div class="au-pl"><div class="au-c">
+            <img src="crest.svg" alt="" class="crest" />
+            <div class="au-pt">ClassKhab</div>
+            <p class="au-pp">ใช้อีเมลโรงเรียน เข้าห้องของคุณให้อัตโนมัติ ไม่ต้องจำรหัส</p>
+            <button type="button" class="au-pb" onclick="showRoomLogin(true)">ยังไม่มีอีเมล? เข้าด้วยรหัสห้อง</button>
+          </div></div>
+          <div class="au-pr"><div class="au-c">
+            <img src="crest.svg" alt="" class="crest" />
+            <div class="au-pt">ClassKhab</div>
+            <p class="au-pp">เลือกห้องเองได้ ถ้ายังไม่มีอีเมลโรงเรียน (ใช้รหัสห้องที่ครูหรือเพื่อนให้)</p>
+            <button type="button" class="au-pb" onclick="showRoomLogin(false)">← เข้าด้วยอีเมลโรงเรียน</button>
+          </div></div>
         </div>
         <div class="au-form">
         <div class="text-center mb-6">
@@ -2298,16 +2319,21 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       let otpEmail = '', otpTimer = null;
       const otpErr = (m) => { const e = document.getElementById('otpError'); e.textContent = m || ''; e.classList.toggle('hidden', !m); };
       function showRoomLogin(on) {   // true = โชว์ฟอร์มรหัสห้อง (ทางสำรอง) / false = โชว์ OTP
-        const card = document.getElementById('authCard'); if (card && OTP_ON) { card.dataset.mode = on ? 'room' : 'otp'; const t = document.getElementById('auPanelText'), b = document.getElementById('auPanelBtn'); if (t) t.textContent = on ? 'เลือกห้องเองได้ ถ้ายังไม่มีอีเมลโรงเรียน (ใช้รหัสห้องที่ครูหรือเพื่อนให้)' : 'ใช้อีเมลโรงเรียน เข้าห้องของคุณให้อัตโนมัติ ไม่ต้องจำรหัส'; if (b) b.textContent = on ? '← เข้าด้วยอีเมลโรงเรียน' : 'ยังไม่มีอีเมล? เข้าด้วยรหัสห้อง'; }
-        document.getElementById('otpBox').classList.toggle('hidden', on || !OTP_ON);
-        document.getElementById('loginForm').classList.toggle('hidden', !on && OTP_ON);
-        const back = document.getElementById('otpBackLink'); if (back) back.classList.toggle('hidden', !on || !OTP_ON);
+        const card = document.getElementById('authCard'); if (card && OTP_ON) card.dataset.mode = on ? 'room' : 'otp';
+        const apply = () => {
+          document.getElementById('otpBox').classList.toggle('hidden', on || !OTP_ON);
+          document.getElementById('loginForm').classList.toggle('hidden', !on && OTP_ON);
+          const back = document.getElementById('otpBackLink'); if (back) back.classList.toggle('hidden', !on || !OTP_ON);
+        };
+        // ให้ฟอร์มเก่าอยู่จนวงกลมเริ่มกวาด แล้วค่อยสลับ (เฉพาะโครงใหม่ที่เปิดแล้ว และไม่ได้ตั้งค่าลดการเคลื่อนไหว)
+        const slow = card && OTP_ON && card.dataset.ready === '1' && !matchMedia('(prefers-reduced-motion: reduce)').matches && matchMedia('(min-width: 768px)').matches;
+        clearTimeout(showRoomLogin._t); if (slow) showRoomLogin._t = setTimeout(apply, 650); else apply();
       }
       function initOtpUi() {
         if (!OTP_ON) return;
         const f = document.getElementById('loginForm');
         f.insertAdjacentHTML('afterend', '<button type="button" id="otpBackLink" onclick="showRoomLogin(false)" class="hidden mt-3 w-full text-center text-xs font-semibold text-blue-600 hover:underline">← เข้าด้วยอีเมลโรงเรียน</button>');
-        showRoomLogin(false);
+        showRoomLogin(false); const c = document.getElementById('authCard'); if (c) setTimeout(() => { c.dataset.ready = '1'; }, 50);
       }
       async function otpCall(fn, body) {
         const res = await fetch(`${SUPABASE_URL}/functions/v1/${fn}`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify(body) });
