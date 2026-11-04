@@ -47,7 +47,7 @@
         if (_u === '2') localStorage.setItem('classkhab_ui2', '1'); else if (_u === '1') localStorage.removeItem('classkhab_ui2');
         var _c = new URLSearchParams(location.search).get('cards');
         if (_c === '1') localStorage.setItem('classkhab_cards', '1'); else if (_c === '0') localStorage.removeItem('classkhab_cards');
-        if (localStorage.getItem('classkhab_cards') === '1' || localStorage.getItem('classkhab_ui2') === '1') document.documentElement.classList.add('cards');   // การ์ดงาน/แจ้งเตือนหน้าหลัก: ?cards=1 (โครงใหม่ ?ui=2 เปิดการ์ดด้วย)
+        if (localStorage.getItem('classkhab_cards') === '1' || localStorage.getItem('classkhab_ui2') === '1') { document.documentElement.classList.add('cards'); var _f = document.createElement('link'); _f.rel = 'stylesheet'; _f.href = 'https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&display=swap'; document.head.appendChild(_f); }   // การ์ดงาน/แจ้งเตือนหน้าหลัก: ?cards=1 (โครงใหม่ ?ui=2 เปิดการ์ดด้วย)
         if (localStorage.getItem('classkhab_ui2') === '1') {
           document.documentElement.classList.add('ui2'); document.documentElement.dataset.view = 'home'; document.documentElement.dataset.room = 'ann';
           var _l = document.createElement('link'); _l.rel = 'stylesheet'; _l.href = 'https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&display=swap'; document.head.appendChild(_l);
@@ -124,6 +124,20 @@ html.cards .hc-warn .hc-ic { color: #d97706; } html.cards .hc-exam .hc-ic { colo
 html.cards .hc-err { background: #fef2f2; border-color: #fecaca; color: #991b1b; } html.cards .hc-err .hc-t { color: #7f1d1d; } html.cards .hc-err .hc-ic { color: #dc2626; }
 html.dark.cards .hc, html.cards.dark .hc { background: #111a2e; border-color: #243152; color: #cbd5e1; } html.cards.dark .hc .hc-t { color: #f1f5f9; }
 html.cards.dark .hc-err { background: #3b0d0d; border-color: #b91c1c; color: #fecaca; } html.cards.dark .hc-err .hc-t { color: #fee2e2; }
+/* โหมดการ์ด รอบแรง: หน้าขาวเรียบ ไม่มีกรอบซ้อน/เงา มุมโค้งเล็กลง ฟอนต์ Anuphan */
+html.cards body { font-family: 'Anuphan', 'Sarabun', sans-serif; background: #fff; }
+html.cards #heroSection { background: #fff !important; padding-left: 0; padding-right: 0; }
+html.cards #dashCard { background: transparent; border: 0; box-shadow: none; border-radius: 0; padding: 0.25rem 0 0; }
+html.cards [class*="shadow"] { box-shadow: none !important; }
+html.cards .rounded-3xl, html.cards .rounded-2xl { border-radius: 12px; }
+html.cards .hc { border-radius: 12px; }
+html.cards #nowNextGrid > div:first-child { background-image: none !important; background-color: #0f172a; border-radius: 12px; }
+html.cards #nextCard { background: #fff; border-color: #e2e8f0; border-radius: 12px; }
+html.cards #chatFab svg ~ * { display: none; }
+html.cards .bg-slate-50 { background-color: #fff; }
+html.cards .border-slate-200, html.cards .border-slate-200\/80 { border-color: #eef0f3; }
+html.cards .animate-pulse { animation: none; }
+html.cards button, html.cards .tag { transition: background-color .15s, color .15s; }
 html.cards .tag { border-radius: 6px; padding: 2px 8px; }
 html.cards #curLabel, html.cards #curBadge { border-radius: 8px; }
 html.cards .font-extrabold { font-weight: 700; }
