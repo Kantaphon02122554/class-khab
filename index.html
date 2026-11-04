@@ -2628,8 +2628,6 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const ex = [...(s.exams || []).map((e) => ({ title: e.title, date: e.date })), ...ann.filter((x) => x.kind === 'exam' && x.due_date && !done.has(x.id)).map((x) => ({ title: x.title, date: x.due_date }))]
           .map((e) => ({ e, d: cardDayDiff(today, e.date) })).filter((o) => o.d >= 0 && o.d <= 7).sort((a, b) => a.d - b.d);
         if (ex.length) cards.push({ key: 'exam:' + ex[0].e.title + ':' + ex[0].e.date, prio: 3, tone: 'exam', icon: 'pencil-line', title: `${ex[0].e.title} · ${when(ex[0].d)}`, text: thd(ex[0].e.date), dismiss: 'day' });
-        // 3.5) เช็กกระเป๋าพรุ่งนี้ (ตัวเรียกใช้ส่งเฉพาะช่วงเย็นของวันก่อนวันเรียน): รายวิชาพรุ่งนี้
-        if (s.bag && s.bag.subjects && s.bag.subjects.length) cards.push({ key: 'bag:' + today, prio: 3.5, tone: 'info', icon: 'backpack', title: 'เช็กกระเป๋าพรุ่งนี้', text: s.bag.subjects.slice(0, 8).join(' · ') + (s.bag.subjects.length > 8 ? ' ...' : ''), dismiss: 'day' });
         // 4) ประกาศ: แถบประกาศแอดมินที่ยังไม่หมดอายุ (ปิดถาวรต่อประกาศ) หรือประกาศห้องที่ใหม่ภายใน 48 ชม.
         if (s.notice && s.notice.message) cards.push({ key: 'notice:' + s.notice.id, prio: 4, tone: 'info', icon: 'megaphone', title: 'ประกาศ', text: s.notice.message, dismiss: 'forever' });
         else { const a = ann.filter((x) => x.kind === 'announce' && x.created_at && Date.parse(x.created_at) > (s.nowMs || Date.now()) - 48 * 3600000).sort((p, q) => q.created_at.localeCompare(p.created_at))[0]; if (a) cards.push({ key: 'ann:' + a.id, prio: 4, tone: 'info', icon: 'megaphone', title: 'ประกาศในห้อง', text: a.title, dismiss: 'forever' }); }
@@ -2648,16 +2646,6 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       let cardsExpanded = false;
       function readCardState() { try { return JSON.parse(localStorage.getItem(CARD_KEY) || '{}') || {}; } catch (e) { return {}; } }
       function writeCardState(d) { try { localStorage.setItem(CARD_KEY, JSON.stringify(d)); } catch (e) { /* ใช้งานต่อได้ แค่ปิดไม่ติดข้ามรอบ */ } }
-      // วิชาของพรุ่งนี้ แสดงตั้งแต่ 16:00 ของวันอาทิตย์-พฤหัส (พรุ่งนี้เป็นวันเรียน) เท่านั้น
-      function bagForTomorrow(today) {
-        try {
-          const hour = new Date(Date.now() + 7 * 3600000).getUTCHours(), dow = new Date(today + 'T00:00:00Z').getUTCDay();
-          if (hour < 16 || dow === 5 || dow === 6) return null;
-          const name = ['จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์'][dow % 7 === 0 ? 0 : dow], list = (scheduleData[currentGrade] || []).filter((x) => x.day === name).sort((a, b) => a.period - b.period);
-          const seen = new Set(), subjects = []; for (const it of list) { const t = subjectTitle(it); if (t && !/^พัก/.test(t) && !seen.has(t)) { seen.add(t); subjects.push(t); } }
-          return subjects.length ? { subjects } : null;
-        } catch (e) { return null; }
-      }
       function renderHomeCards() {
         const box = document.getElementById('homeCards'); if (!box) return;
         if (!CARDS) { box.classList.add('hidden'); return; }
@@ -2666,7 +2654,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const all = buildCards({
           today, nowMs: Date.now(), isSchoolDay: wd >= 1 && wd <= 5, holiday: todayHoliday, thDate,
           periodRow: pr ? { name: pr.name, first: (periods[0].time || '').split('-')[0] } : null,
-          bag: bagForTomorrow(today), ann: window._annItems || [], done: getDone(), exams: examSrc.ev || [], notice, events: window._events || [], nudge: window._pushNudge || null, dismissed: readCardState(),
+          ann: window._annItems || [], done: getDone(), exams: examSrc.ev || [], notice, events: window._events || [], nudge: window._pushNudge || null, dismissed: readCardState(),
         });
         box.textContent = '';
         if (!all.length) { box.classList.add('hidden'); return; }
