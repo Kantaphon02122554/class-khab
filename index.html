@@ -174,7 +174,40 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       #navV2 button.on { background: #f1f5f9; box-shadow: inset 0 1px 0 #fff, 0 1px 2px rgba(15, 23, 42, 0.12); }
       html.dark #navV2 button.on { background: rgba(255, 255, 255, 0.1); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08); }
       #navV2 button:active { transform: scale(0.96); }
-      #navSocial { opacity: 0.6; }
+      /* หน้าโปรไฟล์ + โซเชียล (ui2) */
+      html.ui2:not([data-view="social"]) .v-social { display: none !important; }
+      .pf-card { display: flex; align-items: center; gap: 1rem; padding: 0.25rem 0 0.75rem; }
+      .pf-av { flex: none; width: 76px; height: 76px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 700; color: #fff; background-size: cover; background-position: center; border: 1px solid rgba(15, 23, 42, 0.08); }
+      .pf-av-lg { width: 96px; height: 96px; font-size: 2.4rem; }
+      .pf-info { min-width: 0; } .pf-name { font-size: 1.25rem; font-weight: 700; word-break: break-word; } .pf-sub { font-size: 0.85rem; color: #64748b; } .pf-bio { font-size: 0.875rem; margin-top: 0.25rem; word-break: break-word; }
+      .pf-edit { width: 100%; padding: 0.6rem; border-radius: 12px; background: #f1f5f9; font-weight: 700; font-size: 0.875rem; } html.dark .pf-edit { background: rgba(255, 255, 255, 0.1); }
+      .pf-note { font-size: 0.75rem; color: #94a3b8; margin: 0.5rem 0.25rem 0; }
+      .pf-sheet { position: fixed; inset: 0; z-index: 80; background: rgba(15, 23, 42, 0.45); display: flex; align-items: flex-end; justify-content: center; animation: pfFade .2s ease-out; }
+      .pf-sheet.hidden { display: none; }
+      .pf-panel { width: 100%; max-width: 28rem; max-height: 90vh; overflow: auto; background: #fff; border-radius: 20px 20px 0 0; padding: 1rem 1.25rem calc(1.25rem + env(safe-area-inset-bottom)); animation: pfUp .25s cubic-bezier(.2, .8, .2, 1); } html.dark .pf-panel { background: #111a2e; }
+      .pf-ph { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; } .pf-ph button { width: 2.25rem; height: 2.25rem; display: flex; align-items: center; justify-content: center; }
+      .pf-photo { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; } .pf-photo-b { display: flex; flex-direction: column; gap: 0.5rem; }
+      .pf-btn { padding: 0.45rem 1rem; border-radius: 10px; background: #0f172a; color: #fff; font-weight: 700; font-size: 0.8rem; text-align: center; cursor: pointer; } .pf-btn-g { background: #f1f5f9; color: #334155; } html.dark .pf-btn { background: #f1f5f9; color: #0f172a; } html.dark .pf-btn-g { background: rgba(255, 255, 255, 0.1); color: #e2e8f0; }
+      .pf-l { display: block; font-size: 0.8rem; font-weight: 700; color: #64748b; margin-bottom: 0.9rem; } .pf-l input, .pf-l textarea { display: block; width: 100%; margin-top: 0.3rem; padding: 0.6rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 1rem; font-weight: 500; color: #0f172a; background: #fff; } html.dark .pf-l input, html.dark .pf-l textarea { background: #0b1220; border-color: #243152; color: #f1f5f9; }
+      .pf-colors { display: flex; gap: 0.6rem; margin-top: 0.4rem; } .pf-colors button { width: 2rem; height: 2rem; border-radius: 50%; border: 2px solid transparent; } .pf-colors button.on { border-color: #0f172a; box-shadow: 0 0 0 2px #fff inset; } html.dark .pf-colors button.on { border-color: #fff; }
+      .pf-save { width: 100%; padding: 0.75rem; border-radius: 12px; background: #0f172a; color: #fff; font-weight: 700; } html.dark .pf-save { background: #f1f5f9; color: #0f172a; }
+      .so-wrap { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 2rem 0 1rem; }
+      .so-ring { position: relative; width: 96px; height: 96px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
+      .so-ring svg { width: 36px; height: 36px; animation: soSpin 6s ease-in-out infinite; }
+      .so-ring span { position: absolute; inset: 0; border: 1.5px solid #94a3b8; border-radius: 50%; animation: soPing 2.4s ease-out infinite; } .so-ring span:nth-child(2) { animation-delay: 1.2s; }
+      .so-t { font-size: 1.75rem; font-weight: 700; } .so-badge { margin-top: 0.5rem; padding: 4px 14px; border-radius: 999px; background: #0f172a; color: #fff; font-size: 0.8rem; font-weight: 700; } html.dark .so-badge { background: #f1f5f9; color: #0f172a; }
+      .so-p { margin-top: 0.9rem; color: #64748b; font-size: 0.9rem; line-height: 1.6; }
+      .so-list { width: 100%; margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; }
+      .so-card { display: flex; align-items: center; gap: 0.85rem; text-align: left; padding: 0.85rem 1rem; border: 1px solid #e2e8f0; border-radius: 14px; background: #fff; opacity: 0; animation: soIn .5s cubic-bezier(.2, .8, .2, 1) forwards; animation-delay: calc(var(--d) * 120ms + 150ms); position: relative; overflow: hidden; }
+      html.dark .so-card { background: #111a2e; border-color: #243152; }
+      .so-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(148, 163, 184, 0.18) 50%, transparent 70%); transform: translateX(-100%); animation: soShine 3.2s ease-in-out infinite; animation-delay: calc(var(--d) * 400ms + 1s); }
+      .so-card svg { width: 22px; height: 22px; flex: none; color: #64748b; } .so-card b { display: block; font-size: 0.9rem; } .so-card small { color: #94a3b8; }
+      @keyframes soPing { 0% { transform: scale(0.55); opacity: 0.8; } 100% { transform: scale(1.25); opacity: 0; } }
+      @keyframes soSpin { 0%, 100% { transform: rotate(-12deg) scale(1); } 50% { transform: rotate(12deg) scale(1.12); } }
+      @keyframes soIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+      @keyframes soShine { 0%, 55% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+      @keyframes pfFade { from { opacity: 0; } to { opacity: 1; } } @keyframes pfUp { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+      @media (prefers-reduced-motion: reduce) { .so-ring svg, .so-ring span, .so-card::after, .pf-sheet, .pf-panel { animation: none !important; } .so-card { opacity: 1; animation: none; } }
       @media (min-width: 1024px) { #navV2 { border: 1px solid rgba(15, 23, 42, 0.08); border-radius: 22px; } }
       @media (min-width: 1024px) { #navV2 { max-width: 28rem; left: 50%; right: auto; width: 100%; transform: translateX(-50%); border: 1px solid #e2e8f0; border-radius: 1rem 1rem 0 0; } }
       body.teacher-mode #navRoom, body.teacher-mode .student-only { display: none !important; }
@@ -520,8 +553,17 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
 
             <!-- เมนู (v2) -->
             <div id="menuV2" class="v2-only">
-              <h2 class="text-2xl font-extrabold text-slate-900 mb-3">เมนู</h2>
-              <div class="v2-list mb-1"><div class="v2-item"><div class="grow"><div id="menuWho" class="font-bold">ห้อง --</div><small id="menuWho2">เพื่อนเห็นแค่ชื่อเล่น</small></div></div></div>
+              <h2 class="text-2xl font-extrabold text-slate-900 mb-3">โปรไฟล์</h2>
+              <div class="pf-card">
+                <button id="pfAvatar" class="pf-av" onclick="openProfileEdit()" aria-label="แก้ไขรูปโปรไฟล์"></button>
+                <div class="pf-info">
+                  <div id="pfName" class="pf-name"></div>
+                  <div id="menuWho" class="pf-sub">ห้อง --</div>
+                  <div id="pfBio" class="pf-bio"></div>
+                </div>
+              </div>
+              <button class="pf-edit" onclick="openProfileEdit()">แก้ไขโปรไฟล์</button>
+              <div class="pf-note"><span id="menuWho2">เพื่อนเห็นแค่ชื่อเล่น</span> · โปรไฟล์เก็บในเครื่องนี้เท่านั้น</div>
               <div class="v2-group">การใช้งาน</div>
               <div class="v2-list">
                 <button class="v2-item" onclick="toggleTheme()"><i data-lucide="moon"></i><span class="grow">โหมดมืด</span><span class="v2-switch"></span></button>
@@ -539,6 +581,32 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
               <div class="v2-list">
                 <button class="v2-item" onclick="handleLogout()"><i data-lucide="graduation-cap"></i><span class="grow">เข้าด้วยรหัสครู <small>(เฉพาะครู)</small></span></button>
                 <button class="v2-item danger" onclick="handleLogout()"><i data-lucide="log-out"></i><span class="grow">ออกจากระบบ</span></button>
+              </div>
+            </div>
+
+            <!-- โซเชียล (เร็วๆ นี้) -->
+            <div id="socialV2" class="v2-only v-social">
+              <div class="so-wrap">
+                <div class="so-ring"><span></span><span></span><i data-lucide="sparkles"></i></div>
+                <h2 class="so-t">โซเชียล</h2>
+                <div class="so-badge">เร็วๆ นี้</div>
+                <p class="so-p">พื้นที่โพสต์และดูความเคลื่อนไหวของเพื่อนในโรงเรียน<br>กำลังเตรียมให้ปลอดภัยก่อนเปิดใช้</p>
+                <div class="so-list">
+                  <div class="so-card" style="--d:0"><i data-lucide="image"></i><div><b>โพสต์รูปและข้อความ</b><small>แชร์ช่วงเวลาในห้องเรียน</small></div></div>
+                  <div class="so-card" style="--d:1"><i data-lucide="heart"></i><div><b>กดใจและคอมเมนต์</b><small>คุยกับเพื่อนในโพสต์เดียวกัน</small></div></div>
+                  <div class="so-card" style="--d:2"><i data-lucide="shield-check"></i><div><b>มีครูดูแล</b><small>รายงานโพสต์ไม่เหมาะสมได้</small></div></div>
+                </div>
+              </div>
+            </div>
+            <!-- แก้ไขโปรไฟล์ -->
+            <div id="pfSheet" class="pf-sheet hidden" onclick="if(event.target===this)closeProfileEdit()">
+              <div class="pf-panel" role="dialog" aria-label="แก้ไขโปรไฟล์">
+                <div class="pf-ph"><b>แก้ไขโปรไฟล์</b><button onclick="closeProfileEdit()" aria-label="ปิด"><i data-lucide="x"></i></button></div>
+                <div class="pf-photo"><div id="pfPrev" class="pf-av pf-av-lg"></div><div class="pf-photo-b"><label class="pf-btn">เลือกรูป<input id="pfFile" type="file" accept="image/*" hidden onchange="pickProfilePhoto(this)"></label><button class="pf-btn pf-btn-g" onclick="removeProfilePhoto()">ลบรูป</button></div></div>
+                <label class="pf-l">ชื่อเล่น<input id="pfInName" maxlength="20" placeholder="เช่น ปัน"></label>
+                <label class="pf-l">คำอธิบายตัวเอง<textarea id="pfInBio" maxlength="80" rows="2" placeholder="สั้นๆ ไม่เกิน 80 ตัวอักษร"></textarea></label>
+                <div class="pf-l">สีพื้นรูป<div id="pfColors" class="pf-colors"></div></div>
+                <button class="pf-save" onclick="saveProfile()">บันทึก</button>
               </div>
             </div>
 
@@ -658,7 +726,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       <!-- แถบล่าง (v2) -->
       <nav id="navV2" class="v2-only" aria-label="เมนูหลัก">
         <button id="navHome" class="on" onclick="setView('home')"><i data-lucide="calendar-days"></i><span>ตาราง</span></button>
-        <button id="navSocial" onclick="const l=this.querySelector('span');l.textContent='เร็วๆ นี้';setTimeout(()=>l.textContent='โซเชียล',1500)" aria-disabled="true"><i data-lucide="sparkles"></i><span>โซเชียล</span></button>
+        <button id="navSocial" onclick="setView('social')"><i data-lucide="sparkles"></i><span>โซเชียล</span></button>
         <button id="navRoom" onclick="setView('room')"><i data-lucide="users"></i><span>ห้องเรา</span><span id="navRoomDot" class="hidden absolute top-1 left-1/2 ml-2 w-2 h-2 rounded-full bg-rose-500"></span></button>
         <button id="navMenu" onclick="setView('menu')"><i data-lucide="menu"></i><span>โปรไฟล์</span></button>
       </nav>
@@ -2393,7 +2461,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const wantChat = view === 'room' && room === 'chat';
         if (wantChat !== chatOpen) toggleChat(wantChat);
         if (view === 'room' && room === 'study' && !studyOpen) toggleStudy(true);
-        ['Home:home', 'Room:room', 'Menu:menu'].forEach((x) => { const [n, v] = x.split(':'); document.getElementById('nav' + n).classList.toggle('on', v === view); });
+        ['Home:home', 'Social:social', 'Room:room', 'Menu:menu'].forEach((x) => { const [n, v] = x.split(':'); document.getElementById('nav' + n).classList.toggle('on', v === view); });
         [['rtAnn', 'ann'], ['rtStudy', 'study'], ['rtChat', 'chat']].forEach(([id, r]) => document.getElementById(id).classList.toggle('on', view === 'room' && room === r));
         if (view === 'home') { updateTimeTracker(); renderSchedule(); }
         window.scrollTo(0, 0);
@@ -2408,10 +2476,52 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         if (de.dataset.view === 'room' && ((de.dataset.room === 'study' && !hasStudy) || (de.dataset.room === 'chat' && !fabAvail))) setView('room', 'ann', true);
       }
       function openAdminChat() { setView('room', 'chat'); setTimeout(() => setChatChannel('admin'), 0); }
+      // ===== โปรไฟล์ (เก็บในเครื่องนี้เท่านั้น: ชื่อเล่น/คำอธิบาย/รูป/สี) =====
+      const PF_KEY = 'classkhab_profile', PF_COLORS = ['#0f172a', '#2563eb', '#059669', '#d97706', '#e11d48', '#7c3aed'];
+      let pfDraft = null;
+      function readProfile() { try { return JSON.parse(localStorage.getItem(PF_KEY) || '{}') || {}; } catch (e) { return {}; } }
+      function paintAvatar(el, p) {
+        el.textContent = ''; el.style.backgroundImage = ''; el.style.backgroundColor = p.color || PF_COLORS[0];
+        if (p.img) el.style.backgroundImage = 'url(' + p.img + ')'; else el.textContent = (p.name || '').trim().charAt(0) || '?';
+      }
+      function renderProfile() {
+        const p = readProfile(), a = document.getElementById('pfAvatar'); if (!a) return;
+        paintAvatar(a, p);
+        document.getElementById('pfName').textContent = p.name || 'ตั้งชื่อเล่น';
+        document.getElementById('pfBio').textContent = p.bio || '';
+      }
+      function openProfileEdit() {
+        pfDraft = { ...readProfile() };
+        document.getElementById('pfInName').value = pfDraft.name || ''; document.getElementById('pfInBio').value = pfDraft.bio || '';
+        const box = document.getElementById('pfColors'); box.textContent = '';
+        PF_COLORS.forEach((c) => { const b = mk('button'); b.style.background = c; b.setAttribute('aria-label', 'สี ' + c); b.className = (pfDraft.color || PF_COLORS[0]) === c ? 'on' : ''; b.onclick = () => { pfDraft.color = c; [...box.children].forEach((x) => x.classList.toggle('on', x === b)); paintAvatar(document.getElementById('pfPrev'), { ...pfDraft, name: document.getElementById('pfInName').value }); }; box.append(b); });
+        document.getElementById('pfInName').oninput = () => paintAvatar(document.getElementById('pfPrev'), { ...pfDraft, name: document.getElementById('pfInName').value });
+        paintAvatar(document.getElementById('pfPrev'), pfDraft);
+        document.getElementById('pfSheet').classList.remove('hidden'); if (window.lucide) lucide.createIcons();
+      }
+      function closeProfileEdit() { document.getElementById('pfSheet').classList.add('hidden'); }
+      function pickProfilePhoto(inp) {
+        const file = inp.files && inp.files[0]; if (!file) return;
+        const img = new Image(), url = URL.createObjectURL(file);
+        img.onload = () => {
+          const c = document.createElement('canvas'), n = 160, m = Math.min(img.width, img.height); c.width = c.height = n;
+          c.getContext('2d').drawImage(img, (img.width - m) / 2, (img.height - m) / 2, m, m, 0, 0, n, n);
+          pfDraft.img = c.toDataURL('image/jpeg', 0.8); URL.revokeObjectURL(url); inp.value = '';
+          paintAvatar(document.getElementById('pfPrev'), { ...pfDraft, name: document.getElementById('pfInName').value });
+        };
+        img.onerror = () => { URL.revokeObjectURL(url); alert('เปิดรูปนี้ไม่ได้ ลองรูปอื่น'); };
+        img.src = url;
+      }
+      function removeProfilePhoto() { pfDraft.img = ''; paintAvatar(document.getElementById('pfPrev'), { ...pfDraft, name: document.getElementById('pfInName').value }); }
+      function saveProfile() {
+        const p = { name: document.getElementById('pfInName').value.trim().slice(0, 20), bio: document.getElementById('pfInBio').value.trim().slice(0, 80), color: pfDraft.color || PF_COLORS[0], img: pfDraft.img || '' };
+        try { localStorage.setItem(PF_KEY, JSON.stringify(p)); } catch (e) { alert('บันทึกไม่ได้ (พื้นที่เก็บข้อมูลเต็ม ลองเอารูปออก)'); return; }
+        closeProfileEdit(); renderProfile();
+      }
       function updateMenuV2() {
         if (!UI2) return;
         const lbl = (teacherMode ? currentGrade.replace('ครู:', 'ตารางสอน: ') : `ห้อง ${currentGrade}`);
-        document.getElementById('menuWho').textContent = lbl;
+        document.getElementById('menuWho').textContent = lbl; renderProfile();
         document.getElementById('menuWho2').textContent = teacherMode ? 'โหมดครู' : 'เพื่อนเห็นแค่ชื่อเล่น';
         document.getElementById('roomSub').textContent = `${currentGrade || ''} · เห็นเฉพาะคนในห้อง`;
         const adm = document.getElementById('adminDot'); const md = document.getElementById('menuAdminDot');
