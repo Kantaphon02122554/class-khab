@@ -232,6 +232,12 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .ta-main { background: #0f172a; border-color: #0f172a; color: #f8fafc; } .ta-main:active { background: #1e293b; }
       .ta-hint { margin-top: 0.5rem; padding: 0.6rem 0.75rem; border-radius: 12px; background: #f1f5f9; color: #334155; font-size: 0.8rem; line-height: 1.5; }
       html.dark .ta-btn { background: #111a2e; border-color: #243152; color: #f1f5f9; } html.dark .ta-main { background: #f1f5f9; border-color: #f1f5f9; color: #0f172a; } html.dark .ta-hint { background: #111a2e; color: #cbd5e1; }
+      .ig-list { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 0.9rem; }
+      .ig-step { display: flex; gap: 0.85rem; align-items: flex-start; padding: 0.8rem; border: 1px solid #e2e8f0; border-radius: 14px; }
+      .ig-n { flex: none; width: 2.5rem; height: 2.5rem; border-radius: 50%; background: #0f172a; color: #f8fafc; display: flex; align-items: center; justify-content: center; } .ig-n svg { width: 1.25rem; height: 1.25rem; }
+      .ig-t b { display: block; font-size: 0.95rem; } .ig-t small { display: block; margin-top: 0.15rem; font-size: 0.8rem; color: #64748b; line-height: 1.5; }
+      .ig-note { font-size: 0.75rem; color: #94a3b8; text-align: center; margin-bottom: 0.9rem; }
+      html.dark .ig-step { border-color: #243152; } html.dark .ig-n { background: #f1f5f9; color: #0f172a; } html.dark .ig-t small { color: #94a3b8; }
       @media (min-width: 1024px) { #topActions { display: none !important; } }
       /* ไอคอนเส้นแทนอีโมจิ + หัวตารางไม่แน่น (ui2) + ปุ่มแชร์เป็นสีกลาง */
       .ic { display: inline-block; width: 1.1em; height: 1.1em; vertical-align: -0.18em; stroke-width: 2; flex: none; }
@@ -1612,11 +1618,30 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         if (deferredInstall) { const b = micon('button', 'ta-btn', 'download', 'ติดตั้งแอป'); b.onclick = installApp; row.append(b); }
         else if (iosNeedsInstall()) {
           const b = micon('button', 'ta-btn ta-main', 'download', 'ติดตั้งแอปเพื่อรับแจ้งเตือน');
-          const hint = mk('p', 'ta-hint hidden', 'แตะปุ่มแชร์ของเบราว์เซอร์ แล้วเลือก "เพิ่มไปยังหน้าจอโฮม" จากนั้นเปิดแอปจากไอคอนบนหน้าจอโฮม');
-          b.onclick = () => hint.classList.toggle('hidden'); row.append(b); box.append(row, hint); box.classList.remove('hidden'); return;
+          b.onclick = openInstallGuide; row.append(b); box.append(row); box.classList.remove('hidden'); return;
         }
         if (!row.children.length) { box.classList.add('hidden'); return; }
         box.append(row); box.classList.remove('hidden');
+      }
+      // iOS ไม่มี API ให้เว็บเพิ่มตัวเองลงหน้าจอโฮมได้ ต้องให้ผู้ใช้กดเอง จึงแสดงขั้นตอนแบบทีละข้อ
+      function openInstallGuide() {
+        let sh = document.getElementById('instSheet');
+        if (!sh) {
+          sh = mk('div', 'pf-sheet'); sh.id = 'instSheet'; sh.onclick = (e) => { if (e.target === sh) sh.classList.add('hidden'); };
+          const p = mk('div', 'pf-panel'), hd = mk('div', 'pf-ph'); hd.append(mk('b', '', 'ติดตั้ง ClassKhab บน iPhone'));
+          const x = mk('button'); x.setAttribute('aria-label', 'ปิด'); x.append(ic('x')); x.onclick = () => sh.classList.add('hidden'); hd.append(x); p.append(hd);
+          const steps = [
+            ['ellipsis', 'แตะปุ่มจุด 3 จุด (...)', 'อยู่แถบด้านล่างของ Safari ถ้าเห็นปุ่ม "แชร์" อยู่แล้วให้ข้ามไปข้อถัดไป'],
+            ['share', 'แตะ "แชร์"', 'ไอคอนสี่เหลี่ยมมีลูกศรชี้ขึ้น (บน iPad อยู่มุมบนขวา)'],
+            ['square-plus', 'เลื่อนลง แตะ "เพิ่มไปยังหน้าจอโฮม"', 'ถ้าไม่เห็น ให้เลื่อนรายการในเมนูลงอีก'],
+            ['smartphone', 'แตะ "เพิ่ม" แล้วเปิดจากไอคอน', 'เปิดแอปจากไอคอน ClassKhab บนหน้าจอโฮม แล้วกด "เปิดแจ้งเตือน" อีกครั้ง'],
+          ];
+          const ol = mk('div', 'ig-list');
+          steps.forEach((st, i) => { const r = mk('div', 'ig-step'), n = mk('span', 'ig-n'); n.append(ic(st[0])); const t = mk('div', 'ig-t'); t.append(mk('b', '', (i + 1) + '. ' + st[1]), mk('small', '', st[2])); r.append(n, t); ol.append(r); });
+          p.append(ol, mk('p', 'ig-note', 'iPhone รับแจ้งเตือนได้เมื่อเปิดจากไอคอนบนหน้าจอโฮมเท่านั้น'));
+          const ok = mk('button', 'pf-save', 'เข้าใจแล้ว'); ok.onclick = () => sh.classList.add('hidden'); p.append(ok); sh.append(p); document.body.append(sh);
+        }
+        sh.classList.remove('hidden');
       }
       window.addEventListener('appinstalled', () => { deferredInstall = null; updatePushBanner(); });
 
