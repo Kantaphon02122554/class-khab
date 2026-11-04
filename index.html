@@ -167,6 +167,15 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       #navV2 button { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: #94a3b8; position: relative; padding: 0.3rem 0; background: transparent; }
       #navV2 button.on { color: #0f172a; } html.dark #navV2 button.on { color: #fff; }
       #navV2 button svg { width: 22px; height: 22px; }
+      /* แถบล่างแบบลอย (pill) เลื่อนตามหน้าจอ */
+      #navV2 { left: 50%; right: auto; bottom: calc(12px + env(safe-area-inset-bottom)); width: min(92vw, 24rem); transform: translateX(-50%); padding: 6px; gap: 2px; border: 1px solid rgba(15, 23, 42, 0.08); border-radius: 22px; background: rgba(255, 255, 255, 0.82); -webkit-backdrop-filter: blur(16px) saturate(1.4); backdrop-filter: blur(16px) saturate(1.4); box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12); }
+      html.dark #navV2 { background: rgba(17, 26, 46, 0.82); border-color: rgba(255, 255, 255, 0.1); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45); }
+      #navV2 button { border-radius: 16px; padding: 0.45rem 0; transition: background-color .2s, color .2s; }
+      #navV2 button.on { background: #f1f5f9; box-shadow: inset 0 1px 0 #fff, 0 1px 2px rgba(15, 23, 42, 0.12); }
+      html.dark #navV2 button.on { background: rgba(255, 255, 255, 0.1); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08); }
+      #navV2 button:active { transform: scale(0.96); }
+      #navSocial { opacity: 0.6; }
+      @media (min-width: 1024px) { #navV2 { border: 1px solid rgba(15, 23, 42, 0.08); border-radius: 22px; } }
       @media (min-width: 1024px) { #navV2 { max-width: 28rem; left: 50%; right: auto; width: 100%; transform: translateX(-50%); border: 1px solid #e2e8f0; border-radius: 1rem 1rem 0 0; } }
       body.teacher-mode #navRoom, body.teacher-mode .student-only { display: none !important; }
       .v2-tabs { display: flex; border-bottom: 1px solid #e2e8f0; } html.dark .v2-tabs { border-bottom-color: #243152; }
@@ -649,8 +658,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       <!-- แถบล่าง (v2) -->
       <nav id="navV2" class="v2-only" aria-label="เมนูหลัก">
         <button id="navHome" class="on" onclick="setView('home')"><i data-lucide="calendar-days"></i><span>ตาราง</span></button>
+        <button id="navSocial" onclick="const l=this.querySelector('span');l.textContent='เร็วๆ นี้';setTimeout(()=>l.textContent='โซเชียล',1500)" aria-disabled="true"><i data-lucide="sparkles"></i><span>โซเชียล</span></button>
         <button id="navRoom" onclick="setView('room')"><i data-lucide="users"></i><span>ห้องเรา</span><span id="navRoomDot" class="hidden absolute top-1 left-1/2 ml-2 w-2 h-2 rounded-full bg-rose-500"></span></button>
-        <button id="navMenu" onclick="setView('menu')"><i data-lucide="menu"></i><span>เมนู</span></button>
+        <button id="navMenu" onclick="setView('menu')"><i data-lucide="menu"></i><span>โปรไฟล์</span></button>
       </nav>
     </div>
 
