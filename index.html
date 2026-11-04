@@ -179,7 +179,20 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       html.ui2 #authCard { max-width: 56rem; padding: 0; overflow: hidden; position: relative; display: block; }
       html.ui2 .au-form { padding: 2rem 1.5rem; position: relative; z-index: 5; }
       html.ui2 .au-panel { display: block; background: #0f172a; color: #fff; padding: 1.25rem 1.5rem; }
-      html.ui2 .au-pr, html.ui2 #authCard[data-mode="room"] .au-pl { display: none; } html.ui2 #authCard[data-mode="room"] .au-pr { display: block; }
+      /* มือถือ: สองฝั่งซ้อนกันในช่องเดียว สลับด้วยการเลื่อนข้าง + การ์ดผุดขึ้นตอนเปิดหน้า */
+      html.ui2 .au-panel { display: grid; overflow: hidden; }
+      html.ui2 .au-pl, html.ui2 .au-pr { grid-area: 1 / 1; display: flex; justify-content: center; transition: transform .6s cubic-bezier(.65, 0, .35, 1), opacity .45s ease; }
+      html.ui2 .au-pr { transform: translateX(110%); opacity: 0; pointer-events: none; }
+      html.ui2 #authCard[data-mode="room"] .au-pl { transform: translateX(-110%); opacity: 0; pointer-events: none; }
+      html.ui2 #authCard[data-mode="room"] .au-pr { transform: none; opacity: 1; pointer-events: auto; }
+      html.ui2 .au-c .crest { animation: auPop .7s cubic-bezier(.2, .9, .3, 1.3) .15s both; }
+      html.ui2 #authCard { animation: auCardIn .6s cubic-bezier(.2, .8, .2, 1) both; }
+      html.ui2 #authCard[data-mode="room"] #loginForm:not(.hidden) { animation: auInR .5s cubic-bezier(.2, .8, .2, 1) both; }
+      html.ui2 #authCard[data-mode="otp"] #otpBox:not(.hidden) { animation: auInL .5s cubic-bezier(.2, .8, .2, 1) both; }
+      @keyframes auCardIn { from { opacity: 0; transform: translateY(28px) scale(.97); } to { opacity: 1; transform: none; } }
+      @keyframes auPop { from { opacity: 0; transform: scale(.4) rotate(-12deg); } to { opacity: 1; transform: none; } }
+      @keyframes auInR { from { opacity: 0; transform: translateX(36px); } to { opacity: 1; transform: none; } }
+      @keyframes auInL { from { opacity: 0; transform: translateX(-36px); } to { opacity: 1; transform: none; } }
       html.ui2 .au-c { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.5rem; }
       html.ui2 .au-c .crest { width: 3rem; height: 3rem; } html.ui2 .au-pt { font-weight: 700; font-size: 1.25rem; } html.ui2 .au-pp { font-size: 0.8rem; color: #cbd5e1; line-height: 1.6; }
       html.ui2 .au-pb { display: none; }
@@ -192,7 +205,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         html.dark.ui2 #authCard::before { background: #1e293b; }
         html.ui2 #authCard[data-mode="room"]::before { transform: translate(100%, -50%); right: 52%; }
         html.ui2 .au-panel { position: absolute; inset: 0; z-index: 3; display: grid; grid-template-columns: 1fr 1fr; background: none; padding: 0; pointer-events: none; }
-        html.ui2 .au-pr, html.ui2 #authCard[data-mode="room"] .au-pl, html.ui2 #authCard[data-mode="room"] .au-pr { display: flex; }
+        html.ui2 .au-pr, html.ui2 #authCard[data-mode="room"] .au-pl, html.ui2 #authCard[data-mode="room"] .au-pr { display: flex; transform: none; opacity: 1; grid-area: auto; transition: none; }
+        html.ui2 #authCard { animation: none; } html.ui2 #authCard[data-mode="room"] #loginForm:not(.hidden), html.ui2 #authCard[data-mode="otp"] #otpBox:not(.hidden) { animation: auFade .45s ease both; }
         html.ui2 .au-pl, html.ui2 .au-pr { align-items: center; justify-content: center; padding: 2.5rem; }
         html.ui2 .au-pl { pointer-events: auto; } html.ui2 #authCard[data-mode="room"] .au-pl { pointer-events: none; } html.ui2 #authCard[data-mode="room"] .au-pr { pointer-events: auto; }
         html.ui2 .au-c { gap: 0.9rem; transition: transform 0.9s ease-in-out 0.6s; }
@@ -203,7 +217,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         html.ui2 .au-form { width: 50%; margin-left: 0; padding: 2.5rem 2rem; transform: translateX(100%); transition: transform 1s ease-in-out 0.7s; }
         html.ui2 #authCard[data-mode="room"] .au-form { transform: translateX(0); }
       }
-      @media (prefers-reduced-motion: reduce) { html.ui2 #authCard::before, html.ui2 .au-c, html.ui2 .au-form { transition: none !important; } html.ui2 #otpBox, html.ui2 #loginForm { animation: none !important; } }
+      @media (prefers-reduced-motion: reduce) { html.ui2 #authCard, html.ui2 #authCard::before, html.ui2 .au-c, html.ui2 .au-c .crest, html.ui2 .au-pl, html.ui2 .au-pr, html.ui2 .au-form { transition: none !important; animation: none !important; } html.ui2 #otpBox, html.ui2 #loginForm { animation: none !important; } }
       /* หน้าโปรไฟล์ + โซเชียล (ui2) */
       html.ui2:not([data-view="social"]) .v-social { display: none !important; }
       .pf-card { display: flex; align-items: center; gap: 1rem; padding: 0.25rem 0 0.75rem; }
