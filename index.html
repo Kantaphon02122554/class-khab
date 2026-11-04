@@ -189,6 +189,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       html.ui2 #authCard { animation: auCardIn .6s cubic-bezier(.2, .8, .2, 1) both; }
       html.ui2 #authCard[data-mode="room"] #loginForm:not(.hidden) { animation: auInR .5s cubic-bezier(.2, .8, .2, 1) both; }
       html.ui2 #authCard[data-mode="otp"] #otpBox:not(.hidden) { animation: auInL .5s cubic-bezier(.2, .8, .2, 1) both; }
+      html.ui2 #authCard::after { content: ''; position: absolute; inset: 0; z-index: 9; background: #0f172a url(crest.svg) center / 76px no-repeat; transform: translateY(-101%); pointer-events: none; }
+      html.ui2 #authCard.au-cur::after { animation: auCurtain 1.1s cubic-bezier(.65, 0, .35, 1) both; }
+      @keyframes auCurtain { 0% { transform: translateY(-101%); } 42% { transform: translateY(0); } 58% { transform: translateY(0); } 100% { transform: translateY(-101%); } }
       @keyframes auCardIn { from { opacity: 0; transform: translateY(28px) scale(.97); } to { opacity: 1; transform: none; } }
       @keyframes auPop { from { opacity: 0; transform: scale(.4) rotate(-12deg); } to { opacity: 1; transform: none; } }
       @keyframes auInR { from { opacity: 0; transform: translateX(36px); } to { opacity: 1; transform: none; } }
@@ -206,6 +209,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         html.ui2 #authCard[data-mode="room"]::before { transform: translate(100%, -50%); right: 52%; }
         html.ui2 .au-panel { position: absolute; inset: 0; z-index: 3; display: grid; grid-template-columns: 1fr 1fr; background: none; padding: 0; pointer-events: none; }
         html.ui2 .au-pr, html.ui2 #authCard[data-mode="room"] .au-pl, html.ui2 #authCard[data-mode="room"] .au-pr { display: flex; transform: none; opacity: 1; grid-area: auto; transition: none; }
+        html.ui2 #authCard::after { display: none; }
         html.ui2 #authCard { animation: none; } html.ui2 #authCard[data-mode="room"] #loginForm:not(.hidden), html.ui2 #authCard[data-mode="otp"] #otpBox:not(.hidden) { animation: auFade .45s ease both; }
         html.ui2 .au-pl, html.ui2 .au-pr { align-items: center; justify-content: center; padding: 2.5rem; }
         html.ui2 .au-pl { pointer-events: auto; } html.ui2 #authCard[data-mode="room"] .au-pl { pointer-events: none; } html.ui2 #authCard[data-mode="room"] .au-pr { pointer-events: auto; }
@@ -218,6 +222,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         html.ui2 #authCard[data-mode="room"] .au-form { transform: translateX(0); }
       }
       @media (prefers-reduced-motion: reduce) { html.ui2 #authCard, html.ui2 #authCard::before, html.ui2 .au-c, html.ui2 .au-c .crest, html.ui2 .au-pl, html.ui2 .au-pr, html.ui2 .au-form { transition: none !important; animation: none !important; } html.ui2 #otpBox, html.ui2 #loginForm { animation: none !important; } }
+      /* พื้นที่เลื่อนอยู่ที่ #mainDashboard (ไม่ใช่หน้าต่าง) ต้องเว้นท้ายหน้าให้พ้นแถบล่างลอย ไม่งั้นรายการสุดท้าย (ออกจากระบบ) ถูกแถบบังจนเลื่อนไม่ถึง */
+      @media (max-width: 1023px) { html.ui2 #mainDashboard { padding-bottom: calc(6.5rem + env(safe-area-inset-bottom)); } }
+      .pf-end { text-align: center; font-size: 0.75rem; color: #94a3b8; margin: 1.25rem 0 0; }
       /* หน้าโปรไฟล์ + โซเชียล (ui2) */
       html.ui2:not([data-view="social"]) .v-social { display: none !important; }
       .pf-card { display: flex; align-items: center; gap: 1rem; padding: 0.25rem 0 0.75rem; }
@@ -657,6 +664,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                 <button class="v2-item" onclick="handleLogout()"><i data-lucide="graduation-cap"></i><span class="grow">เข้าด้วยรหัสครู <small>(เฉพาะครู)</small></span></button>
                 <button class="v2-item danger" onclick="handleLogout()"><i data-lucide="log-out"></i><span class="grow">ออกจากระบบ</span></button>
               </div>
+              <p class="pf-end">ClassKhab · โรงเรียนท่าบ่อ</p>
             </div>
 
             <!-- โซเชียล (เร็วๆ นี้) -->
@@ -2324,7 +2332,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       let otpEmail = '', otpTimer = null;
       const otpErr = (m) => { const e = document.getElementById('otpError'); e.textContent = m || ''; e.classList.toggle('hidden', !m); };
       function showRoomLogin(on) {   // true = โชว์ฟอร์มรหัสห้อง (ทางสำรอง) / false = โชว์ OTP
-        const card = document.getElementById('authCard'); if (card && OTP_ON) card.dataset.mode = on ? 'room' : 'otp';
+        const card = document.getElementById('authCard'); const setMode = () => { if (card && OTP_ON) card.dataset.mode = on ? 'room' : 'otp'; };
+        const mobileCurtain = card && OTP_ON && card.dataset.ready === '1' && !matchMedia('(prefers-reduced-motion: reduce)').matches && !matchMedia('(min-width: 768px)').matches;
+        if (!mobileCurtain) setMode();
         const apply = () => {
           document.getElementById('otpBox').classList.toggle('hidden', on || !OTP_ON);
           document.getElementById('loginForm').classList.toggle('hidden', !on && OTP_ON);
@@ -2332,7 +2342,12 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         };
         // ให้ฟอร์มเก่าอยู่จนวงกลมเริ่มกวาด แล้วค่อยสลับ (เฉพาะโครงใหม่ที่เปิดแล้ว และไม่ได้ตั้งค่าลดการเคลื่อนไหว)
         const slow = card && OTP_ON && card.dataset.ready === '1' && !matchMedia('(prefers-reduced-motion: reduce)').matches && matchMedia('(min-width: 768px)').matches;
-        clearTimeout(showRoomLogin._t); if (slow) showRoomLogin._t = setTimeout(apply, 650); else apply();
+        clearTimeout(showRoomLogin._t);
+        if (mobileCurtain) {   // มือถือ: แถบดำเลื่อนลงคลุมทั้งการ์ด สลับหน้าตอนคลุมมิด แล้วเลื่อนขึ้นไปเผยหน้าใหม่
+          card.classList.remove('au-cur'); void card.offsetWidth; card.classList.add('au-cur');
+          showRoomLogin._t = setTimeout(() => { setMode(); apply(); }, 520);
+          setTimeout(() => card.classList.remove('au-cur'), 1150);
+        } else if (slow) showRoomLogin._t = setTimeout(apply, 650); else apply();
       }
       function initOtpUi() {
         if (!OTP_ON) return;
