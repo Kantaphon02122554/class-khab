@@ -125,17 +125,17 @@ html.cards .hc-err { background: #fef2f2; border-color: #fecaca; color: #991b1b;
 html.dark.cards .hc, html.cards.dark .hc { background: #111a2e; border-color: #243152; color: #cbd5e1; } html.cards.dark .hc .hc-t { color: #f1f5f9; }
 html.cards.dark .hc-err { background: #3b0d0d; border-color: #b91c1c; color: #fecaca; } html.cards.dark .hc-err .hc-t { color: #fee2e2; }
 /* โหมดการ์ด รอบแรง: หน้าขาวเรียบ ไม่มีกรอบซ้อน/เงา มุมโค้งเล็กลง ฟอนต์ Anuphan */
-html.cards body { font-family: 'Anuphan', 'Sarabun', sans-serif; background: #fff; }
-html.cards #heroSection { background: #fff !important; padding-left: 0; padding-right: 0; }
+html.cards body { font-family: 'Anuphan', 'Sarabun', sans-serif; } html.cards:not(.dark) body { background: #fff; }
+html.cards #heroSection { padding-left: 0; padding-right: 0; } html.cards:not(.dark) #heroSection { background: #fff !important; }
 html.cards #dashCard { background: transparent; border: 0; box-shadow: none; border-radius: 0; padding: 0.25rem 0 0; }
 html.cards [class*="shadow"] { box-shadow: none !important; }
 html.cards .rounded-3xl, html.cards .rounded-2xl { border-radius: 12px; }
 html.cards .hc { border-radius: 12px; }
 html.cards #nowNextGrid > div:first-child { background-image: none !important; background-color: #0f172a; border-radius: 12px; }
-html.cards #nextCard { background: #fff; border-color: #e2e8f0; border-radius: 12px; }
+html.cards #nextCard { border-radius: 12px; } html.cards:not(.dark) #nextCard { background: #fff; border-color: #e2e8f0; }
 html.cards #chatFab svg ~ * { display: none; }
-html.cards .bg-slate-50 { background-color: #fff; }
-html.cards .border-slate-200, html.cards .border-slate-200\/80 { border-color: #eef0f3; }
+html.cards:not(.dark) .bg-slate-50 { background-color: #fff; }
+html.cards:not(.dark) .border-slate-200, html.cards:not(.dark) .border-slate-200\/80 { border-color: #eef0f3; }
 html.cards .animate-pulse { animation: none; }
 html.cards button, html.cards .tag { transition: background-color .15s, color .15s; }
 html.cards .tag { border-radius: 6px; padding: 2px 8px; }
@@ -174,6 +174,23 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       #navV2 button.on { background: #f1f5f9; box-shadow: inset 0 1px 0 #fff, 0 1px 2px rgba(15, 23, 42, 0.12); }
       html.dark #navV2 button.on { background: rgba(255, 255, 255, 0.1); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08); }
       #navV2 button:active { transform: scale(0.96); }
+      /* หน้าเข้าสู่ระบบ (ui2): การ์ดสองฝั่ง แผงสีเข้มเลื่อนสลับด้านเมื่อเปลี่ยนวิธีเข้า (แนวคิดจากตัวอย่าง auth-switch ของ 21st.dev ปรับเป็นขาว-ดำตามแบรนด์ ไม่มีรหัสผ่าน/ปุ่มโซเชียล) */
+      .au-panel { display: none; }
+      html.ui2 #authCard { max-width: 56rem; padding: 0; overflow: hidden; position: relative; display: block; }
+      html.ui2 .au-form { padding: 2rem 1.5rem; }
+      html.ui2 .au-panel { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.5rem; padding: 1.25rem 1.5rem; background: #0f172a; color: #fff; }
+      html.ui2 .au-panel .crest { width: 3rem; height: 3rem; } html.ui2 .au-pt { font-weight: 700; font-size: 1.25rem; } html.ui2 .au-pp { font-size: 0.8rem; color: #cbd5e1; line-height: 1.6; }
+      html.ui2 .au-pb { display: none; }
+      html.ui2 .au-form > div:first-child img { display: none; }
+      @media (min-width: 768px) {
+        html.ui2 #authCard { min-height: 32rem; }
+        html.ui2 .au-panel { position: absolute; top: 0; bottom: 0; left: 0; width: 50%; justify-content: center; gap: 0.9rem; padding: 2.5rem; z-index: 2; transition: transform .7s cubic-bezier(.65, 0, .35, 1); }
+        html.ui2 .au-panel .crest { width: 5.5rem; height: 5.5rem; } html.ui2 .au-pt { font-size: 1.75rem; } html.ui2 .au-pp { font-size: 0.95rem; max-width: 18rem; }
+        html.ui2 .au-pb { display: inline-block; margin-top: 0.5rem; padding: 0.6rem 1.25rem; border: 1.5px solid rgba(255, 255, 255, 0.7); border-radius: 12px; font-weight: 700; font-size: 0.85rem; transition: background-color .2s; } html.ui2 .au-pb:hover { background: rgba(255, 255, 255, 0.12); }
+        html.ui2 .au-form { width: 50%; margin-left: 0; padding: 2.5rem 2rem; transform: translateX(100%); transition: transform .7s cubic-bezier(.65, 0, .35, 1); }
+        html.ui2 #authCard[data-mode="room"] .au-panel { transform: translateX(100%); } html.ui2 #authCard[data-mode="room"] .au-form { transform: translateX(0); }
+      }
+      @media (prefers-reduced-motion: reduce) { html.ui2 .au-panel, html.ui2 .au-form { transition: none !important; } }
       /* หน้าโปรไฟล์ + โซเชียล (ui2) */
       html.ui2:not([data-view="social"]) .v-social { display: none !important; }
       .pf-card { display: flex; align-items: center; gap: 1rem; padding: 0.25rem 0 0.75rem; }
@@ -202,6 +219,12 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       html.dark .so-card { background: #111a2e; border-color: #243152; }
       .so-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(148, 163, 184, 0.18) 50%, transparent 70%); transform: translateX(-100%); animation: soShine 3.2s ease-in-out infinite; animation-delay: calc(var(--d) * 400ms + 1s); }
       .so-card svg { width: 22px; height: 22px; flex: none; color: #64748b; } .so-card b { display: block; font-size: 0.9rem; } .so-card small { color: #94a3b8; }
+      .so-demo { width: 100%; margin-top: 1.75rem; text-align: left; pointer-events: none; user-select: none; } .so-demo-h { font-size: 0.75rem; font-weight: 700; color: #94a3b8; margin-bottom: 0.6rem; text-align: center; }
+      .so-stories { display: flex; gap: 0.7rem; margin-bottom: 0.9rem; } .so-st { width: 52px; height: 52px; border-radius: 50%; background: #e2e8f0; flex: none; border: 2px solid #fff; box-shadow: 0 0 0 1.5px #cbd5e1; display: flex; align-items: center; justify-content: center; } html.dark .so-st { background: #243152; border-color: #0b1220; box-shadow: 0 0 0 1.5px #334155; } .so-st-me { background: #0f172a; color: #fff; box-shadow: none; } .so-st svg { width: 20px; height: 20px; }
+      .so-post { border: 1px solid #e2e8f0; border-radius: 14px; padding: 0.75rem; background: #fff; } html.dark .so-post { background: #111a2e; border-color: #243152; }
+      .so-ph { display: flex; align-items: center; gap: 0.6rem; } .so-ph b { display: block; font-size: 0.85rem; } .so-ph small { color: #94a3b8; font-size: 0.7rem; } .so-av { width: 36px; height: 36px; border-radius: 50%; background: #cbd5e1; flex: none; }
+      .so-img { height: 150px; border-radius: 10px; background: #f1f5f9; margin: 0.6rem 0; } html.dark .so-img { background: #1a2540; }
+      .so-pt { font-size: 0.875rem; } .so-acts { display: flex; gap: 1.1rem; margin-top: 0.6rem; color: #64748b; font-size: 0.8rem; } .so-acts span { display: inline-flex; align-items: center; gap: 0.3rem; } .so-acts svg { width: 18px; height: 18px; }
       @keyframes soPing { 0% { transform: scale(0.55); opacity: 0.8; } 100% { transform: scale(1.25); opacity: 0; } }
       @keyframes soSpin { 0%, 100% { transform: rotate(-12deg) scale(1); } 50% { transform: rotate(12deg) scale(1.12); } }
       @keyframes soIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
@@ -269,7 +292,14 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
     <!-- 1. AUTHENTICATION MODAL / SCREEN           -->
     <!-- ========================================== -->
     <div id="authScreen" class="min-h-screen flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-md fixed inset-0 z-50 overflow-y-auto">
-      <div class="w-full max-w-md bg-white p-8 rounded-3xl shadow-2xl border border-slate-100 relative my-8">
+      <div id="authCard" data-mode="otp" class="w-full max-w-md bg-white p-8 rounded-3xl shadow-2xl border border-slate-100 relative my-8">
+        <div class="au-panel">
+          <img src="crest.svg" alt="" class="crest" />
+          <div class="au-pt">ClassKhab</div>
+          <p id="auPanelText" class="au-pp">ใช้อีเมลโรงเรียน เข้าห้องของคุณให้อัตโนมัติ ไม่ต้องจำรหัส</p>
+          <button type="button" id="auPanelBtn" class="au-pb" onclick="showRoomLogin(document.getElementById('authCard').dataset.mode !== 'room')">ยังไม่มีอีเมล? เข้าด้วยรหัสห้อง</button>
+        </div>
+        <div class="au-form">
         <div class="text-center mb-6">
           <img src="crest.svg" alt="โลโก้ โรงเรียนท่าบ่อ" class="crest mx-auto mb-3 h-20 w-20" />
           <h1 class="text-2xl font-bold text-slate-900">เข้าสู่ระบบ ClassKhab</h1>
@@ -379,6 +409,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           </button>
         </form>
         <p class="mt-4 text-center text-xs text-slate-500"><a href="help.html" class="font-semibold text-blue-600 hover:underline">วิธีใช้ / เปิดแจ้งเตือนบน iPhone</a></p>
+        </div>
       </div>
     </div>
 
@@ -603,6 +634,11 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                   <div class="so-card" style="--d:0"><i data-lucide="image"></i><div><b>โพสต์รูปและข้อความ</b><small>แชร์ช่วงเวลาในห้องเรียน</small></div></div>
                   <div class="so-card" style="--d:1"><i data-lucide="heart"></i><div><b>กดใจและคอมเมนต์</b><small>คุยกับเพื่อนในโพสต์เดียวกัน</small></div></div>
                   <div class="so-card" style="--d:2"><i data-lucide="shield-check"></i><div><b>มีครูดูแล</b><small>รายงานโพสต์ไม่เหมาะสมได้</small></div></div>
+                </div>
+                <div class="so-demo" aria-label="ตัวอย่างการออกแบบหน้าโซเชียล (ยังใช้งานไม่ได้)">
+                  <div class="so-demo-h">ตัวอย่างหน้าตา · ยังใช้งานไม่ได้</div>
+                  <div class="so-stories"><span class="so-st so-st-me"><i data-lucide="plus"></i></span><span class="so-st"></span><span class="so-st"></span><span class="so-st"></span><span class="so-st"></span></div>
+                  <div class="so-post"><div class="so-ph"><span class="so-av"></span><div><b>เพื่อนในห้อง</b><small>ม.3/1 · 10 นาทีที่แล้ว</small></div></div><div class="so-img"></div><div class="so-pt">ข้อความโพสต์จะอยู่ตรงนี้</div><div class="so-acts"><span><i data-lucide="heart"></i>12</span><span><i data-lucide="message-circle"></i>3</span><span><i data-lucide="flag"></i></span></div></div>
                 </div>
               </div>
             </div>
@@ -2258,10 +2294,11 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       // ---- ล็อกอินด้วยอีเมลโรงเรียน (OTP) ----
       // เปิดใช้จริงเมื่อฝั่งเซิร์ฟเวอร์พร้อม: เปลี่ยน OTP_DEFAULT เป็น true (ทดสอบก่อนได้ด้วย ?otp=1)
       const OTP_DEFAULT = false, SCHOOL_DOMAIN = 'thaboschool.ac.th';
-      const OTP_ON = OTP_DEFAULT ? new URLSearchParams(location.search).get('otp') !== '0' : new URLSearchParams(location.search).get('otp') === '1';
+      const OTP_ON = OTP_DEFAULT ? new URLSearchParams(location.search).get('otp') !== '0' : (new URLSearchParams(location.search).get('otp') === '1' || (document.documentElement.classList.contains('ui2') && new URLSearchParams(location.search).get('otp') !== '0'));   // โครงใหม่ (?ui=2) ใช้อีเมลเป็นทางหลัก
       let otpEmail = '', otpTimer = null;
       const otpErr = (m) => { const e = document.getElementById('otpError'); e.textContent = m || ''; e.classList.toggle('hidden', !m); };
       function showRoomLogin(on) {   // true = โชว์ฟอร์มรหัสห้อง (ทางสำรอง) / false = โชว์ OTP
+        const card = document.getElementById('authCard'); if (card && OTP_ON) { card.dataset.mode = on ? 'room' : 'otp'; const t = document.getElementById('auPanelText'), b = document.getElementById('auPanelBtn'); if (t) t.textContent = on ? 'เลือกห้องเองได้ ถ้ายังไม่มีอีเมลโรงเรียน (ใช้รหัสห้องที่ครูหรือเพื่อนให้)' : 'ใช้อีเมลโรงเรียน เข้าห้องของคุณให้อัตโนมัติ ไม่ต้องจำรหัส'; if (b) b.textContent = on ? '← เข้าด้วยอีเมลโรงเรียน' : 'ยังไม่มีอีเมล? เข้าด้วยรหัสห้อง'; }
         document.getElementById('otpBox').classList.toggle('hidden', on || !OTP_ON);
         document.getElementById('loginForm').classList.toggle('hidden', !on && OTP_ON);
         const back = document.getElementById('otpBackLink'); if (back) back.classList.toggle('hidden', !on || !OTP_ON);
@@ -2565,6 +2602,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const ex = [...(s.exams || []).map((e) => ({ title: e.title, date: e.date })), ...ann.filter((x) => x.kind === 'exam' && x.due_date && !done.has(x.id)).map((x) => ({ title: x.title, date: x.due_date }))]
           .map((e) => ({ e, d: cardDayDiff(today, e.date) })).filter((o) => o.d >= 0 && o.d <= 7).sort((a, b) => a.d - b.d);
         if (ex.length) cards.push({ key: 'exam:' + ex[0].e.title + ':' + ex[0].e.date, prio: 3, tone: 'exam', icon: 'pencil-line', title: `${ex[0].e.title} · ${when(ex[0].d)}`, text: thd(ex[0].e.date), dismiss: 'day' });
+        // 3.5) เช็กกระเป๋าพรุ่งนี้ (ตัวเรียกใช้ส่งเฉพาะช่วงเย็นของวันก่อนวันเรียน): รายวิชาพรุ่งนี้
+        if (s.bag && s.bag.subjects && s.bag.subjects.length) cards.push({ key: 'bag:' + today, prio: 3.5, tone: 'info', icon: 'backpack', title: 'เช็กกระเป๋าพรุ่งนี้', text: s.bag.subjects.slice(0, 8).join(' · ') + (s.bag.subjects.length > 8 ? ' ...' : ''), dismiss: 'day' });
         // 4) ประกาศ: แถบประกาศแอดมินที่ยังไม่หมดอายุ (ปิดถาวรต่อประกาศ) หรือประกาศห้องที่ใหม่ภายใน 48 ชม.
         if (s.notice && s.notice.message) cards.push({ key: 'notice:' + s.notice.id, prio: 4, tone: 'info', icon: 'megaphone', title: 'ประกาศ', text: s.notice.message, dismiss: 'forever' });
         else { const a = ann.filter((x) => x.kind === 'announce' && x.created_at && Date.parse(x.created_at) > (s.nowMs || Date.now()) - 48 * 3600000).sort((p, q) => q.created_at.localeCompare(p.created_at))[0]; if (a) cards.push({ key: 'ann:' + a.id, prio: 4, tone: 'info', icon: 'megaphone', title: 'ประกาศในห้อง', text: a.title, dismiss: 'forever' }); }
@@ -2583,6 +2622,16 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       let cardsExpanded = false;
       function readCardState() { try { return JSON.parse(localStorage.getItem(CARD_KEY) || '{}') || {}; } catch (e) { return {}; } }
       function writeCardState(d) { try { localStorage.setItem(CARD_KEY, JSON.stringify(d)); } catch (e) { /* ใช้งานต่อได้ แค่ปิดไม่ติดข้ามรอบ */ } }
+      // วิชาของพรุ่งนี้ แสดงตั้งแต่ 16:00 ของวันอาทิตย์-พฤหัส (พรุ่งนี้เป็นวันเรียน) เท่านั้น
+      function bagForTomorrow(today) {
+        try {
+          const hour = new Date(Date.now() + 7 * 3600000).getUTCHours(), dow = new Date(today + 'T00:00:00Z').getUTCDay();
+          if (hour < 16 || dow === 5 || dow === 6) return null;
+          const name = ['จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์'][dow % 7 === 0 ? 0 : dow], list = (scheduleData[currentGrade] || []).filter((x) => x.day === name).sort((a, b) => a.period - b.period);
+          const seen = new Set(), subjects = []; for (const it of list) { const t = subjectTitle(it); if (t && !/^พัก/.test(t) && !seen.has(t)) { seen.add(t); subjects.push(t); } }
+          return subjects.length ? { subjects } : null;
+        } catch (e) { return null; }
+      }
       function renderHomeCards() {
         const box = document.getElementById('homeCards'); if (!box) return;
         if (!CARDS) { box.classList.add('hidden'); return; }
@@ -2591,7 +2640,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const all = buildCards({
           today, nowMs: Date.now(), isSchoolDay: wd >= 1 && wd <= 5, holiday: todayHoliday, thDate,
           periodRow: pr ? { name: pr.name, first: (periods[0].time || '').split('-')[0] } : null,
-          ann: window._annItems || [], done: getDone(), exams: examSrc.ev || [], notice, events: window._events || [], nudge: window._pushNudge || null, dismissed: readCardState(),
+          bag: bagForTomorrow(today), ann: window._annItems || [], done: getDone(), exams: examSrc.ev || [], notice, events: window._events || [], nudge: window._pushNudge || null, dismissed: readCardState(),
         });
         box.textContent = '';
         if (!all.length) { box.classList.add('hidden'); return; }
