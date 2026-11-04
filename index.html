@@ -238,6 +238,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .so-ph { display: flex; align-items: center; gap: 0.6rem; } .so-ph b { display: block; font-size: 0.85rem; } .so-ph small { color: #94a3b8; font-size: 0.7rem; } .so-av { width: 36px; height: 36px; border-radius: 50%; background: #cbd5e1; flex: none; }
       .so-img { height: 150px; border-radius: 10px; background: #f1f5f9; margin: 0.6rem 0; } html.dark .so-img { background: #1a2540; }
       .so-pt { font-size: 0.875rem; } .so-acts { display: flex; gap: 1.1rem; margin-top: 0.6rem; color: #64748b; font-size: 0.8rem; } .so-acts span { display: inline-flex; align-items: center; gap: 0.3rem; } .so-acts svg { width: 18px; height: 18px; }
+      .so-video { width: min(100%, 24rem); border-radius: 20px; overflow: hidden; background: #0f172a; aspect-ratio: 4 / 5; } .so-video video { display: block; width: 100%; height: 100%; object-fit: cover; }
       @keyframes soPing { 0% { transform: scale(0.55); opacity: 0.8; } 100% { transform: scale(1.25); opacity: 0; } }
       @keyframes soSpin { 0%, 100% { transform: rotate(-12deg) scale(1); } 50% { transform: rotate(12deg) scale(1.12); } }
       @keyframes soIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
@@ -647,20 +648,10 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             <!-- โซเชียล (เร็วๆ นี้) -->
             <div id="socialV2" class="v2-only v-social">
               <div class="so-wrap">
-                <div class="so-ring"><span></span><span></span><i data-lucide="sparkles"></i></div>
-                <h2 class="so-t">โซเชียล</h2>
-                <div class="so-badge">เร็วๆ นี้</div>
+                <div class="so-video">
+                  <video src="social-preview.mp4" autoplay loop muted playsinline preload="metadata" onloadeddata="if(matchMedia('(prefers-reduced-motion: reduce)').matches)this.pause()" aria-label="ตัวอย่างหน้าโซเชียลที่กำลังจะมา"></video>
+                </div>
                 <p class="so-p">พื้นที่โพสต์และดูความเคลื่อนไหวของเพื่อนในโรงเรียน<br>กำลังเตรียมให้ปลอดภัยก่อนเปิดใช้</p>
-                <div class="so-list">
-                  <div class="so-card" style="--d:0"><i data-lucide="image"></i><div><b>โพสต์รูปและข้อความ</b><small>แชร์ช่วงเวลาในห้องเรียน</small></div></div>
-                  <div class="so-card" style="--d:1"><i data-lucide="heart"></i><div><b>กดใจและคอมเมนต์</b><small>คุยกับเพื่อนในโพสต์เดียวกัน</small></div></div>
-                  <div class="so-card" style="--d:2"><i data-lucide="shield-check"></i><div><b>มีครูดูแล</b><small>รายงานโพสต์ไม่เหมาะสมได้</small></div></div>
-                </div>
-                <div class="so-demo" aria-label="ตัวอย่างการออกแบบหน้าโซเชียล (ยังใช้งานไม่ได้)">
-                  <div class="so-demo-h">ตัวอย่างหน้าตา · ยังใช้งานไม่ได้</div>
-                  <div class="so-stories"><span class="so-st so-st-me"><i data-lucide="plus"></i></span><span class="so-st"></span><span class="so-st"></span><span class="so-st"></span><span class="so-st"></span></div>
-                  <div class="so-post"><div class="so-ph"><span class="so-av"></span><div><b>เพื่อนในห้อง</b><small>ม.3/1 · 10 นาทีที่แล้ว</small></div></div><div class="so-img"></div><div class="so-pt">ข้อความโพสต์จะอยู่ตรงนี้</div><div class="so-acts"><span><i data-lucide="heart"></i>12</span><span><i data-lucide="message-circle"></i>3</span><span><i data-lucide="flag"></i></span></div></div>
-                </div>
               </div>
             </div>
             <!-- แก้ไขโปรไฟล์ -->
