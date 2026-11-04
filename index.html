@@ -238,7 +238,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .ig-t b { display: block; font-size: 0.95rem; } .ig-t small { display: block; margin-top: 0.15rem; font-size: 0.8rem; color: #64748b; line-height: 1.5; }
       .ig-note { font-size: 0.75rem; color: #94a3b8; text-align: center; margin-bottom: 0.9rem; }
       html.dark .ig-step { border-color: #243152; } html.dark .ig-n { background: #f1f5f9; color: #0f172a; } html.dark .ig-t small { color: #94a3b8; }
-      @media (min-width: 1024px) { #topActions { display: none !important; } }
+      @media (min-width: 1024px) and (hover: hover) and (pointer: fine) { #topActions { display: none !important; } }   /* ซ่อนเฉพาะคอมที่ใช้เมาส์ (หัวเว็บมีปุ่มอยู่แล้ว); iPad/แท็บเล็ตจอสัมผัสยังเห็น */
       /* ไอคอนเส้นแทนอีโมจิ + หัวตารางไม่แน่น (ui2) + ปุ่มแชร์เป็นสีกลาง */
       .ic { display: inline-block; width: 1.1em; height: 1.1em; vertical-align: -0.18em; stroke-width: 2; flex: none; }
       html.ui2 #scheduleBlock > div:first-child > div:first-child { flex-wrap: wrap; row-gap: 0.5rem; column-gap: 0.75rem; }
@@ -1552,7 +1552,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
 
       // iPhone/iPad รับ Web Push ได้เมื่อเปิดจากไอคอนบนหน้าจอโฮมเท่านั้น
       function iosNeedsInstall() {
-        const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+        // iPadOS 13+ ส่ง UA เป็น Macintosh จึงเช็กจากจอสัมผัสด้วย
+        const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
         const standalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
         return ios && !standalone;
       }
@@ -1626,9 +1627,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       }
       // iOS ไม่มี API ให้เว็บเพิ่มตัวเองลงหน้าจอโฮมได้ ต้องให้ผู้ใช้กดเอง จึงแสดงขั้นตอนแบบทีละข้อ
       const GUIDES = {
-        ios: { title: 'ติดตั้ง ClassKhab บน iPhone', note: 'iPhone รับแจ้งเตือนได้เมื่อเปิดจากไอคอนบนหน้าจอโฮมเท่านั้น', steps: [
+        ios: { title: 'ติดตั้ง ClassKhab บน iPhone / iPad', note: 'iPhone และ iPad รับแจ้งเตือนได้เมื่อเปิดจากไอคอนบนหน้าจอโฮมเท่านั้น', steps: [
           ['ellipsis', 'แตะปุ่มจุด 3 จุด (...)', 'อยู่แถบด้านล่างของ Safari ถ้าเห็นปุ่ม "แชร์" อยู่แล้วให้ข้ามไปข้อถัดไป'],
-          ['share', 'แตะ "แชร์"', 'ไอคอนสี่เหลี่ยมมีลูกศรชี้ขึ้น (บน iPad อยู่มุมบนขวา)'],
+          ['share', 'แตะ "แชร์"', 'ไอคอนสี่เหลี่ยมมีลูกศรชี้ขึ้น (บน iPad อยู่มุมบนขวา ข้างแถบที่อยู่เว็บ)'],
           ['square-plus', 'เลื่อนลง แตะ "เพิ่มไปยังหน้าจอโฮม"', 'ถ้าไม่เห็น ให้เลื่อนรายการในเมนูลงอีก'],
           ['smartphone', 'แตะ "เพิ่ม" แล้วเปิดจากไอคอน', 'เปิดแอปจากไอคอน ClassKhab บนหน้าจอโฮม แล้วกด "เปิดแจ้งเตือน" อีกครั้ง']] },
         android: { title: 'ติดตั้ง ClassKhab บน Android', note: 'ติดตั้งแล้วเปิดจากไอคอน จะเร็วกว่าและรับแจ้งเตือนได้เสถียรกว่า', steps: [
