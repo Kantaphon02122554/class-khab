@@ -41,18 +41,20 @@
       } catch (e) {}
     </script>
     <script>
-      // ดีไซน์ใหม่ (v2): เปิดด้วย ?ui=2 (จำไว้ในเครื่อง) ปิดด้วย ?ui=1 — ค่าเริ่มต้นยังเป็นดีไซน์เดิม
-      try {
-        var _u = new URLSearchParams(location.search).get('ui');
-        if (_u === '2') localStorage.setItem('classkhab_ui2', '1'); else if (_u === '1') localStorage.removeItem('classkhab_ui2');
-        var _c = new URLSearchParams(location.search).get('cards');
-        if (_c === '1') localStorage.setItem('classkhab_cards', '1'); else if (_c === '0') localStorage.removeItem('classkhab_cards');
-        if (localStorage.getItem('classkhab_cards') === '1' || localStorage.getItem('classkhab_ui2') === '1') { document.documentElement.classList.add('cards'); var _f = document.createElement('link'); _f.rel = 'stylesheet'; _f.href = 'https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&display=swap'; document.head.appendChild(_f); }   // การ์ดงาน/แจ้งเตือนหน้าหลัก: ?cards=1 (โครงใหม่ ?ui=2 เปิดการ์ดด้วย)
-        if (localStorage.getItem('classkhab_ui2') === '1') {
-          document.documentElement.classList.add('ui2'); document.documentElement.dataset.view = 'home'; document.documentElement.dataset.room = 'ann';
-          var _l = document.createElement('link'); _l.rel = 'stylesheet'; _l.href = 'https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&display=swap'; document.head.appendChild(_l);
-        }
-      } catch (e) {}
+      // ดีไซน์ใหม่ (v2) เป็นค่าเริ่มต้นของทุกคน; กลับไปแบบเดิมด้วย ?ui=1 (จำไว้ในเครื่อง) และเปิดกลับด้วย ?ui=2
+      (function () {
+        var q = new URLSearchParams(location.search), u = q.get('ui'), c = q.get('cards'), on = u !== '1', cards = c === '1';
+        try {
+          if (u === '2') localStorage.setItem('classkhab_ui2', '1'); else if (u === '1') localStorage.setItem('classkhab_ui2', '0');
+          if (c === '1') localStorage.setItem('classkhab_cards', '1'); else if (c === '0') localStorage.removeItem('classkhab_cards');
+          if (u !== '1' && u !== '2') on = localStorage.getItem('classkhab_ui2') !== '0';
+          cards = localStorage.getItem('classkhab_cards') === '1';
+        } catch (e) { /* ใช้ค่าจากลิงก์อย่างเดียว */ }
+        var de = document.documentElement;
+        function font() { var l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&display=swap'; document.head.appendChild(l); }
+        if (cards || on) { de.classList.add('cards'); font(); }
+        if (on) { de.classList.add('ui2'); de.dataset.view = 'home'; de.dataset.room = 'ann'; }
+      })();
     </script>
     <style>
       body {
