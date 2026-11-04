@@ -1613,35 +1613,42 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const box = document.getElementById('topActions'); if (!box) return;
         box.textContent = '';
         const row = mk('div', 'ta-row');
-        const canPush = !iosNeedsInstall() && pushSupported && Notification.permission !== 'denied' && !sub;
-        if (canPush) { const b = micon('button', 'ta-btn ta-main', 'bell', 'เปิดแจ้งเตือน'); b.onclick = () => (teacherMode ? toggleTeacherPush() : togglePush()); row.append(b); }
-        if (deferredInstall) { const b = micon('button', 'ta-btn', 'download', 'ติดตั้งแอป'); b.onclick = installApp; row.append(b); }
-        else if (iosNeedsInstall()) {
-          const b = micon('button', 'ta-btn ta-main', 'download', 'ติดตั้งแอปเพื่อรับแจ้งเตือน');
-          b.onclick = openInstallGuide; row.append(b); box.append(row); box.classList.remove('hidden'); return;
+        const standalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+        const ios = iosNeedsInstall();
+        if (!ios && pushSupported && !sub) {
+          if (Notification.permission === 'denied') { const b = micon('button', 'ta-btn ta-main', 'bell-off', 'แจ้งเตือนถูกปิด · วิธีเปิด'); b.onclick = () => openGuide('unblock'); row.append(b); }
+          else { const b = micon('button', 'ta-btn ta-main', 'bell', 'เปิดแจ้งเตือน'); b.onclick = () => (teacherMode ? toggleTeacherPush() : togglePush()); row.append(b); }
         }
+        if (ios) { const b = micon('button', 'ta-btn ta-main', 'download', 'ติดตั้งแอปเพื่อรับแจ้งเตือน'); b.onclick = () => openGuide('ios'); row.append(b); }
+        else if (!standalone) { const b = micon('button', 'ta-btn', 'download', 'ติดตั้งแอป'); b.onclick = () => (deferredInstall ? installApp() : openGuide('android')); row.append(b); }
         if (!row.children.length) { box.classList.add('hidden'); return; }
         box.append(row); box.classList.remove('hidden');
       }
       // iOS ไม่มี API ให้เว็บเพิ่มตัวเองลงหน้าจอโฮมได้ ต้องให้ผู้ใช้กดเอง จึงแสดงขั้นตอนแบบทีละข้อ
-      function openInstallGuide() {
-        let sh = document.getElementById('instSheet');
-        if (!sh) {
-          sh = mk('div', 'pf-sheet'); sh.id = 'instSheet'; sh.onclick = (e) => { if (e.target === sh) sh.classList.add('hidden'); };
-          const p = mk('div', 'pf-panel'), hd = mk('div', 'pf-ph'); hd.append(mk('b', '', 'ติดตั้ง ClassKhab บน iPhone'));
-          const x = mk('button'); x.setAttribute('aria-label', 'ปิด'); x.append(ic('x')); x.onclick = () => sh.classList.add('hidden'); hd.append(x); p.append(hd);
-          const steps = [
-            ['ellipsis', 'แตะปุ่มจุด 3 จุด (...)', 'อยู่แถบด้านล่างของ Safari ถ้าเห็นปุ่ม "แชร์" อยู่แล้วให้ข้ามไปข้อถัดไป'],
-            ['share', 'แตะ "แชร์"', 'ไอคอนสี่เหลี่ยมมีลูกศรชี้ขึ้น (บน iPad อยู่มุมบนขวา)'],
-            ['square-plus', 'เลื่อนลง แตะ "เพิ่มไปยังหน้าจอโฮม"', 'ถ้าไม่เห็น ให้เลื่อนรายการในเมนูลงอีก'],
-            ['smartphone', 'แตะ "เพิ่ม" แล้วเปิดจากไอคอน', 'เปิดแอปจากไอคอน ClassKhab บนหน้าจอโฮม แล้วกด "เปิดแจ้งเตือน" อีกครั้ง'],
-          ];
-          const ol = mk('div', 'ig-list');
-          steps.forEach((st, i) => { const r = mk('div', 'ig-step'), n = mk('span', 'ig-n'); n.append(ic(st[0])); const t = mk('div', 'ig-t'); t.append(mk('b', '', (i + 1) + '. ' + st[1]), mk('small', '', st[2])); r.append(n, t); ol.append(r); });
-          p.append(ol, mk('p', 'ig-note', 'iPhone รับแจ้งเตือนได้เมื่อเปิดจากไอคอนบนหน้าจอโฮมเท่านั้น'));
-          const ok = mk('button', 'pf-save', 'เข้าใจแล้ว'); ok.onclick = () => sh.classList.add('hidden'); p.append(ok); sh.append(p); document.body.append(sh);
-        }
-        sh.classList.remove('hidden');
+      const GUIDES = {
+        ios: { title: 'ติดตั้ง ClassKhab บน iPhone', note: 'iPhone รับแจ้งเตือนได้เมื่อเปิดจากไอคอนบนหน้าจอโฮมเท่านั้น', steps: [
+          ['ellipsis', 'แตะปุ่มจุด 3 จุด (...)', 'อยู่แถบด้านล่างของ Safari ถ้าเห็นปุ่ม "แชร์" อยู่แล้วให้ข้ามไปข้อถัดไป'],
+          ['share', 'แตะ "แชร์"', 'ไอคอนสี่เหลี่ยมมีลูกศรชี้ขึ้น (บน iPad อยู่มุมบนขวา)'],
+          ['square-plus', 'เลื่อนลง แตะ "เพิ่มไปยังหน้าจอโฮม"', 'ถ้าไม่เห็น ให้เลื่อนรายการในเมนูลงอีก'],
+          ['smartphone', 'แตะ "เพิ่ม" แล้วเปิดจากไอคอน', 'เปิดแอปจากไอคอน ClassKhab บนหน้าจอโฮม แล้วกด "เปิดแจ้งเตือน" อีกครั้ง']] },
+        android: { title: 'ติดตั้ง ClassKhab บน Android', note: 'ติดตั้งแล้วเปิดจากไอคอน จะเร็วกว่าและรับแจ้งเตือนได้เสถียรกว่า', steps: [
+          ['ellipsis-vertical', 'แตะเมนู ⋮ ของ Chrome', 'อยู่มุมบนขวา ถ้าเปิดจากแอปอื่น (เช่น Line, Facebook) ให้เปิดลิงก์ด้วย Chrome ก่อน'],
+          ['download', 'แตะ "ติดตั้งแอป" หรือ "เพิ่มลงในหน้าจอหลัก"', 'ชื่อเมนูต่างกันตามรุ่น ถ้าไม่เห็น ให้เลื่อนรายการเมนูลง'],
+          ['smartphone', 'ยืนยัน แล้วเปิดจากไอคอน', 'เปิดแอปจากไอคอน ClassKhab บนหน้าจอหลัก แล้วกด "เปิดแจ้งเตือน"']] },
+        unblock: { title: 'เปิดแจ้งเตือนที่ถูกบล็อก', note: 'ตั้งค่าเสร็จแล้วโหลดหน้าเว็บใหม่ ปุ่มเปิดแจ้งเตือนจะกลับมา', steps: [
+          ['lock', 'แตะไอคอนข้างที่อยู่เว็บ', 'รูปแม่กุญแจหรือไอคอนปรับแต่งที่ด้านบนของเบราว์เซอร์'],
+          ['settings', 'เลือก "การอนุญาต" หรือ "การตั้งค่าเว็บไซต์"', 'ชื่อเมนูต่างกันตามเบราว์เซอร์'],
+          ['bell-ring', 'เปลี่ยน "การแจ้งเตือน" เป็น "อนุญาต"', 'แล้วกลับมาโหลดหน้านี้ใหม่']] },
+      };
+      function openGuide(kind) {
+        const g = GUIDES[kind] || GUIDES.android, old = document.getElementById('instSheet'); if (old) old.remove();
+        const sh = mk('div', 'pf-sheet'); sh.id = 'instSheet'; sh.onclick = (e) => { if (e.target === sh) sh.remove(); };
+        const p = mk('div', 'pf-panel'), hd = mk('div', 'pf-ph'); hd.append(mk('b', '', g.title));
+        const x = mk('button'); x.setAttribute('aria-label', 'ปิด'); x.append(ic('x')); x.onclick = () => sh.remove(); hd.append(x); p.append(hd);
+        const ol = mk('div', 'ig-list');
+        g.steps.forEach((st, i) => { const r = mk('div', 'ig-step'), n = mk('span', 'ig-n'); n.append(ic(st[0])); const t = mk('div', 'ig-t'); t.append(mk('b', '', (i + 1) + '. ' + st[1]), mk('small', '', st[2])); r.append(n, t); ol.append(r); });
+        const ok = mk('button', 'pf-save', 'เข้าใจแล้ว'); ok.onclick = () => sh.remove();
+        p.append(ol, mk('p', 'ig-note', g.note), ok); sh.append(p); document.body.append(sh);
       }
       window.addEventListener('appinstalled', () => { deferredInstall = null; updatePushBanner(); });
 
