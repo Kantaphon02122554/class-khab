@@ -224,6 +224,15 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         html.ui2 #authCard[data-mode="room"] .au-form { transform: translate3d(0, 0, 0); }
       }
       @media (prefers-reduced-motion: reduce) { html.ui2 #authCard, html.ui2 #authCard::before, html.ui2 .au-c, html.ui2 .au-c .crest, html.ui2 .au-pl, html.ui2 .au-pr, html.ui2 .au-form { transition: none !important; animation: none !important; } html.ui2 #otpBox, html.ui2 #loginForm { animation: none !important; } }
+      /* ปุ่มด่วนบนสุดของหน้าแรก: เปิดแจ้งเตือน / ติดตั้งแอป (ซ่อนบนจอใหญ่ที่หัวเว็บมีปุ่มอยู่แล้ว) */
+      #topActions { margin-bottom: 0.75rem; }
+      .ta-row { display: flex; gap: 0.5rem; }
+      .ta-btn { flex: 1 1 0; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; min-height: 2.75rem; padding: 0 0.75rem; border-radius: 12px; border: 1px solid #e2e8f0; background: #fff; color: #0f172a; font-size: 0.875rem; font-weight: 700; transition: background-color .15s; }
+      .ta-btn:active { background: #f1f5f9; }
+      .ta-main { background: #0f172a; border-color: #0f172a; color: #f8fafc; } .ta-main:active { background: #1e293b; }
+      .ta-hint { margin-top: 0.5rem; padding: 0.6rem 0.75rem; border-radius: 12px; background: #f1f5f9; color: #334155; font-size: 0.8rem; line-height: 1.5; }
+      html.dark .ta-btn { background: #111a2e; border-color: #243152; color: #f1f5f9; } html.dark .ta-main { background: #f1f5f9; border-color: #f1f5f9; color: #0f172a; } html.dark .ta-hint { background: #111a2e; color: #cbd5e1; }
+      @media (min-width: 1024px) { #topActions { display: none !important; } }
       /* ไอคอนเส้นแทนอีโมจิ + หัวตารางไม่แน่น (ui2) + ปุ่มแชร์เป็นสีกลาง */
       .ic { display: inline-block; width: 1.1em; height: 1.1em; vertical-align: -0.18em; stroke-width: 2; flex: none; }
       html.ui2 #scheduleBlock > div:first-child > div:first-child { flex-wrap: wrap; row-gap: 0.5rem; column-gap: 0.75rem; }
@@ -556,6 +565,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         <div class="mt-8 px-4 mx-auto max-w-6xl sm:px-6 lg:px-8">
           <div id="dashCard" class="bg-white rounded-3xl p-4 sm:p-8 shadow-xl border border-slate-200/80 space-y-6">
 
+            <div id="topActions" class="hidden" aria-label="ติดตั้งและเปิดแจ้งเตือน"></div>
             <div id="noticeBanner" class="pb pb-info hidden" role="status"></div>
             <div id="holidayBanner" class="pb pb-hol hidden"></div>
             <div id="examBanner" class="pb pb-warn hidden"></div>
@@ -1592,6 +1602,24 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         updatePushBanner();
       }
 
+      // ปุ่ม "เปิดแจ้งเตือน" / "ติดตั้งแอป" ไว้บนสุดของหน้าแรก (มือถือ) เพราะคนส่วนใหญ่มองไม่เห็นในเมนู; หายไปเองเมื่อทำครบแล้ว
+      function renderTopActions(sub) {
+        const box = document.getElementById('topActions'); if (!box) return;
+        box.textContent = '';
+        const row = mk('div', 'ta-row');
+        const canPush = !iosNeedsInstall() && pushSupported && Notification.permission !== 'denied' && !sub;
+        if (canPush) { const b = micon('button', 'ta-btn ta-main', 'bell', 'เปิดแจ้งเตือน'); b.onclick = () => (teacherMode ? toggleTeacherPush() : togglePush()); row.append(b); }
+        if (deferredInstall) { const b = micon('button', 'ta-btn', 'download', 'ติดตั้งแอป'); b.onclick = installApp; row.append(b); }
+        else if (iosNeedsInstall()) {
+          const b = micon('button', 'ta-btn ta-main', 'download', 'ติดตั้งแอปเพื่อรับแจ้งเตือน');
+          const hint = mk('p', 'ta-hint hidden', 'แตะปุ่มแชร์ของเบราว์เซอร์ แล้วเลือก "เพิ่มไปยังหน้าจอโฮม" จากนั้นเปิดแอปจากไอคอนบนหน้าจอโฮม');
+          b.onclick = () => hint.classList.toggle('hidden'); row.append(b); box.append(row, hint); box.classList.remove('hidden'); return;
+        }
+        if (!row.children.length) { box.classList.add('hidden'); return; }
+        box.append(row); box.classList.remove('hidden');
+      }
+      window.addEventListener('appinstalled', () => { deferredInstall = null; updatePushBanner(); });
+
       // แถบบอกสถานะการแจ้งเตือนของเครื่องนี้
       async function updatePushBanner() {
         const el = document.getElementById('pushBanner');
@@ -1615,6 +1643,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           html = '<span>เปิดแจ้งเตือนเพื่อให้เตือนก่อนเริ่มคาบ แม้ปิดหน้าเว็บอยู่</span><button onclick="togglePush()">เปิดแจ้งเตือน</button>';
         }
         if (deferredInstall) html += '<button onclick="installApp()">ติดตั้งเป็นแอป</button>';
+        renderTopActions(sub);
         el.className = 'pb ' + cls;
         el.innerHTML = html;
         window._pushNudge = { cls, text: ((el.querySelector('span') || {}).textContent || '').replace(/\s*·\s*ตั้งเสียงให้ดังขึ้น\s*$/, '') }; renderHomeCards();
@@ -2542,7 +2571,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       function initV2() {
         if (!UI2 || v2Inited) return; v2Inited = true;
         const add = (id, cls) => { const e = document.getElementById(id); if (e) e.classList.add(cls); };
-        ['noticeBanner', 'holidayBanner', 'periodBanner', 'offlineBar', 'pushBanner', 'homeCards', 'nowNextGrid', 'scheduleBlock', 'eventsSection'].forEach((i) => add(i, 'v-home'));
+        ['topActions', 'noticeBanner', 'holidayBanner', 'periodBanner', 'offlineBar', 'pushBanner', 'homeCards', 'nowNextGrid', 'scheduleBlock', 'eventsSection'].forEach((i) => add(i, 'v-home'));
         add('roomTabs', 'v-room'); add('annSection', 'v-room-ann'); add('studySection', 'v-room-study'); add('chatSection', 'v-room-chat'); add('menuV2', 'v-menu');
         const hero = document.getElementById('heroText'); if (hero && hero.closest('section')) hero.closest('section').classList.add('v2-hero');
         const lbl = document.getElementById('navGradeLabel');
