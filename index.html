@@ -224,6 +224,13 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         html.ui2 #authCard[data-mode="room"] .au-form { transform: translate3d(0, 0, 0); }
       }
       @media (prefers-reduced-motion: reduce) { html.ui2 #authCard, html.ui2 #authCard::before, html.ui2 .au-c, html.ui2 .au-c .crest, html.ui2 .au-pl, html.ui2 .au-pr, html.ui2 .au-form { transition: none !important; animation: none !important; } html.ui2 #otpBox, html.ui2 #loginForm { animation: none !important; } }
+      /* ไอคอนเส้นแทนอีโมจิ + หัวตารางไม่แน่น (ui2) + ปุ่มแชร์เป็นสีกลาง */
+      .ic { display: inline-block; width: 1.1em; height: 1.1em; vertical-align: -0.18em; stroke-width: 2; flex: none; }
+      html.ui2 #scheduleBlock > div:first-child > div:first-child { flex-wrap: wrap; row-gap: 0.5rem; column-gap: 0.75rem; }
+      html.ui2 #schedTitle { flex: 1 0 100%; }
+      html.ui2 #shareBtn, html.ui2 #reportModeBtn { white-space: nowrap; }
+      html.ui2 #shareBtn { background: #f1f5f9; color: #0f172a; }
+      html.dark.ui2 #shareBtn, html.ui2.dark #shareBtn { background: rgba(255, 255, 255, 0.1); color: #f1f5f9; }
       /* พื้นที่เลื่อนอยู่ที่ #mainDashboard (ไม่ใช่หน้าต่าง) ต้องเว้นท้ายหน้าให้พ้นแถบล่างลอย ไม่งั้นรายการสุดท้าย (ออกจากระบบ) ถูกแถบบังจนเลื่อนไม่ถึง */
       @media (max-width: 1023px) { html.ui2 #mainDashboard { padding-bottom: calc(6.5rem + env(safe-area-inset-bottom)); } }
       .pf-end { text-align: center; font-size: 0.75rem; color: #94a3b8; margin: 1.25rem 0 0; }
@@ -553,7 +560,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             <div id="holidayBanner" class="pb pb-hol hidden"></div>
             <div id="examBanner" class="pb pb-warn hidden"></div>
             <div id="periodBanner" class="pb pb-info hidden" role="status"></div>
-            <div id="offlineBar" class="pb pb-warn hidden"><span>📴 ออฟไลน์ — กำลังแสดงข้อมูลที่เคยโหลดไว้ อาจไม่ใช่ข้อมูลล่าสุด</span></div>
+            <div id="offlineBar" class="pb pb-warn hidden"><span><i data-lucide="wifi-off" class="ic"></i> ออฟไลน์ — กำลังแสดงข้อมูลที่เคยโหลดไว้ อาจไม่ใช่ข้อมูลล่าสุด</span></div>
             <div id="pushBanner" class="pb pb-info hidden"></div>
 
             <div id="homeCards" class="hidden space-y-2" aria-label="งานและแจ้งเตือนวันนี้"></div>
@@ -603,7 +610,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                     <i data-lucide="share-2" class="w-3.5 h-3.5"></i><span>แชร์เป็นรูป</span>
                   </button>
                   <span id="verifiedBadge" class="text-[11px] font-bold px-2 py-1 rounded-lg hidden"></span>
-                  <button id="reportModeBtn" onclick="toggleReportMode()" class="text-[11px] font-bold text-slate-500 px-2 py-1 rounded-lg hover:text-rose-600">🚩 แจ้งตารางผิด</button>
+                  <button id="reportModeBtn" onclick="toggleReportMode()" class="text-[11px] font-bold text-slate-500 px-2 py-1 rounded-lg hover:text-rose-600"><i data-lucide="flag" class="ic"></i> แจ้งตารางผิด</button>
                 </div>
                 <div class="flex overflow-x-auto space-x-1 bg-slate-100 p-1 rounded-xl text-xs font-medium" id="dayTabs">
                   <button onclick="selectDay('จันทร์')" class="day-tab px-3 py-1.5 rounded-lg text-slate-600" data-day="จันทร์">จันทร์</button>
@@ -722,7 +729,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             <!-- คลังสรุป/ชีทรายห้อง (ขึ้นเมื่อห้องนี้เปิดแชต) -->
             <div id="studySection" class="hidden">
               <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100 gap-2">
-                <h3 class="font-bold text-slate-800 text-base">📚 คลังสรุป/ชีท <span id="studyGrade"></span></h3>
+                <h3 class="font-bold text-slate-800 text-base"><i data-lucide="book-open" class="ic"></i> คลังสรุป/ชีท <span id="studyGrade"></span></h3>
                 <div class="flex gap-2">
                   <button id="studyNewBtn" onclick="toggleStudyForm()" class="hidden flex-none whitespace-nowrap text-xs font-bold text-white bg-slate-900 px-3 py-1.5 rounded-lg hover:opacity-80">+ เพิ่มชีท</button>
                   <button id="studyOpenBtn" onclick="toggleStudy()" class="flex-none whitespace-nowrap text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg hover:opacity-80">เปิดคลัง</button>
@@ -773,7 +780,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                   <p class="text-sm font-medium text-white">ก่อนเข้าแชต ตั้งชื่อเล่น</p>
                   <ul class="list-disc space-y-1 pl-4 text-xs text-white/60">
                     <li>ใช้ชื่อเล่นหรือชื่อที่ไม่ใช่ชื่อจริง ห้ามใส่เบอร์โทร ไอดีไลน์ อีเมล หรือลิงก์</li>
-                    <li>พูดจาสุภาพ ห้ามด่าทอ ล้อเลียน หรือแกล้งกัน ข้อความไม่เหมาะสมกด 🚩 รายงานได้</li>
+                    <li>พูดจาสุภาพ ห้ามด่าทอ ล้อเลียน หรือแกล้งกัน ข้อความไม่เหมาะสมกดปุ่มธงเพื่อรายงานได้</li>
                     <li>ผู้ดูแลลบข้อความและระงับการใช้งานได้ ระบบเก็บรหัสเครื่องที่ส่งข้อความเพื่อตามเรื่องที่ร้องเรียน (ไม่มีชื่อจริง) และลบข้อความเก่าอัตโนมัติหลัง 30 วัน</li>
                     <li>ตั้งแล้วเปลี่ยนเองไม่ได้ ใช้ได้ 2–16 ตัวอักษร ไทย/อังกฤษ/ตัวเลข</li>
                   </ul>
@@ -1465,7 +1472,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const x = periods[Number(p) - 1];
           if (x && Array.isArray(v) && /^\d{2}:\d{2}$/.test(v[0]) && /^\d{2}:\d{2}$/.test(v[1])) x.time = v[0] + '-' + v[1];
         }
-        if (bar) { bar.textContent = '⏱ ช่วงนี้โรงเรียนปรับเวลาเรียนชั่วคราว: ' + (row.name || 'ดูเวลาคาบด้านล่าง'); bar.classList.remove('hidden'); }
+        if (bar) { bar.replaceChildren(ic('clock'), document.createTextNode(' ช่วงนี้โรงเรียนปรับเวลาเรียนชั่วคราว: ' + (row.name || 'ดูเวลาคาบด้านล่าง'))); bar.classList.remove('hidden'); }
       }
       async function loadPeriodSchedule() {
         const date = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Bangkok' }).format(new Date());
@@ -1652,6 +1659,10 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       const thDate = (s) => { const [, m, d] = s.split('-').map(Number); return `${d} ${TH_MONTH[m - 1]}`; };
       const daysUntil = (s) => dayNum(s) - dayNum(bkkToday());
       function mk(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+      // ไอคอนเส้น (lucide) แทนอีโมจิ: ic() สร้างไอคอน, micon() สร้างองค์ประกอบพร้อมไอคอน (+ข้อความ), แล้วสั่งวาดไอคอนหลังเพิ่มลงหน้า
+      let _icT; function refreshIcons() { clearTimeout(_icT); _icT = setTimeout(() => { try { if (window.lucide) lucide.createIcons(); } catch (e) { /* ไม่มีไอคอนก็ใช้งานต่อได้ */ } }, 0); }
+      function ic(name) { const i = document.createElement('i'); i.setAttribute('data-lucide', name); i.className = 'ic'; refreshIcons(); return i; }
+      function micon(tag, cls, name, text) { const e = document.createElement(tag); if (cls) e.className = cls; e.append(ic(name)); if (text) e.append(document.createTextNode(' ' + text)); return e; }
       const dueText = (s) => { const d = daysUntil(s); return d < 0 ? 'เลยกำหนด' : d === 0 ? 'วันนี้' : d === 1 ? 'พรุ่งนี้' : `อีก ${d} วัน`; };
 
       // --- แถบนับถอยหลังสอบ: รวมสอบจากปฏิทินโรงเรียน (events) กับโพสต์ "สอบ/ทดสอบ" ของห้องที่มีวันกำหนด ---
@@ -1668,7 +1679,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const first = list[0];
         const live = first.date <= today;
         const when = live ? 'กำลังสอบ/วันนี้' : dueText(first.date);
-        box.append(mk('span', 'font-bold', `📝 ${first.title} · ${thDate(first.date)} · ${when}`));
+        { const sp = mk('span', 'font-bold'); sp.append(ic('pencil-line'), document.createTextNode(` ${first.title} · ${thDate(first.date)} · ${when}`)); box.append(sp); }
         if (list.length > 1) box.append(mk('span', 'text-xs opacity-80', `ถัดไป: ${list[1].title} (${thDate(list[1].date)})${list.length > 2 ? ` +อีก ${list.length - 2}` : ''}`));
         box.classList.remove('hidden');
       }
@@ -1694,7 +1705,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       function toggleReportMode(force) {
         reportMode = typeof force === 'boolean' ? force : !reportMode;
         const b = document.getElementById('reportModeBtn');
-        b.textContent = reportMode ? '✕ ยกเลิก · แตะคาบที่ผิด' : '🚩 แจ้งตารางผิด';
+        b.replaceChildren(ic(reportMode ? 'x' : 'flag'), document.createTextNode(reportMode ? ' ยกเลิก · แตะคาบที่ผิด' : ' แจ้งตารางผิด'));
         b.className = 'text-[11px] font-bold px-2 py-1 rounded-lg ' + (reportMode ? 'bg-rose-50 text-rose-600' : 'text-slate-500 hover:text-rose-600');
         renderSchedule();
       }
@@ -1909,11 +1920,11 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           meta.append(mk('span', null, new Date(it.created_at).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })));
           if (ch === 'class') {
             if (own) {
-              const del = mk('button', 'px-1 text-white/30 hover:text-rose-400', '🗑'); del.title = 'ลบข้อความของฉัน';
+              const del = micon('button', 'px-1 text-white/30 hover:text-rose-400', 'trash-2'); del.title = 'ลบข้อความของฉัน';
               del.onclick = async () => { await chatCall({ action: 'delete', id: it.id }); row.remove(); };
               meta.append(del);
             } else if (!it.reported) {
-              const rep = mk('button', 'px-1 text-white/30 hover:text-rose-400', '🚩'); rep.title = 'รายงานข้อความนี้';
+              const rep = micon('button', 'px-1 text-white/30 hover:text-rose-400', 'flag'); rep.title = 'รายงานข้อความนี้';
               rep.onclick = async () => {
                 if (!confirm('รายงานข้อความนี้ว่าไม่เหมาะสม?\nถ้ามีหลายคนรายงาน ข้อความจะถูกซ่อน')) return;
                 const r = await chatCall({ action: 'report', id: it.id }); alert(r.ok ? 'ส่งรายงานแล้ว ขอบคุณครับ' : 'รายงานไม่สำเร็จ'); if (r.ok) rep.remove();
@@ -2014,11 +2025,11 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const head = mk('div', 'flex items-center gap-2 flex-wrap');
           head.append(mk('span', 'tag tag-announce', it.subject), mk('span', 'text-sm font-bold text-slate-800 flex-1 min-w-0 break-words', it.title));
           if (it.own) {
-            const del = mk('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', '🗑'); del.title = 'ลบชีทของฉัน';
+            const del = micon('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', 'trash-2'); del.title = 'ลบชีทของฉัน';
             del.onclick = async () => { if (confirm('ลบชีทนี้?')) { await studyCall({ action: 'delete', id: it.id }); loadStudy(); } };
             head.append(del);
           } else if (!it.reported) {
-            const rep = mk('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', '🚩'); rep.title = 'รายงานชีทนี้';
+            const rep = micon('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', 'flag'); rep.title = 'รายงานชีทนี้';
             rep.onclick = async () => {
               if (!confirm('รายงานว่าชีทนี้ไม่เหมาะสม/ละเมิดลิขสิทธิ์/ผิดห้อง?\nถ้ามีหลายคนรายงาน จะถูกซ่อน')) return;
               const r = await studyCall({ action: 'report', id: it.id }); alert(r.ok ? 'ส่งรายงานแล้ว ขอบคุณครับ' : 'รายงานไม่สำเร็จ'); if (r.ok) rep.remove();
@@ -2033,8 +2044,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             a.append(img); card.append(a);
           }
           const acts = mk('div', 'flex flex-wrap gap-2 mt-2');
-          if (it.link_url && it.link_url.startsWith('https://')) { const a = mk('a', 'text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg', '🔗 เปิดลิงก์'); a.href = it.link_url; a.target = '_blank'; a.rel = 'noopener noreferrer'; acts.append(a); }
-          if (it.file_url && it.file_kind === 'pdf' && it.file_url.startsWith('https://')) { const a = mk('a', 'text-xs font-bold text-rose-600 bg-rose-50 px-3 py-1.5 rounded-lg', '📄 เปิด PDF' + (it.file_name ? ' · ' + it.file_name : '')); a.href = it.file_url; a.target = '_blank'; a.rel = 'noopener noreferrer'; acts.append(a); }
+          if (it.link_url && it.link_url.startsWith('https://')) { const a = micon('a', 'text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg', 'link', 'เปิดลิงก์'); a.href = it.link_url; a.target = '_blank'; a.rel = 'noopener noreferrer'; acts.append(a); }
+          if (it.file_url && it.file_kind === 'pdf' && it.file_url.startsWith('https://')) { const a = micon('a', 'text-xs font-bold text-rose-600 bg-rose-50 px-3 py-1.5 rounded-lg', 'file-text', 'เปิด PDF' + (it.file_name ? ' · ' + it.file_name : '')); a.href = it.file_url; a.target = '_blank'; a.rel = 'noopener noreferrer'; acts.append(a); }
           if (acts.children.length) card.append(acts);
           card.append(mk('p', 'text-[11px] text-slate-400 mt-1.5', `${it.nick} · ${ago(it.created_at)}`));
           list.append(card);
@@ -2124,13 +2135,13 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           head.append(mk('span', 'tag tag-' + it.kind, KIND[it.kind]), mk('span', 'text-sm font-bold text-slate-800 flex-1 min-w-[9rem] break-words' + (isDone ? ' line-through' : ''), it.title));
           if (it.due_date) head.append(mk('span', 'text-xs font-bold ' + (daysUntil(it.due_date) < 0 ? 'text-rose-600' : 'text-blue-600') + ' whitespace-nowrap', `${thDate(it.due_date)} · ${dueText(it.due_date)}`));
           if (it.own) {
-            const del = mk('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', '🗑');
+            const del = micon('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', 'trash-2');
             del.title = 'ลบโพสต์ของฉัน'; del.onclick = async () => { if (confirm('ลบโพสต์นี้?')) { await annCall({ action: 'delete', id: it.id }); loadAnnouncements(); } };
             head.append(del);
           } else if (it.reported) {
             head.append(mk('span', 'text-[11px] text-slate-400', 'รายงานแล้ว'));
           } else {
-            const rep = mk('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', '🚩');
+            const rep = micon('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', 'flag');
             rep.title = 'รายงานโพสต์นี้ (ไม่เหมาะสม/ผิดห้อง)';
             rep.onclick = async () => {
               if (!confirm('รายงานโพสต์นี้ว่าไม่เหมาะสม?\nถ้ามีหลายคนรายงาน โพสต์จะถูกซ่อนและส่งให้ผู้ดูแลตรวจ')) return;
@@ -2170,7 +2181,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           window._notice = rows.length ? { id: rows[0].id, message: rows[0].message } : null; renderHomeCards();
           if (!rows.length || localStorage.getItem('classkhab_notice_x') === String(rows[0].id)) { box.classList.add('hidden'); return; }
           box.textContent = '';
-          const msg = document.createElement('span'); msg.textContent = '📢 ' + rows[0].message;
+          const msg = document.createElement('span'); msg.append(ic('megaphone'), document.createTextNode(' ' + rows[0].message));
           const x = document.createElement('button'); x.textContent = 'ปิด';
           x.onclick = () => { try { localStorage.setItem('classkhab_notice_x', String(rows[0].id)); } catch (e) {} box.classList.add('hidden'); };
           box.append(msg, x); box.classList.remove('hidden');
