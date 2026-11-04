@@ -115,6 +115,22 @@
       html.dark .hc-exam { background: #2e1065; border-color: #6d28d9; color: #ddd6fe; } html.dark .hc-info { background: #172554; border-color: #1e40af; color: #bfdbfe; }
       html.dark .hc-ok { background: #052e22; border-color: #047857; color: #a7f3d0; } html.dark .hc-gray { background: #111a2e; border-color: #243152; color: #cbd5e1; }
       html.dark .hc .hc-act { background: rgba(255, 255, 255, 0.12); }
+/* unslop polish: พื้นการ์ดเป็นกลาง ใช้สีที่ไอคอนแทน; มีแค่เวลาเรียนเปลี่ยน/วันหยุดที่ย้อมสี */
+html.cards .hc { gap: 0.5rem; padding: 0.75rem 1rem; background: #fff; border-color: #e2e8f0; color: #334155; }
+html.cards .hc .hc-ic { display: inline-flex; width: 1.25rem; height: 1.5rem; align-items: center; justify-content: center; }
+html.cards .hc .hc-ic svg { width: 1.1rem; height: 1.1rem; stroke-width: 2; }
+html.cards .hc .hc-t { font-weight: 700; color: #0f172a; }
+html.cards .hc-warn .hc-ic { color: #d97706; } html.cards .hc-exam .hc-ic { color: #7c3aed; } html.cards .hc-info .hc-ic { color: #2563eb; } html.cards .hc-ok .hc-ic { color: #059669; } html.cards .hc-gray .hc-ic { color: #64748b; }
+html.cards .hc-err { background: #fef2f2; border-color: #fecaca; color: #991b1b; } html.cards .hc-err .hc-t { color: #7f1d1d; } html.cards .hc-err .hc-ic { color: #dc2626; }
+html.dark.cards .hc, html.cards.dark .hc { background: #111a2e; border-color: #243152; color: #cbd5e1; } html.cards.dark .hc .hc-t { color: #f1f5f9; }
+html.cards.dark .hc-err { background: #3b0d0d; border-color: #b91c1c; color: #fecaca; } html.cards.dark .hc-err .hc-t { color: #fee2e2; }
+html.cards .tag { border-radius: 6px; padding: 2px 8px; }
+html.cards #curLabel, html.cards #curBadge { border-radius: 8px; }
+html.cards .font-extrabold { font-weight: 700; }
+html.cards h2, html.cards h3, html.cards h4 { font-weight: 600; }
+html.cards [class*="from-indigo"], html.cards [class*="from-violet"], html.cards [class*="to-violet"], html.cards [class*="to-purple"] { background-image: none !important; background-color: #4f46e5; }
+html.cards .bg-clip-text { background-image: none !important; -webkit-text-fill-color: currentColor !important; color: #0f172a; }
+html.cards.dark .bg-clip-text { color: #f1f5f9; }
       /* ปุ่มแชต: ลิควิดกลาส (โหมดการ์ด/โครงใหม่) — กระจกฝ้าโปร่ง ขอบสว่าง เงาใน ไฮไลต์มุมบน; จางลงตอนเลื่อน */
       html.cards body { padding-bottom: 5rem; }
       html.cards #dashCard { padding-top: 0.75rem; }
@@ -2398,26 +2414,26 @@
         const today = s.today, done = s.done || new Set(), thd = s.thDate || ((x) => x), ann = s.ann || [], cards = [];
         const when = (d) => (d === 0 ? 'วันนี้' : d === 1 ? 'พรุ่งนี้' : 'อีก ' + d + ' วัน');
         // 1) เวลาเรียนเปลี่ยน / วันหยุด (ปิดไม่ได้ เพราะกระทบทั้งวัน)
-        if (s.holiday !== null && s.holiday !== undefined) cards.push({ key: 'hol:' + today, prio: 1, tone: 'err', icon: '🔔', title: 'วันนี้เป็นวันหยุด' + (s.holiday ? ': ' + s.holiday : ''), dismiss: null });
-        if (s.periodRow && s.isSchoolDay) cards.push({ key: 'per:' + today, prio: 1, tone: 'err', icon: '⏱', title: 'วันนี้เวลาเรียนเปลี่ยน', text: s.periodRow.name + (s.periodRow.first ? ' · คาบ 1 เริ่ม ' + s.periodRow.first : ''), dismiss: null });
+        if (s.holiday !== null && s.holiday !== undefined) cards.push({ key: 'hol:' + today, prio: 1, tone: 'err', icon: 'calendar-off', title: 'วันนี้เป็นวันหยุด' + (s.holiday ? ': ' + s.holiday : ''), dismiss: null });
+        if (s.periodRow && s.isSchoolDay) cards.push({ key: 'per:' + today, prio: 1, tone: 'err', icon: 'clock', title: 'วันนี้เวลาเรียนเปลี่ยน', text: s.periodRow.name + (s.periodRow.first ? ' · คาบ 1 เริ่ม ' + s.periodRow.first : ''), dismiss: null });
         // 2) การบ้านใกล้ส่ง (วันนี้/พรุ่งนี้ ที่ยังไม่ติ๊กทำแล้ว) — ใช้ติ๊กแทนปุ่มปิด
         const due = ann.filter((x) => x.kind === 'homework' && x.due_date && !done.has(x.id)).map((x) => ({ x, d: cardDayDiff(today, x.due_date) })).filter((o) => o.d >= 0 && o.d <= 1).sort((a, b) => a.d - b.d);
-        if (due.length) cards.push({ key: 'due:' + today, prio: 2, tone: 'warn', icon: '📋', title: due.every((o) => o.d === 0) ? `ส่งวันนี้ ${due.length} งาน` : due.every((o) => o.d === 1) ? `ส่งพรุ่งนี้ ${due.length} งาน` : `ใกล้ส่ง ${due.length} งาน`, rows: due.slice(0, 3).map((o) => ({ id: o.x.id, text: o.x.title, when: when(o.d) })), more: Math.max(0, due.length - 3), dismiss: null });
+        if (due.length) cards.push({ key: 'due:' + today, prio: 2, tone: 'warn', icon: 'clipboard-list', title: due.every((o) => o.d === 0) ? `ส่งวันนี้ ${due.length} งาน` : due.every((o) => o.d === 1) ? `ส่งพรุ่งนี้ ${due.length} งาน` : `ใกล้ส่ง ${due.length} งาน`, rows: due.slice(0, 3).map((o) => ({ id: o.x.id, text: o.x.title, when: when(o.d) })), more: Math.max(0, due.length - 3), dismiss: null });
         // 3) สอบใกล้ถึง (ภายใน 7 วัน เอาที่ใกล้สุดใบเดียว)
         const ex = [...(s.exams || []).map((e) => ({ title: e.title, date: e.date })), ...ann.filter((x) => x.kind === 'exam' && x.due_date && !done.has(x.id)).map((x) => ({ title: x.title, date: x.due_date }))]
           .map((e) => ({ e, d: cardDayDiff(today, e.date) })).filter((o) => o.d >= 0 && o.d <= 7).sort((a, b) => a.d - b.d);
-        if (ex.length) cards.push({ key: 'exam:' + ex[0].e.title + ':' + ex[0].e.date, prio: 3, tone: 'exam', icon: '✏️', title: `${ex[0].e.title} · ${when(ex[0].d)}`, text: thd(ex[0].e.date), dismiss: 'day' });
+        if (ex.length) cards.push({ key: 'exam:' + ex[0].e.title + ':' + ex[0].e.date, prio: 3, tone: 'exam', icon: 'pencil-line', title: `${ex[0].e.title} · ${when(ex[0].d)}`, text: thd(ex[0].e.date), dismiss: 'day' });
         // 4) ประกาศ: แถบประกาศแอดมินที่ยังไม่หมดอายุ (ปิดถาวรต่อประกาศ) หรือประกาศห้องที่ใหม่ภายใน 48 ชม.
-        if (s.notice && s.notice.message) cards.push({ key: 'notice:' + s.notice.id, prio: 4, tone: 'info', icon: '📢', title: 'ประกาศ', text: s.notice.message, dismiss: 'forever' });
-        else { const a = ann.filter((x) => x.kind === 'announce' && x.created_at && Date.parse(x.created_at) > (s.nowMs || Date.now()) - 48 * 3600000).sort((p, q) => q.created_at.localeCompare(p.created_at))[0]; if (a) cards.push({ key: 'ann:' + a.id, prio: 4, tone: 'info', icon: '📢', title: 'ประกาศในห้อง', text: a.title, dismiss: 'forever' }); }
+        if (s.notice && s.notice.message) cards.push({ key: 'notice:' + s.notice.id, prio: 4, tone: 'info', icon: 'megaphone', title: 'ประกาศ', text: s.notice.message, dismiss: 'forever' });
+        else { const a = ann.filter((x) => x.kind === 'announce' && x.created_at && Date.parse(x.created_at) > (s.nowMs || Date.now()) - 48 * 3600000).sort((p, q) => q.created_at.localeCompare(p.created_at))[0]; if (a) cards.push({ key: 'ann:' + a.id, prio: 4, tone: 'info', icon: 'megaphone', title: 'ประกาศในห้อง', text: a.title, dismiss: 'forever' }); }
         // 5) กิจกรรมโรงเรียนใกล้ถึง (ภายใน 3 วัน หรือกำลังจัด)
         const ev = (s.events || []).map((e) => ({ e, d: cardDayDiff(today, e.date), end: e.end ? cardDayDiff(today, e.end) : cardDayDiff(today, e.date) })).filter((o) => (o.d >= 0 && o.d <= 3) || (o.d < 0 && o.end >= 0)).sort((a, b) => a.d - b.d)[0];
-        if (ev) cards.push({ key: 'ev:' + ev.e.title + ':' + ev.e.date, prio: 5, tone: 'ok', icon: '🎉', title: `${ev.e.title} · ${ev.d < 0 ? 'กำลังจัด' : when(ev.d)}`, text: thd(ev.e.date), dismiss: 'day' });
+        if (ev) cards.push({ key: 'ev:' + ev.e.title + ':' + ev.e.date, prio: 5, tone: 'ok', icon: 'party-popper', title: `${ev.e.title} · ${ev.d < 0 ? 'กำลังจัด' : when(ev.d)}`, text: thd(ev.e.date), dismiss: 'day' });
         // กรองที่ผู้ใช้ปิดไว้ (ยกเว้นที่ปิดไม่ได้)
         let out = cards.filter((c) => !c.dismiss || !cardHidden(s.dismissed, c.key, today)).sort((a, b) => a.prio - b.prio);
         // 6) ชวนตั้งค่าแจ้งเตือน: ต่ำสุด แสดงเมื่อไม่มีการ์ดอื่นเท่านั้น (ซ่อน 7 วัน ขึ้นซ้ำได้ไม่เกิน 3 ครั้ง)
         const n = s.nudge;
-        if (!out.length && n && n.cls !== 'pb-ok' && n.text && !cardHidden(s.dismissed, 'nudge', today)) out = [{ key: 'nudge', prio: 6, tone: 'gray', icon: '🔕', title: n.text, action: n.cls === 'pb-info' ? 'เปิดแจ้งเตือน' : null, dismiss: 'week' }];
+        if (!out.length && n && n.cls !== 'pb-ok' && n.text && !cardHidden(s.dismissed, 'nudge', today)) out = [{ key: 'nudge', prio: 6, tone: 'gray', icon: 'bell-off', title: n.text, action: n.cls === 'pb-info' ? 'เปิดแจ้งเตือน' : null, dismiss: 'week' }];
         return out;
       }
       /* CARDS-CORE-END */
@@ -2449,10 +2465,11 @@
           }
           if (c.more) body.append(mk('div', 'hc-s', `และอีก ${c.more} งาน (ดูในประกาศและการบ้าน)`));
           if (c.action) { const a = mk('button', 'hc-act', c.action); a.onclick = () => (teacherMode ? toggleTeacherPush() : togglePush()); body.append(a); }
-          el.append(mk('span', 'hc-ic', c.icon), body);
+          const ic = mk('span', 'hc-ic'), li = document.createElement('i'); li.setAttribute('data-lucide', c.icon); ic.append(li); el.append(ic, body);
           if (c.dismiss) { const x = mk('button', 'hc-x', '✕'); x.title = c.dismiss === 'forever' ? 'ปิด' : 'ซ่อน'; x.setAttribute('aria-label', x.title); x.onclick = () => { writeCardState(cardDismissed(readCardState(), c, today)); if (c.key.startsWith('notice:')) { try { localStorage.setItem('classkhab_notice_x', c.key.slice(7)); } catch (e) { /* ไม่เป็นไร */ } } renderHomeCards(); }; el.append(x); }
           box.append(el);
         }
+        try { if (window.lucide) lucide.createIcons(); } catch (e) { /* ไอคอนไม่ขึ้นก็ใช้งานต่อได้ */ }
         if (all.length > CARD_MAX) { const m = mk('button', 'text-xs font-bold text-slate-500 w-full text-center py-1', cardsExpanded ? 'ซ่อน' : `ดูอีก ${all.length - CARD_MAX} เรื่อง`); m.onclick = () => { cardsExpanded = !cardsExpanded; renderHomeCards(); }; box.append(m); }
       }
       // สถิติผู้ใช้ต่อวัน: ส่งสัญญาณสั้นๆ วันละครั้งต่อเครื่อง (รหัสสุ่มประจำเครื่อง + ห้อง ไม่มีชื่อ/IP) ให้หน้าแอดมินทำกราฟ
