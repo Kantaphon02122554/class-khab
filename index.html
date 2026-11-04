@@ -208,8 +208,16 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       @keyframes soShine { 0%, 55% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
       @keyframes pfFade { from { opacity: 0; } to { opacity: 1; } } @keyframes pfUp { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
       @media (prefers-reduced-motion: reduce) { .so-ring svg, .so-ring span, .so-card::after, .pf-sheet, .pf-panel { animation: none !important; } .so-card { opacity: 1; animation: none; } }
-      @media (min-width: 1024px) { #navV2 { border: 1px solid rgba(15, 23, 42, 0.08); border-radius: 22px; } }
-      @media (min-width: 1024px) { #navV2 { max-width: 28rem; left: 50%; right: auto; width: 100%; transform: translateX(-50%); border: 1px solid #e2e8f0; border-radius: 1rem 1rem 0 0; } }
+      /* ทุกอุปกรณ์: แท็บเล็ตการ์ด 2 คอลัมน์, คอมใช้แถบเมนูแนวตั้งชิดซ้ายแทนแถบลอยล่าง */
+      @media (min-width: 768px) { html.ui2 #homeCards:not(.hidden) { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; align-items: start; } html.ui2 #homeCards > button { grid-column: 1 / -1; } #navV2 { width: 26rem; } }
+      @media (min-width: 1024px) {
+        html.ui2 body { padding-bottom: 1rem; padding-left: 6rem; }
+        #navV2 { left: 0; right: auto; top: 4rem; bottom: 0; width: 6rem; transform: none; flex-direction: column; justify-content: flex-start; gap: 6px; padding: 12px 10px; border: 0; border-right: 1px solid #e2e8f0; border-radius: 0; background: #fff; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+        html.dark #navV2 { background: #0b1220; border-right-color: #243152; }
+        #navV2 button { flex: none; padding: 0.7rem 0; }
+        html.ui2 #homeCards:not(.hidden) { grid-template-columns: repeat(3, 1fr); }
+      }
+
       body.teacher-mode #navRoom, body.teacher-mode .student-only { display: none !important; }
       .v2-tabs { display: flex; border-bottom: 1px solid #e2e8f0; } html.dark .v2-tabs { border-bottom-color: #243152; }
       .v2-tabs button { flex: 1; padding: 0.7rem 0.25rem; font-weight: 700; font-size: 0.9rem; color: #64748b; border-bottom: 2px solid transparent; }
