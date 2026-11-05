@@ -1864,10 +1864,17 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       // --- แชตห้อง (นำร่อง): ปุ่มลอยขึ้นเมื่อห้องนี้เปิดแชต ดึงข้อความเป็นช่วงๆ เฉพาะตอนเปิดแผงและแท็บไม่ถูกซ่อน ---
       // มี 2 ช่อง: 'class' = แชตห้อง, 'admin' = คุยส่วนตัวกับแอดมิน (เห็นเฉพาะเครื่องตัวเองกับแอดมิน)
       let chatOpen = false, chatChannel = 'class', chatLast = 0, chatTimer = null, chatIdle = 0, chatBusy = false, chatMyNick = '', fabAvail = false, adminSeenMax = 0;
+      // ถ้อยคำรุนแรง: เตือนทีละครั้งพร้อมจำนวนที่นับ ครบแล้วระบบระงับอัตโนมัติ (r.left/r.hours มาจากเซิร์ฟเวอร์)
+      function harshMsg(r, base) {
+        if (!r) return null;
+        if (r.error === 'banned' && r.auto) { const h = Number(r.hours) || 24; return 'ใช้ถ้อยคำรุนแรงซ้ำ ระบบระงับการใช้งานของคุณ ' + (h >= 24 ? Math.round(h / 24) + ' วัน' : h + ' ชั่วโมง'); }
+        if (r.error === 'filter_word' && typeof r.left === 'number') return base + ' (เตือนครั้งที่ ' + (3 - r.left) + ' จาก 3 ถ้าครบจะถูกระงับอัตโนมัติ)';
+        return null;
+      }
       const CHAT_ERR = {
         filter_link: 'ห้ามส่งลิงก์', filter_contact: 'ห้ามส่งเบอร์โทร ไอดีไลน์ หรืออีเมล', filter_word: 'ข้อความมีคำที่ไม่อนุญาต ปรับถ้อยคำแล้วส่งใหม่', filter_empty: 'พิมพ์ข้อความก่อน',
         slow: 'ส่งเร็วเกินไป รอ 5 วินาทีแล้วส่งใหม่', rate: 'ส่งบ่อยเกินไป รอสักครู่', busy: 'ห้องนี้คุยกันถี่มาก รอสักครู่แล้วลองใหม่',
-        banned: 'ผู้ดูแลระงับการใช้งานแชตของเครื่องนี้ชั่วคราว', closed: 'ห้องนี้ปิดแชตอยู่',
+        banned: 'ผู้ดูแลหรือระบบระงับการใช้งานแชตของคุณชั่วคราว', closed: 'ห้องนี้ปิดแชตอยู่',
         nick_taken: 'ชื่อนี้มีคนใช้แล้ว เลือกชื่ออื่น', nick_length: 'ชื่อต้องยาว 2–16 ตัวอักษร', nick_chars: 'ใช้ได้เฉพาะตัวอักษรไทย อังกฤษ ตัวเลข และเว้นวรรค',
         nick_reserved: 'ชื่อนี้ใช้ไม่ได้ (คล้ายผู้ดูแล/ครู)', nick_word: 'ชื่อนี้มีคำที่ไม่อนุญาต',
       };
@@ -2017,7 +2024,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const r = await chatCall({ action: chatChannel === 'admin' ? 'admin_post' : 'post', body });
         btn.disabled = false;
         if (r.ok) { input.value = ''; chatNotice(''); chatIdle = 0; await chatLoad(false); }
-        else chatNotice(CHAT_ERR[r.error] || 'ส่งไม่สำเร็จ ลองใหม่อีกครั้ง');
+        else chatNotice(harshMsg(r, CHAT_ERR.filter_word) || CHAT_ERR[r.error] || 'ส่งไม่สำเร็จ ลองใหม่อีกครั้ง');
       }
       // --- คลังสรุป/ชีทรายห้อง: ใครในห้องก็เพิ่มได้ (ข้อความ/ลิงก์ที่อนุญาต/รูป/PDF) เห็นเฉพาะในห้อง; ขึ้นเมื่อห้องเปิดแชต ---
       let studyOpen = false, studyFilterSubject = '', studyItems = [];
@@ -2026,7 +2033,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         link_host: 'ลิงก์ต้องเป็น https และจากเว็บที่อนุญาต (Google Drive/Docs, YouTube, Canva, Notion, Quizlet, Wordwall)',
         subject: 'เลือกวิชาจากรายการ', title: 'ใส่หัวข้อก่อน', empty: 'ใส่เนื้อหา ลิงก์ หรือแนบไฟล์อย่างน้อยหนึ่งอย่าง',
         rate: 'โพสต์ถี่เกินไป (สูงสุด 3 ครั้งต่อชั่วโมง) รอสักครู่', busy: 'ห้องนี้เพิ่มชีทถี่มาก รอสักครู่', full: 'คลังของห้องมีไฟล์ครบจำนวนแล้ว ลบอันเก่าก่อน',
-        too_big: 'ไฟล์ใหญ่เกินไป (รูปย่ออัตโนมัติ, PDF ไม่เกิน 1.5 MB)', file_type: 'รองรับเฉพาะรูปภาพและ PDF', banned: 'ผู้ดูแลระงับการใช้งานของเครื่องนี้ชั่วคราว', closed: 'ห้องนี้ยังไม่เปิดใช้งาน',
+        too_big: 'ไฟล์ใหญ่เกินไป (รูปย่ออัตโนมัติ, PDF ไม่เกิน 1.5 MB)', file_type: 'รองรับเฉพาะรูปภาพและ PDF', banned: 'ผู้ดูแลหรือระบบระงับการใช้งานของคุณชั่วคราว', closed: 'ห้องนี้ยังไม่เปิดใช้งาน',
       };
       async function studyCall(body) {
         const token = getToken();
@@ -2148,7 +2155,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             body: document.getElementById('studyText').value, link: document.getElementById('studyLink').value, file,
           });
           if (r.ok) { document.getElementById('studyForm').reset(); toggleStudyForm(false); studyNotice(''); loadStudy(); }
-          else studyNotice(STUDY_ERR[r.error] || (r.error === 'auth' ? 'ต้องเข้าสู่ระบบห้องใหม่ก่อน' : 'เพิ่มไม่สำเร็จ ลองใหม่อีกครั้ง'));
+          else studyNotice(harshMsg(r, STUDY_ERR.filter_word) || STUDY_ERR[r.error] || (r.error === 'auth' ? 'ต้องเข้าสู่ระบบห้องใหม่ก่อน' : 'เพิ่มไม่สำเร็จ ลองใหม่อีกครั้ง'));
         } catch (err) { studyNotice(String(err.message || err)); }
         finally { btn.disabled = false; btn.textContent = 'เพิ่มเข้าคลัง'; }
       }
@@ -2229,6 +2236,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         if (r.ok) { e.target.reset(); toggleAnnForm(false); loadAnnouncements(); }
         else if (r.status === 429) alert('โพสต์ถี่เกินไป (สูงสุด 6 โพสต์ต่อชั่วโมง) รอสักครู่แล้วลองใหม่');
         else if (r.error === 'auth') { alert('หมดอายุ ต้องเข้าสู่ระบบใหม่'); loadAnnouncements(); }
+        else if (r.error === 'banned') alert(harshMsg(r) || 'การโพสต์ของคุณถูกระงับชั่วคราว');
+        else if (r.error === 'filter_word') alert(harshMsg(r, 'ข้อความมีถ้อยคำที่ไม่อนุญาต ปรับแล้วลองอีกครั้ง') || 'ข้อความมีถ้อยคำที่ไม่อนุญาต ปรับแล้วลองอีกครั้ง');
         else alert('โพสต์ไม่สำเร็จ ตรวจหัวข้อแล้วลองอีกครั้ง');
       }
       document.addEventListener('visibilitychange', () => { if (!document.hidden && currentGrade) { if (!teacherMode) loadAnnouncements(); loadNotice(); renderHomeCards(); } });
