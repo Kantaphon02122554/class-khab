@@ -430,6 +430,37 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .so-img { height: 150px; border-radius: 10px; background: #f1f5f9; margin: 0.6rem 0; } html.dark .so-img { background: #1a2540; }
       .so-pt { font-size: 0.875rem; } .so-acts { display: flex; gap: 1.1rem; margin-top: 0.6rem; color: #64748b; font-size: 0.8rem; } .so-acts span { display: inline-flex; align-items: center; gap: 0.3rem; } .so-acts svg { width: 18px; height: 18px; }
       .so-video { width: min(100%, 24rem); border-radius: 20px; overflow: hidden; background: #0f172a; aspect-ratio: 4 / 5; } .so-video video { display: block; width: 100%; height: 100%; object-fit: cover; }
+      /* กำแพงขอบคุณ */
+      .so-w { padding: 0.5rem 0 1rem; } .so-wh h2 { font-size: 1.5rem; font-weight: 800; color: #0f172a; } html.dark .so-wh h2 { color: #f8fafc; } .so-wh p { color: #64748b; font-size: 0.85rem; margin: 0.15rem 0 0.9rem; } html.dark .so-wh p { color: #94a3b8; }
+      .so-card2 { border: 1px solid #e2e8f0; border-radius: 14px; background: #fff; padding: 0.9rem; margin-bottom: 0.9rem; } html.dark .so-card2 { background: #111a2e; border-color: #243152; }
+      .so-lb { display: block; font-size: 0.85rem; font-weight: 700; color: #0f172a; margin-bottom: 0.45rem; } html.dark .so-lb { color: #f1f5f9; } .so-lb small { font-weight: 500; color: #64748b; margin-left: 0.3rem; } .so-lb2 { margin-top: 0.85rem; }
+      .so-card2 input { width: 100%; min-height: 44px; border: 1px solid #cbd5e1; border-radius: 10px; padding: 0 0.8rem; font-size: 0.9rem; background: #fff; color: #0f172a; } html.dark .so-card2 input { background: #0b1220; border-color: #334155; color: #f1f5f9; }
+      .so-card2 input:focus-visible, .so-tag:focus-visible, .so-btn:focus-visible, .so-act:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-card2 input:focus-visible, html.dark .so-tag:focus-visible, html.dark .so-btn:focus-visible, html.dark .so-act:focus-visible { outline-color: #e2e8f0; }
+      .so-row { display: flex; gap: 0.5rem; align-items: center; } .so-row-end { justify-content: space-between; margin-top: 0.7rem; }
+      .so-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+      .so-tag { min-height: 44px; padding: 0 0.95rem; border-radius: 999px; border: 1px solid #cbd5e1; background: #fff; color: #334155; font-size: 0.85rem; font-weight: 600; transition: background-color var(--d-med) var(--e-out), color var(--d-med) var(--e-out), transform var(--d-fast) var(--e-out); } html.dark .so-tag { background: #0b1220; border-color: #334155; color: #cbd5e1; }
+      .so-tag[aria-checked="true"] { background: #0f172a; border-color: #0f172a; color: #fff; } html.dark .so-tag[aria-checked="true"] { background: #f1f5f9; border-color: #f1f5f9; color: #0f172a; } .so-tag:active { transform: scale(0.96); }
+      .so-btn { min-height: 44px; padding: 0 1rem; border-radius: 10px; border: 1px solid #cbd5e1; background: #fff; color: #0f172a; font-size: 0.875rem; font-weight: 700; flex: none; } html.dark .so-btn { background: #0b1220; border-color: #334155; color: #f1f5f9; }
+      .so-btn-p { background: #0f172a; border-color: #0f172a; color: #fff; } html.dark .so-btn-p { background: #f1f5f9; border-color: #f1f5f9; color: #0f172a; } .so-btn:disabled { opacity: 0.4; cursor: not-allowed; } .so-btn:active:not(:disabled) { transform: scale(0.975); }
+      .so-cnt { font-size: 0.75rem; color: #64748b; font-variant-numeric: tabular-nums; }
+      .so-msg { margin-top: 0.7rem; padding: 0.6rem 0.75rem; border-radius: 10px; font-size: 0.85rem; line-height: 1.6; background: #fef3c7; color: #78350f; } .so-msg.ok { background: #dcfce7; color: #14532d; } .so-msg.care { background: #e0f2fe; color: #0c4a6e; }
+      html.dark .so-msg { background: #3b2a08; color: #fde68a; } html.dark .so-msg.ok { background: #0d3320; color: #bbf7d0; } html.dark .so-msg.care { background: #0b2a40; color: #bae6fd; }
+      .so-hint, .so-rules { font-size: 0.75rem; line-height: 1.7; color: #64748b; margin-top: 0.7rem; } .so-rules { margin-top: 1.1rem; text-align: center; }
+      .so-empty { text-align: center; color: #64748b; font-size: 0.9rem; padding: 1.5rem 0; }
+      #soList { display: flex; flex-direction: column; gap: 0.6rem; overflow-wrap: anywhere; }
+      .so-k { border: 1px solid #e2e8f0; border-radius: 14px; background: #fff; padding: 0.75rem 0.85rem; } html.dark .so-k { background: #111a2e; border-color: #243152; }
+      .so-k .so-av { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 0.9rem; }
+      .so-k .so-ph small { color: #64748b; font-size: 0.72rem; } html.dark .so-k .so-ph small { color: #94a3b8; }
+      .so-k .so-ph { gap: 0.65rem; } .so-k .so-ph > div { flex: 1; min-width: 0; }
+      .so-pill { display: inline-block; margin-top: 0.5rem; padding: 0.15rem 0.7rem 0.2rem; border-radius: 999px; background: #f1f5f9; color: #334155; font-size: 0.78rem; font-weight: 700; line-height: 1.7; } html.dark .so-pill { background: #1a2540; color: #cbd5e1; }
+      .so-ln { margin-top: 0.45rem; font-size: 0.9rem; line-height: 1.75; color: #0f172a; } html.dark .so-ln { color: #f1f5f9; }
+      .so-ac { display: flex; align-items: center; gap: 0.25rem; margin-top: 0.4rem; margin-left: -0.5rem; }
+      .so-act { min-height: 44px; min-width: 44px; padding: 0 0.6rem; border-radius: 10px; display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.8rem; font-weight: 600; color: #64748b; background: transparent; transition: color var(--d-med) var(--e-out), transform var(--d-fast) var(--e-out); } .so-act svg { width: 18px; height: 18px; } .so-act:active { transform: scale(0.94); }
+      .so-act[aria-pressed="true"] { color: #be123c; } .so-act[aria-pressed="true"] svg { fill: currentColor; } html.dark .so-act[aria-pressed="true"] { color: #fb7185; }
+      .so-rep { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.3rem; } .so-rep button { min-height: 44px; padding: 0 0.8rem; border-radius: 999px; border: 1px solid #cbd5e1; background: #fff; font-size: 0.8rem; color: #334155; } html.dark .so-rep button { background: #0b1220; border-color: #334155; color: #cbd5e1; }
+      @keyframes soPop { 0% { transform: scale(0.85); } 55% { transform: scale(1.18); } 100% { transform: scale(1); } }
+      .so-act.pop svg { animation: soPop var(--d-med) var(--e-spring); }
+      @media (prefers-reduced-motion: reduce) { .so-act.pop svg { animation: none; } .so-tag, .so-btn, .so-act { transition: none; } }
       @keyframes soPing { 0% { transform: scale(0.55); opacity: 0.8; } 100% { transform: scale(1.25); opacity: 0; } }
       @keyframes soSpin { 0%, 100% { transform: rotate(-12deg) scale(1); } 50% { transform: rotate(12deg) scale(1.12); } }
       @keyframes soIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
@@ -840,7 +871,29 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
 
             <!-- โซเชียล (เร็วๆ นี้) -->
             <div id="socialV2" class="v2-only v-social">
-              <div class="so-wrap">
+              <!-- กำแพงขอบคุณรายห้อง (โซเชียลรุ่นแรก) แสดงเมื่อแอดมินเปิดห้องนี้เท่านั้น ไม่งั้นแสดง "กำลังเตรียม" ด้านล่าง -->
+              <div id="soWall" class="so-w hidden">
+                <div class="so-wh"><h2>กำแพงขอบคุณ</h2><p>ขอบคุณเพื่อนในห้องสั้นๆ เห็นกันเฉพาะห้องเรา</p></div>
+                <div id="soNeedLogin" class="pt-note hidden">ใช้ได้เมื่อเข้าด้วยเลขประจำตัวหรืออีเมลโรงเรียน ไปที่โปรไฟล์ → ออกจากระบบ → เข้าใหม่ด้วยเลขประจำตัว</div>
+                <div id="soNickBox" class="so-card2 hidden">
+                  <label for="soNickIn" class="so-lb">ตั้งชื่อเล่นก่อนโพสต์ <small>ใช้ชื่อเล่นเดียวกับแชต ตั้งแล้วเปลี่ยนเองไม่ได้</small></label>
+                  <div class="so-row"><input id="soNickIn" maxlength="16" placeholder="เช่น ปัน" autocomplete="off"><button type="button" class="so-btn" onclick="soSetNick()">ตั้งชื่อ</button></div>
+                </div>
+                <div id="soComposer" class="so-card2 hidden">
+                  <div class="so-lb" id="soTagLb">ขอบคุณเรื่องอะไร</div>
+                  <div id="soTags" class="so-tags" role="radiogroup" aria-labelledby="soTagLb"></div>
+                  <label for="soLine" class="so-lb so-lb2">ข้อความสั้นๆ <small>ไม่บังคับ</small></label>
+                  <input id="soLine" maxlength="80" placeholder="เช่น ขอบคุณที่ติวเลขให้เมื่อวาน" autocomplete="off" oninput="soCount()">
+                  <div class="so-row so-row-end"><span id="soCnt" class="so-cnt" aria-hidden="true">0/80</span><button id="soSend" type="button" class="so-btn so-btn-p" onclick="soPost()" disabled>ส่งขอบคุณ</button></div>
+                  <p id="soMsg" class="so-msg hidden" role="status" aria-live="polite"></p>
+                  <p class="so-hint">ห้ามใส่ชื่อจริง เบอร์ ไอดี หรือลิงก์ · ข้อความที่พิมพ์เองจะถูกตรวจอัตโนมัติก่อนขึ้น (ส่งแท็กอย่างเดียวไม่ต้องตรวจ) · แอดมินดูได้ว่าใครโพสต์</p>
+                </div>
+                <div id="soReadonly" class="pt-note hidden">ตอนนี้ดูได้อย่างเดียว แอดมินปิดการโพสต์ชั่วคราว</div>
+                <div id="soList" role="feed" aria-label="ขอบคุณจากเพื่อนในห้อง" lang="th"></div>
+                <div id="soEmpty" class="so-empty hidden">ยังไม่มีใครขอบคุณใครเลย เป็นคนแรกของห้องได้เลย</div>
+                <p class="so-rules">กติกา: พูดดีๆ ต่อกัน · ไม่แซะ ไม่ล้อ · ไม่ใส่ข้อมูลส่วนตัวของใคร · เจอโพสต์ที่ไม่โอเคกด "รายงาน" แอดมินจะดู</p>
+              </div>
+              <div class="so-wrap" id="soClosed">
                 <div class="so-video">
                   <video src="social-preview.mp4" autoplay loop muted playsinline preload="metadata" onloadeddata="if(matchMedia('(prefers-reduced-motion: reduce)').matches)this.pause()" aria-label="ตัวอย่างหน้าโซเชียลที่กำลังจะมา"></video>
                 </div>
@@ -1103,7 +1156,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         <button id="navHome" class="on" aria-current="page" onclick="setView('home')"><i data-lucide="calendar-days"></i><span>ตาราง</span></button>
         <button id="navSocial" onclick="setView('social')"><i data-lucide="sparkles"></i><span>โซเชียล</span></button>
         <button id="navRoom" onclick="setView('room')"><i data-lucide="users"></i><span>ห้องเรา</span><span id="navRoomDot" class="hidden absolute top-1 left-1/2 ml-2 w-2 h-2 rounded-full bg-rose-500"></span></button>
-        <button id="navPortfolio" onclick="setView('portfolio')"><i data-lucide="file-pen-line"></i><span>พอร์ต</span></button>
+        <button id="navPortfolio" style="display:none" onclick="setView('portfolio')"><i data-lucide="file-pen-line"></i><span>พอร์ต</span></button>
         <button id="navMenu" onclick="setView('menu')"><i data-lucide="menu"></i><span>โปรไฟล์</span></button>
       </nav>
     </div>
@@ -2906,6 +2959,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           if (room === 'study' && document.getElementById('studySection').classList.contains('hidden')) room = 'ann';
           if (room === 'chat' && !fabAvail) room = 'ann';
         }
+        if (view === 'portfolio' && !PORTFOLIO_OPEN) view = 'home';   // ปิดแท็บพอร์ตไว้ก่อน (โค้ดยังอยู่ครบ) เปิดคืน: PORTFOLIO_OPEN = true แล้วลบ style="display:none" ที่ #navPortfolio
         if ((view === 'room' || view === 'portfolio') && document.body.classList.contains('teacher-mode')) view = 'home';   // ครูไม่มีแท็บห้องเรา (กดย้อนกลับจากประวัติของนักเรียนคนก่อน)
         const prevView = de.dataset.view;
         // อัปเดตแถบล่างและวัดตำแหน่งตัวชี้ก่อนสลับเนื้อหาทั้งหน้า (วัดตอนเลย์เอาต์ยังไม่เปลี่ยน = ไม่บังคับคำนวณหน้าใหม่ซ้ำ)
@@ -2919,11 +2973,13 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         if (view === 'room' && room === 'study' && !studyOpen) toggleStudy(true);
         if (view === 'home') { updateTimeTracker(); renderSchedule(); }
         if (view === 'portfolio') portfolioEnter();
+        if (view === 'social') soEnter(); else soStop();
         if (prevView && prevView !== view) playViewIn(VIEW_ORDER.indexOf(view) - VIEW_ORDER.indexOf(prevView));
         if (!noPush) history.pushState({ v: view, r: room }, '');
       }
       // ---- การเคลื่อนไหวตอนสลับแท็บ ----
       const VIEW_ORDER = ['home', 'social', 'room', 'portfolio', 'menu'];
+      const PORTFOLIO_OPEN = false;
       // ใช้ Web Animations API: ไม่ต้องบังคับคำนวณหน้าใหม่เพื่อเริ่มซ้ำ และจบแล้วไม่ทิ้ง transform ค้างบน #dashCard
       // (ถ้าค้าง แผงที่ position:fixed ข้างใน เช่น หน้าแก้โปรไฟล์ จะถูกขังในการ์ด)
       function playViewIn(dir) {
@@ -3007,6 +3063,138 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         document.getElementById('ctSheet').classList.remove('hidden'); if (window.lucide) lucide.createIcons();
       }
       function closeContact() { document.getElementById('ctSheet').classList.add('hidden'); }
+      // ---- โซเชียล: กำแพงขอบคุณรายห้อง ----
+      // เปิดเฉพาะห้องที่แอดมินเปิด (ฟังก์ชัน social ตอบ enabled) ข้อความของผู้ใช้ใส่ด้วย textContent เท่านั้น
+      const SO_TAGS = { helped: 'ช่วยเพื่อน', explained: 'อธิบายเก่ง', funny: 'ทำให้ขำ', teamwork: 'ทำงานกลุ่มดี', kind: 'ใจดี' };
+      const SO_ERR = {
+        auth: 'ต้องเข้าสู่ระบบห้องใหม่หนึ่งครั้งก่อนใช้งาน', closed: 'ห้องนี้ยังไม่เปิดกำแพงขอบคุณ', banned: 'คุณถูกระงับชั่วคราว โพสต์ไม่ได้ในตอนนี้', readonly: 'ตอนนี้ดูได้อย่างเดียว แอดมินปิดการโพสต์ชั่วคราว',
+        slow: 'ช้าลงนิดหนึ่ง รอสักครู่แล้วส่งใหม่', rate: 'วันนี้โพสต์ครบจำนวนแล้ว พรุ่งนี้ส่งต่อได้', net: 'เชื่อมต่อไม่ได้ ตรวจอินเทอร์เน็ตแล้วลองใหม่',
+        filter_contact: 'ห้ามใส่เบอร์ อีเมล หรือไอดีติดต่อ ลบออกแล้วลองใหม่', filter_link: 'ห้ามใส่ลิงก์ ลบออกแล้วลองใหม่', filter_word: 'ข้อความมีคำที่ไม่อนุญาต ปรับถ้อยคำแล้วลองใหม่',
+        ai_bullying: 'ข้อความนี้อาจทำให้เพื่อนไม่สบายใจ ลองเขียนใหม่ให้เป็นคำขอบคุณตรงๆ หรือส่งแค่แท็ก', ai_private: 'ดูเหมือนมีข้อมูลส่วนตัวของใครบางคน ลบออกแล้วลองใหม่',
+        ai_sexual: 'ข้อความนี้ไม่เหมาะกับกำแพงนี้ ลองเขียนใหม่', ai_other: 'ข้อความนี้ไม่ใช่คำขอบคุณ ลองเขียนใหม่หรือส่งแค่แท็ก',
+        review_unavailable: 'ตอนนี้ตรวจข้อความไม่ได้ ส่งแค่แท็กไปก่อน หรือลองใหม่ภายหลัง', nick_taken: 'ชื่อเล่นนี้มีคนใช้แล้วในห้อง', nick_length: 'ชื่อเล่นต้องยาว 2–16 ตัวอักษร',
+        nick_chars: 'ใช้ได้เฉพาะตัวอักษรไทย อังกฤษ ตัวเลข และเว้นวรรค', nick_reserved: 'ชื่อนี้สงวนไว้ เลือกชื่ออื่น', nick_word: 'ชื่อนี้ไม่อนุญาต เลือกชื่ออื่น',
+      };
+      let soTag = '', soNick = null, soTimer = null, soBusy = false, soOpenNow = false;
+      const soCall = async (body) => {
+        const token = getToken(); if (!token) return { ok: false, error: 'auth' };
+        try {
+          const res = await fetch(`${SUPABASE_URL}/functions/v1/social`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ ...body, token, sid: getSid() }) });
+          const j = await res.json().catch(() => ({})); if (res.status === 401) localStorage.removeItem('classkhab_token'); return { ...j, status: res.status };
+        } catch (e) { return { ok: false, error: 'net' }; }
+      };
+      function soMsg(text, kind) {
+        const m = document.getElementById('soMsg'); m.textContent = text || ''; m.className = 'so-msg' + (kind ? ' ' + kind : '') + (text ? '' : ' hidden');
+      }
+      function soShow(wall) { document.getElementById('soWall').classList.toggle('hidden', !wall); document.getElementById('soClosed').classList.toggle('hidden', wall); }
+      function soBuildTags() {
+        const box = document.getElementById('soTags'); if (box.children.length) return;
+        Object.entries(SO_TAGS).forEach(([k, label]) => {
+          const b = mk('button', 'so-tag', label); b.type = 'button'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', 'false'); b.dataset.tag = k;
+          b.onclick = () => { soTag = k; box.querySelectorAll('.so-tag').forEach((x) => x.setAttribute('aria-checked', String(x === b))); soCount(); };
+          box.appendChild(b);
+        });
+      }
+      function soCount() {
+        const v = document.getElementById('soLine').value;
+        document.getElementById('soCnt').textContent = [...v].length + '/80';
+        document.getElementById('soSend').disabled = !soTag || soBusy;
+      }
+      function soAgo(iso) {
+        const s = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
+        if (s < 60) return 'เมื่อกี้'; if (s < 3600) return Math.floor(s / 60) + ' นาทีที่แล้ว'; if (s < 86400) return Math.floor(s / 3600) + ' ชม.ที่แล้ว'; return Math.floor(s / 86400) + ' วันที่แล้ว';
+      }
+      const SO_HUES = ['#fecaca', '#fed7aa', '#fde68a', '#bbf7d0', '#a5f3fc', '#bfdbfe', '#ddd6fe', '#fbcfe8'];
+      const soHue = (s) => { let h = 0; for (const c of s) h = (h * 31 + c.codePointAt(0)) >>> 0; return SO_HUES[h % SO_HUES.length]; };
+      const SO_HEART = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>';
+      function soCard(it) {
+        const card = mk('article', 'so-k'); card.setAttribute('aria-label', 'ขอบคุณจาก ' + it.nick);
+        // รูปโปรไฟล์: ของตัวเองใช้รูป/สีที่ตั้งในโปรไฟล์ (เก็บในเครื่อง) ของคนอื่นเห็นเป็นสีพื้นที่เขาเลือก + ตัวอักษรแรกของชื่อเล่น (รูปถ่ายไม่ได้ส่งขึ้นเซิร์ฟเวอร์)
+        const ph = mk('div', 'so-ph'); const av = mk('div', 'so-av');
+        if (it.own) { const p = readProfile(); paintAvatar(av, { ...p, name: it.nick }); } else paintAvatar(av, { color: PF_COLORS[it.av] || PF_COLORS[0], name: it.nick });
+        av.style.backgroundSize = 'cover'; av.style.backgroundPosition = 'center';
+        const who = mk('div'); who.append(mk('b', '', it.nick), mk('small', '', soAgo(it.created_at)));
+        ph.append(av, who); card.appendChild(ph);
+        card.appendChild(mk('span', 'so-pill', SO_TAGS[it.tag] || it.tag));
+        if (it.line) card.appendChild(mk('p', 'so-ln', it.line));
+        const ac = mk('div', 'so-ac');
+        const lk = mk('button', 'so-act'); lk.type = 'button'; lk.innerHTML = SO_HEART; lk.setAttribute('aria-pressed', String(!!it.liked));
+        const lt = mk('span', '', it.own ? (it.likes ? it.likes + ' คนขอบคุณ' : 'ยังไม่มีใครกด') : 'ขอบคุณ'); lk.appendChild(lt);
+        lk.setAttribute('aria-label', it.own ? 'จำนวนคนกดขอบคุณโพสต์ของคุณ' : 'กดขอบคุณโพสต์นี้');
+        if (it.own) { lk.disabled = true; lk.style.opacity = '.8'; }
+        else lk.onclick = async () => {
+          const on = lk.getAttribute('aria-pressed') !== 'true'; lk.setAttribute('aria-pressed', String(on));
+          if (on) { lk.classList.remove('pop'); void lk.offsetWidth; lk.classList.add('pop'); try { navigator.vibrate && navigator.vibrate(8); } catch (e) { /* ไม่รองรับ */ } }
+          const r = await soCall({ action: 'like', id: it.id, on }); if (!r.ok) { lk.setAttribute('aria-pressed', String(!on)); soMsg(SO_ERR[r.error] || 'ทำรายการไม่สำเร็จ ลองใหม่', ''); }
+        };
+        ac.appendChild(lk);
+        if (it.own) {
+          const del = mk('button', 'so-act', 'ลบ'); del.type = 'button'; del.setAttribute('aria-label', 'ลบโพสต์ของฉัน');
+          del.onclick = async () => { if (!confirm('ลบโพสต์นี้?')) return; const r = await soCall({ action: 'delete', id: it.id }); if (r.ok) card.remove(); else soMsg(SO_ERR[r.error] || 'ลบไม่สำเร็จ ลองใหม่', ''); };
+          ac.appendChild(del);
+        } else if (!it.reported) {
+          const rp = mk('button', 'so-act', 'รายงาน'); rp.type = 'button'; rp.setAttribute('aria-label', 'รายงานโพสต์นี้');
+          rp.onclick = () => {
+            rp.disabled = true; const box = mk('div', 'so-rep'); box.setAttribute('role', 'group'); box.setAttribute('aria-label', 'เหตุผลที่รายงาน');
+            [['bullying', 'ล้อเลียน/ไม่สุภาพ'], ['private', 'ข้อมูลส่วนตัว'], ['selfharm', 'ห่วงความปลอดภัยของเพื่อน'], ['other', 'อื่นๆ']].forEach(([k, label]) => {
+              const bt = mk('button', '', label); bt.type = 'button';
+              bt.onclick = async () => { const r = await soCall({ action: 'report', id: it.id, reason: k }); box.remove(); if (r.ok) { rp.textContent = 'รายงานแล้ว'; soMsg('ส่งรายงานให้แอดมินแล้ว ขอบคุณที่ช่วยดูแลห้อง', 'ok'); if (k === 'selfharm') card.remove(); } else { rp.disabled = false; soMsg(SO_ERR[r.error] || 'ส่งรายงานไม่สำเร็จ ลองใหม่', ''); } };
+              box.appendChild(bt);
+            });
+            card.appendChild(box);
+          };
+          ac.appendChild(rp);
+        } else ac.appendChild(mk('span', 'so-act', 'รายงานแล้ว'));
+        card.appendChild(ac);
+        return card;
+      }
+      async function soLoad() {
+        const r = await soCall({ action: 'list' });
+        const closedHint = document.getElementById('soNeedLogin');
+        if (r.error === 'need_email_login') { soShow(true); closedHint.classList.remove('hidden'); ['soNickBox', 'soComposer'].forEach((i) => document.getElementById(i).classList.add('hidden')); document.getElementById('soList').textContent = ''; document.getElementById('soEmpty').classList.add('hidden'); return; }
+        if (!r.ok || !r.enabled) { soOpenNow = false; soShow(false); return; }
+        soOpenNow = true; soShow(true); closedHint.classList.add('hidden');
+        soNick = r.nick || null;
+        document.getElementById('soNickBox').classList.toggle('hidden', !!soNick || r.banned);
+        document.getElementById('soComposer').classList.toggle('hidden', !soNick || !r.posting || r.banned);
+        document.getElementById('soReadonly').classList.toggle('hidden', r.posting !== false);
+        const list = document.getElementById('soList'); list.textContent = '';
+        (r.items || []).forEach((it) => list.appendChild(soCard(it)));
+        document.getElementById('soEmpty').classList.toggle('hidden', !!(r.items || []).length);
+        soBuildTags(); soCount();
+      }
+      async function soEnter() {
+        if (!UI2) return; await soLoad(); soSchedule();
+      }
+      function soSchedule() {
+        clearTimeout(soTimer); soTimer = null;
+        if (document.documentElement.dataset.view !== 'social' || !soOpenNow) return;
+        soTimer = setTimeout(async () => { if (!document.hidden && !soBusy && !document.querySelector('#soWall .so-rep')) await soLoad(); soSchedule(); }, 30000);   // เปิดหน้านี้อยู่เท่านั้น ไม่ดึงตอนซ่อนแท็บ
+      }
+      function soStop() { clearTimeout(soTimer); soTimer = null; }
+      async function soSetNick() {
+        const inp = document.getElementById('soNickIn'); const nick = inp.value.replace(/\s+/g, ' ').trim();
+        const r = await soCall({ action: 'nick', nick });
+        if (!r.ok) { soMsg(SO_ERR[r.error] || 'ตั้งชื่อไม่สำเร็จ ลองใหม่', ''); document.getElementById('soNickBox').classList.remove('hidden'); return; }
+        soMsg('', ''); await soLoad();
+      }
+      async function soPost() {
+        if (soBusy || !soTag) return; soBusy = true; soCount();
+        const line = document.getElementById('soLine').value.replace(/\s+/g, ' ').trim();
+        soMsg(line ? 'กำลังตรวจข้อความ…' : 'กำลังส่ง…', 'ok');
+        const r = await soCall({ action: 'post', tag: soTag, line, av: Math.max(0, PF_COLORS.indexOf(readProfile().color)) });
+        soBusy = false;
+        if (r.ok) {
+          document.getElementById('soLine').value = ''; soTag = ''; document.querySelectorAll('#soTags .so-tag').forEach((x) => x.setAttribute('aria-checked', 'false')); soCount();
+          soMsg('ส่งแล้ว', 'ok'); await soLoad(); return;
+        }
+        soCount();
+        if (r.error === 'care') { soMsg('ข้อความนี้ยังไม่ขึ้นกำแพง แต่เราห่วงคุณ ถ้าไม่สบายใจหรืออยากคุยกับใคร โทรสายด่วนสุขภาพจิต 1323 ได้ฟรีตลอด 24 ชม. หรือบอกครูที่ไว้ใจ ดูช่องทางอื่นที่หน้า "ติดต่อ"', 'care'); return; }
+        if (r.error === 'banned') { soMsg(r.auto ? 'คุณใช้ถ้อยคำรุนแรงหลายครั้ง จึงถูกระงับชั่วคราว ' + (r.hours || 24) + ' ชั่วโมง' : SO_ERR.banned, ''); return; }
+        if (r.error === 'filter_word' && r.left != null) { soMsg(SO_ERR.filter_word + ' (เหลืออีก ' + r.left + ' ครั้งก่อนถูกระงับชั่วคราว)', ''); return; }
+        soMsg(SO_ERR[r.error] || 'ส่งไม่สำเร็จ ลองใหม่อีกครั้ง', '');
+      }
+
       // ---- ผู้ช่วย AI ทำพอร์ตโฟลิโอ (ทดลอง) ----
       let aiMode = 'page', aiBusy = false, aiLastHtml = '';
       const AI_ERR = {
