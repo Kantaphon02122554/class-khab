@@ -361,6 +361,56 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .ai-work .ai-w2 { display: grid; grid-template-columns: 1fr 5rem; gap: 0.5rem; } .ai-work-h { display: flex; align-items: center; justify-content: space-between; font-size: 0.78rem; color: #64748b; }
       .ai-work .ai-wimg { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.5rem; } .ai-work .ai-wimg img { width: 4rem; height: 3rem; border-radius: 8px; object-fit: cover; } .ai-work .ai-mini { margin-left: 0; cursor: pointer; }
       .ai-frame { width: 100%; height: 26rem; border: 1px solid #e2e8f0; border-radius: 14px; background: #fff; } .ai-text.hidden, .ai-frame.hidden { display: none; }
+      /* ===== แท็บพอร์ต (ออกแบบใหม่จากรีวิว 5 มุม): ปุ่มหลักหนึ่งอันต่อส่วน ปุ่มรอง 36px (มือถือ 44px) ข้อความช่วยสีเดียว คอนทราสต์ผ่าน ===== */
+      #portfolioV2 { --pt-line: #e2e8f0; --pt-mute: #64748b; --pt-ink: #0f172a; --pt-soft: #f8fafc; } html.dark #portfolioV2 { --pt-line: #243152; --pt-mute: #94a3b8; --pt-ink: #f1f5f9; --pt-soft: #0b1220; }
+      #portfolioV2 :focus-visible { outline: 2px solid #2563eb; outline-offset: 2px; }
+      #portfolioV2 .pt-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+      #portfolioV2 .pt-sub { margin-top: 4px; font-size: 0.875rem; color: var(--pt-mute); }
+      .pt-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; } .pt-saved { font-size: 0.75rem; color: var(--pt-mute); }
+      .pt-step { display: flex; align-items: center; gap: 8px; margin: 28px 0 12px; } .pt-form > .pt-step:first-child { margin-top: 0; }
+      .pt-n { width: 24px; height: 24px; flex: none; border-radius: 50%; background: var(--pt-ink); color: #fff; display: grid; place-items: center; font-size: 0.8rem; font-weight: 700; } html.dark .pt-n { color: #0f172a; }
+      .pt-step b { font-size: 1rem; font-weight: 700; } .pt-step small { margin-left: auto; font-size: 0.75rem; color: var(--pt-mute); }
+      .pt-help { display: block; font-size: 0.75rem; font-weight: 400; color: var(--pt-mute); margin-top: 2px; line-height: 1.5; } .pt-help-b { margin: -4px 0 12px; }
+      .pt-note { display: flex; gap: 8px; align-items: flex-start; padding: 12px; border-radius: 12px; background: var(--pt-soft); color: #475569; font-size: 0.8rem; line-height: 1.55; margin: 0 0 12px; } html.dark .pt-note { color: #94a3b8; } .pt-note svg { width: 16px; height: 16px; flex: none; margin-top: 2px; } .pt-note.hidden { display: none; }
+      #portfolioV2 .pf-l { font-weight: 500; font-size: 0.875rem; color: #334155; margin-bottom: 16px; } html.dark #portfolioV2 .pf-l { color: #cbd5e1; } #portfolioV2 .pf-l input, #portfolioV2 .pf-l textarea, #portfolioV2 .pf-l select { margin-top: 6px; }
+      #portfolioV2 .pt-card > summary small { color: var(--pt-mute); }
+      .pt-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 36px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--pt-line); background: transparent; color: var(--pt-ink); font-size: 0.8125rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: background-color .15s; } .pt-btn:hover { background: #f1f5f9; } html.dark .pt-btn:hover { background: rgba(255, 255, 255, 0.06); } .pt-btn svg { width: 16px; height: 16px; } .pt-btn.hidden { display: none; }
+      .pt-btn-w { width: 100%; } .pt-btn-dark { background: var(--pt-ink); color: #fff; border-color: transparent; } .pt-btn-dark:hover { background: #1e293b; } html.dark .pt-btn-dark { color: #0f172a; } html.dark .pt-btn-dark:hover { background: #e2e8f0; } .pt-btn-q { color: var(--pt-mute); }
+      .pt-ibtn { width: 36px; height: 36px; flex: none; display: grid; place-items: center; border-radius: 10px; color: var(--pt-mute); background: transparent; } .pt-ibtn:hover { background: #fff1f2; color: #be123c; } html.dark .pt-ibtn:hover { background: rgba(225, 29, 72, 0.12); } .pt-ibtn svg { width: 16px; height: 16px; } .pt-ibtn.hidden { display: none; }
+      #portfolioV2 .pf-save { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; } #portfolioV2 .pf-save svg { width: 18px; height: 18px; }
+      .pt-final { display: grid; gap: 8px; } .pt-final-2 { display: flex; gap: 8px; flex-wrap: wrap; }
+      .ai-wimg .pt-btn, .ai-photo .pt-btn { cursor: pointer; }
+      .pt-review { margin-top: 12px; border: 1px solid var(--pt-line); border-radius: 14px; padding: 12px; } .pt-review.hidden { display: none; } .pt-review-h { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+      .pc-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+      .pc-chip { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; border-radius: 99px; border: 1px solid var(--pt-line); background: transparent; color: var(--pt-ink); font-size: 0.8125rem; font-weight: 600; transition: background-color .15s, opacity .15s; } .pc-chip:hover { background: #f1f5f9; } html.dark .pc-chip:hover { background: rgba(255, 255, 255, 0.06); }
+      .pc-chip.main { background: var(--pt-ink); color: #fff; border-color: transparent; } .pc-chip.main:hover { background: #1e293b; } html.dark .pc-chip.main { color: #0f172a; } html.dark .pc-chip.main:hover { background: #e2e8f0; } .pc-chip small { font-weight: 400; opacity: 0.75; font-size: 0.72rem; } .pc-chip:disabled { opacity: 0.5; cursor: default; }
+      #portfolioV2 .pc { margin-top: 0; } #portfolioV2 .pc-box:focus-within { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15); }
+      .pc-strip.warn { border-color: #fde68a; background: #fffbeb; color: #92400e; } html.dark .pc-strip.warn { background: rgba(146, 64, 14, 0.18); border-color: rgba(245, 158, 11, 0.3); color: #fde68a; }
+      #aiUndo { margin-top: 8px; }
+      .pt-bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; } .pt-grow { flex: 1; } .pt-mw { position: relative; }
+      #portfolioV2 .pt-seg button { display: inline-flex; align-items: center; gap: 4px; min-height: 32px; } #portfolioV2 .pt-seg svg { width: 14px; height: 14px; }
+      .pt-sw { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 10px; border: 1px solid var(--pt-line); cursor: pointer; } .pt-acc .pt-sw input[type=color] { width: 22px; height: 22px; border: 0; border-radius: 50%; padding: 0; background: none; cursor: pointer; }
+      .pt-pop { position: absolute; top: calc(100% + 8px); left: 0; z-index: 20; width: min(520px, 80vw); padding: 12px; border-radius: 16px; border: 1px solid var(--pt-line); background: #fff; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12); } html.dark .pt-pop { background: #111a2e; } .pt-pop.hidden { display: none; }
+      .pt-pop-h { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 12px; } .pt-pop-h small { color: var(--pt-mute); font-size: 0.75rem; }
+      .pt-pop .pt-tpl { display: grid; grid-template-columns: repeat(auto-fill, 96px); gap: 12px; overflow: visible; padding: 0; margin: 0; }
+      .pt-pop .tp { flex: none; } .pt-pop .tp .th { width: 96px; height: 128px; } .pt-pop .tp .th iframe { transform: scale(0.1067); } .pt-pop .tp .tn { font-size: 0.78rem; } .pt-pop .tp .tn small { color: var(--pt-mute); }
+      .pt-menu { position: absolute; right: 0; top: calc(100% + 8px); z-index: 20; min-width: 220px; padding: 6px; border-radius: 14px; border: 1px solid var(--pt-line); background: #fff; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12); } html.dark .pt-menu { background: #111a2e; } .pt-menu.hidden { display: none; }
+      .pt-menu button { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 0 10px; border-radius: 10px; font-size: 0.875rem; text-align: left; color: var(--pt-ink); } .pt-menu button:hover { background: #f1f5f9; } html.dark .pt-menu button:hover { background: rgba(255, 255, 255, 0.06); } .pt-menu svg { width: 16px; height: 16px; color: var(--pt-mute); }
+      #portfolioV2 .pt-stage { position: relative; padding: 8px; border-radius: 16px; } #portfolioV2 .pt-stage .ai-frame { border-radius: 8px; box-shadow: none; }
+      .pt-empty { position: absolute; left: 50%; top: 32px; transform: translateX(-50%); width: min(360px, calc(100% - 32px)); padding: 16px 20px; border-radius: 16px; background: rgba(255, 255, 255, 0.97); border: 1px solid var(--pt-line); box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1); font-size: 0.875rem; color: #334155; line-height: 1.55; } html.dark .pt-empty { background: rgba(17, 26, 46, 0.97); color: #cbd5e1; }
+      .pt-empty ol { margin: 8px 0; padding-left: 20px; list-style: decimal; } .pt-empty li { margin: 4px 0; } .pt-empty small { color: var(--pt-mute); } .pt-empty.hidden { display: none; }
+      .tp .tn small { color: var(--pt-mute); }
+      .pt-mswitch { display: none; }
+      @media (max-width: 1023px) {
+        .pt-mswitch { position: sticky; top: 0; z-index: 30; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; margin: 0 0 12px; border-radius: 14px; background: #f1f5f9; } html.dark .pt-mswitch { background: #0b1220; } .pt-mswitch.hidden { display: none; }
+        .pt-mswitch button { min-height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 700; font-size: 0.9rem; color: var(--pt-mute); } .pt-mswitch button.on { background: #fff; color: var(--pt-ink); box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1); } html.dark .pt-mswitch button.on { background: #1e293b; } .pt-mswitch svg { width: 16px; height: 16px; }
+        #aiMain[data-pane="edit"] .pt-out { display: none; } #aiMain[data-pane="view"] .pt-form { display: none; }
+        #portfolioV2 .pt-out .ai-frame { height: calc(100dvh - 260px); min-height: 420px; }
+        .pt-btn, .pc-chip, #portfolioV2 .pt-seg button { min-height: 44px; } .pt-ibtn, .pt-sw { width: 44px; height: 44px; }
+        .pt-pop { position: fixed; left: 8px; right: 8px; top: auto; bottom: calc(88px + env(safe-area-inset-bottom)); width: auto; max-height: 60vh; overflow: auto; }
+        html.ui2:has(#portfolioV2 :is(input, textarea, select):focus) #navV2 { display: none !important; }
+        #portfolioV2 { padding-bottom: 24px; }
+      }
       @media (prefers-reduced-motion: reduce) { .ct-row:active { transform: none; } }
       .so-wrap { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 2rem 0 1rem; }
       .so-ring { position: relative; width: 96px; height: 96px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
@@ -833,85 +883,104 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
               </div>
             </div>
 
-            <!-- พอร์ตโฟลิโอ (แท็บ): แนวแคนวาส ตัวอย่างหน้าพอร์ตเป็นพระเอก (ขยับตามที่พิมพ์ทันที ไม่เสียสิทธิ์) แผงข้อมูลเป็นการ์ดพับได้ AI ช่วยเรียบเรียงข้อความแล้วเติมกลับลงช่อง -->
+            <!-- พอร์ตโฟลิโอ (แท็บ) ออกแบบใหม่จากรีวิว 5 มุม: 3 ขั้น (ใส่ข้อมูล → ให้ AI ช่วย → บันทึก) ช่อง AI ที่เดียว ตัวอย่างสดด้านขวา (มือถือสลับ แก้ไข/ดูตัวอย่าง) บันทึกร่างในเครื่องอัตโนมัติ -->
             <div id="portfolioV2" class="v2-only v-portfolio">
               <div class="pt-head">
-                <h2 class="text-2xl font-extrabold text-slate-900 mb-1">พอร์ตโฟลิโอ</h2>
-                <p class="pt-sub">พิมพ์ข้อมูลจริงของคุณ หน้าพอร์ตขยับตามทันที พร้อมแล้วให้ AI ช่วยเรียบเรียงข้อความ <span id="aiLeft" class="pt-chip"></span></p>
-              </div>
-              <div id="aiNeedLogin" class="ai-note hidden">ฟีเจอร์นี้ใช้ได้เมื่อเข้าสู่ระบบด้วยอีเมลโรงเรียนเท่านั้น (เพื่อนับสิทธิ์รายคน) ออกจากระบบ (หน้าโปรไฟล์) แล้วเข้าใหม่ด้วยเลขประจำตัว</div>
-              <div id="aiMain" class="pt-grid">
-                <div class="pt-form" oninput="aiLive()">
-                  <div class="v2-tabs ai-tabs" role="tablist">
-                    <button id="aiTabPage" class="on" onclick="aiSetMode('page')">หน้าพอร์ต</button>
-                    <button id="aiTabWrite" onclick="aiSetMode('write')">เรียบเรียงข้อความ</button>
-                    <button id="aiTabReview" onclick="aiSetMode('review')">ขอคำแนะนำ</button>
-                  </div>
-                  <details class="pt-card ai-f" data-m="write page review" open>
-                    <summary>โปรไฟล์</summary>
-                    <label class="pf-l ai-f" data-m="write page review">เป้าหมาย (สมัครอะไร ที่ไหน)<input id="aiGoal" maxlength="150" placeholder="เช่น สมัครคณะวิศวกรรมศาสตร์ รอบพอร์ต"></label>
-                    <label class="pf-l ai-f" data-m="page">ชื่อที่ใช้แสดงบนพอร์ต<input id="aiName" maxlength="60" placeholder="ชื่อ (ใส่เฉพาะที่ยินดีให้แสดง)"></label>
-                    <div class="pf-l ai-f" data-m="page">รูปของคุณ (ไม่บังคับ)
-                      <div class="ai-photo"><img id="aiPhotoPrev" class="hidden" alt=""><label class="ai-mini">เลือกรูป<input id="aiPhotoFile" type="file" accept="image/*" hidden onchange="aiPickPhoto(this)"></label><button type="button" id="aiPhotoDel" class="ai-mini hidden" onclick="aiClearPhoto()">ลบรูป</button></div>
-                    </div>
-                    <label class="pf-l ai-f" data-m="page">ประโยคแนะนำสั้นๆ (AI ช่วยเขียนให้ได้)<input id="aiTagline" maxlength="90" placeholder="เช่น นักเรียน ม.3 ที่ชอบทำหุ่นยนต์"></label>
-                    <label class="pf-l ai-f" data-m="page">ช่องทางติดต่อบนพอร์ต (ไม่บังคับ) <small>อยู่ในเครื่องคุณ ไม่ส่งให้ AI</small><input id="aiContact" maxlength="120" placeholder="เช่น อินสตาแกรม @ชื่อของคุณ หรืออีเมลที่ยินดีให้เห็น"></label>
-                    <label class="pf-l ai-f" data-m="write page">แนะนำตัว/ความสนใจ<textarea id="aiAbout" maxlength="900" rows="3" placeholder="บอกตามจริง สั้นๆ ก็ได้"></textarea></label>
-                  </details>
-                  <details class="pt-card ai-f hidden" data-m="page" open>
-                    <summary>ผลงาน <small>ไม่เกิน 6 ชิ้น</small></summary>
-                    <p class="ai-hint">รูป ชื่อ และลิงก์อยู่ในเครื่องคุณเท่านั้น ไม่ถูกส่งให้ AI AI เห็นแค่ชื่อ บทบาท และคำอธิบายที่คุณพิมพ์</p>
-                    <div id="aiWorks"></div>
-                    <button type="button" id="aiAddWork" class="ai-mini ai-add" onclick="aiAddWork()">+ เพิ่มผลงาน</button>
-                  </details>
-                  <details class="pt-card ai-f" data-m="write page">
-                    <summary>กิจกรรม รางวัล ทักษะ</summary>
-                    <label class="pf-l ai-f" data-m="write page">กิจกรรม <small>(บรรทัดละหนึ่งรายการ ใช้ | คั่นชื่อกับรายละเอียดได้)</small><textarea id="aiActs" maxlength="900" rows="4" placeholder="ชุมนุมหุ่นยนต์ | หัวหน้าทีม ดูแลโปรแกรมควบคุม"></textarea></label>
-                    <label class="pf-l ai-f" data-m="write page">รางวัล/ใบประกาศ <small>(บรรทัดละหนึ่งรายการ)</small><textarea id="aiAwards" maxlength="900" rows="2" placeholder="เฉพาะที่ได้จริง พร้อมปี/ระดับ ถ้าไม่มี เว้นว่างได้"></textarea></label>
-                    <label class="pf-l ai-f" data-m="write page">ทักษะ <small>(คั่นด้วยจุลภาค)</small><textarea id="aiSkills" maxlength="900" rows="2" placeholder="เช่น Python, ภาษาอังกฤษ, ถ่ายภาพ"></textarea></label>
-                  </details>
-                  <label class="pf-l ai-f hidden" data-m="review">วางพอร์ตที่เขียนไว้แล้ว<textarea id="aiText" maxlength="2500" rows="8" placeholder="วางข้อความพอร์ตของคุณที่นี่ (ไม่เกิน 2,500 ตัวอักษร)"></textarea></label>
-                  <label class="pf-l ai-f" data-m="write page review">ภาษา<select id="aiLang" onchange="aiBuildTemplates(); aiLive()"><option value="th">ไทย</option><option value="en">English</option></select></label>
-                  <p class="ai-note">ข้อความที่คุณพิมพ์จะถูกส่งให้บริษัท AI (Anthropic) ประมวลผลเมื่อกดปุ่มด้านล่าง <b>ห้ามใส่เบอร์โทร อีเมล ที่อยู่ เลขบัตร</b> AI อาจผิดหรือเขียนเกินจริง ตรวจและแก้เองก่อนนำไปใช้ และ <b>ไม่ควรใส่ผลงานหรือรางวัลที่ไม่ได้ทำจริง</b></p>
-                  <div class="pt-run">
-                    <button id="aiRun" class="pf-save" onclick="aiRun()">ให้ AI เรียบเรียงข้อความ</button>
-                    <button id="aiUndo" type="button" class="ai-mini hidden" onclick="aiUndoRestore()">ย้อนข้อความเดิม</button>
-                  </div>
-                  <p id="aiErr" class="ai-err hidden" role="alert"></p>
+                <div>
+                  <h2 class="text-2xl font-extrabold text-slate-900">พอร์ตโฟลิโอ</h2>
+                  <p class="pt-sub">กรอกข้อมูลจริง หน้าพอร์ตเปลี่ยนตามทันที (ฟรี) ให้ AI ช่วยเขียนเมื่อพร้อม</p>
                 </div>
-                <aside id="aiOut" class="pt-out" aria-label="ตัวอย่างผลลัพธ์">
-                  <div class="pt-out-h">
-                    <span id="aiOutTitle" class="pt-out-t">ตัวอย่างหน้าตา</span>
-                    <span class="pt-tools">
-                      
-                      <span class="pt-seg" id="aiDevices" role="group" aria-label="ขนาดจอ"><button class="on" data-d="desktop" onclick="aiSetDevice('desktop')">คอม</button><button data-d="mobile" onclick="aiSetDevice('mobile')">มือถือ</button></span>
-                      <span class="pt-acc" id="aiAccBox" title="สีหลัก"><input type="color" id="aiAccentIn" value="#2448c8" aria-label="เลือกสีหลัก" oninput="aiSetAccent(this.value)"><button type="button" id="aiAccReset" class="ai-mini hidden" onclick="aiSetAccent('')">สีเดิม</button></span>
-                      <span class="pt-acts"><button id="aiCopy" class="ai-mini hidden" onclick="aiCopy()">คัดลอก</button><button id="aiPng" class="ai-mini hidden" onclick="aiExport('png')">บันทึกรูป PNG</button><button id="aiPdf" class="ai-mini hidden" onclick="aiExport('print')">บันทึก PDF</button><button id="aiDl" class="ai-mini hidden" onclick="aiDownload()">ดาวน์โหลด .html</button></span>
-                    </span>
-                  </div>
-                  <div id="aiThemes" class="pt-tpl" role="listbox" aria-label="เลือกแบบหน้าพอร์ต"></div>
-                  <div id="aiStage" class="pt-stage">
-                    <pre id="aiText2" class="ai-text hidden"></pre>
-                    <iframe id="aiFrame" class="ai-frame" sandbox="allow-scripts allow-downloads allow-modals" title="ตัวอย่างหน้าพอร์ต"></iframe>
-                  </div>
+                <div class="pt-meta"><span id="aiLeft" class="pt-chip" aria-live="polite"></span><span id="aiSaved" class="pt-saved" aria-live="polite"></span></div>
+              </div>
+              <div id="aiNeedLogin" class="pt-note hidden">ใช้ได้เมื่อเข้าด้วยเลขประจำตัวหรืออีเมลโรงเรียน ไปที่โปรไฟล์ → ออกจากระบบ → เข้าใหม่ด้วยเลขประจำตัว</div>
+              <div class="pt-mswitch" role="tablist" aria-label="สลับมุมมอง">
+                <button id="ptSwEdit" role="tab" class="on" aria-selected="true" onclick="ptPane('edit')"><i data-lucide="pencil"></i>แก้ไข</button>
+                <button id="ptSwView" role="tab" aria-selected="false" onclick="ptPane('view')"><i data-lucide="eye"></i>ดูตัวอย่าง</button>
+              </div>
+              <div id="aiMain" class="pt-grid" data-pane="edit">
+                <div class="pt-form" oninput="aiLive()">
+                  <div class="pt-step"><span class="pt-n">1</span><b>ใส่ข้อมูลจริง</b></div>
+                  <details class="pt-card" open>
+                    <summary>โปรไฟล์</summary>
+                    <label class="pf-l">เป้าหมาย<small class="pt-help">สมัครอะไร ที่ไหน</small><input id="aiGoal" maxlength="150" placeholder="เช่น คณะวิศวกรรมศาสตร์ รอบพอร์ต"></label>
+                    <label class="pf-l">ชื่อที่ใช้บนพอร์ต<input id="aiName" maxlength="60" placeholder="เช่น ปัน ท่าบ่อ"></label>
+                    <div class="pf-l">รูปของคุณ<small class="pt-help">ไม่บังคับ</small>
+                      <div class="ai-photo"><img id="aiPhotoPrev" class="hidden" alt="รูปของคุณ"><label class="pt-btn" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.querySelector('input').click();}"><i data-lucide="image-plus"></i>เลือกรูป<input id="aiPhotoFile" type="file" accept="image/*" hidden onchange="aiPickPhoto(this)"></label><button type="button" id="aiPhotoDel" class="pt-ibtn hidden" aria-label="ลบรูป" onclick="aiClearPhoto()"><i data-lucide="trash-2"></i></button></div>
+                    </div>
+                    <label class="pf-l">ประโยคแนะนำสั้นๆ<small class="pt-help">เว้นไว้ได้ ให้ AI ช่วยเขียน</small><input id="aiTagline" maxlength="90" placeholder="เช่น นักเรียน ม.5 ที่ชอบทำหุ่นยนต์"></label>
+                    <label class="pf-l">แนะนำตัว<textarea id="aiAbout" maxlength="900" rows="3" placeholder="เช่น ชอบเขียนโปรแกรม เคยทำแอปเช็กชื่อให้ห้อง อยากเรียนคอมฯ"></textarea></label>
+                    <label class="pf-l">ช่องทางติดต่อบนพอร์ต<small class="pt-help">อยู่ในเครื่องคุณ ไม่ส่งให้ AI</small><input id="aiContact" maxlength="120" placeholder="เช่น IG @yourname"></label>
+                    <label class="pf-l">ภาษาของพอร์ต<select id="aiLang" onchange="aiBuildTemplatesReset(); aiLive()"><option value="th">ไทย</option><option value="en">English</option></select></label>
+                  </details>
+                  <details class="pt-card" open>
+                    <summary>ผลงาน <small>ไม่เกิน 6 ชิ้น</small></summary>
+                    <p class="pt-help pt-help-b">รูป ชื่อ และลิงก์อยู่ในเครื่องคุณเท่านั้น AI เห็นแค่ชื่อ บทบาท และคำอธิบาย</p>
+                    <div id="aiWorks"></div>
+                    <button type="button" id="aiAddWork" class="pt-btn pt-btn-w" onclick="aiAddWork(); aiLive()"><i data-lucide="plus"></i>เพิ่มผลงาน</button>
+                  </details>
+                  <details class="pt-card">
+                    <summary>กิจกรรม รางวัล ทักษะ</summary>
+                    <label class="pf-l">กิจกรรม<small class="pt-help">บรรทัดละ 1 กิจกรรม อยากใส่รายละเอียดพิมพ์ | คั่น</small><textarea id="aiActs" maxlength="900" rows="3" placeholder="ชุมนุมหุ่นยนต์ | หัวหน้าทีม เขียนโค้ดควบคุม&#10;จิตอาสาห้องสมุด | จัดหนังสือทุกวันศุกร์"></textarea></label>
+                    <label class="pf-l">รางวัล/ใบประกาศ<small class="pt-help">บรรทัดละ 1 รายการ ไม่มีเว้นว่างได้</small><textarea id="aiAwards" maxlength="900" rows="2" placeholder="เช่น เหรียญเงิน คณิตศาสตร์ ระดับเขต 2567"></textarea></label>
+                    <label class="pf-l">ทักษะ<small class="pt-help">คั่นด้วยจุลภาค</small><textarea id="aiSkills" maxlength="900" rows="2" placeholder="เช่น Python, ภาษาอังกฤษ, ถ่ายภาพ"></textarea></label>
+                  </details>
+
+                  <div class="pt-step"><span class="pt-n">2</span><b>ให้ AI ช่วยเขียน</b><small id="aiCost">ใช้ 1 ครั้งต่อคำสั่ง</small></div>
+                  <p class="pt-note"><i data-lucide="lock"></i><span>ข้อความในช่องจะส่งให้ AI (Anthropic) ห้ามใส่เบอร์ อีเมล ที่อยู่ เลขบัตร AI ผิดได้ ตรวจก่อนใช้ และใส่เฉพาะผลงานที่ทำจริง</span></p>
                   <div id="aiPromptBar" class="pc">
+                    <div id="aiPcChips" class="pc-chips" aria-label="คำสั่งสำเร็จรูป"></div>
                     <div class="pc-box">
-                      <textarea id="aiPromptIn" rows="1" maxlength="300" placeholder="บอก AI ว่าอยากปรับอะไร เช่น เขียนให้กระชับ เน้นสายวิศวะ" oninput="aiPcInput()" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();aiPrompt();}"></textarea>
+                      <textarea id="aiPromptIn" rows="1" maxlength="300" aria-label="สั่ง AI" placeholder="หรือพิมพ์สั่งเอง เช่น สั้นลง เน้นสายวิศวะ ขอโทนสีเขียว" oninput="aiPcInput()" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();aiPrompt();}"></textarea>
                       <div class="pc-row">
                         <div class="pc-l">
-                          <span class="pc-mw"><button type="button" class="pc-ic" aria-label="คำสั่งสำเร็จรูป" aria-haspopup="menu" onclick="aiPcToggle(event)"><i data-lucide="plus"></i></button><span id="aiPcMenu" class="pc-menu hidden" role="menu"></span></span>
-                          <label class="pc-pill"><select id="aiPcScope" aria-label="ให้ AI ปรับส่วนไหน"><option value="all">ทั้งหมด</option><option value="text">ข้อความ</option><option value="look">หน้าตา</option></select><i data-lucide="chevron-down"></i></label>
-                          <span class="pc-model" title="ใช้ Claude Haiku ของ Anthropic"><span class="pc-mark"></span>Claude Haiku <small>เร็ว</small></span>
+                          <label class="pc-pill"><select id="aiPcScope" aria-label="ให้ AI ปรับส่วนไหน"><option value="all">ปรับทั้งหมด</option><option value="text">เฉพาะข้อความ</option><option value="look">เฉพาะหน้าตา</option></select><i data-lucide="chevron-down"></i></label>
+                          <span class="pc-model" title="ใช้ Claude Haiku ของ Anthropic"><span class="pc-mark"></span>Claude Haiku</span>
                         </div>
                         <div class="pc-r">
                           <button type="button" class="pc-ic hidden" id="aiPcMic" aria-label="พูดแทนพิมพ์" title="พูดแทนพิมพ์ (เบราว์เซอร์ส่งเสียงไปแปลงเป็นข้อความ)" onclick="aiPcMic()"><i data-lucide="mic"></i></button>
-                          <button type="button" class="pc-send" id="aiPromptBtn" aria-label="ส่ง" onclick="aiPrompt()" disabled><i data-lucide="arrow-up"></i></button>
+                          <button type="button" class="pc-send" id="aiPromptBtn" aria-label="ส่งคำสั่ง ใช้ 1 ครั้ง" onclick="aiPrompt()" disabled><i data-lucide="arrow-up"></i></button>
                         </div>
                       </div>
                     </div>
-                    <div id="aiPcStrip" class="pc-strip"><span id="aiPcMsg">ใช้ 1 สิทธิ์ต่อคำสั่ง AI ใช้เฉพาะข้อมูลจริงที่คุณกรอก</span><button type="button" class="pc-x" aria-label="ซ่อน" onclick="this.parentNode.classList.add('hidden')"><i data-lucide="x"></i></button></div>
+                    <div id="aiPcStrip" class="pc-strip" role="status" aria-live="polite"><span id="aiPcMsg">กดคำสั่งด้านบนหรือพิมพ์เอง ข้อความใหม่จะเติมลงช่องให้แก้ต่อได้</span></div>
+                    <button id="aiUndo" type="button" class="pt-btn hidden" onclick="aiUndoRestore()"><i data-lucide="undo-2"></i>เอาข้อความก่อน AI แก้กลับมา</button>
+                    <div id="aiReviewBox" class="pt-review hidden">
+                      <div class="pt-review-h"><b>คำแนะนำจาก AI</b><button id="aiCopy" type="button" class="pt-btn" onclick="aiCopy()"><i data-lucide="copy"></i>คัดลอก</button></div>
+                      <pre id="aiText2" class="ai-text"></pre>
+                    </div>
                   </div>
-                  <p id="aiOutHint" class="pt-hint"></p>
+
+                  <div class="pt-step"><span class="pt-n">3</span><b>บันทึก</b></div>
+                  <div class="pt-final">
+                    <button type="button" class="pf-save" onclick="aiExport('pdf')"><i data-lucide="file-down"></i>บันทึกเป็น PDF</button>
+                    <div class="pt-final-2"><button type="button" class="pt-btn" onclick="aiExport('png')"><i data-lucide="image"></i>รูป PNG</button><button type="button" class="pt-btn" onclick="aiExport('html')"><i data-lucide="globe"></i>หน้าเว็บ .html</button><button type="button" class="pt-btn pt-btn-q" onclick="ptClearDraft()"><i data-lucide="eraser"></i>ล้างข้อมูล</button></div>
+                    <p class="pt-help">PDF และรูปใช้แบบเอกสาร A4 ระบบจะเปลี่ยนแบบให้อัตโนมัติ ส่วนไฟล์หน้าเว็บใช้แบบที่เลือกอยู่</p>
+                  </div>
+                </div>
+
+                <aside id="aiOut" class="pt-out" aria-label="ตัวอย่างหน้าพอร์ต">
+                  <div class="pt-bar">
+                    <span class="pt-mw">
+                      <button type="button" id="ptTplBtn" class="pt-btn" aria-haspopup="dialog" aria-expanded="false" onclick="ptPopToggle('ptTplPop', 'ptTplBtn', event)"><i data-lucide="layout-template"></i><span id="ptTplName">เรียบ ขาว</span><i data-lucide="chevron-down"></i></button>
+                      <div id="ptTplPop" class="pt-pop hidden" role="dialog" aria-label="เลือกแบบหน้าพอร์ต"><div class="pt-pop-h"><b>เลือกแบบ</b><small>กดแล้วเปลี่ยนทันที ไม่เสียสิทธิ์</small></div><div id="aiThemes" class="pt-tpl" role="radiogroup" aria-label="แบบหน้าพอร์ต"></div></div>
+                    </span>
+                    <span class="pt-acc" id="aiAccBox"><label class="pt-sw" title="สีหลัก"><input type="color" id="aiAccentIn" value="#2448c8" aria-label="เลือกสีหลัก" oninput="aiSetAccent(this.value)"></label><button type="button" id="aiAccReset" class="pt-ibtn hidden" aria-label="ใช้สีเดิมของแบบ" onclick="aiSetAccent('')"><i data-lucide="rotate-ccw"></i></button></span>
+                    <span class="pt-seg" id="aiDevices" role="group" aria-label="ขนาดจอ"><button class="on" data-d="desktop" aria-pressed="true" onclick="aiSetDevice('desktop')"><i data-lucide="monitor"></i><span>คอม</span></button><button data-d="mobile" aria-pressed="false" onclick="aiSetDevice('mobile')"><i data-lucide="smartphone"></i><span>มือถือ</span></button></span>
+                    <span class="pt-grow"></span>
+                    <span class="pt-mw">
+                      <button type="button" id="ptSaveBtn" class="pt-btn pt-btn-dark" aria-haspopup="menu" aria-expanded="false" onclick="ptPopToggle('ptSaveMenu', 'ptSaveBtn', event)"><i data-lucide="download"></i>บันทึก<i data-lucide="chevron-down"></i></button>
+                      <div id="ptSaveMenu" class="pt-menu hidden" role="menu"><button role="menuitem" onclick="aiExport('pdf')"><i data-lucide="file-down"></i>PDF (เอกสาร A4)</button><button role="menuitem" onclick="aiExport('png')"><i data-lucide="image"></i>รูป PNG ทีละหน้า</button><button role="menuitem" onclick="aiExport('html')"><i data-lucide="globe"></i>ไฟล์หน้าเว็บ .html</button></div>
+                    </span>
+                  </div>
+                  <div id="aiStage" class="pt-stage">
+                    <iframe id="aiFrame" class="ai-frame" sandbox="allow-scripts allow-downloads allow-modals" title="ตัวอย่างหน้าพอร์ต"></iframe>
+                    <div id="ptEmpty" class="pt-empty">
+                      <b>ทำพอร์ตใน 3 ขั้น</b>
+                      <ol><li>กรอกข้อมูลจริง หน้านี้เปลี่ยนตามทันที ฟรี</li><li>กด "เกลาข้อความทั้งหมด" ถ้าอยากให้ AI ช่วยเขียน (ใช้ 1 ครั้ง)</li><li>เลือกแบบที่ชอบ แล้วบันทึกเป็น PDF หรือรูป</li></ol>
+                      <small>เริ่มจากเป้าหมายกับกิจกรรม 1 อย่างก็พอ</small>
+                    </div>
+                  </div>
+                  <p id="aiOutHint" class="pt-help"></p>
                 </aside>
               </div>
             </div>
@@ -2750,6 +2819,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       }
 
       function handleLogout() {
+        try { ptRestored = false; clearTimeout(ptSaveTimer); ptForgetDraft(); PT_FIELDS.filter((id) => id !== 'aiLang').forEach((id) => (document.getElementById(id).value = '')); document.getElementById('aiWorks').textContent = ''; aiClearPhoto(); ptRestored = false; } catch (e) {}   // ร่างพอร์ตมีข้อมูลส่วนตัว ลบเมื่อออกจากระบบ
         toggleChat(false); fabAvail = false; updateFab(); toggleStudy(false); document.getElementById('studySection').classList.add('hidden');
         localStorage.removeItem('classkhab_grade');
         localStorage.removeItem('classkhab_token');
@@ -2953,7 +3023,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const j = await res.json().catch(() => ({})); if (res.status === 401) localStorage.removeItem('classkhab_token'); return { ...j, status: res.status };
         } catch (e) { return { ok: false, error: 'net' }; }
       }
-      let aiTheme = 'white', aiAccent = '', aiDevice = 'desktop', aiSampleImgs = null, aiBackup = null, aiLiveTimer = null;
+      let aiTheme = 'white', aiAccent = '', aiDevice = 'desktop', aiSampleImgs = null, aiBackup = null, aiLiveTimer = null, aiQuota = null, ptRestored = false, ptPaneCur = 'edit';
       const aiLines = (s) => String(s || '').split('\n').map((x) => x.trim()).filter(Boolean);
       const aiVal = (id) => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
       // รวมข้อมูลจากฟอร์มเป็นข้อมูลหน้าพอร์ต (หน้าตัวอย่างวาดจากฟอร์มตรงๆ ไม่เรียก AI) กิจกรรมใช้ "ชื่อ | รายละเอียด"
@@ -2966,110 +3036,69 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         };
       }
       const aiHasContent = () => { const f = aiFormData(), d = f.data; return !!(f.ctx.name || f.ctx.contact || f.ctx.photo || f.ctx.works.length || d.tagline || d.intro || d.activities.length || d.awards.length || d.skills.length); };
-      function aiSampleHtml(theme) {   // ตัวอย่างหน้าตา (ข้อความสมมติ ภาพสีเทาเรียบ) ให้เห็นก่อนว่าจะได้แบบไหน
+      function aiSampleHtml(theme) {   // ตัวอย่างหน้าตา (ข้อความสมมติ ภาพสีเทาเรียบ)
         if (!aiSampleImgs) aiSampleImgs = ['#a8a29e', '#94a3b8'].map((c) => { const cv = document.createElement('canvas'); cv.width = 900; cv.height = 560; const x = cv.getContext('2d'); x.fillStyle = c; x.fillRect(0, 0, 900, 560); return cv.toDataURL('image/jpeg', 0.7); });
-        return aiBuildHtml({ tagline: 'ประโยคเดียวที่บอกว่าคุณเป็นใครและทำอะไร', intro: 'ย่อหน้าแนะนำตัวสั้นๆ เรียบเรียงจากข้อมูลจริงที่คุณกรอก บอกสิ่งที่ทำ ไม่ใช่คำคุณศัพท์ลอยๆ', works: [{ summary: 'สรุปผลงาน: ทำอะไร บทบาทอะไร ผลเป็นอย่างไร' }, { summary: 'ผลงานชิ้นที่สอง' }], activities: [{ title: 'ชื่อกิจกรรม', summary: 'บทบาทและสิ่งที่ทำ' }], awards: ['ชื่อรางวัล ปี'], skills: ['ทักษะ', 'ทักษะ'] },
-          { lang: aiVal('aiLang') || 'th', theme: theme || aiTheme, still: !!theme, name: 'ชื่อของคุณ', goal: '', photo: '', contact: 'อีเมลหรือไอดีโซเชียลของคุณ', works: [{ title: 'ชื่อผลงานที่ 1', role: 'บทบาท', year: 'ปี', desc: '', link: '', img: aiSampleImgs[0] }, { title: 'ชื่อผลงานที่ 2', role: '', year: '', desc: '', link: '', img: aiSampleImgs[1] }] });
+        return aiBuildHtml({ tagline: 'ประโยคเดียวที่บอกว่าคุณเป็นใครและทำอะไร', intro: 'ย่อหน้าแนะนำตัวสั้นๆ เรียบเรียงจากข้อมูลจริงที่คุณกรอก', works: [{ summary: 'สรุปผลงาน: ทำอะไร บทบาทอะไร ผลเป็นอย่างไร' }, { summary: 'ผลงานชิ้นที่สอง' }], activities: [{ title: 'ชื่อกิจกรรม', summary: 'บทบาทและสิ่งที่ทำ' }], awards: ['ชื่อรางวัล ปี'], skills: ['ทักษะ', 'ทักษะ'] },
+          { lang: aiVal('aiLang') || 'th', theme: theme || aiTheme, still: !!theme, name: 'ชื่อของคุณ', goal: '', photo: '', contact: 'IG @yourname', accent: theme ? '' : aiAccent, works: [{ title: 'ชื่อผลงานที่ 1', role: 'บทบาท', year: 'ปี', desc: '', link: '', img: aiSampleImgs[0] }, { title: 'ชื่อผลงานที่ 2', role: '', year: '', desc: '', link: '', img: aiSampleImgs[1] }] });
       }
       function aiRenderPreview() {
-        if (aiMode !== 'page') return;
-        const fr = document.getElementById('aiFrame');
+        const fr = document.getElementById('aiFrame'); if (!fr) return;
         if (aiHasContent()) { const f = aiFormData(); fr.srcdoc = aiBuildHtml(f.data, { ...f.ctx, theme: aiTheme }); } else fr.srcdoc = aiSampleHtml();
-        aiShow('page');
+        aiShow();
       }
+      function aiShow() {
+        const has = aiHasContent();
+        document.getElementById('ptEmpty').classList.toggle('hidden', has);
+        document.getElementById('aiOutHint').textContent = has ? 'หน้าพอร์ตเปลี่ยนตามที่พิมพ์ทันที (ฟรี) ตรวจทุกบรรทัดก่อนบันทึก' : 'นี่คือหน้าตาตัวอย่าง ข้อมูลของคุณจะขึ้นแทนเมื่อเริ่มพิมพ์';
+      }
+      function aiLive() { clearTimeout(aiLiveTimer); aiLiveTimer = setTimeout(aiRenderPreview, 250); ptSaveDraftSoon(); }
       function aiSetAccent(v) {
         aiAccent = /^#[0-9a-f]{6}$/i.test(v || '') ? v : '';
         if (aiAccent) document.getElementById('aiAccentIn').value = aiAccent;
         document.getElementById('aiAccReset').classList.toggle('hidden', !aiAccent); aiLive();
       }
-      // บันทึกรูป/PDF ทำในกรอบตัวอย่าง (แยกขาดจากแอป) สั่งผ่าน postMessage
-      function aiExport(cmd) { const f = document.getElementById('aiFrame'); if (f && f.contentWindow) f.contentWindow.postMessage({ ck: 'export', cmd }, '*'); }
-      // พิมพ์สั่ง AI: ปรับข้อความตามคำสั่ง (ใช้ข้อเท็จจริงเดิม) และเลือกแบบ/สีให้ได้ ใช้ 1 สิทธิ์
-      async function aiPrompt() {
-        if (aiBusy) return;
-        const ins = aiVal('aiPromptIn'), err = document.getElementById('aiErr'), btn = document.getElementById('aiPromptBtn');
-        if (ins.length < 3) { document.getElementById('aiPromptIn').focus(); return; }
-        const body = { action: 'run', mode: 'prompt', instruction: ins, lang: aiVal('aiLang'), goal: aiVal('aiGoal'), tagline: aiVal('aiTagline'), about: aiVal('aiAbout'), activities: aiVal('aiActs'), awards: aiVal('aiAwards'), skills: aiVal('aiSkills'), works: aiReadWorks().map((w) => ({ title: w.title, role: w.role, year: w.year, desc: w.desc })) };
-        const scope = document.getElementById('aiPcScope').value;
-        if (scope === 'text') body.instruction = '[ปรับเฉพาะข้อความ ไม่ต้องเลือกแบบหรือสี] ' + ins; else if (scope === 'look') body.instruction = '[ปรับเฉพาะหน้าตา: เลือก template และ/หรือ accent คงข้อความเดิมทุกคำ] ' + ins;
-        aiBusy = true; btn.disabled = true; btn.classList.add('busy'); aiPcSay('AI กำลังทำตามคำสั่ง…', '');
-        const r = await aiCall(body);
-        aiBusy = false; btn.classList.remove('busy'); aiPcInput();
-        if (typeof r.left === 'number') document.getElementById('aiLeft').textContent = `เดือนนี้เหลือ ${r.left} ครั้ง`;
-        if (!r.ok) { aiPcSay(AI_ERR[r.error] || 'เกิดข้อผิดพลาด ลองใหม่อีกครั้ง', 'bad'); return; }
-        if (scope !== 'look') { try { aiApplyResult(r.data); } catch (e) { console.error(e); } }
-        const s = scope === 'text' ? {} : (r.style || {});
-        if (s.accent) aiSetAccent(s.accent);
-        if (s.template && AI_TPLS.some((x) => x[0] === s.template)) aiSetTheme(s.template); else aiRenderPreview();
-        document.getElementById('aiPromptIn').value = ''; aiPcInput();
-        const w = r.warnings || {}, notes = [];
-        notes.push((r.style && r.style.note) ? 'AI: ' + r.style.note : 'ปรับแล้ว ตรวจข้อความในช่องทางซ้ายก่อนใช้');
-        if (w.invented && w.invented.length) notes.push('มีตัวเลขที่คุณไม่ได้ให้: ' + w.invented.join(', ') + ' ตรวจและแก้ก่อนใช้');
-        aiPcSay(notes.join(' · '), w.invented && w.invented.length ? 'bad' : 'ok');
+      function aiSetDevice(d) { aiDevice = d; document.querySelectorAll('#aiDevices button').forEach((b) => { b.classList.toggle('on', b.dataset.d === d); b.setAttribute('aria-pressed', b.dataset.d === d ? 'true' : 'false'); }); document.getElementById('aiStage').classList.toggle('mob', d === 'mobile'); }
+      // บันทึก: PDF/รูปใช้แบบเอกสาร A4 (เปลี่ยนให้อัตโนมัติ) ทำในกรอบตัวอย่างที่แยกขาดจากแอป สั่งผ่าน postMessage
+      function aiExport(cmd) {
+        ptMenuClose();
+        if (!aiHasContent()) { aiPcSay('ยังไม่มีข้อมูลให้บันทึก กรอกข้อมูลในขั้นที่ 1 ก่อน', 'warn'); return; }
+        if (cmd === 'html') return aiDownload();
+        const send = () => { const f = document.getElementById('aiFrame'); if (f && f.contentWindow) f.contentWindow.postMessage({ ck: 'export', cmd: cmd === 'pdf' ? 'print' : 'png' }, '*'); };
+        if (aiTheme !== 'doc') { aiSetTheme('doc'); aiPcSay('เปลี่ยนเป็นแบบเอกสาร A4 เพื่อบันทึก' + (cmd === 'pdf' ? ' PDF' : 'รูป'), ''); setTimeout(send, 1200); } else send();
+        if (cmd === 'png') aiPcSay('กำลังสร้างรูปทีละหน้า ถ้าเบราว์เซอร์ถามเรื่องดาวน์โหลดหลายไฟล์ ให้กดอนุญาต', '');
       }
-      // ---- ช่องสั่ง AI (แนวเดียวกับ prompt composer) ----
-      const AI_PC_SUGGEST = ['เขียนให้กระชับและเป็นธรรมชาติขึ้น', 'เน้นจุดเด่นที่เกี่ยวกับเป้าหมายที่สมัคร', 'แปลทั้งหมดเป็นภาษาอังกฤษ', 'ขอโทนสีเขียวสบายตา', 'เปลี่ยนเป็นแบบบัตรห้อยคอ', 'ทำเป็นเอกสาร A4 ไว้พิมพ์'];
-      function aiPcSay(msg, kind) { const s = document.getElementById('aiPcStrip'); document.getElementById('aiPcMsg').textContent = msg; s.classList.remove('hidden', 'ok', 'bad'); if (kind) s.classList.add(kind); }
+      // ---- สิทธิ์ AI ----
+      function aiSetQuota(left, total) {
+        if (typeof left === 'number') aiQuota = { left, total: total || (aiQuota && aiQuota.total) || 6 };
+        const q = aiQuota; document.getElementById('aiLeft').textContent = q ? `AI เหลือ ${q.left}/${q.total} ครั้งเดือนนี้` : '';
+        document.getElementById('aiCost').textContent = q ? `ใช้ 1 ครั้งต่อคำสั่ง · เหลือ ${q.left}` : 'ใช้ 1 ครั้งต่อคำสั่ง';
+      }
+      const aiConfirmSpend = () => !(aiQuota && aiQuota.left <= 2) || confirm(`เดือนนี้เหลือสิทธิ์ AI ${aiQuota.left} ครั้ง ใช้ 1 ครั้งเลยไหม`);
+      function aiPcSay(msg, kind) { const s = document.getElementById('aiPcStrip'); document.getElementById('aiPcMsg').textContent = msg; s.classList.remove('hidden', 'ok', 'bad', 'warn'); if (kind) s.classList.add(kind); }
       function aiPcInput() { const ta = document.getElementById('aiPromptIn'); ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 144) + 'px'; document.getElementById('aiPromptBtn').disabled = aiBusy || ta.value.trim().length < 3; }
-      function aiPcToggle(ev) {
-        ev.stopPropagation(); const m = document.getElementById('aiPcMenu');
-        if (!m.children.length) AI_PC_SUGGEST.forEach((s) => { const b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'menuitem'); b.textContent = s; b.onclick = () => { const ta = document.getElementById('aiPromptIn'); ta.value = s; m.classList.add('hidden'); aiPcInput(); ta.focus(); }; m.append(b); });
-        m.classList.toggle('hidden');
+      function aiPcBusy(on, msg) {
+        aiBusy = on; const b = document.getElementById('aiPromptBtn'); b.classList.toggle('busy', on); b.setAttribute('aria-busy', on ? 'true' : 'false');
+        document.querySelectorAll('#aiPcChips button').forEach((x) => (x.disabled = on)); if (on) aiPcSay(msg, ''); aiPcInput();
       }
-      document.addEventListener('click', (e) => { const m = document.getElementById('aiPcMenu'); if (m && !m.classList.contains('hidden') && !e.target.closest('.pc-mw')) m.classList.add('hidden'); });
-      let aiRec = null;
-      function aiPcMic() {   // พูดแทนพิมพ์ (Web Speech API ของเบราว์เซอร์)
-        const SR = window.SpeechRecognition || window.webkitSpeechRecognition, btn = document.getElementById('aiPcMic'); if (!SR) return;
-        if (aiRec) { aiRec.stop(); return; }
-        aiRec = new SR(); aiRec.lang = aiVal('aiLang') === 'en' ? 'en-US' : 'th-TH'; aiRec.interimResults = false;
-        aiRec.onresult = (e) => { const ta = document.getElementById('aiPromptIn'); ta.value = (ta.value ? ta.value + ' ' : '') + e.results[0][0].transcript; aiPcInput(); };
-        aiRec.onend = () => { aiRec = null; btn.classList.remove('on'); }; aiRec.onerror = aiRec.onend;
-        btn.classList.add('on'); aiRec.start();
-      }
-      if (window.SpeechRecognition || window.webkitSpeechRecognition) { const mb = document.getElementById('aiPcMic'); if (mb) mb.classList.remove('hidden'); }
-      function aiLive() { if (aiMode !== 'page') return; clearTimeout(aiLiveTimer); aiLiveTimer = setTimeout(aiRenderPreview, 250); }
-      const AI_TPLS = [['doc', 'เอกสาร A4', 'รูป PNG / PDF'], ['white', 'เรียบ ขาว', 'หน้าเว็บ · อ่านง่าย'], ['dark', 'เรียบ เข้ม', 'หน้าเว็บ · โทนมืด'], ['warm', 'เรียบ ครีม', 'หน้าเว็บ · แนวกระดาษ'], ['bold', 'บอลด์', 'หน้าเว็บ · ขยับได้'], ['gallery', 'แกลเลอรี 3 มิติ', 'หน้าเว็บ · ขยับได้'], ['badge', 'บัตรห้อยคอ', 'หน้าเว็บ · ขยับได้']];
-      function aiBuildTemplates() {   // ปุ่มเลือกแบบแบบ Canva: ภาพย่อของแต่ละแบบ (ใช้ข้อความตัวอย่าง) กดแล้วใช้กับข้อมูลของคุณ
-        const box = document.getElementById('aiThemes'); if (!box) return;
-        box.textContent = '';
-        AI_TPLS.forEach(([k, name, sub]) => {
-          const b = document.createElement('button'); b.type = 'button'; b.className = 'tp' + (k === aiTheme ? ' on' : ''); b.dataset.t = k; b.setAttribute('role', 'option'); b.setAttribute('aria-selected', k === aiTheme ? 'true' : 'false'); b.onclick = () => aiSetTheme(k);
-          const th = document.createElement('span'); th.className = 'th'; const fr = document.createElement('iframe'); fr.setAttribute('sandbox', 'allow-same-origin'); fr.tabIndex = -1; fr.setAttribute('aria-hidden', 'true'); fr.srcdoc = aiSampleHtml(k); th.append(fr);
-          const tn = document.createElement('span'); tn.className = 'tn'; tn.textContent = name; const sm = document.createElement('small'); sm.textContent = sub; tn.append(sm);
-          b.append(th, tn); box.append(b);
+      // คำสั่งสำเร็จรูป: สองอันแรกเรียก AI ทันที (บอกว่าใช้ 1 ครั้ง) ที่เหลือเติมลงช่องให้กดส่งเอง
+      const AI_PC_CHIPS = [['run', 'เกลาข้อความทั้งหมด', true], ['review', 'ตรวจพอร์ตให้', true], ['p', 'สั้นและกระชับขึ้น'], ['p', 'เน้นเรื่องที่เกี่ยวกับเป้าหมาย'], ['p', 'แปลเป็นภาษาอังกฤษ'], ['p', 'ขอโทนสีที่เข้ากับสายที่สมัคร']];
+      function aiPcChips() {
+        const box = document.getElementById('aiPcChips'); box.textContent = '';
+        AI_PC_CHIPS.forEach(([k, label, cost]) => {
+          const b = document.createElement('button'); b.type = 'button'; b.className = 'pc-chip' + (cost ? ' main' : '');
+          b.textContent = label; if (cost) { const s = document.createElement('small'); s.textContent = '1 ครั้ง'; b.append(s); }
+          b.onclick = () => { if (k === 'run') aiRun('page'); else if (k === 'review') aiRun('review'); else { const ta = document.getElementById('aiPromptIn'); ta.value = label; aiPcInput(); ta.focus(); } };
+          box.append(b);
         });
       }
-      function aiSetTheme(t) { aiTheme = t; document.querySelectorAll('#aiThemes .tp').forEach((b) => { b.classList.toggle('on', b.dataset.t === t); b.setAttribute('aria-selected', b.dataset.t === t ? 'true' : 'false'); });  aiRenderPreview(); }
-      function aiSetDevice(d) { aiDevice = d; document.querySelectorAll('#aiDevices button').forEach((b) => b.classList.toggle('on', b.dataset.d === d)); document.getElementById('aiStage').classList.toggle('mob', d === 'mobile'); }
-      function aiShow(kind) {   // 'page' = กรอบหน้าพอร์ต, 'text' = ข้อความผลลัพธ์
-        const page = kind === 'page', has = page ? aiHasContent() : !!document.getElementById('aiText2').textContent;
-        document.getElementById('aiFrame').classList.toggle('hidden', !page); document.getElementById('aiText2').classList.toggle('hidden', page);
-        document.getElementById('aiThemes').classList.toggle('hidden', !page); document.getElementById('aiDevices').classList.toggle('hidden', !page);
-        document.getElementById('aiDl').classList.toggle('hidden', !(page && has));
-        ['aiPng', 'aiPdf'].forEach((id) => document.getElementById(id).classList.toggle('hidden', !(page && aiTheme === 'doc')));
-        document.getElementById('aiAccBox').classList.toggle('hidden', !page); document.getElementById('aiPromptBar').classList.toggle('hidden', !page); document.getElementById('aiCopy').classList.toggle('hidden', page || !has);
-        document.getElementById('aiOutTitle').textContent = page ? (has ? 'หน้าพอร์ตของคุณ' : 'ตัวอย่างหน้าตา') : 'ผลลัพธ์';
-        document.getElementById('aiOutHint').textContent = page ? (has ? 'หน้านี้ขยับตามที่พิมพ์ทันทีและไม่เสียสิทธิ์ ตรวจทุกบรรทัดก่อนใช้ ดาวน์โหลดแล้วเปิดไฟล์ กด Ctrl+P เพื่อบันทึกเป็น PDF' : 'นี่คือหน้าตาตัวอย่าง พิมพ์ข้อมูลทางซ้ายแล้วหน้านี้จะเปลี่ยนตามทันที ไม่เสียสิทธิ์') : (has ? 'AI อาจผิดพลาด ตรวจและแก้เองก่อนนำไปใช้' : 'ผลลัพธ์จะแสดงที่นี่หลังกดปุ่ม');
-      }
-      function aiSetMode(m) {
-        aiMode = m;
-        [['write', 'aiTabWrite'], ['page', 'aiTabPage'], ['review', 'aiTabReview']].forEach(([k, id]) => document.getElementById(id).classList.toggle('on', k === m));
-        document.querySelectorAll('#portfolioV2 .ai-f').forEach((el) => el.classList.toggle('hidden', !el.dataset.m.split(' ').includes(m)));
-        document.getElementById('aiRun').textContent = m === 'review' ? 'ขอคำแนะนำ' : m === 'page' ? 'ให้ AI เรียบเรียงข้อความ' : 'เรียบเรียง';
-        document.getElementById('aiErr').classList.add('hidden');
-        if (m === 'page' && !document.querySelector('#aiWorks .ai-work')) aiAddWork();
-        if (m === 'page') aiRenderPreview(); else aiShow('text');
-      }
-      async function portfolioEnter() {
-        const ok = !!getSid();
-        document.getElementById('aiNeedLogin').classList.toggle('hidden', ok); document.getElementById('aiMain').classList.toggle('hidden', !ok);
-        if (ok) { if (!document.querySelector('#aiThemes .tp')) aiBuildTemplates(); aiSetMode(aiMode); const q = await aiCall({ action: 'quota' }); if (q.ok) document.getElementById('aiLeft').textContent = `เดือนนี้เหลือ ${q.left} จาก ${q.total} ครั้ง`; }
-        if (window.lucide) lucide.createIcons();
-      }
-      // เติมข้อความที่ AI เรียบเรียงกลับลงช่องในฟอร์ม (แก้ต่อเองได้ หน้าตัวอย่างขยับตาม) เก็บของเดิมไว้ให้ย้อนกลับ
-      function aiApplyResult(d) {
+      function aiSnapshot() {   // เก็บของก่อน AI แก้ครั้งแรก (ข้อความ แบบ สี) ให้ย้อนกลับได้แม้สั่งหลายรอบ
+        if (aiBackup) return;
         const ws = [...document.querySelectorAll('#aiWorks .ai-work')].filter((w) => w.querySelector('.w-title').value.trim());
-        aiBackup = { tagline: aiVal('aiTagline'), about: aiVal('aiAbout'), acts: aiVal('aiActs'), awards: aiVal('aiAwards'), skills: aiVal('aiSkills'), descs: ws.map((w) => w.querySelector('.w-desc').value) };
+        aiBackup = { tagline: aiVal('aiTagline'), about: aiVal('aiAbout'), acts: aiVal('aiActs'), awards: aiVal('aiAwards'), skills: aiVal('aiSkills'), descs: ws.map((w) => w.querySelector('.w-desc').value), theme: aiTheme, accent: aiAccent };
+      }
+      function aiApplyResult(d) {
+        aiSnapshot(); d = d || {};
+        const ws = [...document.querySelectorAll('#aiWorks .ai-work')].filter((w) => w.querySelector('.w-title').value.trim());
         const set = (id, v) => { if (v) document.getElementById(id).value = v; };
         set('aiTagline', d.tagline); set('aiAbout', d.intro);
         ws.forEach((w, i) => { const s = d.works && d.works[i] && d.works[i].summary; if (s) w.querySelector('.w-desc').value = s; });
@@ -3081,31 +3110,149 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         if (!aiBackup) return; const b = aiBackup; aiBackup = null;
         document.getElementById('aiTagline').value = b.tagline; document.getElementById('aiAbout').value = b.about; document.getElementById('aiActs').value = b.acts; document.getElementById('aiAwards').value = b.awards; document.getElementById('aiSkills').value = b.skills;
         [...document.querySelectorAll('#aiWorks .ai-work')].filter((w) => w.querySelector('.w-title').value.trim()).forEach((w, i) => { if (b.descs[i] != null) w.querySelector('.w-desc').value = b.descs[i]; });
-        document.getElementById('aiUndo').classList.add('hidden'); aiRenderPreview();
+        document.getElementById('aiUndo').classList.add('hidden'); aiSetAccent(b.accent); aiSetTheme(b.theme); aiPcSay('เอาข้อความก่อน AI แก้กลับมาแล้ว', 'ok');
       }
-      async function aiRun() {
-        if (aiBusy) return;
-        const v = aiVal, err = document.getElementById('aiErr'), btn = document.getElementById('aiRun');
-        const body = { action: 'run', mode: aiMode, lang: v('aiLang'), goal: v('aiGoal') };
-        if (aiMode === 'review') body.text = v('aiText'); else {
-          Object.assign(body, { about: v('aiAbout'), activities: v('aiActs'), awards: v('aiAwards'), skills: v('aiSkills') });
-          if (aiMode === 'page') body.works = aiReadWorks().map((w) => ({ title: w.title, role: w.role, year: w.year, desc: w.desc }));   // ชื่อ/รูป/ลิงก์ไม่ส่งให้เซิร์ฟเวอร์
+      const aiWorksBody = () => aiReadWorks().map((w) => ({ title: w.title, role: w.role, year: w.year, desc: w.desc }));   // ชื่อ/รูป/ลิงก์ไม่ส่งให้เซิร์ฟเวอร์
+      function aiReviewText() {
+        const f = aiFormData(), d = f.data, L = [];
+        if (d.tagline) L.push(d.tagline); if (d.intro) L.push(d.intro);
+        f.ctx.works.forEach((w, i) => L.push(`ผลงาน ${i + 1}: ${w.title}${w.role ? ' (' + w.role + ')' : ''}${w.year ? ' ปี ' + w.year : ''}${w.desc ? ': ' + w.desc : ''}`));
+        d.activities.forEach((a) => L.push('กิจกรรม: ' + a.title + (a.summary ? ': ' + a.summary : ''))); d.awards.forEach((a) => L.push('รางวัล: ' + a));
+        if (d.skills.length) L.push('ทักษะ: ' + d.skills.join(', '));
+        return L.join('\n');
+      }
+      function aiNotes(r, okMsg) {
+        const w = r.warnings || {}, notes = [okMsg];
+        if (w.invented && w.invented.length) notes.push('มีตัวเลขที่คุณไม่ได้ให้: ' + w.invented.join(', ') + ' ตรวจและแก้ก่อนใช้');
+        if (w.words && w.words.length) notes.push('ยังมีคำสำเร็จรูปบางคำ (' + w.words.join(', ') + ') แก้ในช่องได้');
+        if (r.truncated) notes.push('ผลลัพธ์ยาวเกินและถูกตัด ลองลดข้อมูลลง');
+        aiPcSay(notes.join(' · '), (w.invented && w.invented.length) || r.truncated ? 'warn' : 'ok');
+      }
+      async function aiRun(mode) {   // 'page' = เกลาข้อความทั้งหมดลงช่อง, 'review' = ตรวจพอร์ตแล้วให้คำแนะนำ
+        if (aiBusy || !aiConfirmSpend()) return;
+        const v = aiVal, body = { action: 'run', mode, lang: v('aiLang'), goal: v('aiGoal') };
+        if (mode === 'review') { body.text = aiReviewText(); if (body.text.length < 40) { aiPcSay('ข้อมูลยังน้อยไป เติมแนะนำตัว ผลงาน หรือกิจกรรมก่อน แล้วค่อยให้ AI ตรวจ', 'warn'); return; } }
+        else Object.assign(body, { about: v('aiAbout'), activities: v('aiActs'), awards: v('aiAwards'), skills: v('aiSkills'), works: aiWorksBody() });
+        aiPcBusy(true, mode === 'review' ? 'AI กำลังอ่านพอร์ตของคุณ… รอ 10–20 วินาที' : 'AI กำลังเกลาข้อความ… รอ 10–20 วินาที แล้วข้อความใหม่จะเติมลงช่องด้านบน');
+        const r = await aiCall(body); aiPcBusy(false); aiSetQuota(r.left);
+        if (!r.ok) { aiPcSay(AI_ERR[r.error] || 'เกิดข้อผิดพลาด ลองใหม่อีกครั้ง', 'bad'); return; }
+        if (mode === 'review') {
+          document.getElementById('aiText2').textContent = r.text; const box = document.getElementById('aiReviewBox'); box.classList.remove('hidden');
+          aiPcSay('ได้คำแนะนำแล้ว อ่านด้านล่าง แล้วแก้ในช่องได้เลย', 'ok'); box.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); return;
         }
-        aiBusy = true; btn.disabled = true; const label = btn.textContent; btn.textContent = 'กำลังเขียน… (ประมาณ 10–20 วินาที)'; err.classList.add('hidden');
-        const r = await aiCall(body);
-        aiBusy = false; btn.disabled = false; btn.textContent = label;
-        if (typeof r.left === 'number') document.getElementById('aiLeft').textContent = `เดือนนี้เหลือ ${r.left} ครั้ง`;
-        if (!r.ok) { err.textContent = AI_ERR[r.error] || 'เกิดข้อผิดพลาด ลองใหม่อีกครั้ง'; err.classList.remove('hidden'); return; }
-        if (aiMode === 'page') {
-          try { aiApplyResult(r.data); aiRenderPreview(); } catch (e) { console.error(e); err.textContent = 'AI เขียนข้อความเสร็จแล้ว แต่แสดงผลไม่สำเร็จ (' + (e && e.message ? e.message : 'ไม่ทราบสาเหตุ') + ') ลองกดอีกครั้ง'; err.classList.remove('hidden'); }
-          const w = r.warnings || {}, notes = [];
-          if (w.invented && w.invented.length) notes.push('AI ใส่ตัวเลขที่คุณไม่ได้ให้: ' + w.invented.join(', ') + ' ตรวจและแก้หรือลบออกก่อนใช้');
-          if (w.words && w.words.length) notes.push('ยังมีคำสำเร็จรูปบางคำ (' + w.words.join(', ') + ') แก้ในช่องได้');
-          if (notes.length) { err.textContent = notes.join(' · '); err.classList.remove('hidden'); }
-        } else { document.getElementById('aiText2').textContent = r.text; aiShow('text'); }
-        if (r.truncated) { err.textContent = 'ผลลัพธ์ยาวเกินและถูกตัด ลองลดข้อมูลหรือแบ่งทำทีละส่วน'; err.classList.remove('hidden'); }
-        if (!matchMedia('(min-width: 1024px)').matches) document.getElementById('aiOut').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }      function aiCopy() { const t = document.getElementById('aiText2').textContent; const b = document.getElementById('aiCopy'); (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => { b.textContent = 'คัดลอกแล้ว'; setTimeout(() => (b.textContent = 'คัดลอก'), 1500); }).catch(() => { const r = document.createRange(); r.selectNodeContents(document.getElementById('aiText2')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }); }
+        try { aiApplyResult(r.data); aiRenderPreview(); } catch (e) { console.error(e); }
+        aiNotes(r, 'เกลาแล้ว ข้อความใหม่อยู่ในช่องด้านบน ตรวจก่อนใช้'); ptSaveDraftSoon();
+      }
+      // พิมพ์สั่งเอง: ปรับข้อความตามคำสั่ง (ใช้ข้อเท็จจริงเดิม) และเลือกแบบ/สีให้ได้ ใช้ 1 ครั้ง
+      async function aiPrompt() {
+        if (aiBusy) return;
+        const ins = aiVal('aiPromptIn'); if (ins.length < 3) { document.getElementById('aiPromptIn').focus(); return; }
+        if (!aiConfirmSpend()) return;
+        const scope = document.getElementById('aiPcScope').value;
+        const body = { action: 'run', mode: 'prompt', instruction: ins, lang: aiVal('aiLang'), goal: aiVal('aiGoal'), tagline: aiVal('aiTagline'), about: aiVal('aiAbout'), activities: aiVal('aiActs'), awards: aiVal('aiAwards'), skills: aiVal('aiSkills'), works: aiWorksBody() };
+        if (scope === 'text') body.instruction = '[ปรับเฉพาะข้อความ ไม่ต้องเลือกแบบหรือสี] ' + ins; else if (scope === 'look') body.instruction = '[ปรับเฉพาะหน้าตา: เลือก template และ/หรือ accent คงข้อความเดิมทุกคำ] ' + ins;
+        aiPcBusy(true, 'AI กำลังทำตามคำสั่ง… รอ 10–20 วินาที');
+        const r = await aiCall(body); aiPcBusy(false); aiSetQuota(r.left);
+        if (!r.ok) { aiPcSay(AI_ERR[r.error] || 'เกิดข้อผิดพลาด ลองใหม่อีกครั้ง', 'bad'); return; }
+        aiSnapshot(); document.getElementById('aiUndo').classList.remove('hidden');
+        if (scope !== 'look') { try { aiApplyResult(r.data); } catch (e) { console.error(e); } }
+        const s = scope === 'text' ? {} : (r.style || {});
+        if (s.accent) aiSetAccent(s.accent);
+        if (s.template && AI_TPLS.some((x) => x[0] === s.template)) aiSetTheme(s.template); else aiRenderPreview();
+        document.getElementById('aiPromptIn').value = ''; aiPcInput();
+        aiNotes(r, (r.style && r.style.note) ? 'AI: ' + r.style.note : 'ปรับแล้ว ตรวจข้อความในช่องก่อนใช้'); ptSaveDraftSoon();
+      }
+      let aiRec = null;
+      function aiPcMic() {   // พูดแทนพิมพ์ (Web Speech API ของเบราว์เซอร์)
+        const SR = window.SpeechRecognition || window.webkitSpeechRecognition, btn = document.getElementById('aiPcMic'); if (!SR) return;
+        if (aiRec) { aiRec.stop(); return; }
+        aiRec = new SR(); aiRec.lang = aiVal('aiLang') === 'en' ? 'en-US' : 'th-TH'; aiRec.interimResults = false;
+        aiRec.onresult = (e) => { const ta = document.getElementById('aiPromptIn'); ta.value = (ta.value ? ta.value + ' ' : '') + e.results[0][0].transcript; aiPcInput(); };
+        aiRec.onend = () => { aiRec = null; btn.classList.remove('on'); }; aiRec.onerror = aiRec.onend;
+        btn.classList.add('on'); aiRec.start();
+      }
+      if (window.SpeechRecognition || window.webkitSpeechRecognition) { const mb = document.getElementById('aiPcMic'); if (mb) mb.classList.remove('hidden'); }
+      // ---- เลือกแบบ (ป๊อปอัป ภาพย่อโหลดตอนเปิดครั้งแรก) ----
+      const AI_TPLS = [['doc', 'เอกสาร A4', 'PDF / รูป'], ['white', 'เรียบ ขาว', 'หน้าเว็บ'], ['dark', 'เรียบ เข้ม', 'หน้าเว็บ'], ['warm', 'เรียบ ครีม', 'หน้าเว็บ'], ['bold', 'บอลด์', 'หน้าเว็บ · มีลูกเล่น'], ['gallery', 'แกลเลอรี 3 มิติ', 'หน้าเว็บ · มีลูกเล่น'], ['badge', 'บัตรห้อยคอ', 'หน้าเว็บ · มีลูกเล่น']];
+      function aiBuildTemplates() {
+        const box = document.getElementById('aiThemes'); if (!box) return; box.textContent = '';
+        AI_TPLS.forEach(([k, name, sub]) => {
+          const b = document.createElement('button'); b.type = 'button'; b.className = 'tp' + (k === aiTheme ? ' on' : ''); b.dataset.t = k; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', k === aiTheme ? 'true' : 'false'); b.setAttribute('aria-label', name + ' ' + sub); b.onclick = () => { aiSetTheme(k); ptMenuClose(); };
+          const th = document.createElement('span'); th.className = 'th'; const fr = document.createElement('iframe'); fr.setAttribute('sandbox', 'allow-same-origin'); fr.tabIndex = -1; fr.setAttribute('aria-hidden', 'true'); fr.srcdoc = aiSampleHtml(k); th.append(fr);
+          const tn = document.createElement('span'); tn.className = 'tn'; tn.textContent = name; const sm = document.createElement('small'); sm.textContent = sub; tn.append(sm);
+          b.append(th, tn); box.append(b);
+        });
+      }
+      function aiBuildTemplatesReset() { const box = document.getElementById('aiThemes'); if (box) box.textContent = ''; }
+      function aiSetTheme(t) {
+        aiTheme = t; const tp = AI_TPLS.find((x) => x[0] === t); document.getElementById('ptTplName').textContent = tp ? tp[1] : t;
+        document.querySelectorAll('#aiThemes .tp').forEach((b) => { b.classList.toggle('on', b.dataset.t === t); b.setAttribute('aria-checked', b.dataset.t === t ? 'true' : 'false'); });
+        aiRenderPreview(); ptSaveDraftSoon();
+      }
+      function ptPopToggle(id, btnId, ev) {
+        if (ev) ev.stopPropagation(); const p = document.getElementById(id), open = p.classList.contains('hidden'); ptMenuClose(); if (!open) return;
+        if (id === 'ptTplPop' && !document.querySelector('#aiThemes .tp')) aiBuildTemplates();
+        p.classList.remove('hidden'); document.getElementById(btnId).setAttribute('aria-expanded', 'true');
+        const f = p.querySelector('.tp.on, button'); if (f) f.focus();
+      }
+      function ptMenuClose() { [['ptTplPop', 'ptTplBtn'], ['ptSaveMenu', 'ptSaveBtn']].forEach(([pid, bid]) => { const p = document.getElementById(pid), b = document.getElementById(bid); if (p) p.classList.add('hidden'); if (b) b.setAttribute('aria-expanded', 'false'); }); }
+      document.addEventListener('click', (e) => { if (!e.target.closest('.pt-mw')) ptMenuClose(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') ptMenuClose(); });
+      // ---- มือถือ: สลับ แก้ไข / ดูตัวอย่าง ----
+      function ptPane(p) {
+        ptPaneCur = p; document.getElementById('aiMain').dataset.pane = p;
+        [['ptSwEdit', 'edit'], ['ptSwView', 'view']].forEach(([id, k]) => { const b = document.getElementById(id); b.classList.toggle('on', k === p); b.setAttribute('aria-selected', k === p ? 'true' : 'false'); });
+        if (p === 'view') { aiRenderPreview(); const md = document.getElementById('mainDashboard'); if (md) md.scrollTop = 0; }
+      }
+      // ---- ร่างอัตโนมัติ: เก็บในเครื่องนี้เท่านั้น (localStorage) รูปเก็บแยก ถ้าที่ไม่พอจะเก็บแค่ข้อความ ลบเมื่อออกจากระบบ ----
+      const PT_DRAFT = 'classkhab_pf_draft', PT_IMG = 'classkhab_pf_img', PT_FIELDS = ['aiGoal', 'aiName', 'aiContact', 'aiTagline', 'aiAbout', 'aiActs', 'aiAwards', 'aiSkills', 'aiLang'];
+      const PT_JPEG = /^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/;
+      let ptSaveTimer = null;
+      function ptSaveDraftSoon() { if (!ptRestored) return; clearTimeout(ptSaveTimer); ptSaveTimer = setTimeout(ptSaveDraft, 800); }
+      function ptSavedSay(m) { const e = document.getElementById('aiSaved'); if (e) e.textContent = m; }
+      function ptSaveDraft() {
+        const rows = [...document.querySelectorAll('#aiWorks .ai-work')];
+        const d = { v: 1, f: Object.fromEntries(PT_FIELDS.map((id) => [id, document.getElementById(id).value])), works: rows.map((w) => ({ title: w.querySelector('.w-title').value, role: w.querySelector('.w-role').value, year: w.querySelector('.w-year').value, desc: w.querySelector('.w-desc').value, link: w.querySelector('.w-link').value })), theme: aiTheme, accent: aiAccent };
+        try { localStorage.setItem(PT_DRAFT, JSON.stringify(d)); } catch (e) { ptSavedSay('บันทึกร่างไม่ได้ (พื้นที่ในเครื่องเต็ม)'); return; }
+        let imgOk = true; try { localStorage.setItem(PT_IMG, JSON.stringify({ photo: aiPhoto, imgs: rows.map((w) => w.dataset.img || '') })); } catch (e) { imgOk = false; try { localStorage.removeItem(PT_IMG); } catch (_) {} }
+        const t = new Date(); ptSavedSay(`บันทึกร่างในเครื่องแล้ว ${String(t.getHours()).padStart(2, '0')}:${String(t.getMinutes()).padStart(2, '0')}` + (imgOk ? '' : ' · รูปไม่ได้บันทึก (ใหญ่เกิน)'));
+      }
+      function ptLoadDraft() {
+        let d = null, im = null; try { d = JSON.parse(localStorage.getItem(PT_DRAFT) || 'null'); im = JSON.parse(localStorage.getItem(PT_IMG) || 'null'); } catch (e) {}
+        if (!d || d.v !== 1) return false;
+        PT_FIELDS.forEach((id) => { if (d.f && typeof d.f[id] === 'string') document.getElementById(id).value = d.f[id]; });
+        document.getElementById('aiWorks').textContent = '';
+        (Array.isArray(d.works) ? d.works : []).slice(0, AI_MAX_WORKS).forEach((w, i) => {
+          aiAddWork(); const el = document.querySelectorAll('#aiWorks .ai-work')[i];
+          [['.w-title', 'title'], ['.w-role', 'role'], ['.w-year', 'year'], ['.w-desc', 'desc'], ['.w-link', 'link']].forEach(([s, k]) => { el.querySelector(s).value = typeof w[k] === 'string' ? w[k] : ''; });
+          const img = im && Array.isArray(im.imgs) ? im.imgs[i] : ''; if (img && PT_JPEG.test(img)) { el.dataset.img = img; const p = el.querySelector('.ai-wimg img'); p.src = img; p.classList.remove('hidden'); el.querySelector('.ai-rm').classList.remove('hidden'); }
+        });
+        if (im && PT_JPEG.test(im.photo || '')) { aiPhoto = im.photo; const p = document.getElementById('aiPhotoPrev'); p.src = aiPhoto; p.classList.remove('hidden'); document.getElementById('aiPhotoDel').classList.remove('hidden'); }
+        if (d.theme && AI_TPLS.some((x) => x[0] === d.theme)) { aiTheme = d.theme; document.getElementById('ptTplName').textContent = AI_TPLS.find((x) => x[0] === d.theme)[1]; }
+        if (/^#[0-9a-f]{6}$/i.test(d.accent || '')) { aiAccent = d.accent; document.getElementById('aiAccentIn').value = d.accent; document.getElementById('aiAccReset').classList.remove('hidden'); }
+        ptSavedSay('เปิดร่างล่าสุดจากเครื่องนี้แล้ว'); return true;
+      }
+      function ptForgetDraft() { try { localStorage.removeItem(PT_DRAFT); localStorage.removeItem(PT_IMG); } catch (e) {} }
+      function ptClearDraft() {
+        if (!confirm('ล้างข้อมูลพอร์ตทั้งหมดในเครื่องนี้ไหม กู้คืนไม่ได้')) return;
+        ptForgetDraft(); PT_FIELDS.filter((id) => id !== 'aiLang').forEach((id) => (document.getElementById(id).value = ''));
+        document.getElementById('aiWorks').textContent = ''; aiAddWork(); aiClearPhoto(); aiBackup = null; document.getElementById('aiUndo').classList.add('hidden'); document.getElementById('aiReviewBox').classList.add('hidden');
+        aiSetAccent(''); aiRenderPreview(); ptSavedSay('ล้างข้อมูลแล้ว');
+      }
+      async function portfolioEnter() {
+        const ok = !!getSid();
+        document.getElementById('aiNeedLogin').classList.toggle('hidden', ok); document.getElementById('aiMain').classList.toggle('hidden', !ok);
+        document.querySelector('#portfolioV2 .pt-mswitch').classList.toggle('hidden', !ok);
+        if (ok) {
+          if (!ptRestored) { ptLoadDraft(); ptRestored = true; }
+          if (!document.querySelector('#aiWorks .ai-work')) aiAddWork();
+          if (!document.querySelector('#aiPcChips button')) aiPcChips();
+          ptPane(ptPaneCur); aiRenderPreview(); aiSetQuota();
+          const q = await aiCall({ action: 'quota' }); if (q.ok) aiSetQuota(q.left, q.total);
+        }
+        if (window.lucide) lucide.createIcons();
+      }
+      function aiCopy() { const t = document.getElementById('aiText2').textContent; const b = document.getElementById('aiCopy'); (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => { b.textContent = 'คัดลอกแล้ว'; setTimeout(() => (b.textContent = 'คัดลอก'), 1500); }).catch(() => { const r = document.createRange(); r.selectNodeContents(document.getElementById('aiText2')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }); }
       // ---- หน้าพอร์ต: เทมเพลตที่ออกแบบไว้แล้ว (AI เขียนแค่ข้อความ) รูป/ชื่อ/ลิงก์อยู่ในเครื่อง ----
       let aiPhoto = '';
       const AI_MAX_WORKS = 6;
@@ -3126,19 +3273,19 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       function aiAddWork() {
         const box = document.getElementById('aiWorks'); if (box.children.length >= AI_MAX_WORKS) return;
         const d = document.createElement('div'); d.className = 'ai-work'; d.dataset.img = '';
-        d.innerHTML = '<div class="ai-work-h"><span>ผลงานที่ <b class="ai-wn"></b></span><button type="button" class="ai-mini" onclick="aiDelWork(this)">ลบ</button></div>' +
-          '<input class="w-title" maxlength="80" placeholder="ชื่อผลงาน">' +
-          '<div class="ai-w2"><input class="w-role" maxlength="80" placeholder="บทบาทของคุณ"><input class="w-year" maxlength="12" placeholder="ปี"></div>' +
-          '<textarea class="w-desc" maxlength="400" rows="2" placeholder="ทำอะไร ทำอย่างไร ผลเป็นอย่างไร"></textarea>' +
-          '<input class="w-link" maxlength="300" inputmode="url" placeholder="ลิงก์ดูผลงาน (ไม่บังคับ) เช่น https://...">' +
-          '<div class="ai-wimg"><img class="hidden" alt=""><label class="ai-mini">เลือกรูปผลงาน<input type="file" accept="image/*" hidden onchange="aiPickWorkImg(this)"></label><button type="button" class="ai-mini hidden" onclick="aiClearWorkImg(this)">ลบรูป</button></div>';
-        box.append(d); aiRenumber();
+        d.innerHTML = '<div class="ai-work-h"><span>ผลงานที่ <b class="ai-wn"></b></span><button type="button" class="pt-ibtn" aria-label="ลบผลงานนี้" onclick="aiDelWork(this)"><i data-lucide="trash-2"></i></button></div>' +
+          '<input class="w-title" maxlength="80" aria-label="ชื่อผลงาน" placeholder="ชื่อผลงาน เช่น เว็บแจ้งเวลาเรียน">' +
+          '<div class="ai-w2"><input class="w-role" maxlength="80" aria-label="บทบาทของคุณ" placeholder="บทบาท เช่น ผู้พัฒนา"><input class="w-year" maxlength="12" aria-label="ปี" placeholder="ปี"></div>' +
+          '<textarea class="w-desc" maxlength="400" rows="2" aria-label="คำอธิบายผลงาน" placeholder="ทำอะไร ทำอย่างไร ผลเป็นอย่างไร เช่น คนในห้องใช้ทุกวัน"></textarea>' +
+          '<input class="w-link" maxlength="300" inputmode="url" aria-label="ลิงก์ดูผลงาน" placeholder="ลิงก์ดูผลงาน (ไม่บังคับ) https://...">' +
+          '<div class="ai-wimg"><img class="hidden" alt="รูปผลงาน"><label class="pt-btn" tabindex="0" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();this.querySelector(\'input\').click();}"><i data-lucide="image-plus"></i>รูปผลงาน<input type="file" accept="image/*" hidden onchange="aiPickWorkImg(this)"></label><button type="button" class="pt-ibtn ai-rm hidden" aria-label="ลบรูปผลงาน" onclick="aiClearWorkImg(this)"><i data-lucide="x"></i></button></div>';
+        box.append(d); aiRenumber(); if (window.lucide) lucide.createIcons();
       }
       function aiRenumber() { const ws = document.querySelectorAll('#aiWorks .ai-work'); ws.forEach((w, i) => (w.querySelector('.ai-wn').textContent = i + 1)); document.getElementById('aiAddWork').classList.toggle('hidden', ws.length >= AI_MAX_WORKS); }
-      function aiDelWork(btn) { btn.closest('.ai-work').remove(); aiRenumber(); aiLive(); }
+      function aiDelWork(btn) { const w = btn.closest('.ai-work'), used = w.querySelector('.w-title').value.trim() || w.querySelector('.w-desc').value.trim() || w.dataset.img; if (used && !confirm('ลบผลงานนี้ไหม')) return; w.remove(); if (!document.querySelector('#aiWorks .ai-work')) aiAddWork(); aiRenumber(); aiLive(); }
       async function aiPickWorkImg(inp) {
         const f = inp.files && inp.files[0]; inp.value = ''; if (!f) return; const w = inp.closest('.ai-work');
-        try { const d = await aiImage(f, 1100); w.dataset.img = d; const im = w.querySelector('.ai-wimg img'); im.src = d; im.classList.remove('hidden'); w.querySelector('.ai-wimg button').classList.remove('hidden'); aiLive(); } catch (e) { alert('ใช้รูปนี้ไม่ได้ ลองไฟล์ภาพอื่น (ไม่เกิน 15 MB)'); }
+        try { const d = await aiImage(f, 1100); w.dataset.img = d; const im = w.querySelector('.ai-wimg img'); im.src = d; im.classList.remove('hidden'); w.querySelector('.ai-rm').classList.remove('hidden'); aiLive(); } catch (e) { alert('ใช้รูปนี้ไม่ได้ ลองไฟล์ภาพอื่น (ไม่เกิน 15 MB)'); }
       }
       function aiClearWorkImg(btn) { const w = btn.closest('.ai-work'); w.dataset.img = ''; w.querySelector('.ai-wimg img').classList.add('hidden'); btn.classList.add('hidden'); aiLive(); }
       function aiReadWorks() {
