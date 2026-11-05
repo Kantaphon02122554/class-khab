@@ -316,6 +316,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .pt-grid { display: grid; gap: 1.25rem; } .pt-out-h { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.5rem; } .pt-out-t { font-size: 0.8rem; font-weight: 700; color: #64748b; }
       .pt-tools { display: inline-flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
       .pt-seg { display: inline-flex; gap: 2px; padding: 2px; border-radius: 10px; background: #f1f5f9; } .pt-seg.hidden { display: none; } .pt-seg button { padding: 0.25rem 0.75rem; border-radius: 8px; font-size: 0.78rem; font-weight: 600; color: #64748b; } .pt-seg button.on { background: #fff; color: #0f172a; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1); } html.dark .pt-seg { background: rgba(255, 255, 255, 0.08); } html.dark .pt-seg button.on { background: rgba(255, 255, 255, 0.16); color: #fff; box-shadow: none; }
+      .pt-acc { display: inline-flex; align-items: center; gap: 0.35rem; } .pt-acc.hidden { display: none; } .pt-acc input[type=color] { width: 2rem; height: 2rem; padding: 0; border: 1px solid #e2e8f0; border-radius: 8px; background: none; cursor: pointer; } .pt-acc .ai-mini { margin-left: 0; }
+      .pt-prompt { display: flex; gap: 0.5rem; margin-top: 0.75rem; padding: 0.4rem; border: 1px solid #e2e8f0; border-radius: 16px; background: #fff; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05); } html.dark .pt-prompt { background: #111a2e; border-color: #243152; } .pt-prompt.hidden { display: none; }
+      .pt-prompt input { flex: 1; min-width: 0; padding: 0.55rem 0.75rem; border: 0; background: transparent; font-size: 0.95rem; color: inherit; outline: none; } .pt-prompt button { padding: 0.5rem 1.1rem; border-radius: 12px; background: #0f172a; color: #fff; font-weight: 700; font-size: 0.9rem; } html.dark .pt-prompt button { background: #f1f5f9; color: #0f172a; } .pt-prompt button:disabled { opacity: 0.5; }
       .pt-tpl { display: flex; gap: 0.75rem; overflow-x: auto; padding: 0.15rem 0.15rem 0.6rem; margin-bottom: 0.4rem; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; } .pt-tpl.hidden { display: none; }
       .tp { flex: 0 0 140px; scroll-snap-align: start; text-align: left; background: transparent; -webkit-tap-highlight-color: transparent; }
       .tp .th { display: block; position: relative; width: 140px; height: 187px; overflow: hidden; border-radius: 12px; border: 1px solid #e2e8f0; background: #fff; transition: box-shadow .15s, transform var(--d-med) var(--e-out); } html.dark .tp .th { border-color: #243152; }
@@ -861,14 +864,16 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                     <span class="pt-tools">
                       
                       <span class="pt-seg" id="aiDevices" role="group" aria-label="ขนาดจอ"><button class="on" data-d="desktop" onclick="aiSetDevice('desktop')">คอม</button><button data-d="mobile" onclick="aiSetDevice('mobile')">มือถือ</button></span>
-                      <span class="pt-acts"><button id="aiCopy" class="ai-mini hidden" onclick="aiCopy()">คัดลอก</button><button id="aiDl" class="ai-mini hidden" onclick="aiDownload()">ดาวน์โหลด .html</button></span>
+                      <span class="pt-acc" id="aiAccBox" title="สีหลัก"><input type="color" id="aiAccentIn" value="#2448c8" aria-label="เลือกสีหลัก" oninput="aiSetAccent(this.value)"><button type="button" id="aiAccReset" class="ai-mini hidden" onclick="aiSetAccent('')">สีเดิม</button></span>
+                      <span class="pt-acts"><button id="aiCopy" class="ai-mini hidden" onclick="aiCopy()">คัดลอก</button><button id="aiPng" class="ai-mini hidden" onclick="aiExport('png')">บันทึกรูป PNG</button><button id="aiPdf" class="ai-mini hidden" onclick="aiExport('print')">บันทึก PDF</button><button id="aiDl" class="ai-mini hidden" onclick="aiDownload()">ดาวน์โหลด .html</button></span>
                     </span>
                   </div>
                   <div id="aiThemes" class="pt-tpl" role="listbox" aria-label="เลือกแบบหน้าพอร์ต"></div>
                   <div id="aiStage" class="pt-stage">
                     <pre id="aiText2" class="ai-text hidden"></pre>
-                    <iframe id="aiFrame" class="ai-frame" sandbox="allow-scripts" title="ตัวอย่างหน้าพอร์ต"></iframe>
+                    <iframe id="aiFrame" class="ai-frame" sandbox="allow-scripts allow-downloads allow-modals" title="ตัวอย่างหน้าพอร์ต"></iframe>
                   </div>
+                  <div id="aiPromptBar" class="pt-prompt"><input id="aiPromptIn" maxlength="300" placeholder="สั่ง AI ได้เลย เช่น เขียนให้กระชับ เน้นสายวิศวะ หรือขอโทนสีเขียว" onkeydown="if(event.key==='Enter'){event.preventDefault();aiPrompt();}"><button id="aiPromptBtn" type="button" onclick="aiPrompt()">ส่ง</button></div>
                   <p id="aiOutHint" class="pt-hint"></p>
                 </aside>
               </div>
@@ -2911,7 +2916,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const j = await res.json().catch(() => ({})); if (res.status === 401) localStorage.removeItem('classkhab_token'); return { ...j, status: res.status };
         } catch (e) { return { ok: false, error: 'net' }; }
       }
-      let aiTheme = 'white', aiDevice = 'desktop', aiSampleImgs = null, aiBackup = null, aiLiveTimer = null;
+      let aiTheme = 'white', aiAccent = '', aiDevice = 'desktop', aiSampleImgs = null, aiBackup = null, aiLiveTimer = null;
       const aiLines = (s) => String(s || '').split('\n').map((x) => x.trim()).filter(Boolean);
       const aiVal = (id) => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
       // รวมข้อมูลจากฟอร์มเป็นข้อมูลหน้าพอร์ต (หน้าตัวอย่างวาดจากฟอร์มตรงๆ ไม่เรียก AI) กิจกรรมใช้ "ชื่อ | รายละเอียด"
@@ -2920,7 +2925,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const activities = aiLines(aiVal('aiActs')).map((l) => { const i = l.indexOf('|'); return i < 0 ? { title: l, summary: '' } : { title: l.slice(0, i).trim(), summary: l.slice(i + 1).trim() }; }).filter((a) => a.title);
         return {
           data: { tagline: aiVal('aiTagline'), intro: aiVal('aiAbout'), works: works.map((w) => ({ summary: w.desc })), activities, awards: aiLines(aiVal('aiAwards')), skills: aiVal('aiSkills').split(/[,\n]+/).map((s) => s.trim()).filter(Boolean) },
-          ctx: { lang: aiVal('aiLang') || 'th', name: aiVal('aiName'), goal: aiVal('aiGoal'), contact: aiVal('aiContact'), photo: aiPhoto, works },
+          ctx: { lang: aiVal('aiLang') || 'th', name: aiVal('aiName'), goal: aiVal('aiGoal'), contact: aiVal('aiContact'), accent: aiAccent, photo: aiPhoto, works },
         };
       }
       const aiHasContent = () => { const f = aiFormData(), d = f.data; return !!(f.ctx.name || f.ctx.contact || f.ctx.photo || f.ctx.works.length || d.tagline || d.intro || d.activities.length || d.awards.length || d.skills.length); };
@@ -2935,8 +2940,36 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         if (aiHasContent()) { const f = aiFormData(); fr.srcdoc = aiBuildHtml(f.data, { ...f.ctx, theme: aiTheme }); } else fr.srcdoc = aiSampleHtml();
         aiShow('page');
       }
+      function aiSetAccent(v) {
+        aiAccent = /^#[0-9a-f]{6}$/i.test(v || '') ? v : '';
+        if (aiAccent) document.getElementById('aiAccentIn').value = aiAccent;
+        document.getElementById('aiAccReset').classList.toggle('hidden', !aiAccent); aiLive();
+      }
+      // บันทึกรูป/PDF ทำในกรอบตัวอย่าง (แยกขาดจากแอป) สั่งผ่าน postMessage
+      function aiExport(cmd) { const f = document.getElementById('aiFrame'); if (f && f.contentWindow) f.contentWindow.postMessage({ ck: 'export', cmd }, '*'); }
+      // พิมพ์สั่ง AI: ปรับข้อความตามคำสั่ง (ใช้ข้อเท็จจริงเดิม) และเลือกแบบ/สีให้ได้ ใช้ 1 สิทธิ์
+      async function aiPrompt() {
+        if (aiBusy) return;
+        const ins = aiVal('aiPromptIn'), err = document.getElementById('aiErr'), btn = document.getElementById('aiPromptBtn');
+        if (ins.length < 3) { document.getElementById('aiPromptIn').focus(); return; }
+        const body = { action: 'run', mode: 'prompt', instruction: ins, lang: aiVal('aiLang'), goal: aiVal('aiGoal'), tagline: aiVal('aiTagline'), about: aiVal('aiAbout'), activities: aiVal('aiActs'), awards: aiVal('aiAwards'), skills: aiVal('aiSkills'), works: aiReadWorks().map((w) => ({ title: w.title, role: w.role, year: w.year, desc: w.desc })) };
+        aiBusy = true; btn.disabled = true; btn.textContent = 'กำลังทำ…'; err.classList.add('hidden');
+        const r = await aiCall(body);
+        aiBusy = false; btn.disabled = false; btn.textContent = 'ส่ง';
+        if (typeof r.left === 'number') document.getElementById('aiLeft').textContent = `เดือนนี้เหลือ ${r.left} ครั้ง`;
+        if (!r.ok) { err.textContent = AI_ERR[r.error] || 'เกิดข้อผิดพลาด ลองใหม่อีกครั้ง'; err.classList.remove('hidden'); return; }
+        try { aiApplyResult(r.data); } catch (e) { console.error(e); }
+        const s = r.style || {};
+        if (s.accent) aiSetAccent(s.accent);
+        if (s.template && AI_TPLS.some((x) => x[0] === s.template)) aiSetTheme(s.template); else aiRenderPreview();
+        document.getElementById('aiPromptIn').value = '';
+        const w = r.warnings || {}, notes = [];
+        if (s.note) notes.push('AI: ' + s.note);
+        if (w.invented && w.invented.length) notes.push('AI ใส่ตัวเลขที่คุณไม่ได้ให้: ' + w.invented.join(', ') + ' ตรวจและแก้ก่อนใช้');
+        if (notes.length) { err.textContent = notes.join(' · '); err.classList.remove('hidden'); }
+      }
       function aiLive() { if (aiMode !== 'page') return; clearTimeout(aiLiveTimer); aiLiveTimer = setTimeout(aiRenderPreview, 250); }
-      const AI_TPLS = [['white', 'เรียบ ขาว', 'สะอาด อ่านง่าย'], ['dark', 'เรียบ เข้ม', 'โทนมืด สบายตา'], ['warm', 'เรียบ ครีม', 'อบอุ่น แนวกระดาษ'], ['bold', 'บอลด์', 'ตัวใหญ่ สีแดงจัด'], ['gallery', 'แกลเลอรี 3 มิติ', 'ผนังผลงานเอียง']];
+      const AI_TPLS = [['doc', 'เอกสาร A4', 'รูป PNG / PDF'], ['white', 'เรียบ ขาว', 'หน้าเว็บ · อ่านง่าย'], ['dark', 'เรียบ เข้ม', 'หน้าเว็บ · โทนมืด'], ['warm', 'เรียบ ครีม', 'หน้าเว็บ · แนวกระดาษ'], ['bold', 'บอลด์', 'หน้าเว็บ · ขยับได้'], ['gallery', 'แกลเลอรี 3 มิติ', 'หน้าเว็บ · ขยับได้'], ['badge', 'บัตรห้อยคอ', 'หน้าเว็บ · ขยับได้']];
       function aiBuildTemplates() {   // ปุ่มเลือกแบบแบบ Canva: ภาพย่อของแต่ละแบบ (ใช้ข้อความตัวอย่าง) กดแล้วใช้กับข้อมูลของคุณ
         const box = document.getElementById('aiThemes'); if (!box) return;
         box.textContent = '';
@@ -2953,7 +2986,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const page = kind === 'page', has = page ? aiHasContent() : !!document.getElementById('aiText2').textContent;
         document.getElementById('aiFrame').classList.toggle('hidden', !page); document.getElementById('aiText2').classList.toggle('hidden', page);
         document.getElementById('aiThemes').classList.toggle('hidden', !page); document.getElementById('aiDevices').classList.toggle('hidden', !page);
-        document.getElementById('aiDl').classList.toggle('hidden', !(page && has)); document.getElementById('aiCopy').classList.toggle('hidden', page || !has);
+        document.getElementById('aiDl').classList.toggle('hidden', !(page && has));
+        ['aiPng', 'aiPdf'].forEach((id) => document.getElementById(id).classList.toggle('hidden', !(page && aiTheme === 'doc')));
+        document.getElementById('aiAccBox').classList.toggle('hidden', !page); document.getElementById('aiPromptBar').classList.toggle('hidden', !page); document.getElementById('aiCopy').classList.toggle('hidden', page || !has);
         document.getElementById('aiOutTitle').textContent = page ? (has ? 'หน้าพอร์ตของคุณ' : 'ตัวอย่างหน้าตา') : 'ผลลัพธ์';
         document.getElementById('aiOutHint').textContent = page ? (has ? 'หน้านี้ขยับตามที่พิมพ์ทันทีและไม่เสียสิทธิ์ ตรวจทุกบรรทัดก่อนใช้ ดาวน์โหลดแล้วเปิดไฟล์ กด Ctrl+P เพื่อบันทึกเป็น PDF' : 'นี่คือหน้าตาตัวอย่าง พิมพ์ข้อมูลทางซ้ายแล้วหน้านี้จะเปลี่ยนตามทันที ไม่เสียสิทธิ์') : (has ? 'AI อาจผิดพลาด ตรวจและแก้เองก่อนนำไปใช้' : 'ผลลัพธ์จะแสดงที่นี่หลังกดปุ่ม');
       }
@@ -3069,12 +3104,14 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           en, L, name: c.name || (en ? 'Portfolio' : 'พอร์ตโฟลิโอ'), tagline: d.tagline || '', intro: d.intro || '', goal: c.goal || '', photo: c.photo || '', contact: c.contact || '',
           works: (c.works || []).map((w, i) => ({ title: w.title, meta: [w.role, w.year].filter(Boolean).join(' · '), sum: (d.works && d.works[i] && d.works[i].summary) || w.desc || '', url: safeUrl(w.link), img: w.img || '' })),
           acts: d.activities || [], awards: d.awards || [], skills: d.skills || [],
-          upd: new Date().toLocaleDateString(en ? 'en-GB' : 'th-TH', { month: 'long', year: 'numeric' }),
+          upd: new Date().toLocaleDateString(en ? 'en-GB' : 'th-TH', { month: 'long', year: 'numeric' }), accent: /^#[0-9a-f]{6}$/i.test(c.accent || '') ? c.accent : '',
         };
       }
       function aiBuildHtml(d, c) {
         if (c.theme === 'bold') return aiBuildBold(aiPrep(d, c), c);
         if (c.theme === 'gallery') return aiBuildGallery(aiPrep(d, c), c);
+        if (c.theme === 'badge') return aiBuildBadge(aiPrep(d, c), c);
+        if (c.theme === 'doc') return aiBuildDoc(aiPrep(d, c), c);
         return aiBuildQuiet(d, c);
       }
       // สคริปต์ขยับหน้าพอร์ต (ใส่ในหน้าที่สร้างเอง ไม่ใช้ข้อมูลจากผู้ใช้เป็นโค้ด): คำในหัวข้อไหลขึ้นทีละคำ เนื้อหาผลิตามที่เลื่อนถึง ตัวเลขนับขึ้น การ์ดเอียงตามเมาส์ ค่าตำแหน่งเลื่อนส่งให้ CSS (--sy)
@@ -3136,7 +3173,7 @@ footer{max-width:1200px;margin:0 auto;padding:0 28px 40px;font-size:12px;color:v
 @media(max-width:760px){.hero{grid-template-columns:1fr;padding:48px 20px 40px}.ph{justify-self:start;width:70%;margin-right:16px}section,.cta{padding:48px 20px}.stats{gap:32px}.wt{grid-template-columns:1fr}.m,.wt p,.wt a{grid-column:1}}
 @media(prefers-reduced-motion:reduce){.tr{animation:none}}
 @media print{@page{margin:12mm}.tr{animation:none}.bgt{display:none}.w,li,section{break-inside:avoid}}`;
-        return `<!DOCTYPE html><html lang="${P.en ? 'en' : 'th'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${E(P.name)}</title><style>${css}</style></head><body>` +
+        return `<!DOCTYPE html><html lang="${P.en ? 'en' : 'th'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${E(P.name)}</title><style>${css}${P.accent ? `:root{--ac:${P.accent}}` : ''}</style></head><body>` +
           `<header class="hero"><div class="bgt" aria-hidden="true">${E(P.name)}</div><div><div class="hi" data-r="0">${L.hi}</div><h1 data-split>${E(P.name)}</h1>${P.tagline ? `<p class="tag" data-r="250">${E(P.tagline)}</p>` : ''}${P.goal ? `<div class="goal" data-r="400">${L.goal}: ${E(P.goal)}</div>` : ''}</div>${P.photo ? `<div class="ph" data-r="150"><img src="${P.photo}" alt=""></div>` : ''}</header>` +
           sk + sec(L.about, (P.intro ? `<p class="intro" data-r="100">${E(P.intro)}</p>` : '') + (stats ? `<div class="stats">${stats}</div>` : '')) + sec(L.works, works) + sec(L.acts, P.acts.length ? `<ul class="rows">${rows(P.acts)}</ul>` : '') + sec(L.awards, P.awards.length ? `<ul class="rows">${rows(P.awards)}</ul>` : '') +
           `<div class="cta"><h2 data-split>${P.contact ? L.cta : L.thanks}</h2>${P.contact ? `<p data-r="300">${E(P.contact)}</p>` : ''}</div><footer>${E(P.upd)}</footer>${AI_FONTS}${c.still ? '' : AI_JS}</body></html>`;
@@ -3182,15 +3219,111 @@ footer{text-align:center;padding:0 24px 40px;font-size:12px;color:var(--m)}
 @media(max-width:720px){.about{grid-template-columns:1fr;padding:22px}.ph img{width:100%;height:260px}.card,.card.r{--b:0deg}.wall{padding:24px 20px 8px}}
 @media(prefers-reduced-motion:reduce){.card{transition:none}.orbit i{animation:none}}
 @media print{.wall{display:block;overflow:visible}.card{display:inline-block;width:46%;transform:none!important;break-inside:avoid;margin:0 1% 16px}.floor{display:none}.orbit i{animation:none}}`;
-        return `<!DOCTYPE html><html lang="${P.en ? 'en' : 'th'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${E(P.name)}</title><style>${css}</style></head><body>` +
+        return `<!DOCTYPE html><html lang="${P.en ? 'en' : 'th'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${E(P.name)}</title><style>${css}${P.accent ? `:root{--ac:${P.accent}}` : ''}</style></head><body>` +
           `<div class="wrap"><header class="about" data-r="0"><div><span class="pill">${L.about}</span><h1 data-split>${E(P.name)}</h1>${P.tagline ? `<p class="tag">${E(P.tagline)}</p>` : ''}${P.intro ? `<p class="intro">${E(P.intro)}</p>` : ''}${P.goal ? `<div class="goal">${L.goal}: ${E(P.goal)}</div>` : ''}</div>${P.photo ? `<div class="ph"><img src="${P.photo}" alt=""></div>` : ''}</header></div>` +
           (cards ? `<div class="orbit" data-r="0"><i></i><i></i><i></i><b>${L.works}</b></div><div class="wall">${cards}</div><div class="floor"></div>` : '') +
           `<div class="wrap"><div class="grid">${glass(L.acts, P.acts.map(li), 0)}${glass(L.awards, P.awards.map(li), 120)}${glass(L.skills, P.skills.map(li), 240)}</div></div>` +
           (P.contact ? `<div class="chat"><div class="b" data-r="0"><div class="who">${E(P.name)}</div>${L.cta}</div><div class="b me" data-r="500"><div class="who">${L.contact}</div>${E(P.contact)}</div></div>` : '') +
           `<footer>${E(P.upd)}</footer>${AI_FONTS}${c.still ? '' : AI_JS}</body></html>`;
       }
+      // แบบ "บัตรห้อยคอ": พื้นกรมท่าเข้มลายจุดดาว เมนูพิล ชื่อไล่สีฟ้า บัตรประจำตัวห้อยสายแกว่งเบาๆ (กระแสพอร์ตนักเรียนสายเทค) ผลงานเป็นการ์ด กิจกรรมเป็นไทม์ไลน์
+      function aiBuildBadge(P, c) {
+        const E = aiEsc, L = P.L, yr = new Date().getFullYear(), ini = (P.name.trim()[0] || 'P').toUpperCase();
+        const works = P.works.map((w, i) => `<article class="wc" data-r="${Math.min(i, 3) * 90}">${w.img ? `<img src="${w.img}" alt="${E(w.title)}">` : ''}<div class="wb"><h3>${E(w.title)}</h3>${w.meta ? `<div class="m">${E(w.meta)}</div>` : ''}${w.sum ? `<p>${E(w.sum)}</p>` : ''}${w.url ? `<a href="${E(w.url)}" target="_blank" rel="noopener noreferrer">${L.visit} →</a>` : ''}</div></article>`).join('');
+        const tl = [...P.acts.map((a) => ({ t: a.title, s: a.summary })), ...P.awards.map((a) => ({ t: a, s: '' }))].map((x, i) => `<li data-r="${Math.min(i, 5) * 70}"><b>${E(x.t)}</b>${x.s ? `<span>${E(x.s)}</span>` : ''}</li>`).join('');
+        const css = `:root{--bg:#060b1d;--t:#eef2ff;--m:#9aa6c7;--line:rgba(148,163,255,.18);--card:rgba(255,255,255,.04);--ac:#4f8cff;--e:cubic-bezier(.22,1,.36,1)}
+*{box-sizing:border-box;margin:0;padding:0}html{background:var(--bg);scroll-behavior:smooth}
+body{background:radial-gradient(rgba(255,255,255,.14) 1px,transparent 1px) 0 0/34px 34px,var(--bg);color:var(--t);font:400 16px/1.7 'Anuphan',system-ui,'Noto Sans Thai',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.nav{position:sticky;top:14px;z-index:5;display:flex;gap:4px;align-items:center;width:max-content;max-width:calc(100% - 32px);margin:14px auto 0;padding:6px;border-radius:99px;background:rgba(10,16,40,.75);border:1px solid var(--line);backdrop-filter:blur(10px)}
+.nav .lg{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--ac);color:#fff;font:700 14px 'Prompt',sans-serif}.nav a{padding:6px 14px;border-radius:99px;color:var(--m);text-decoration:none;font-size:14px}.nav a:hover{color:var(--t);background:rgba(255,255,255,.06)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center;min-height:620px}
+.hi{color:var(--m);font-size:18px}
+h1{font:800 clamp(40px,7vw,84px)/1.05 'Prompt','Anuphan',sans-serif;letter-spacing:-.02em;margin:8px 0 18px;background:linear-gradient(90deg,var(--ac),#a78bfa);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{font-size:19px;color:#cdd5f3;max-width:32rem}.goal{color:var(--m);margin-top:10px}
+.btns{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}.btns a{padding:12px 22px;border-radius:12px;text-decoration:none;font-weight:600;font-size:15px}.btns .p{background:var(--ac);color:#fff}.btns .s{border:1px solid var(--line);color:var(--t)}
+.lan{justify-self:center;transform-origin:50% 0;animation:sw 5s ease-in-out infinite;margin-top:-140px}.lan:hover{animation-play-state:paused}
+@keyframes sw{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+.strap{width:30px;height:200px;margin:0 auto;background:repeating-linear-gradient(180deg,var(--ac) 0 18px,#1e3a8a 18px 36px);border-radius:0 0 4px 4px}
+.clip{width:46px;height:22px;margin:-4px auto 0;border-radius:6px;background:#cbd5e1;border:3px solid #94a3b8}
+.card{width:250px;margin:-6px auto 0;padding:16px 16px 18px;border-radius:20px;background:#f8fafc;color:#0f172a;box-shadow:0 24px 50px rgba(0,0,0,.45)}
+.card .slot{width:56px;height:8px;border-radius:99px;background:#cbd5e1;margin:0 auto 14px}
+.card img,.noph{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:14px;background:#e2e8f0}.noph{display:grid;place-items:center;font:800 64px 'Prompt',sans-serif;color:#94a3b8}
+.card b{display:block;font:700 19px/1.3 'Prompt','Anuphan',sans-serif;margin-top:12px}.card span{display:block;font-size:13px;color:#475569;margin-top:2px}.card em{display:block;margin-top:12px;font:600 11px 'Prompt',sans-serif;letter-spacing:.08em;color:var(--ac);font-style:normal}
+section{padding:72px 0}
+h2{font:700 clamp(28px,4.5vw,44px)/1.15 'Prompt','Anuphan',sans-serif;margin-bottom:10px}.sub{color:var(--m);margin-bottom:32px}
+.about{padding:28px;border-radius:24px;background:var(--card);border:1px solid var(--line);font-size:18px;color:#d5dcf5}
+.works{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.wc{border-radius:20px;overflow:hidden;background:var(--card);border:1px solid var(--line);transition:transform .35s var(--e),border-color .35s}.wc:hover{transform:translateY(-4px);border-color:rgba(148,163,255,.45)}
+.wc img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}.wb{padding:16px 18px 20px}.wb h3{font:600 19px/1.35 'Anuphan',sans-serif}.wb .m{color:var(--m);font-size:13px}.wb p{color:#c9d1ee;font-size:15px;margin-top:6px}.wb a{display:inline-block;margin-top:10px;color:var(--ac);text-decoration:none;font-size:14px;font-weight:600}
+.tl{list-style:none;border-left:2px solid var(--line);margin-left:8px}.tl li{position:relative;padding:0 0 26px 26px}.tl li:before{content:"";position:absolute;left:-7px;top:9px;width:12px;height:12px;border-radius:50%;background:var(--ac);box-shadow:0 0 0 4px rgba(79,140,255,.18)}.tl b{display:block;font-weight:600;font-size:17px}.tl span{color:var(--m);font-size:15px}
+.chips{display:flex;flex-wrap:wrap;gap:10px}.chips span{padding:8px 16px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-size:15px}
+.ct{text-align:center;padding:96px 28px 112px}.ct h2{font-size:clamp(32px,6vw,64px)}.ct p{display:inline-block;margin-top:18px;padding:14px 22px;border-radius:14px;background:var(--card);border:1px solid var(--line);font-size:18px}
+footer{text-align:center;color:var(--m);font-size:12px;padding:0 0 32px}
+.js [data-r]{opacity:0;transform:translateY(28px);transition:opacity .9s var(--e),transform .9s var(--e)}.js [data-r].in{opacity:1;transform:none}
+@media(max-width:760px){.hero{grid-template-columns:1fr;min-height:0;padding-top:40px}.lan{grid-row:1;margin-top:-30px}.strap{height:120px}.nav a{padding:6px 10px}}
+@media(prefers-reduced-motion:reduce){.lan{animation:none}}
+@media print{.nav{display:none}.lan{animation:none;margin-top:0}.wc,li{break-inside:avoid}}`;
+        return `<!DOCTYPE html><html lang="${P.en ? 'en' : 'th'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${E(P.name)}</title><style>${css}${P.accent ? `:root{--ac:${P.accent}}` : ''}</style></head><body>` +
+          `<nav class="nav"><span class="lg">${E(ini)}</span><a href="#about">${L.about}</a>${works ? `<a href="#works">${L.works}</a>` : ''}${P.contact ? `<a href="#contact">${L.contact}</a>` : ''}</nav>` +
+          `<div class="wrap"><header class="hero"><div><p class="hi" data-r="0">${L.hi}</p><h1 data-r="120">${E(P.name)}</h1>${P.tagline ? `<p class="tag" data-r="240">${E(P.tagline)}</p>` : ''}${P.goal ? `<p class="goal" data-r="320">${L.goal}: ${E(P.goal)}</p>` : ''}<div class="btns" data-r="420">${works ? `<a class="p" href="#works">${L.works}</a>` : ''}${P.contact ? `<a class="s" href="#contact">${L.contact}</a>` : ''}</div></div>` +
+          `<div class="lan" aria-hidden="true"><div class="strap"></div><div class="clip"></div><div class="card"><div class="slot"></div>${P.photo ? `<img src="${P.photo}" alt="">` : `<div class="noph">${E(ini)}</div>`}<b>${E(P.name)}</b><span>${E(P.tagline || P.goal || '')}</span><em>PORTFOLIO ${yr}</em></div></div></header>` +
+          (P.intro ? `<section id="about"><h2 data-r="0">${L.about}</h2><div class="about" data-r="100">${E(P.intro)}</div></section>` : '<div id="about"></div>') +
+          (works ? `<section id="works"><h2 data-r="0">${L.works}</h2><div class="works">${works}</div></section>` : '') +
+          (tl ? `<section><h2 data-r="0">${L.acts} · ${L.awards}</h2><ul class="tl">${tl}</ul></section>` : '') +
+          (P.skills.length ? `<section><h2 data-r="0">${L.skills}</h2><div class="chips" data-r="100">${P.skills.map((s) => `<span>${E(s)}</span>`).join('')}</div></section>` : '') + `</div>` +
+          (P.contact ? `<div class="ct" id="contact"><h2 data-r="0">${L.cta}</h2><p data-r="200">${E(P.contact)}</p></div>` : '') +
+          `<footer>${E(P.upd)}</footer>${AI_FONTS}${c.still ? '' : AI_JS}</body></html>`;
+      }
+      // แบบ "เอกสาร A4": เป็นหน้ากระดาษจริง (ปก / แนะนำตัว / ผลงานหน้าละ 2 ชิ้น / ติดต่อ) บันทึกเป็นรูป PNG ทีละหน้า หรือพิมพ์เป็น PDF ได้ ไม่ต้องเป็นเว็บ
+      // ตัวสร้างรูป (html-to-image) โหลดจาก CDN เฉพาะตอนกดบันทึกรูป
+      const AI_DOC_JS = '<script>' + `(function(){var d=document,W=window;
+function fit(){var p=d.querySelector('.pages');if(!p)return;p.style.zoom=Math.min(1,(d.documentElement.clientWidth-24)/794)}
+fit();W.addEventListener('resize',fit);W.addEventListener('beforeprint',function(){d.querySelector('.pages').style.zoom=1});W.addEventListener('afterprint',fit);
+function dl(u,n){var a=d.createElement('a');a.href=u;a.download=n;d.body.appendChild(a);a.click();a.remove()}
+function load(cb){if(W.htmlToImage)return cb();var s=d.createElement('script');s.src='https://cdn.jsdelivr.net/npm/html-to-image@1.11.11/dist/html-to-image.js';s.onload=cb;s.onerror=function(){alert('โหลดตัวสร้างรูปไม่สำเร็จ ตรวจอินเทอร์เน็ตแล้วลองใหม่')};d.head.appendChild(s)}
+var busy=false;function png(){if(busy)return;busy=true;load(function(){var p=d.querySelector('.pages'),z=p.style.zoom;p.style.zoom=1;var ps=[].slice.call(d.querySelectorAll('.page')),i=0;(function next(){if(i>=ps.length){p.style.zoom=z;busy=false;return}var n=ps[i++];W.htmlToImage.toPng(n,{pixelRatio:2,cacheBust:true}).then(function(u){dl(u,'portfolio-'+i+'.png');setTimeout(next,500)}).catch(function(){p.style.zoom=z;busy=false;alert('สร้างรูปไม่สำเร็จ ลองใหม่อีกครั้ง')})})()})}
+W.addEventListener('message',function(e){if(e.source!==W.parent||!e.data||e.data.ck!=='export')return;if(e.data.cmd==='png')png();else if(e.data.cmd==='print')W.print()});
+if(W.top===W){var b=d.createElement('div');b.className='tb';b.innerHTML='<button data-c="png">บันทึกเป็นรูป PNG</button><button data-c="print">บันทึกเป็น PDF</button>';b.onclick=function(e){var c=e.target.getAttribute('data-c');if(c==='png')png();if(c==='print')W.print()};d.body.appendChild(b)}
+})();` + '<\/script>';
+      function aiBuildDoc(P, c) {
+        const E = aiEsc, L = P.L, yr = new Date().getFullYear(); let pn = 1;
+        const num = () => `<div class="pn">${String(++pn).padStart(2, '0')}</div>`;
+        const pages = [];
+        pages.push(`<section class="page cover"><div class="yr">${yr}</div><h1>Portfolio<span>.</span></h1><div class="dot"></div><div class="who">${P.photo ? `<img class="ph" src="${P.photo}" alt="">` : ''}<div><div class="nm">${E(P.name)}</div>${P.tagline ? `<p>${E(P.tagline)}</p>` : ''}${P.goal ? `<div class="goal">${L.goal}: ${E(P.goal)}</div>` : ''}</div></div></section>`);
+        const li = (a) => (typeof a === 'string' ? `<li><b>${E(a)}</b></li>` : `<li><b>${E(a.title)}</b>${a.summary ? `<span>${E(a.summary)}</span>` : ''}</li>`);
+        if (P.intro || P.acts.length || P.awards.length || P.skills.length) {
+          pages.push(`<section class="page"><div class="hd"><span class="k">01</span><h2>${L.about}</h2></div>${P.intro ? `<p class="intro">${E(P.intro)}</p>` : ''}<div class="cols">${P.acts.length ? `<div><h3>${L.acts}</h3><ul>${P.acts.map(li).join('')}</ul></div>` : ''}${P.awards.length ? `<div><h3>${L.awards}</h3><ul>${P.awards.map(li).join('')}</ul></div>` : ''}</div>${P.skills.length ? `<h3 class="sh">${L.skills}</h3><div class="chips">${P.skills.map((s) => `<span>${E(s)}</span>`).join('')}</div>` : ''}${num()}</section>`);
+        }
+        for (let i = 0; i < P.works.length; i += 2) {
+          const items = P.works.slice(i, i + 2).map((w, k) => `<article class="it">${w.img ? `<img src="${w.img}" alt="${E(w.title)}">` : ''}<div class="t"><span class="n">${String(i + k + 1).padStart(2, '0')}</span><h4>${E(w.title)}</h4>${w.meta ? `<span class="m">${E(w.meta)}</span>` : ''}</div>${w.sum ? `<p>${E(w.sum)}</p>` : ''}${w.url ? `<div class="u">${E(w.url)}</div>` : ''}</article>`).join('');
+          pages.push(`<section class="page"><div class="hd"><span class="k">02</span><h2>${L.works}</h2></div><div class="wk">${items}</div>${num()}</section>`);
+        }
+        pages.push(`<section class="page end"><h2 class="big">${P.contact ? L.cta : L.thanks}</h2>${P.contact ? `<p class="ct">${E(P.contact)}</p>` : ''}<div class="nm2">${E(P.name)} · ${yr}</div>${num()}</section>`);
+        const css = `:root{--paper:#f6f1e7;--ink:#1c1a17;--m:#6f675c;--line:rgba(28,26,23,.12);--ac:#2448c8}
+*{box-sizing:border-box;margin:0;padding:0}html{background:#d9d6cf}body{font:400 15px/1.7 'Anuphan',system-ui,'Noto Sans Thai',sans-serif;color:var(--ink);-webkit-font-smoothing:antialiased}
+.pages{display:flex;flex-direction:column;align-items:center;gap:24px;padding:24px 0;width:794px;margin:0 auto}
+.page{position:relative;width:794px;height:1123px;background:var(--paper);padding:64px 64px 80px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.yr{font:500 18px 'Prompt',sans-serif;color:var(--m)}.cover h1{font:800 132px/1 'Prompt','Anuphan',sans-serif;letter-spacing:-.04em;margin-top:200px}.cover h1 span{color:var(--ac)}
+.dot{position:absolute;right:88px;top:120px;width:128px;height:128px;border-radius:50%;background:var(--ac)}
+.who{position:absolute;left:64px;right:64px;bottom:80px;display:flex;gap:28px;align-items:flex-end}.ph{width:200px;height:250px;object-fit:cover;border-radius:18px;flex:none}
+.nm{font:700 38px/1.2 'Prompt','Anuphan',sans-serif}.who p{color:var(--m);font-size:17px;margin-top:8px;max-width:28rem}.goal{display:inline-block;margin-top:14px;padding:6px 14px;border:1px solid var(--ink);border-radius:99px;font-size:13px}
+.hd{display:flex;align-items:baseline;gap:16px;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--line)}.k{font:600 14px 'Prompt',sans-serif;color:var(--ac)}h2{font:700 40px/1.1 'Prompt','Anuphan',sans-serif}
+.intro{font-size:18px;line-height:1.8;max-width:38rem;margin-bottom:36px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:40px}h3{font:600 13px 'Anuphan',sans-serif;color:var(--m);margin-bottom:10px}.sh{margin-top:36px}
+ul{list-style:none}li{padding:10px 0;border-bottom:1px solid var(--line)}li b{display:block;font-weight:600}li span{color:var(--m);font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chips span{padding:6px 14px;border-radius:99px;background:rgba(28,26,23,.06);font-size:14px}
+.wk{display:grid;gap:36px}.it img{display:block;width:100%;aspect-ratio:21/9;object-fit:cover;border-radius:14px}
+.it .t{display:flex;gap:14px;align-items:baseline;margin-top:14px}.it .n{font:600 14px 'Prompt',sans-serif;color:var(--ac)}.it h4{font:700 22px/1.3 'Prompt','Anuphan',sans-serif}.it .m{color:var(--m);font-size:13px;margin-left:auto;white-space:nowrap}
+.it p{margin-top:6px;color:#3d3832;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}.it .u{font-size:12px;color:var(--ac);word-break:break-all;margin-top:4px}
+.end{display:flex;flex-direction:column;justify-content:center}.big{font:800 84px/1.05 'Prompt','Anuphan',sans-serif;letter-spacing:-.02em}.big:after{content:".";color:var(--ac)}.ct{font-size:20px;margin-top:24px}.nm2{position:absolute;left:64px;bottom:40px;color:var(--m);font-size:13px}
+.pn{position:absolute;right:64px;bottom:40px;font:500 12px 'Prompt',sans-serif;color:var(--m)}
+.tb{position:fixed;right:16px;bottom:16px;display:flex;gap:8px;z-index:9}.tb button{padding:10px 16px;border-radius:12px;border:0;background:#1c1a17;color:#fff;font:600 14px 'Anuphan',sans-serif;cursor:pointer}
+@page{size:A4;margin:0}@media print{html,body{background:none}.pages{padding:0;gap:0;zoom:1!important}.page{box-shadow:none;break-after:page}.tb{display:none}}`;
+        return `<!DOCTYPE html><html lang="${P.en ? 'en' : 'th'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${E(P.name)}</title><style>${css}${P.accent ? `:root{--ac:${P.accent}}` : ''}</style></head><body><div class="pages">${pages.join('')}</div>${AI_FONTS}${c.still ? '' : AI_DOC_JS}</body></html>`;
+      }
       function aiBuildQuiet(d, c) {
-        d = d || {}; const th = AI_THEMES[c.theme] || AI_THEMES.white, en = c.lang === 'en', E = aiEsc;
+        d = d || {}; const th = { ...(AI_THEMES[c.theme] || AI_THEMES.white), ...(/^#[0-9a-f]{6}$/i.test(c.accent || '') ? { ac: c.accent } : {}) }, en = c.lang === 'en', E = aiEsc;
         const L = en ? { about: 'About', works: 'Work', acts: 'Activities', awards: 'Awards', skills: 'Skills', goal: 'Applying to', visit: 'View project', upd: 'Updated', contact: 'Contact' } : { about: 'แนะนำตัว', works: 'ผลงาน', acts: 'กิจกรรม', awards: 'รางวัล', skills: 'ทักษะ', goal: 'สมัคร', visit: 'ดูผลงาน', upd: 'อัปเดต', contact: 'ติดต่อ' };
         const safeUrl = (u) => (/^https?:\/\/[^\s"'<>]+$/i.test(u) ? u : '');
         const works = (c.works || []).map((w, i) => {
