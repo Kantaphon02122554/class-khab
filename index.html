@@ -293,6 +293,16 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .pf-l { display: block; font-size: 0.8rem; font-weight: 700; color: #64748b; margin-bottom: 0.9rem; } .pf-l input, .pf-l textarea { display: block; width: 100%; margin-top: 0.3rem; padding: 0.6rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 1rem; font-weight: 500; color: #0f172a; background: #fff; } html.dark .pf-l input, html.dark .pf-l textarea { background: #0b1220; border-color: #243152; color: #f1f5f9; }
       .pf-colors { display: flex; gap: 0.6rem; margin-top: 0.4rem; } .pf-colors button { width: 2rem; height: 2rem; border-radius: 50%; border: 2px solid transparent; } .pf-colors button.on { border-color: #0f172a; box-shadow: 0 0 0 2px #fff inset; } html.dark .pf-colors button.on { border-color: #fff; }
       .pf-save { width: 100%; padding: 0.75rem; border-radius: 12px; background: #0f172a; color: #fff; font-weight: 700; } html.dark .pf-save { background: #f1f5f9; color: #0f172a; }
+      /* ติดต่อ: แถวเรียบ ไอคอนคอลัมน์เดียว คำอธิบายบรรทัดเดียว จุดสถานะเล็กๆ บอกว่าแชตแอดมินเปิดอยู่ */
+      .ct-lead { font-size: 0.8rem; color: #64748b; margin: -0.25rem 0 0.75rem; } html.dark .ct-lead { color: #94a3b8; }
+      .ct-list { border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; } html.dark .ct-list { border-color: #243152; }
+      .ct-row { display: flex; align-items: center; gap: 0.75rem; width: 100%; text-align: left; padding: 0.9rem 1rem; border-bottom: 1px solid #f1f5f9; color: inherit; transition-property: background-color, transform; transition-duration: .15s, var(--d-med); transition-timing-function: ease, var(--e-out); -webkit-tap-highlight-color: transparent; } html.dark .ct-row { border-bottom-color: #1a2540; }
+      .ct-row:last-child { border-bottom: 0; } .ct-row:active { background: #f8fafc; transform: scale(0.985); transition-duration: .15s, var(--d-fast); } html.dark .ct-row:active { background: rgba(255, 255, 255, 0.05); }
+      .ct-row svg { width: 20px; height: 20px; flex: none; color: #64748b; }
+      .ct-t { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; } .ct-t b { font-weight: 600; font-size: 0.95rem; color: #0f172a; } html.dark .ct-t b { color: #f1f5f9; } .ct-t small { font-size: 0.78rem; color: #64748b; line-height: 1.35; } html.dark .ct-t small { color: #94a3b8; }
+      .ct-dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; flex: none; } .ct-row:disabled { opacity: 0.55; } .ct-row:disabled .ct-dot { display: none; } .ct-row.ct-new .ct-dot { background: #e11d48; }
+      .ct-foot { font-size: 0.72rem; color: #94a3b8; margin: 0.9rem 0.25rem 0; line-height: 1.5; }
+      @media (prefers-reduced-motion: reduce) { .ct-row:active { transform: none; } }
       .so-wrap { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 2rem 0 1rem; }
       .so-ring { position: relative; width: 96px; height: 96px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
       .so-ring svg { width: 36px; height: 36px; animation: soSpin 6s ease-in-out infinite; }
@@ -706,10 +716,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
               </div>
               <div class="v2-group">ช่วยเหลือ</div>
               <div class="v2-list">
-                <button class="v2-item student-only" onclick="openAdminChat()"><i data-lucide="shield-check"></i><span class="grow">คุยกับแอดมิน <small>(ส่วนตัว)</small></span><span id="menuAdminDot" class="hidden w-2.5 h-2.5 rounded-full bg-rose-500"></span></button>
+                <button class="v2-item student-only" onclick="openContact()"><i data-lucide="message-circle"></i><span class="grow">ติดต่อ <small>(แอดมิน แจ้งตารางผิด ขอความช่วยเหลือ)</small></span><span id="menuAdminDot" class="hidden w-2.5 h-2.5 rounded-full bg-rose-500"></span></button>
                 <button class="v2-item student-only" onclick="setView('home'); toggleReportMode(true)"><i data-lucide="flag"></i><span class="grow">แจ้งตารางผิด</span></button>
                 <a href="help.html" class="v2-item"><i data-lucide="circle-help"></i><span class="grow">วิธีใช้</span></a>
-                <a href="help.html#contact" class="v2-item student-only"><i data-lucide="heart"></i><span class="grow">บอกครูหรือผู้ใหญ่ <small>(ถ้ามีเรื่องไม่สบายใจ)</small></span></a>
               </div>
               <div class="v2-group">บัญชี</div>
               <div class="v2-list">
@@ -737,6 +746,30 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                 <label class="pf-l">คำอธิบายตัวเอง<textarea id="pfInBio" maxlength="80" rows="2" placeholder="สั้นๆ ไม่เกิน 80 ตัวอักษร"></textarea></label>
                 <div class="pf-l">สีพื้นรูป<div id="pfColors" class="pf-colors"></div></div>
                 <button class="pf-save" onclick="saveProfile()">บันทึก</button>
+              </div>
+            </div>
+
+            <!-- ติดต่อ: รวมช่องทางที่มีอยู่แล้ว (แชตแอดมิน / แจ้งตารางผิด / เรื่องไม่สบายใจ) ไว้ที่เดียว ไม่มีช่องทางใหม่ที่ผมเดาเอง -->
+            <div id="ctSheet" class="pf-sheet hidden" onclick="if(event.target===this)closeContact()">
+              <div class="pf-panel" role="dialog" aria-label="ติดต่อ">
+                <div class="pf-ph"><b>ติดต่อ</b><button onclick="closeContact()" aria-label="ปิด"><i data-lucide="x"></i></button></div>
+                <p class="ct-lead">เลือกเรื่องที่ตรงที่สุด</p>
+                <div class="ct-list">
+                  <button id="ctAdmin" class="ct-row" onclick="contactGo('admin')">
+                    <i data-lucide="shield-check"></i>
+                    <span class="ct-t"><b>คุยกับแอดมิน</b><small id="ctAdminSub">ส่งข้อความส่วนตัว เพื่อนในห้องไม่เห็น</small></span>
+                    <span id="ctAdminDot" class="ct-dot" aria-hidden="true"></span>
+                  </button>
+                  <button class="ct-row" onclick="contactGo('report')">
+                    <i data-lucide="flag"></i>
+                    <span class="ct-t"><b>แจ้งตารางผิด</b><small>แตะคาบที่ไม่ตรงความจริง แล้วส่งให้ผู้ดูแลตรวจ</small></span>
+                  </button>
+                  <a class="ct-row" href="help.html#contact">
+                    <i data-lucide="heart"></i>
+                    <span class="ct-t"><b>มีเรื่องไม่สบายใจ</b><small>บอกครู ผู้ปกครอง หรือสายด่วนที่โทรฟรี</small></span>
+                  </a>
+                </div>
+                <p class="ct-foot">ClassKhab เป็นเว็บเสริมที่นักเรียนทำ ไม่ใช่ช่องทางทางการของโรงเรียน เรื่องสำคัญ เช่น วันสอบ ให้ตรวจกับประกาศของโรงเรียนอีกครั้ง</p>
               </div>
             </div>
 
@@ -2750,6 +2783,20 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         document.getElementById('pfSheet').classList.remove('hidden'); if (window.lucide) lucide.createIcons();
       }
       function closeProfileEdit() { document.getElementById('pfSheet').classList.add('hidden'); }
+      // ---- ติดต่อ ----
+      function openContact() {
+        const b = document.getElementById('ctAdmin'), sub = document.getElementById('ctAdminSub');
+        b.disabled = !fabAvail;   // แชตแอดมินใช้ได้เฉพาะห้องที่เปิดแชต
+        sub.textContent = fabAvail ? 'ส่งข้อความส่วนตัว เพื่อนในห้องไม่เห็น' : 'ห้องของคุณยังไม่เปิดแชต ถ้ามีปัญหา บอกหัวหน้าห้องให้ช่วยส่งต่อ';
+        b.classList.toggle('ct-new', !document.getElementById('menuAdminDot').classList.contains('hidden'));
+        document.getElementById('ctSheet').classList.remove('hidden'); if (window.lucide) lucide.createIcons();
+      }
+      function closeContact() { document.getElementById('ctSheet').classList.add('hidden'); }
+      function contactGo(what) {
+        closeContact();
+        if (what === 'admin') openAdminChat();
+        else if (what === 'report') { setView('home'); toggleReportMode(true); }
+      }
       function pickProfilePhoto(inp) {
         const file = inp.files && inp.files[0]; if (!file) return;
         const img = new Image(), url = URL.createObjectURL(file);
