@@ -314,9 +314,15 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .pt-head { margin-bottom: 0.9rem; } .pt-sub { font-size: 0.85rem; color: #64748b; line-height: 1.6; } html.dark .pt-sub { color: #94a3b8; }
       .pt-chip { display: inline-block; margin-left: 0.3rem; padding: 0.1rem 0.6rem; border-radius: 99px; background: #f1f5f9; color: #334155; font-size: 0.75rem; font-weight: 600; } .pt-chip:empty { display: none; } html.dark .pt-chip { background: rgba(255, 255, 255, 0.1); color: #e2e8f0; }
       .pt-grid { display: grid; gap: 1.25rem; } .pt-out-h { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.5rem; } .pt-out-t { font-size: 0.8rem; font-weight: 700; color: #64748b; }
-      .pt-themes { display: inline-flex; gap: 2px; padding: 2px; border-radius: 10px; background: #f1f5f9; } .pt-themes.hidden { display: none; } .pt-themes button { padding: 0.25rem 0.75rem; border-radius: 8px; font-size: 0.78rem; font-weight: 600; color: #64748b; } .pt-themes button.on { background: #fff; color: #0f172a; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1); } html.dark .pt-themes { background: rgba(255, 255, 255, 0.08); } html.dark .pt-themes button.on { background: rgba(255, 255, 255, 0.16); color: #fff; box-shadow: none; }
+      .pt-tools { display: inline-flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+      .pt-seg { display: inline-flex; gap: 2px; padding: 2px; border-radius: 10px; background: #f1f5f9; } .pt-seg.hidden { display: none; } .pt-seg button { padding: 0.25rem 0.75rem; border-radius: 8px; font-size: 0.78rem; font-weight: 600; color: #64748b; } .pt-seg button.on { background: #fff; color: #0f172a; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1); } html.dark .pt-seg { background: rgba(255, 255, 255, 0.08); } html.dark .pt-seg button.on { background: rgba(255, 255, 255, 0.16); color: #fff; box-shadow: none; }
+      .pt-card { border: 1px solid #e2e8f0; border-radius: 16px; padding: 0 1rem; margin-bottom: 0.7rem; background: #fff; } html.dark .pt-card { background: #111a2e; border-color: #243152; } .pt-card.hidden { display: none; }
+      .pt-card > summary { list-style: none; cursor: pointer; padding: 0.85rem 0; font-weight: 700; font-size: 0.92rem; display: flex; align-items: center; justify-content: space-between; } .pt-card > summary::-webkit-details-marker { display: none; } .pt-card > summary::after { content: "+"; color: #94a3b8; font-weight: 500; font-size: 1.2rem; line-height: 1; } .pt-card[open] > summary::after { content: "–"; } .pt-card > summary small { font-weight: 400; color: #94a3b8; margin-left: 0.4rem; } .pt-card[open] { padding-bottom: 0.35rem; }
+      .pt-run { display: flex; align-items: center; gap: 0.6rem; } .pt-run .pf-save { flex: 1; } .pt-run .ai-mini { margin-left: 0; white-space: nowrap; }
+      .pt-stage { border-radius: 18px; background: #e8ebf0; padding: 0.75rem; display: flex; justify-content: center; } html.dark .pt-stage { background: #0b1220; } .pt-stage .ai-frame { border: 1px solid rgba(15, 23, 42, 0.08); box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08); } .pt-stage .ai-text { width: 100%; }
+      .pt-stage.mob .ai-frame { width: 390px; max-width: 100%; border-radius: 22px; }
       .pt-acts { display: inline-flex; } .pt-hint { font-size: 0.75rem; color: #94a3b8; margin: 0.6rem 0.1rem 0; line-height: 1.5; }
-      @media (min-width: 1024px) { html.ui2[data-view="portfolio"] #dashCard { max-width: 70rem; } .pt-grid { grid-template-columns: minmax(0, 27rem) minmax(0, 1fr); align-items: start; } .pt-out { position: sticky; top: 1rem; } .pt-out .ai-frame { height: calc(100vh - 9rem); } }
+      @media (min-width: 1024px) { html.ui2[data-view="portfolio"] #dashCard { max-width: 84rem; } .pt-grid { grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); align-items: start; } .pt-out { position: sticky; top: 1rem; } .pt-out .ai-frame { height: calc(100vh - 10rem); } .pt-form { max-height: calc(100vh - 7rem); overflow: auto; padding-right: 0.25rem; } }
       .ai-hint { font-size: 0.75rem; font-weight: 400; color: #94a3b8; margin: 0.2rem 0 0.6rem; line-height: 1.5; }
       .ai-photo { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.4rem; } .ai-photo img { width: 3.5rem; height: 3.5rem; border-radius: 50%; object-fit: cover; } .ai-photo .ai-mini { margin-left: 0; cursor: pointer; }
       .ai-work { border: 1px solid #e2e8f0; border-radius: 14px; padding: 0.8rem; margin-bottom: 0.6rem; } html.dark .ai-work { border-color: #243152; }
@@ -796,49 +802,65 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
               </div>
             </div>
 
-            <!-- พอร์ตโฟลิโอ (แท็บ): ฟอร์มซ้าย ตัวอย่างสดขวา (มือถือเรียงต่อกัน) AI เขียนเฉพาะข้อความ หน้าตามาจากเทมเพลต -->
+            <!-- พอร์ตโฟลิโอ (แท็บ): แนวแคนวาส ตัวอย่างหน้าพอร์ตเป็นพระเอก (ขยับตามที่พิมพ์ทันที ไม่เสียสิทธิ์) แผงข้อมูลเป็นการ์ดพับได้ AI ช่วยเรียบเรียงข้อความแล้วเติมกลับลงช่อง -->
             <div id="portfolioV2" class="v2-only v-portfolio">
               <div class="pt-head">
                 <h2 class="text-2xl font-extrabold text-slate-900 mb-1">พอร์ตโฟลิโอ</h2>
-                <p class="pt-sub">ใส่ข้อมูลจริงของคุณ ให้ AI ช่วยเรียบเรียง แล้วได้หน้าพอร์ตพร้อมใช้ <span id="aiLeft" class="pt-chip"></span></p>
+                <p class="pt-sub">พิมพ์ข้อมูลจริงของคุณ หน้าพอร์ตขยับตามทันที พร้อมแล้วให้ AI ช่วยเรียบเรียงข้อความ <span id="aiLeft" class="pt-chip"></span></p>
               </div>
               <div id="aiNeedLogin" class="ai-note hidden">ฟีเจอร์นี้ใช้ได้เมื่อเข้าสู่ระบบด้วยอีเมลโรงเรียนเท่านั้น (เพื่อนับสิทธิ์รายคน) ออกจากระบบ (หน้าโปรไฟล์) แล้วเข้าใหม่ด้วยเลขประจำตัว</div>
               <div id="aiMain" class="pt-grid">
-                <div class="pt-form">
-                  <p class="ai-note">ข้อความที่คุณพิมพ์จะถูกส่งให้บริษัท AI (Anthropic) ประมวลผล <b>ห้ามใส่เบอร์โทร อีเมล ที่อยู่ เลขบัตร</b> AI อาจผิดหรือเขียนเกินจริง ตรวจและแก้เองก่อนนำไปใช้ และ <b>ไม่ควรใส่ผลงานหรือรางวัลที่ไม่ได้ทำจริง</b></p>
+                <div class="pt-form" oninput="aiLive()">
                   <div class="v2-tabs ai-tabs" role="tablist">
-                    <button id="aiTabPage" class="on" onclick="aiSetMode('page')">สร้างหน้าพอร์ต</button>
+                    <button id="aiTabPage" class="on" onclick="aiSetMode('page')">หน้าพอร์ต</button>
                     <button id="aiTabWrite" onclick="aiSetMode('write')">เรียบเรียงข้อความ</button>
                     <button id="aiTabReview" onclick="aiSetMode('review')">ขอคำแนะนำ</button>
                   </div>
-                  <label class="pf-l ai-f" data-m="write page review">เป้าหมาย (สมัครอะไร ที่ไหน)<input id="aiGoal" maxlength="150" placeholder="เช่น สมัครคณะวิศวกรรมศาสตร์ รอบพอร์ต"></label>
-                  <label class="pf-l ai-f" data-m="page">ชื่อที่ใช้แสดงบนพอร์ต<input id="aiName" maxlength="60" placeholder="ชื่อ (ใส่เฉพาะที่ยินดีให้แสดง)"></label>
-                  <div class="pf-l ai-f" data-m="page">รูปของคุณ (ไม่บังคับ)
-                    <div class="ai-photo"><img id="aiPhotoPrev" class="hidden" alt=""><label class="ai-mini">เลือกรูป<input id="aiPhotoFile" type="file" accept="image/*" hidden onchange="aiPickPhoto(this)"></label><button type="button" id="aiPhotoDel" class="ai-mini hidden" onclick="aiClearPhoto()">ลบรูป</button></div>
-                  </div>
-                  <label class="pf-l ai-f" data-m="write page">แนะนำตัว/ความสนใจ<textarea id="aiAbout" maxlength="900" rows="3" placeholder="บอกตามจริง สั้นๆ ก็ได้"></textarea></label>
-                  <div class="pf-l ai-f" data-m="page">ผลงาน (ไม่เกิน 6 ชิ้น)
+                  <details class="pt-card ai-f" data-m="write page review" open>
+                    <summary>โปรไฟล์</summary>
+                    <label class="pf-l ai-f" data-m="write page review">เป้าหมาย (สมัครอะไร ที่ไหน)<input id="aiGoal" maxlength="150" placeholder="เช่น สมัครคณะวิศวกรรมศาสตร์ รอบพอร์ต"></label>
+                    <label class="pf-l ai-f" data-m="page">ชื่อที่ใช้แสดงบนพอร์ต<input id="aiName" maxlength="60" placeholder="ชื่อ (ใส่เฉพาะที่ยินดีให้แสดง)"></label>
+                    <div class="pf-l ai-f" data-m="page">รูปของคุณ (ไม่บังคับ)
+                      <div class="ai-photo"><img id="aiPhotoPrev" class="hidden" alt=""><label class="ai-mini">เลือกรูป<input id="aiPhotoFile" type="file" accept="image/*" hidden onchange="aiPickPhoto(this)"></label><button type="button" id="aiPhotoDel" class="ai-mini hidden" onclick="aiClearPhoto()">ลบรูป</button></div>
+                    </div>
+                    <label class="pf-l ai-f" data-m="page">ประโยคแนะนำสั้นๆ (AI ช่วยเขียนให้ได้)<input id="aiTagline" maxlength="90" placeholder="เช่น นักเรียน ม.3 ที่ชอบทำหุ่นยนต์"></label>
+                    <label class="pf-l ai-f" data-m="write page">แนะนำตัว/ความสนใจ<textarea id="aiAbout" maxlength="900" rows="3" placeholder="บอกตามจริง สั้นๆ ก็ได้"></textarea></label>
+                  </details>
+                  <details class="pt-card ai-f hidden" data-m="page" open>
+                    <summary>ผลงาน <small>ไม่เกิน 6 ชิ้น</small></summary>
                     <p class="ai-hint">รูป ชื่อ และลิงก์อยู่ในเครื่องคุณเท่านั้น ไม่ถูกส่งให้ AI AI เห็นแค่ชื่อ บทบาท และคำอธิบายที่คุณพิมพ์</p>
                     <div id="aiWorks"></div>
                     <button type="button" id="aiAddWork" class="ai-mini ai-add" onclick="aiAddWork()">+ เพิ่มผลงาน</button>
-                  </div>
-                  <label class="pf-l ai-f" data-m="write page">กิจกรรม<textarea id="aiActs" maxlength="900" rows="4" placeholder="แต่ละอย่างเขียนบรรทัดละหนึ่งรายการ บอกว่าทำอะไร บทบาทอะไร ผลเป็นอย่างไร"></textarea></label>
-                  <label class="pf-l ai-f" data-m="write page">รางวัล/ใบประกาศ<textarea id="aiAwards" maxlength="900" rows="2" placeholder="เฉพาะที่ได้จริง พร้อมปี/ระดับ ถ้าไม่มี เว้นว่างได้"></textarea></label>
-                  <label class="pf-l ai-f" data-m="write page">ทักษะ<textarea id="aiSkills" maxlength="900" rows="2" placeholder="เช่น เขียนโปรแกรม ภาษาอังกฤษ ถ่ายภาพ"></textarea></label>
+                  </details>
+                  <details class="pt-card ai-f" data-m="write page">
+                    <summary>กิจกรรม รางวัล ทักษะ</summary>
+                    <label class="pf-l ai-f" data-m="write page">กิจกรรม <small>(บรรทัดละหนึ่งรายการ ใช้ | คั่นชื่อกับรายละเอียดได้)</small><textarea id="aiActs" maxlength="900" rows="4" placeholder="ชุมนุมหุ่นยนต์ | หัวหน้าทีม ดูแลโปรแกรมควบคุม"></textarea></label>
+                    <label class="pf-l ai-f" data-m="write page">รางวัล/ใบประกาศ <small>(บรรทัดละหนึ่งรายการ)</small><textarea id="aiAwards" maxlength="900" rows="2" placeholder="เฉพาะที่ได้จริง พร้อมปี/ระดับ ถ้าไม่มี เว้นว่างได้"></textarea></label>
+                    <label class="pf-l ai-f" data-m="write page">ทักษะ <small>(คั่นด้วยจุลภาค)</small><textarea id="aiSkills" maxlength="900" rows="2" placeholder="เช่น Python, ภาษาอังกฤษ, ถ่ายภาพ"></textarea></label>
+                  </details>
                   <label class="pf-l ai-f hidden" data-m="review">วางพอร์ตที่เขียนไว้แล้ว<textarea id="aiText" maxlength="2500" rows="8" placeholder="วางข้อความพอร์ตของคุณที่นี่ (ไม่เกิน 2,500 ตัวอักษร)"></textarea></label>
-                  <label class="pf-l ai-f" data-m="write page review">ภาษา<select id="aiLang"><option value="th">ไทย</option><option value="en">English</option></select></label>
-                  <button id="aiRun" class="pf-save" onclick="aiRun()">สร้างหน้าพอร์ต</button>
+                  <label class="pf-l ai-f" data-m="write page review">ภาษา<select id="aiLang" onchange="aiLive()"><option value="th">ไทย</option><option value="en">English</option></select></label>
+                  <p class="ai-note">ข้อความที่คุณพิมพ์จะถูกส่งให้บริษัท AI (Anthropic) ประมวลผลเมื่อกดปุ่มด้านล่าง <b>ห้ามใส่เบอร์โทร อีเมล ที่อยู่ เลขบัตร</b> AI อาจผิดหรือเขียนเกินจริง ตรวจและแก้เองก่อนนำไปใช้ และ <b>ไม่ควรใส่ผลงานหรือรางวัลที่ไม่ได้ทำจริง</b></p>
+                  <div class="pt-run">
+                    <button id="aiRun" class="pf-save" onclick="aiRun()">ให้ AI เรียบเรียงข้อความ</button>
+                    <button id="aiUndo" type="button" class="ai-mini hidden" onclick="aiUndoRestore()">ย้อนข้อความเดิม</button>
+                  </div>
                   <p id="aiErr" class="ai-err hidden" role="alert"></p>
                 </div>
                 <aside id="aiOut" class="pt-out" aria-label="ตัวอย่างผลลัพธ์">
                   <div class="pt-out-h">
                     <span id="aiOutTitle" class="pt-out-t">ตัวอย่างหน้าตา</span>
-                    <span class="pt-themes" id="aiThemes" role="group" aria-label="โทนสี"><button class="on" data-t="white" onclick="aiSetTheme('white')">ขาว</button><button data-t="dark" onclick="aiSetTheme('dark')">เข้ม</button><button data-t="warm" onclick="aiSetTheme('warm')">ครีม</button></span>
-                    <span class="pt-acts"><button id="aiCopy" class="ai-mini hidden" onclick="aiCopy()">คัดลอก</button><button id="aiDl" class="ai-mini hidden" onclick="aiDownload()">ดาวน์โหลด .html</button></span>
+                    <span class="pt-tools">
+                      <span class="pt-seg" id="aiThemes" role="group" aria-label="โทนสี"><button class="on" data-t="white" onclick="aiSetTheme('white')">ขาว</button><button data-t="dark" onclick="aiSetTheme('dark')">เข้ม</button><button data-t="warm" onclick="aiSetTheme('warm')">ครีม</button></span>
+                      <span class="pt-seg" id="aiDevices" role="group" aria-label="ขนาดจอ"><button class="on" data-d="desktop" onclick="aiSetDevice('desktop')">คอม</button><button data-d="mobile" onclick="aiSetDevice('mobile')">มือถือ</button></span>
+                      <span class="pt-acts"><button id="aiCopy" class="ai-mini hidden" onclick="aiCopy()">คัดลอก</button><button id="aiDl" class="ai-mini hidden" onclick="aiDownload()">ดาวน์โหลด .html</button></span>
+                    </span>
                   </div>
-                  <pre id="aiText2" class="ai-text hidden"></pre>
-                  <iframe id="aiFrame" class="ai-frame" sandbox="allow-same-origin" title="ตัวอย่างหน้าพอร์ต">   <!-- ไม่ใส่ allow-scripts จึงรันสคริปต์ไม่ได้ แต่ sandbox="" เปล่าๆ ทำให้บางเบราว์เซอร์วาดหน้าว่าง --></iframe>
-                  <p id="aiOutHint" class="pt-hint">นี่คือหน้าตาตัวอย่าง ข้อมูลของคุณจะแสดงที่นี่หลังกดสร้าง เปลี่ยนโทนสีได้ทันที ไม่เสียสิทธิ์</p>
+                  <div id="aiStage" class="pt-stage">
+                    <pre id="aiText2" class="ai-text hidden"></pre>
+                    <iframe id="aiFrame" class="ai-frame" sandbox="allow-same-origin" title="ตัวอย่างหน้าพอร์ต"></iframe>
+                  </div>
+                  <p id="aiOutHint" class="pt-hint"></p>
                 </aside>
               </div>
             </div>
@@ -2880,37 +2902,49 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const j = await res.json().catch(() => ({})); if (res.status === 401) localStorage.removeItem('classkhab_token'); return { ...j, status: res.status };
         } catch (e) { return { ok: false, error: 'net' }; }
       }
-      let aiTheme = 'white', aiLast = null, aiSampleImgs = null;
-      function aiSampleHtml() {   // ตัวอย่างหน้าตา (ข้อความสมมติ ภาพสีเทาเรียบ) ให้เห็นว่าจะได้หน้าตาแบบไหนก่อนกดสร้าง
+      let aiTheme = 'white', aiDevice = 'desktop', aiSampleImgs = null, aiBackup = null, aiLiveTimer = null;
+      const aiLines = (s) => String(s || '').split('\n').map((x) => x.trim()).filter(Boolean);
+      const aiVal = (id) => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
+      // รวมข้อมูลจากฟอร์มเป็นข้อมูลหน้าพอร์ต (หน้าตัวอย่างวาดจากฟอร์มตรงๆ ไม่เรียก AI) กิจกรรมใช้ "ชื่อ | รายละเอียด"
+      function aiFormData() {
+        const works = aiReadWorks();
+        const activities = aiLines(aiVal('aiActs')).map((l) => { const i = l.indexOf('|'); return i < 0 ? { title: l, summary: '' } : { title: l.slice(0, i).trim(), summary: l.slice(i + 1).trim() }; }).filter((a) => a.title);
+        return {
+          data: { tagline: aiVal('aiTagline'), intro: aiVal('aiAbout'), works: works.map((w) => ({ summary: w.desc })), activities, awards: aiLines(aiVal('aiAwards')), skills: aiVal('aiSkills').split(/[,\n]+/).map((s) => s.trim()).filter(Boolean) },
+          ctx: { lang: aiVal('aiLang') || 'th', name: aiVal('aiName'), goal: aiVal('aiGoal'), photo: aiPhoto, works },
+        };
+      }
+      const aiHasContent = () => { const f = aiFormData(), d = f.data; return !!(f.ctx.name || f.ctx.photo || f.ctx.works.length || d.tagline || d.intro || d.activities.length || d.awards.length || d.skills.length); };
+      function aiSampleHtml() {   // ตัวอย่างหน้าตา (ข้อความสมมติ ภาพสีเทาเรียบ) ให้เห็นก่อนว่าจะได้แบบไหน
         if (!aiSampleImgs) aiSampleImgs = ['#a8a29e', '#94a3b8'].map((c) => { const cv = document.createElement('canvas'); cv.width = 900; cv.height = 560; const x = cv.getContext('2d'); x.fillStyle = c; x.fillRect(0, 0, 900, 560); return cv.toDataURL('image/jpeg', 0.7); });
         return aiBuildHtml({ tagline: 'ประโยคเดียวที่บอกว่าคุณเป็นใครและทำอะไร', intro: 'ย่อหน้าแนะนำตัวสั้นๆ เรียบเรียงจากข้อมูลจริงที่คุณกรอก บอกสิ่งที่ทำ ไม่ใช่คำคุณศัพท์ลอยๆ', works: [{ summary: 'สรุปผลงาน: ทำอะไร บทบาทอะไร ผลเป็นอย่างไร' }, { summary: 'ผลงานชิ้นที่สอง' }], activities: [{ title: 'ชื่อกิจกรรม', summary: 'บทบาทและสิ่งที่ทำ' }], awards: ['ชื่อรางวัล ปี'], skills: ['ทักษะ', 'ทักษะ'] },
-          { lang: document.getElementById('aiLang').value, theme: aiTheme, name: 'ชื่อของคุณ', goal: '', photo: '', works: [{ title: 'ชื่อผลงานที่ 1', role: 'บทบาท', year: 'ปี', desc: '', link: '', img: aiSampleImgs[0] }, { title: 'ชื่อผลงานที่ 2', role: '', year: '', desc: '', link: '', img: aiSampleImgs[1] }] });
+          { lang: aiVal('aiLang') || 'th', theme: aiTheme, name: 'ชื่อของคุณ', goal: '', photo: '', works: [{ title: 'ชื่อผลงานที่ 1', role: 'บทบาท', year: 'ปี', desc: '', link: '', img: aiSampleImgs[0] }, { title: 'ชื่อผลงานที่ 2', role: '', year: '', desc: '', link: '', img: aiSampleImgs[1] }] });
       }
       function aiRenderPreview() {
+        if (aiMode !== 'page') return;
         const fr = document.getElementById('aiFrame');
-        if (aiLast) { aiLastHtml = aiBuildHtml(aiLast.data, { ...aiLast.ctx, theme: aiTheme }); fr.srcdoc = aiLastHtml; } else fr.srcdoc = aiSampleHtml();
+        if (aiHasContent()) { const f = aiFormData(); fr.srcdoc = aiBuildHtml(f.data, { ...f.ctx, theme: aiTheme }); } else fr.srcdoc = aiSampleHtml();
+        aiShow('page');
       }
-      function aiSetTheme(t) {
-        aiTheme = t; document.querySelectorAll('#aiThemes button').forEach((b) => b.classList.toggle('on', b.dataset.t === t));
-        if (aiMode === 'page') aiRenderPreview();
-      }
+      function aiLive() { if (aiMode !== 'page') return; clearTimeout(aiLiveTimer); aiLiveTimer = setTimeout(aiRenderPreview, 250); }
+      function aiSetTheme(t) { aiTheme = t; document.querySelectorAll('#aiThemes button').forEach((b) => b.classList.toggle('on', b.dataset.t === t)); aiRenderPreview(); }
+      function aiSetDevice(d) { aiDevice = d; document.querySelectorAll('#aiDevices button').forEach((b) => b.classList.toggle('on', b.dataset.d === d)); document.getElementById('aiStage').classList.toggle('mob', d === 'mobile'); }
       function aiShow(kind) {   // 'page' = กรอบหน้าพอร์ต, 'text' = ข้อความผลลัพธ์
-        const page = kind === 'page', has = page ? !!aiLast : !!document.getElementById('aiText2').textContent;
+        const page = kind === 'page', has = page ? aiHasContent() : !!document.getElementById('aiText2').textContent;
         document.getElementById('aiFrame').classList.toggle('hidden', !page); document.getElementById('aiText2').classList.toggle('hidden', page);
-        document.getElementById('aiThemes').classList.toggle('hidden', !page);
-        document.getElementById('aiDl').classList.toggle('hidden', !(page && aiLast)); document.getElementById('aiCopy').classList.toggle('hidden', page || !has);
-        document.getElementById('aiOutTitle').textContent = page ? (aiLast ? 'หน้าพอร์ตของคุณ' : 'ตัวอย่างหน้าตา') : 'ผลลัพธ์';
-        document.getElementById('aiOutHint').textContent = page ? (aiLast ? 'ตรวจทุกบรรทัดก่อนใช้ ดาวน์โหลดแล้วเปิดไฟล์ กด Ctrl+P เพื่อบันทึกเป็น PDF เปลี่ยนโทนสีได้ทันที ไม่เสียสิทธิ์' : 'นี่คือหน้าตาตัวอย่าง ข้อมูลของคุณจะแสดงที่นี่หลังกดสร้าง เปลี่ยนโทนสีได้ทันที ไม่เสียสิทธิ์') : (has ? 'AI อาจผิดพลาด ตรวจและแก้เองก่อนนำไปใช้' : 'ผลลัพธ์จะแสดงที่นี่หลังกดปุ่ม');
-        const t = document.getElementById('aiText2'); if (!page && !has) t.textContent = '';
+        document.getElementById('aiThemes').classList.toggle('hidden', !page); document.getElementById('aiDevices').classList.toggle('hidden', !page);
+        document.getElementById('aiDl').classList.toggle('hidden', !(page && has)); document.getElementById('aiCopy').classList.toggle('hidden', page || !has);
+        document.getElementById('aiOutTitle').textContent = page ? (has ? 'หน้าพอร์ตของคุณ' : 'ตัวอย่างหน้าตา') : 'ผลลัพธ์';
+        document.getElementById('aiOutHint').textContent = page ? (has ? 'หน้านี้ขยับตามที่พิมพ์ทันทีและไม่เสียสิทธิ์ ตรวจทุกบรรทัดก่อนใช้ ดาวน์โหลดแล้วเปิดไฟล์ กด Ctrl+P เพื่อบันทึกเป็น PDF' : 'นี่คือหน้าตาตัวอย่าง พิมพ์ข้อมูลทางซ้ายแล้วหน้านี้จะเปลี่ยนตามทันที ไม่เสียสิทธิ์') : (has ? 'AI อาจผิดพลาด ตรวจและแก้เองก่อนนำไปใช้' : 'ผลลัพธ์จะแสดงที่นี่หลังกดปุ่ม');
       }
       function aiSetMode(m) {
         aiMode = m;
         [['write', 'aiTabWrite'], ['page', 'aiTabPage'], ['review', 'aiTabReview']].forEach(([k, id]) => document.getElementById(id).classList.toggle('on', k === m));
         document.querySelectorAll('#portfolioV2 .ai-f').forEach((el) => el.classList.toggle('hidden', !el.dataset.m.split(' ').includes(m)));
-        document.getElementById('aiRun').textContent = m === 'review' ? 'ขอคำแนะนำ' : m === 'page' ? 'สร้างหน้าพอร์ต' : 'เรียบเรียง';
+        document.getElementById('aiRun').textContent = m === 'review' ? 'ขอคำแนะนำ' : m === 'page' ? 'ให้ AI เรียบเรียงข้อความ' : 'เรียบเรียง';
         document.getElementById('aiErr').classList.add('hidden');
         if (m === 'page' && !document.querySelector('#aiWorks .ai-work')) aiAddWork();
-        aiShow(m === 'page' ? 'page' : 'text'); if (m === 'page') aiRenderPreview();
+        if (m === 'page') aiRenderPreview(); else aiShow('text');
       }
       async function portfolioEnter() {
         const ok = !!getSid();
@@ -2918,14 +2952,30 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         if (ok) { aiSetMode(aiMode); const q = await aiCall({ action: 'quota' }); if (q.ok) document.getElementById('aiLeft').textContent = `เดือนนี้เหลือ ${q.left} จาก ${q.total} ครั้ง`; }
         if (window.lucide) lucide.createIcons();
       }
+      // เติมข้อความที่ AI เรียบเรียงกลับลงช่องในฟอร์ม (แก้ต่อเองได้ หน้าตัวอย่างขยับตาม) เก็บของเดิมไว้ให้ย้อนกลับ
+      function aiApplyResult(d) {
+        const ws = [...document.querySelectorAll('#aiWorks .ai-work')].filter((w) => w.querySelector('.w-title').value.trim());
+        aiBackup = { tagline: aiVal('aiTagline'), about: aiVal('aiAbout'), acts: aiVal('aiActs'), awards: aiVal('aiAwards'), skills: aiVal('aiSkills'), descs: ws.map((w) => w.querySelector('.w-desc').value) };
+        const set = (id, v) => { if (v) document.getElementById(id).value = v; };
+        set('aiTagline', d.tagline); set('aiAbout', d.intro);
+        ws.forEach((w, i) => { const s = d.works && d.works[i] && d.works[i].summary; if (s) w.querySelector('.w-desc').value = s; });
+        set('aiActs', (d.activities || []).map((a) => a.title + (a.summary ? ' | ' + a.summary : '')).join('\n'));
+        set('aiAwards', (d.awards || []).join('\n')); set('aiSkills', (d.skills || []).join(', '));
+        document.getElementById('aiUndo').classList.remove('hidden');
+      }
+      function aiUndoRestore() {
+        if (!aiBackup) return; const b = aiBackup; aiBackup = null;
+        document.getElementById('aiTagline').value = b.tagline; document.getElementById('aiAbout').value = b.about; document.getElementById('aiActs').value = b.acts; document.getElementById('aiAwards').value = b.awards; document.getElementById('aiSkills').value = b.skills;
+        [...document.querySelectorAll('#aiWorks .ai-work')].filter((w) => w.querySelector('.w-title').value.trim()).forEach((w, i) => { if (b.descs[i] != null) w.querySelector('.w-desc').value = b.descs[i]; });
+        document.getElementById('aiUndo').classList.add('hidden'); aiRenderPreview();
+      }
       async function aiRun() {
         if (aiBusy) return;
-        const v = (id) => document.getElementById(id).value.trim(), err = document.getElementById('aiErr'), btn = document.getElementById('aiRun');
+        const v = aiVal, err = document.getElementById('aiErr'), btn = document.getElementById('aiRun');
         const body = { action: 'run', mode: aiMode, lang: v('aiLang'), goal: v('aiGoal') };
-        let works = [];
         if (aiMode === 'review') body.text = v('aiText'); else {
           Object.assign(body, { about: v('aiAbout'), activities: v('aiActs'), awards: v('aiAwards'), skills: v('aiSkills') });
-          if (aiMode === 'page') { works = aiReadWorks(); body.works = works.map((w) => ({ title: w.title, role: w.role, year: w.year, desc: w.desc })); }   // ชื่อ/รูป/ลิงก์ไม่ส่งให้เซิร์ฟเวอร์
+          if (aiMode === 'page') body.works = aiReadWorks().map((w) => ({ title: w.title, role: w.role, year: w.year, desc: w.desc }));   // ชื่อ/รูป/ลิงก์ไม่ส่งให้เซิร์ฟเวอร์
         }
         aiBusy = true; btn.disabled = true; const label = btn.textContent; btn.textContent = 'กำลังเขียน… (ประมาณ 10–20 วินาที)'; err.classList.add('hidden');
         const r = await aiCall(body);
@@ -2933,11 +2983,10 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         if (typeof r.left === 'number') document.getElementById('aiLeft').textContent = `เดือนนี้เหลือ ${r.left} ครั้ง`;
         if (!r.ok) { err.textContent = AI_ERR[r.error] || 'เกิดข้อผิดพลาด ลองใหม่อีกครั้ง'; err.classList.remove('hidden'); return; }
         if (aiMode === 'page') {
-          aiLast = { data: r.data, ctx: { lang: body.lang, name: v('aiName'), goal: v('aiGoal'), photo: aiPhoto, works } };
-          try { aiShow('page'); aiRenderPreview(); } catch (e) { console.error(e); err.textContent = 'AI เขียนข้อความเสร็จแล้ว แต่แสดงหน้าพอร์ตไม่สำเร็จ (' + (e && e.message ? e.message : 'ไม่ทราบสาเหตุ') + ') ลองกดดาวน์โหลด .html หรือสร้างใหม่'; err.classList.remove('hidden'); }
+          try { aiApplyResult(r.data); aiRenderPreview(); } catch (e) { console.error(e); err.textContent = 'AI เขียนข้อความเสร็จแล้ว แต่แสดงผลไม่สำเร็จ (' + (e && e.message ? e.message : 'ไม่ทราบสาเหตุ') + ') ลองกดอีกครั้ง'; err.classList.remove('hidden'); }
           const w = r.warnings || {}, notes = [];
           if (w.invented && w.invented.length) notes.push('AI ใส่ตัวเลขที่คุณไม่ได้ให้: ' + w.invented.join(', ') + ' ตรวจและแก้หรือลบออกก่อนใช้');
-          if (w.words && w.words.length) notes.push('ยังมีคำสำเร็จรูปบางคำ (' + w.words.join(', ') + ') แก้ในไฟล์ได้');
+          if (w.words && w.words.length) notes.push('ยังมีคำสำเร็จรูปบางคำ (' + w.words.join(', ') + ') แก้ในช่องได้');
           if (notes.length) { err.textContent = notes.join(' · '); err.classList.remove('hidden'); }
         } else { document.getElementById('aiText2').textContent = r.text; aiShow('text'); }
         if (r.truncated) { err.textContent = 'ผลลัพธ์ยาวเกินและถูกตัด ลองลดข้อมูลหรือแบ่งทำทีละส่วน'; err.classList.remove('hidden'); }
@@ -2957,9 +3006,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       }
       async function aiPickPhoto(inp) {
         const f = inp.files && inp.files[0]; inp.value = ''; if (!f) return;
-        try { aiPhoto = await aiImage(f, 400); const p = document.getElementById('aiPhotoPrev'); p.src = aiPhoto; p.classList.remove('hidden'); document.getElementById('aiPhotoDel').classList.remove('hidden'); } catch (e) { alert('ใช้รูปนี้ไม่ได้ ลองไฟล์ภาพอื่น (ไม่เกิน 15 MB)'); }
+        try { aiPhoto = await aiImage(f, 400); const p = document.getElementById('aiPhotoPrev'); p.src = aiPhoto; p.classList.remove('hidden'); document.getElementById('aiPhotoDel').classList.remove('hidden'); aiLive(); } catch (e) { alert('ใช้รูปนี้ไม่ได้ ลองไฟล์ภาพอื่น (ไม่เกิน 15 MB)'); }
       }
-      function aiClearPhoto() { aiPhoto = ''; document.getElementById('aiPhotoPrev').classList.add('hidden'); document.getElementById('aiPhotoDel').classList.add('hidden'); }
+      function aiClearPhoto() { aiPhoto = ''; document.getElementById('aiPhotoPrev').classList.add('hidden'); document.getElementById('aiPhotoDel').classList.add('hidden'); aiLive(); }
       function aiAddWork() {
         const box = document.getElementById('aiWorks'); if (box.children.length >= AI_MAX_WORKS) return;
         const d = document.createElement('div'); d.className = 'ai-work'; d.dataset.img = '';
@@ -2972,12 +3021,12 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         box.append(d); aiRenumber();
       }
       function aiRenumber() { const ws = document.querySelectorAll('#aiWorks .ai-work'); ws.forEach((w, i) => (w.querySelector('.ai-wn').textContent = i + 1)); document.getElementById('aiAddWork').classList.toggle('hidden', ws.length >= AI_MAX_WORKS); }
-      function aiDelWork(btn) { btn.closest('.ai-work').remove(); aiRenumber(); }
+      function aiDelWork(btn) { btn.closest('.ai-work').remove(); aiRenumber(); aiLive(); }
       async function aiPickWorkImg(inp) {
         const f = inp.files && inp.files[0]; inp.value = ''; if (!f) return; const w = inp.closest('.ai-work');
-        try { const d = await aiImage(f, 1100); w.dataset.img = d; const im = w.querySelector('.ai-wimg img'); im.src = d; im.classList.remove('hidden'); w.querySelector('.ai-wimg button').classList.remove('hidden'); } catch (e) { alert('ใช้รูปนี้ไม่ได้ ลองไฟล์ภาพอื่น (ไม่เกิน 15 MB)'); }
+        try { const d = await aiImage(f, 1100); w.dataset.img = d; const im = w.querySelector('.ai-wimg img'); im.src = d; im.classList.remove('hidden'); w.querySelector('.ai-wimg button').classList.remove('hidden'); aiLive(); } catch (e) { alert('ใช้รูปนี้ไม่ได้ ลองไฟล์ภาพอื่น (ไม่เกิน 15 MB)'); }
       }
-      function aiClearWorkImg(btn) { const w = btn.closest('.ai-work'); w.dataset.img = ''; w.querySelector('.ai-wimg img').classList.add('hidden'); btn.classList.add('hidden'); }
+      function aiClearWorkImg(btn) { const w = btn.closest('.ai-work'); w.dataset.img = ''; w.querySelector('.ai-wimg img').classList.add('hidden'); btn.classList.add('hidden'); aiLive(); }
       function aiReadWorks() {
         return [...document.querySelectorAll('#aiWorks .ai-work')].map((w) => ({
           title: w.querySelector('.w-title').value.trim(), role: w.querySelector('.w-role').value.trim(), year: w.querySelector('.w-year').value.trim(),
@@ -3032,7 +3081,7 @@ footer{border-top:1px solid var(--line);padding-top:24px;font-size:12px;color:va
           sec(L.skills, (d.skills || []).length ? `<p class="skills">${d.skills.map(E).join(' · ')}</p>` : '') +
           `<footer>${L.upd} ${E(upd)}</footer></main></body></html>`;
       }
-      function aiDownload() { if (!aiLast) return; const html = aiBuildHtml(aiLast.data, { ...aiLast.ctx, theme: aiTheme, fonts: true }); const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([html], { type: 'text/html;charset=utf-8' })); a.download = 'portfolio.html'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
+      function aiDownload() { if (!aiHasContent()) return; const f = aiFormData(), html = aiBuildHtml(f.data, { ...f.ctx, theme: aiTheme, fonts: true }); const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([html], { type: 'text/html;charset=utf-8' })); a.download = 'portfolio.html'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
       function contactGo(what) {
         closeContact();
         if (what === 'admin') openAdminChat();
