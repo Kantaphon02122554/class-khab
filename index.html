@@ -176,6 +176,33 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       #navV2 button.on { background: #f1f5f9; box-shadow: inset 0 1px 0 #fff, 0 1px 2px rgba(15, 23, 42, 0.12); }
       html.dark #navV2 button.on { background: rgba(255, 255, 255, 0.1); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08); }
       #navV2 button:active { transform: scale(0.96); }
+      /* การเคลื่อนไหวรอบ 2 (แนวทางแท็บพิลเลื่อนตามของ 21st.dev ทำใหม่ด้วย JS ธรรมดา): ตัวชี้แท็บเลื่อนไปปุ่มที่เลือก, เปลี่ยนหน้าแบบเฟด+เลื่อนตามทิศ, ปุ่มยุบตอนกด
+         ขยับด้วย transform/opacity เท่านั้น (ไม่ทำให้คำนวณเลย์เอาต์ใหม่ทุกเฟรม) */
+      /* ค่าจังหวะใช้ร่วมกัน: กดเร็ว ปล่อยช้ากว่า, ตัวชี้แท็บเกือบไม่เด้ง (ใช้หลายสิบครั้งต่อวัน ไม่ควรโยกเยก) */
+      :root { --d-fast: .12s; --d-med: .22s; --d-slow: .3s; --e-out: cubic-bezier(.22, 1, .36, 1); --e-spring: cubic-bezier(.3, 1.1, .5, 1); }
+      #navInd { position: absolute; left: 0; top: 0; width: 0; height: 0; border-radius: 16px; background: #f1f5f9; box-shadow: inset 0 1px 0 #fff, 0 1px 2px rgba(15, 23, 42, 0.12); pointer-events: none; z-index: 0; opacity: 0; transition: transform var(--d-slow) var(--e-spring), opacity .2s; will-change: transform; }
+      html.dark #navInd { background: rgba(255, 255, 255, 0.1); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08); }
+      html.navind #navInd { opacity: 1; }
+      html.navind #navV2 button.on { background: transparent; box-shadow: none; }
+      #navV2 button { z-index: 1; transition: background-color .2s, color .25s, transform var(--d-med) var(--e-out); -webkit-tap-highlight-color: transparent; }
+      #navV2 button:active { transition-duration: .2s, .25s, var(--d-fast); }
+      #navV2 button svg { transition: transform var(--d-slow) var(--e-out); }
+      #navV2 button.on svg { transform: translateY(-1px) scale(1.04); }
+      /* ปุ่มยุบตอนกด (แยก #homeCards ออกมาเป็นกฎของตัวเอง ไม่ให้ :is() ดึงน้ำหนัก ID ไปทับคลาส Tailwind ตัวอื่น) */
+      html.ui2 :is(.v2-item, .ta-btn, .v2-tabs button, .pb) { transition-property: background-color, color, transform; transition-duration: .15s, .15s, var(--d-med); transition-timing-function: ease, ease, var(--e-out); -webkit-tap-highlight-color: transparent; }
+      html.ui2 #homeCards > * { transition-property: background-color, color, transform; transition-duration: .15s, .15s, var(--d-med); transition-timing-function: ease, ease, var(--e-out); -webkit-tap-highlight-color: transparent; }
+      html.ui2 :is(.v2-item, .ta-btn, .v2-tabs button):active, html.ui2 #homeCards > button:active { transform: scale(0.975); transition-duration: .15s, .15s, var(--d-fast); }
+      /* เครื่องสเปกต่ำ: ปิดเบลอกระจก (หนักที่สุดตอนเลื่อน) ใช้พื้นทึบแทน (แถบข้างของคอมไม่มีเบลออยู่แล้ว จึงจำกัดเฉพาะจอเล็ก) */
+      html.lowfx #navV2, html.lowfx.cards #chatFab { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+      @media (max-width: 1023px) { html.lowfx #navV2 { background: rgba(255, 255, 255, 0.98); } html.lowfx.dark #navV2 { background: rgba(17, 26, 46, 0.98); } }
+      html.lowfx.cards #chatFab { background: rgba(241, 245, 249, 0.96) !important; } html.lowfx.dark.cards #chatFab { background: rgba(30, 41, 59, 0.96) !important; }
+      @media (prefers-reduced-transparency: reduce) and (max-width: 1023px) { #navV2 { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; background: #fff; } html.dark #navV2 { background: #111a2e; } }
+      @media (prefers-reduced-motion: reduce) {
+        #navInd, #navV2 button, #navV2 button svg { transition: none !important; }
+        #navV2 button.on svg, #navV2 button:active, html.ui2 :is(.v2-item, .ta-btn, .v2-tabs button):active, html.ui2 #homeCards > button:active { transform: none !important; }
+      }
+      /* โหมดคอนทราสต์สูงของ Windows: เบราว์เซอร์ลบพื้นหลังตัวชี้ทิ้ง จึงใช้กรอบไฮไลต์บอกแท็บที่เลือกแทน */
+      @media (forced-colors: active) { #navInd { display: none; } #navV2 button.on { outline: 2px solid Highlight; outline-offset: -2px; } }
       /* หน้าเข้าสู่ระบบ (ui2): การ์ดสองฝั่ง วงกลมสีเข้มกวาดข้ามการ์ดเมื่อสลับวิธีเข้า (จังหวะเคลื่อนไหวตามตัวอย่าง auth-switch ของ 21st.dev ปรับเป็นขาว-ดำตามแบรนด์ ไม่มีรหัสผ่าน/ปุ่มโซเชียล) */
       .au-panel { display: none; }
       html.ui2 #authCard { max-width: 56rem; padding: 0; overflow: hidden; position: relative; display: block; }
@@ -828,7 +855,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       </footer>
       <!-- แถบล่าง (v2) -->
       <nav id="navV2" class="v2-only" aria-label="เมนูหลัก">
-        <button id="navHome" class="on" onclick="setView('home')"><i data-lucide="calendar-days"></i><span>ตาราง</span></button>
+        <button id="navHome" class="on" aria-current="page" onclick="setView('home')"><i data-lucide="calendar-days"></i><span>ตาราง</span></button>
         <button id="navSocial" onclick="setView('social')"><i data-lucide="sparkles"></i><span>โซเชียล</span></button>
         <button id="navRoom" onclick="setView('room')"><i data-lucide="users"></i><span>ห้องเรา</span><span id="navRoomDot" class="hidden absolute top-1 left-1/2 ml-2 w-2 h-2 rounded-full bg-rose-500"></span></button>
         <button id="navMenu" onclick="setView('menu')"><i data-lucide="menu"></i><span>โปรไฟล์</span></button>
@@ -2632,16 +2659,64 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           if (room === 'study' && document.getElementById('studySection').classList.contains('hidden')) room = 'ann';
           if (room === 'chat' && !fabAvail) room = 'ann';
         }
+        if (view === 'room' && document.body.classList.contains('teacher-mode')) view = 'home';   // ครูไม่มีแท็บห้องเรา (กดย้อนกลับจากประวัติของนักเรียนคนก่อน)
+        const prevView = de.dataset.view;
+        // อัปเดตแถบล่างและวัดตำแหน่งตัวชี้ก่อนสลับเนื้อหาทั้งหน้า (วัดตอนเลย์เอาต์ยังไม่เปลี่ยน = ไม่บังคับคำนวณหน้าใหม่ซ้ำ)
+        ['Home:home', 'Social:social', 'Room:room', 'Menu:menu'].forEach((x) => { const [n, v] = x.split(':'); const b = document.getElementById('nav' + n); b.classList.toggle('on', v === view); if (v === view) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+        [['rtAnn', 'ann'], ['rtStudy', 'study'], ['rtChat', 'chat']].forEach(([id, r]) => { const b = document.getElementById(id), on = view === 'room' && room === r; b.classList.toggle('on', on); if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+        moveNavInd();
+        window.scrollTo(0, 0); const md = document.getElementById('mainDashboard'); if (md) md.scrollTop = 0;   // พื้นที่เลื่อนจริงคือ #mainDashboard
         de.dataset.view = view; if (view === 'room') de.dataset.room = room;
         const wantChat = view === 'room' && room === 'chat';
         if (wantChat !== chatOpen) toggleChat(wantChat);
         if (view === 'room' && room === 'study' && !studyOpen) toggleStudy(true);
-        ['Home:home', 'Social:social', 'Room:room', 'Menu:menu'].forEach((x) => { const [n, v] = x.split(':'); document.getElementById('nav' + n).classList.toggle('on', v === view); });
-        [['rtAnn', 'ann'], ['rtStudy', 'study'], ['rtChat', 'chat']].forEach(([id, r]) => document.getElementById(id).classList.toggle('on', view === 'room' && room === r));
         if (view === 'home') { updateTimeTracker(); renderSchedule(); }
-        window.scrollTo(0, 0);
+        if (prevView && prevView !== view) playViewIn(VIEW_ORDER.indexOf(view) - VIEW_ORDER.indexOf(prevView));
         if (!noPush) history.pushState({ v: view, r: room }, '');
       }
+      // ---- การเคลื่อนไหวตอนสลับแท็บ ----
+      const VIEW_ORDER = ['home', 'social', 'room', 'menu'];
+      // ใช้ Web Animations API: ไม่ต้องบังคับคำนวณหน้าใหม่เพื่อเริ่มซ้ำ และจบแล้วไม่ทิ้ง transform ค้างบน #dashCard
+      // (ถ้าค้าง แผงที่ position:fixed ข้างใน เช่น หน้าแก้โปรไฟล์ จะถูกขังในการ์ด)
+      function playViewIn(dir) {
+        const c = document.getElementById('dashCard'); if (!c || !c.animate) return;
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const x = (dir > 0 ? 10 : dir < 0 ? -10 : 0) + 'px';
+        c.getAnimations().forEach((a) => a.cancel());
+        c.animate([{ opacity: 0.4, transform: 'translate3d(' + x + ',4px,0)' }, { opacity: 1, transform: 'none' }], { duration: 220, easing: 'cubic-bezier(.22,1,.36,1)' });
+      }
+      function moveNavInd(instant) {
+        const nav = document.getElementById('navV2'); if (!nav) return;
+        let ind = document.getElementById('navInd');
+        if (!ind) { ind = document.createElement('span'); ind.id = 'navInd'; ind.setAttribute('aria-hidden', 'true'); nav.prepend(ind); }
+        const on = nav.querySelector('button.on');
+        if (!on || !on.offsetWidth) { document.documentElement.classList.remove('navind'); return; }   // แถบยังซ่อนอยู่: ใช้พื้นหลังปุ่มแบบเดิม
+        const first = !document.documentElement.classList.contains('navind');
+        if (first || instant) ind.style.transition = 'none';
+        // วัดแบบทศนิยม (getBoundingClientRect) ปุ่มกว้างไม่เต็มพิกเซล ถ้าใช้ offsetLeft ตัวชี้จะเหลื่อม 1px
+        const r = on.getBoundingClientRect(), n = nav.getBoundingClientRect();
+        ind.style.width = r.width + 'px'; ind.style.height = r.height + 'px';
+        ind.style.transform = 'translate3d(' + (r.left - n.left - nav.clientLeft) + 'px,' + (r.top - n.top - nav.clientTop) + 'px,0)';
+        if (first || instant) { void ind.offsetWidth; ind.style.transition = ''; }
+        document.documentElement.classList.add('navind');
+      }
+      // แถบเพิ่งโผล่ (หลังล็อกอิน) เปลี่ยนขนาด/รูปแบบ (มือถือ ↔ แถบข้างคอม) หรือฟอนต์/ไอคอนโหลดเสร็จแล้วปุ่มสูงขึ้น: วางตัวชี้ใหม่ทันทีไม่ต้องเลื่อน
+      (function () {
+        const nv = document.getElementById('navV2'); if (!nv) return;
+        if (window.ResizeObserver) { const ro = new ResizeObserver(() => moveNavInd(true)); ro.observe(nv); nv.querySelectorAll('button').forEach((b) => ro.observe(b)); }
+        else window.addEventListener('resize', () => moveNavInd(true));
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => moveNavInd(true));
+      })();
+      // iPhone: :active (ปุ่มยุบตอนกด) ทำงานบนนิ้วแตะก็ต่อเมื่อมีตัวรับ touchstart
+      document.addEventListener('touchstart', () => {}, { passive: true });
+      (function () {   // ปิดเบลอกระจกเมื่อเครื่องแรม ≤ 4 GB (Chrome/Samsung บน Android บอกค่านี้; iPhone ไม่บอก จึงไม่โดน) หรือผู้ใช้ขอลดความโปร่งใส
+        try {
+          const lowHw = !!(navigator.deviceMemory && navigator.deviceMemory <= 4);
+          const mq = matchMedia('(prefers-reduced-transparency: reduce)');
+          const apply = () => document.documentElement.classList.toggle('lowfx', lowHw || mq.matches);
+          apply(); if (mq.addEventListener) mq.addEventListener('change', apply);
+        } catch (e) {}
+      })();
       function updateRoomTabs() {   // ซ่อนแท็บที่ห้องนี้ยังไม่เปิด (ชีท/แชต) จะได้ไม่มีคำถามว่าทำไมใช้ไม่ได้
         if (!UI2) return;
         const hasStudy = !document.getElementById('studySection').classList.contains('hidden');
