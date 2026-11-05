@@ -317,6 +317,27 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .pt-tools { display: inline-flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
       .pt-seg { display: inline-flex; gap: 2px; padding: 2px; border-radius: 10px; background: #f1f5f9; } .pt-seg.hidden { display: none; } .pt-seg button { padding: 0.25rem 0.75rem; border-radius: 8px; font-size: 0.78rem; font-weight: 600; color: #64748b; } .pt-seg button.on { background: #fff; color: #0f172a; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1); } html.dark .pt-seg { background: rgba(255, 255, 255, 0.08); } html.dark .pt-seg button.on { background: rgba(255, 255, 255, 0.16); color: #fff; box-shadow: none; }
       .pt-acc { display: inline-flex; align-items: center; gap: 0.35rem; } .pt-acc.hidden { display: none; } .pt-acc input[type=color] { width: 2rem; height: 2rem; padding: 0; border: 1px solid #e2e8f0; border-radius: 8px; background: none; cursor: pointer; } .pt-acc .ai-mini { margin-left: 0; }
+      .pc { margin-top: 0.75rem; } .pc.hidden { display: none; }
+      .pc-box { border: 1px solid #e2e8f0; border-radius: 22px; background: #fff; padding: 0.9rem 0.9rem 0.7rem; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06); transition: border-color .15s; } .pc-box:focus-within { border-color: #94a3b8; }
+      html.dark .pc-box { background: #17171b; border-color: #2a2a31; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35); } html.dark .pc-box:focus-within { border-color: #4b4b55; }
+      .pc-box textarea { display: block; width: 100%; resize: none; border: 0; outline: none; background: transparent; color: inherit; font-size: 0.98rem; line-height: 1.55; padding: 0.1rem 0.35rem 0.6rem; max-height: 9rem; } .pc-box textarea::placeholder { color: #94a3b8; } html.dark .pc-box textarea::placeholder { color: #71717a; }
+      .pc-row { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; } .pc-l, .pc-r { display: flex; align-items: center; gap: 0.5rem; min-width: 0; }
+      .pc-ic { width: 2.25rem; height: 2.25rem; flex: none; display: grid; place-items: center; border-radius: 50%; border: 1px solid #e2e8f0; color: #475569; background: transparent; transition: background-color .15s, color .15s; } .pc-ic:hover { background: #f1f5f9; } .pc-ic.hidden { display: none; } .pc-ic.on { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
+      html.dark .pc-ic { border-color: #33333b; color: #d4d4d8; } html.dark .pc-ic:hover { background: #24242a; }
+      .pc-ic svg, .pc-send svg, .pc-pill svg, .pc-x svg { width: 16px; height: 16px; }
+      .pc-pill { position: relative; display: inline-flex; align-items: center; height: 2.25rem; border-radius: 99px; border: 1px solid #e2e8f0; padding: 0 0.7rem 0 0.9rem; gap: 0.3rem; font-weight: 700; font-size: 0.85rem; cursor: pointer; } html.dark .pc-pill { border-color: #33333b; }
+      .pc-pill select { appearance: none; -webkit-appearance: none; border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; outline: none; padding-right: 0.1rem; } .pc-pill svg { color: #94a3b8; pointer-events: none; }
+      .pc-model { display: inline-flex; align-items: center; gap: 0.45rem; font-weight: 700; font-size: 0.85rem; white-space: nowrap; } .pc-model small { font-weight: 400; color: #94a3b8; font-size: 0.85rem; }
+      .pc-mark { width: 1.35rem; height: 1.35rem; border-radius: 50%; background: #0f172a; position: relative; flex: none; } .pc-mark::after { content: ''; position: absolute; inset: 0.35rem; border-radius: 50%; background: #d97757; } html.dark .pc-mark { background: #000; }
+      .pc-send { width: 2.25rem; height: 2.25rem; display: grid; place-items: center; border-radius: 50%; background: #0f172a; color: #fff; transition: opacity .15s, transform var(--d-fast) var(--e-out); } .pc-send:disabled { opacity: 0.3; cursor: default; } .pc-send:not(:disabled):active { transform: scale(0.94); } html.dark .pc-send { background: #f4f4f5; color: #0f172a; }
+      .pc-send.busy svg { animation: pcSpin 0.9s linear infinite; } @keyframes pcSpin { to { transform: rotate(360deg); } }
+      .pc-mw { position: relative; } .pc-menu { position: absolute; left: 0; bottom: calc(100% + 0.5rem); z-index: 5; width: 15rem; padding: 0.35rem; border-radius: 14px; background: #fff; border: 1px solid #e2e8f0; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12); } .pc-menu.hidden { display: none; } html.dark .pc-menu { background: #1c1c21; border-color: #33333b; }
+      .pc-menu button { display: block; width: 100%; text-align: left; padding: 0.5rem 0.7rem; border-radius: 10px; font-size: 0.88rem; } .pc-menu button:hover { background: #f1f5f9; } html.dark .pc-menu button:hover { background: #26262c; }
+      .pc-strip { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-top: 0.5rem; padding: 0.6rem 0.6rem 0.6rem 1rem; border-radius: 16px; border: 1px solid #e2e8f0; background: #f8fafc; font-size: 0.82rem; color: #475569; } .pc-strip.hidden { display: none; } .pc-strip.ok { border-color: #bbf7d0; background: #f0fdf4; color: #166534; } .pc-strip.bad { border-color: #fecdd3; background: #fff1f2; color: #9f1239; }
+      html.dark .pc-strip { background: #121216; border-color: #2a2a31; color: #a1a1aa; } html.dark .pc-strip.ok { background: rgba(22, 101, 52, 0.18); border-color: rgba(34, 197, 94, 0.3); color: #bbf7d0; } html.dark .pc-strip.bad { background: rgba(159, 18, 57, 0.18); border-color: rgba(244, 63, 94, 0.3); color: #fecdd3; }
+      .pc-x { width: 1.75rem; height: 1.75rem; display: grid; place-items: center; border-radius: 50%; color: inherit; opacity: 0.7; flex: none; } .pc-x:hover { opacity: 1; }
+      @media (min-width: 1024px) { .pt-tpl { flex-wrap: wrap; overflow: visible; } .tp { flex: 0 0 118px; } .tp .th { width: 118px; height: 157px; } .tp .th iframe { transform: scale(0.1311); } }
+      @media (max-width: 480px) { .pc-model small { display: none; } }
       .pt-prompt { display: flex; gap: 0.5rem; margin-top: 0.75rem; padding: 0.4rem; border: 1px solid #e2e8f0; border-radius: 16px; background: #fff; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05); } html.dark .pt-prompt { background: #111a2e; border-color: #243152; } .pt-prompt.hidden { display: none; }
       .pt-prompt input { flex: 1; min-width: 0; padding: 0.55rem 0.75rem; border: 0; background: transparent; font-size: 0.95rem; color: inherit; outline: none; } .pt-prompt button { padding: 0.5rem 1.1rem; border-radius: 12px; background: #0f172a; color: #fff; font-weight: 700; font-size: 0.9rem; } html.dark .pt-prompt button { background: #f1f5f9; color: #0f172a; } .pt-prompt button:disabled { opacity: 0.5; }
       .pt-tpl { display: flex; gap: 0.75rem; overflow-x: auto; padding: 0.15rem 0.15rem 0.6rem; margin-bottom: 0.4rem; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; } .pt-tpl.hidden { display: none; }
@@ -873,7 +894,23 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                     <pre id="aiText2" class="ai-text hidden"></pre>
                     <iframe id="aiFrame" class="ai-frame" sandbox="allow-scripts allow-downloads allow-modals" title="ตัวอย่างหน้าพอร์ต"></iframe>
                   </div>
-                  <div id="aiPromptBar" class="pt-prompt"><input id="aiPromptIn" maxlength="300" placeholder="สั่ง AI ได้เลย เช่น เขียนให้กระชับ เน้นสายวิศวะ หรือขอโทนสีเขียว" onkeydown="if(event.key==='Enter'){event.preventDefault();aiPrompt();}"><button id="aiPromptBtn" type="button" onclick="aiPrompt()">ส่ง</button></div>
+                  <div id="aiPromptBar" class="pc">
+                    <div class="pc-box">
+                      <textarea id="aiPromptIn" rows="1" maxlength="300" placeholder="บอก AI ว่าอยากปรับอะไร เช่น เขียนให้กระชับ เน้นสายวิศวะ" oninput="aiPcInput()" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();aiPrompt();}"></textarea>
+                      <div class="pc-row">
+                        <div class="pc-l">
+                          <span class="pc-mw"><button type="button" class="pc-ic" aria-label="คำสั่งสำเร็จรูป" aria-haspopup="menu" onclick="aiPcToggle(event)"><i data-lucide="plus"></i></button><span id="aiPcMenu" class="pc-menu hidden" role="menu"></span></span>
+                          <label class="pc-pill"><select id="aiPcScope" aria-label="ให้ AI ปรับส่วนไหน"><option value="all">ทั้งหมด</option><option value="text">ข้อความ</option><option value="look">หน้าตา</option></select><i data-lucide="chevron-down"></i></label>
+                          <span class="pc-model" title="ใช้ Claude Haiku ของ Anthropic"><span class="pc-mark"></span>Claude Haiku <small>เร็ว</small></span>
+                        </div>
+                        <div class="pc-r">
+                          <button type="button" class="pc-ic hidden" id="aiPcMic" aria-label="พูดแทนพิมพ์" title="พูดแทนพิมพ์ (เบราว์เซอร์ส่งเสียงไปแปลงเป็นข้อความ)" onclick="aiPcMic()"><i data-lucide="mic"></i></button>
+                          <button type="button" class="pc-send" id="aiPromptBtn" aria-label="ส่ง" onclick="aiPrompt()" disabled><i data-lucide="arrow-up"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="aiPcStrip" class="pc-strip"><span id="aiPcMsg">ใช้ 1 สิทธิ์ต่อคำสั่ง AI ใช้เฉพาะข้อมูลจริงที่คุณกรอก</span><button type="button" class="pc-x" aria-label="ซ่อน" onclick="this.parentNode.classList.add('hidden')"><i data-lucide="x"></i></button></div>
+                  </div>
                   <p id="aiOutHint" class="pt-hint"></p>
                 </aside>
               </div>
@@ -2953,21 +2990,43 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const ins = aiVal('aiPromptIn'), err = document.getElementById('aiErr'), btn = document.getElementById('aiPromptBtn');
         if (ins.length < 3) { document.getElementById('aiPromptIn').focus(); return; }
         const body = { action: 'run', mode: 'prompt', instruction: ins, lang: aiVal('aiLang'), goal: aiVal('aiGoal'), tagline: aiVal('aiTagline'), about: aiVal('aiAbout'), activities: aiVal('aiActs'), awards: aiVal('aiAwards'), skills: aiVal('aiSkills'), works: aiReadWorks().map((w) => ({ title: w.title, role: w.role, year: w.year, desc: w.desc })) };
-        aiBusy = true; btn.disabled = true; btn.textContent = 'กำลังทำ…'; err.classList.add('hidden');
+        const scope = document.getElementById('aiPcScope').value;
+        if (scope === 'text') body.instruction = '[ปรับเฉพาะข้อความ ไม่ต้องเลือกแบบหรือสี] ' + ins; else if (scope === 'look') body.instruction = '[ปรับเฉพาะหน้าตา: เลือก template และ/หรือ accent คงข้อความเดิมทุกคำ] ' + ins;
+        aiBusy = true; btn.disabled = true; btn.classList.add('busy'); aiPcSay('AI กำลังทำตามคำสั่ง…', '');
         const r = await aiCall(body);
-        aiBusy = false; btn.disabled = false; btn.textContent = 'ส่ง';
+        aiBusy = false; btn.classList.remove('busy'); aiPcInput();
         if (typeof r.left === 'number') document.getElementById('aiLeft').textContent = `เดือนนี้เหลือ ${r.left} ครั้ง`;
-        if (!r.ok) { err.textContent = AI_ERR[r.error] || 'เกิดข้อผิดพลาด ลองใหม่อีกครั้ง'; err.classList.remove('hidden'); return; }
-        try { aiApplyResult(r.data); } catch (e) { console.error(e); }
-        const s = r.style || {};
+        if (!r.ok) { aiPcSay(AI_ERR[r.error] || 'เกิดข้อผิดพลาด ลองใหม่อีกครั้ง', 'bad'); return; }
+        if (scope !== 'look') { try { aiApplyResult(r.data); } catch (e) { console.error(e); } }
+        const s = scope === 'text' ? {} : (r.style || {});
         if (s.accent) aiSetAccent(s.accent);
         if (s.template && AI_TPLS.some((x) => x[0] === s.template)) aiSetTheme(s.template); else aiRenderPreview();
-        document.getElementById('aiPromptIn').value = '';
+        document.getElementById('aiPromptIn').value = ''; aiPcInput();
         const w = r.warnings || {}, notes = [];
-        if (s.note) notes.push('AI: ' + s.note);
-        if (w.invented && w.invented.length) notes.push('AI ใส่ตัวเลขที่คุณไม่ได้ให้: ' + w.invented.join(', ') + ' ตรวจและแก้ก่อนใช้');
-        if (notes.length) { err.textContent = notes.join(' · '); err.classList.remove('hidden'); }
+        notes.push((r.style && r.style.note) ? 'AI: ' + r.style.note : 'ปรับแล้ว ตรวจข้อความในช่องทางซ้ายก่อนใช้');
+        if (w.invented && w.invented.length) notes.push('มีตัวเลขที่คุณไม่ได้ให้: ' + w.invented.join(', ') + ' ตรวจและแก้ก่อนใช้');
+        aiPcSay(notes.join(' · '), w.invented && w.invented.length ? 'bad' : 'ok');
       }
+      // ---- ช่องสั่ง AI (แนวเดียวกับ prompt composer) ----
+      const AI_PC_SUGGEST = ['เขียนให้กระชับและเป็นธรรมชาติขึ้น', 'เน้นจุดเด่นที่เกี่ยวกับเป้าหมายที่สมัคร', 'แปลทั้งหมดเป็นภาษาอังกฤษ', 'ขอโทนสีเขียวสบายตา', 'เปลี่ยนเป็นแบบบัตรห้อยคอ', 'ทำเป็นเอกสาร A4 ไว้พิมพ์'];
+      function aiPcSay(msg, kind) { const s = document.getElementById('aiPcStrip'); document.getElementById('aiPcMsg').textContent = msg; s.classList.remove('hidden', 'ok', 'bad'); if (kind) s.classList.add(kind); }
+      function aiPcInput() { const ta = document.getElementById('aiPromptIn'); ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 144) + 'px'; document.getElementById('aiPromptBtn').disabled = aiBusy || ta.value.trim().length < 3; }
+      function aiPcToggle(ev) {
+        ev.stopPropagation(); const m = document.getElementById('aiPcMenu');
+        if (!m.children.length) AI_PC_SUGGEST.forEach((s) => { const b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'menuitem'); b.textContent = s; b.onclick = () => { const ta = document.getElementById('aiPromptIn'); ta.value = s; m.classList.add('hidden'); aiPcInput(); ta.focus(); }; m.append(b); });
+        m.classList.toggle('hidden');
+      }
+      document.addEventListener('click', (e) => { const m = document.getElementById('aiPcMenu'); if (m && !m.classList.contains('hidden') && !e.target.closest('.pc-mw')) m.classList.add('hidden'); });
+      let aiRec = null;
+      function aiPcMic() {   // พูดแทนพิมพ์ (Web Speech API ของเบราว์เซอร์)
+        const SR = window.SpeechRecognition || window.webkitSpeechRecognition, btn = document.getElementById('aiPcMic'); if (!SR) return;
+        if (aiRec) { aiRec.stop(); return; }
+        aiRec = new SR(); aiRec.lang = aiVal('aiLang') === 'en' ? 'en-US' : 'th-TH'; aiRec.interimResults = false;
+        aiRec.onresult = (e) => { const ta = document.getElementById('aiPromptIn'); ta.value = (ta.value ? ta.value + ' ' : '') + e.results[0][0].transcript; aiPcInput(); };
+        aiRec.onend = () => { aiRec = null; btn.classList.remove('on'); }; aiRec.onerror = aiRec.onend;
+        btn.classList.add('on'); aiRec.start();
+      }
+      if (window.SpeechRecognition || window.webkitSpeechRecognition) { const mb = document.getElementById('aiPcMic'); if (mb) mb.classList.remove('hidden'); }
       function aiLive() { if (aiMode !== 'page') return; clearTimeout(aiLiveTimer); aiLiveTimer = setTimeout(aiRenderPreview, 250); }
       const AI_TPLS = [['doc', 'เอกสาร A4', 'รูป PNG / PDF'], ['white', 'เรียบ ขาว', 'หน้าเว็บ · อ่านง่าย'], ['dark', 'เรียบ เข้ม', 'หน้าเว็บ · โทนมืด'], ['warm', 'เรียบ ครีม', 'หน้าเว็บ · แนวกระดาษ'], ['bold', 'บอลด์', 'หน้าเว็บ · ขยับได้'], ['gallery', 'แกลเลอรี 3 มิติ', 'หน้าเว็บ · ขยับได้'], ['badge', 'บัตรห้อยคอ', 'หน้าเว็บ · ขยับได้']];
       function aiBuildTemplates() {   // ปุ่มเลือกแบบแบบ Canva: ภาพย่อของแต่ละแบบ (ใช้ข้อความตัวอย่าง) กดแล้วใช้กับข้อมูลของคุณ
