@@ -112,6 +112,33 @@
         </ul>
       </details>
 
+      <details id="android" class="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-[#111a2e]">
+        <summary class="flex items-center justify-between gap-3 font-bold text-slate-900 dark:text-white">ติดตั้งบน Android ทีละขั้น <span class="chev text-slate-400">⌄</span></summary>
+        <div class="mt-3 space-y-3 text-sm text-slate-700 dark:text-slate-300">
+          <p>ClassKhab ไม่ได้อยู่ใน Play Store ติดตั้งจากเบราว์เซอร์ Chrome ได้เลย ไม่ต้องดาวน์โหลดไฟล์ และไม่กินพื้นที่เครื่อง</p>
+          <p class="font-bold text-slate-900 dark:text-white">วิธีที่ง่ายที่สุด</p>
+          <ol class="list-decimal space-y-1 pl-5">
+            <li>เปิดเว็บด้วย <b>Chrome</b></li>
+            <li>กดปุ่ม <b>"ติดตั้งแอป"</b> ที่ด้านบนของหน้าตาราง</li>
+            <li>เมื่อมีหน้าต่างถาม กด <b>"ติดตั้ง"</b></li>
+            <li>ไอคอน ClassKhab จะขึ้นที่หน้าจอหลักและในรายการแอป เปิดจากไอคอนได้เลย</li>
+          </ol>
+          <p class="font-bold text-slate-900 dark:text-white">ถ้าไม่เห็นปุ่ม หรือกดแล้วไม่มีอะไรขึ้น</p>
+          <ol class="list-decimal space-y-1 pl-5">
+            <li>กดเมนู <b>⋮</b> (จุดสามจุดมุมขวาบนของ Chrome)</li>
+            <li>เลือก <b>"ติดตั้งแอป"</b> หรือ <b>"เพิ่มลงในหน้าจอหลัก"</b></li>
+            <li>กด <b>"ติดตั้ง"</b> หรือ <b>"เพิ่ม"</b></li>
+          </ol>
+          <p class="font-bold text-slate-900 dark:text-white">หลังติดตั้งแล้ว</p>
+          <ul class="list-disc space-y-1 pl-5">
+            <li>เปิดจากไอคอน แล้วกด <b>"เปิดแจ้งเตือน"</b> และกดอนุญาต เพื่อให้ระบบเตือนก่อนเริ่มคาบ</li>
+            <li>ปุ่มติดตั้งจะหายไปเมื่อเปิดจากแอปที่ติดตั้งแล้ว</li>
+            <li>ควรใช้ Chrome เพราะเบราว์เซอร์อื่นบางตัวอาจไม่มีตัวเลือกติดตั้ง</li>
+            <li>ถ้าแจ้งเตือนไม่เด้ง ปิดโหมดประหยัดแบตเตอรี่ และตั้ง Chrome ให้ทำงานเบื้องหลังได้</li>
+          </ul>
+        </div>
+      </details>
+
       <details class="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-700 dark:bg-[#111a2e]">
         <summary class="flex items-center justify-between gap-3 font-bold text-slate-900 dark:text-white">4. การบ้าน ประกาศ และนับถอยหลังสอบ <span class="chev text-slate-400">⌄</span></summary>
         <ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-slate-700 dark:text-slate-300">
@@ -208,7 +235,7 @@
     <footer class="pb-8 text-center text-xs text-slate-400">© ClassKhab · โรงเรียนท่าบ่อ</footer>
   <script>
   // ลิงก์ #sound จากหน้าเว็บ: เปิดหัวข้อที่ซ่อนอยู่แล้วเลื่อนไปที่นั่น
-  (function () { var h = location.hash.slice(1); if (h !== 'sound' && h !== 'contact') return; var el = document.getElementById(h); if (!el) return; var d = el.closest('details'); if (d) d.open = true; setTimeout(function () { el.scrollIntoView(); }, 50); })();
+  (function () { var h = location.hash.slice(1); if (h !== 'sound' && h !== 'contact' && h !== 'android') return; var el = document.getElementById(h); if (!el) return; var d = el.closest('details'); if (d) d.open = true; setTimeout(function () { el.scrollIntoView(); }, 50); })();
 </script>
 </body>
 </html>
