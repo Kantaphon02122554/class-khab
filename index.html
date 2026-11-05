@@ -837,7 +837,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                     <span class="pt-acts"><button id="aiCopy" class="ai-mini hidden" onclick="aiCopy()">คัดลอก</button><button id="aiDl" class="ai-mini hidden" onclick="aiDownload()">ดาวน์โหลด .html</button></span>
                   </div>
                   <pre id="aiText2" class="ai-text hidden"></pre>
-                  <iframe id="aiFrame" class="ai-frame" sandbox="" title="ตัวอย่างหน้าพอร์ต"></iframe>
+                  <iframe id="aiFrame" class="ai-frame" sandbox="allow-same-origin" title="ตัวอย่างหน้าพอร์ต">   <!-- ไม่ใส่ allow-scripts จึงรันสคริปต์ไม่ได้ แต่ sandbox="" เปล่าๆ ทำให้บางเบราว์เซอร์วาดหน้าว่าง --></iframe>
                   <p id="aiOutHint" class="pt-hint">นี่คือหน้าตาตัวอย่าง ข้อมูลของคุณจะแสดงที่นี่หลังกดสร้าง เปลี่ยนโทนสีได้ทันที ไม่เสียสิทธิ์</p>
                 </aside>
               </div>
@@ -2934,7 +2934,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         if (!r.ok) { err.textContent = AI_ERR[r.error] || 'เกิดข้อผิดพลาด ลองใหม่อีกครั้ง'; err.classList.remove('hidden'); return; }
         if (aiMode === 'page') {
           aiLast = { data: r.data, ctx: { lang: body.lang, name: v('aiName'), goal: v('aiGoal'), photo: aiPhoto, works } };
-          aiShow('page'); aiRenderPreview();
+          try { aiShow('page'); aiRenderPreview(); } catch (e) { console.error(e); err.textContent = 'AI เขียนข้อความเสร็จแล้ว แต่แสดงหน้าพอร์ตไม่สำเร็จ (' + (e && e.message ? e.message : 'ไม่ทราบสาเหตุ') + ') ลองกดดาวน์โหลด .html หรือสร้างใหม่'; err.classList.remove('hidden'); }
           const w = r.warnings || {}, notes = [];
           if (w.invented && w.invented.length) notes.push('AI ใส่ตัวเลขที่คุณไม่ได้ให้: ' + w.invented.join(', ') + ' ตรวจและแก้หรือลบออกก่อนใช้');
           if (w.words && w.words.length) notes.push('ยังมีคำสำเร็จรูปบางคำ (' + w.words.join(', ') + ') แก้ในไฟล์ได้');
@@ -3022,20 +3022,17 @@ section>h2{font:500 13px/22px 'Anuphan',system-ui,sans-serif;color:var(--m)}
 .rows b{font-weight:500}.rows span{color:var(--t2);font-size:14px}
 .skills{color:var(--t2)}
 footer{border-top:1px solid var(--line);padding-top:24px;font-size:12px;color:var(--m)}
-@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-main>*{animation:up .4s cubic-bezier(.22,1,.36,1) both}main>*:nth-child(2){animation-delay:.05s}main>*:nth-child(3){animation-delay:.1s}main>*:nth-child(4){animation-delay:.15s}
 @media(max-width:720px){main{padding:24px 20px 64px}.hero{flex-direction:column;gap:20px;padding:40px 0 32px}section{grid-template-columns:1fr;gap:16px;padding:32px 0}.works{grid-template-columns:1fr;gap:32px}}
-@media(prefers-reduced-motion:reduce){main>*{animation:none}}
-@media print{@page{margin:14mm}html,body{background:#fff!important}main{padding:0}main>*{animation:none}.work,section,li{break-inside:avoid}}`;
+@media print{@page{margin:14mm}html,body{background:#fff!important}main{padding:0}.work,section,li{break-inside:avoid}}`;
         return `<!DOCTYPE html><html lang="${en ? 'en' : 'th'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${E(c.name || 'Portfolio')}</title>` +
-          `<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500&family=Noto+Serif+Thai:wght@400;500&display=swap" rel="stylesheet"><style>${css}</style></head><body><main>` +
+          (c.fonts ? `<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500&family=Noto+Serif+Thai:wght@400;500&display=swap" rel="stylesheet">` : '') + `<style>${css}</style></head><body><main>` +
           `<header class="hero">${c.photo ? `<img class="av" src="${c.photo}" alt="">` : ''}<div><h1>${E(c.name || (en ? 'Portfolio' : 'พอร์ตโฟลิโอ'))}</h1>${d.tagline ? `<p class="tag">${E(d.tagline)}</p>` : ''}${c.goal ? `<p class="goal">${L.goal}: ${E(c.goal)}</p>` : ''}</div></header>` +
           sec(L.about, d.intro ? `<p class="intro">${E(d.intro)}</p>` : '') + sec(L.works, works ? `<div class="works">${works}</div>` : '') +
           sec(L.acts, acts ? `<ul class="rows">${acts}</ul>` : '') + sec(L.awards, awards ? `<ul class="rows">${awards}</ul>` : '') +
           sec(L.skills, (d.skills || []).length ? `<p class="skills">${d.skills.map(E).join(' · ')}</p>` : '') +
           `<footer>${L.upd} ${E(upd)}</footer></main></body></html>`;
       }
-      function aiDownload() { if (!aiLastHtml) return; const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([aiLastHtml], { type: 'text/html;charset=utf-8' })); a.download = 'portfolio.html'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
+      function aiDownload() { if (!aiLast) return; const html = aiBuildHtml(aiLast.data, { ...aiLast.ctx, theme: aiTheme, fonts: true }); const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([html], { type: 'text/html;charset=utf-8' })); a.download = 'portfolio.html'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
       function contactGo(what) {
         closeContact();
         if (what === 'admin') openAdminChat();
