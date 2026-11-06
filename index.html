@@ -62,7 +62,7 @@
       }
       /* แถบสถานะ (แจ้งเตือน/วันหยุด) */
       .pb { border-radius: 1rem; padding: 0.75rem 1rem; font-size: 0.8125rem; display: flex; gap: 0.75rem; align-items: center; justify-content: space-between; flex-wrap: wrap; border: 1px solid; }
-      .pb button { font-weight: 700; padding: 0.375rem 0.875rem; border-radius: 0.625rem; background: rgba(0, 0, 0, 0.08); }
+      .pb button { font-weight: 600; padding: 0.375rem 0.875rem; border-radius: 0.625rem; background: rgba(0, 0, 0, 0.08); }
       .pb-info { background: #eff6ff; border-color: #bfdbfe; color: #1e3a8a; }
       .pb-ok { background: #ecfdf5; border-color: #a7f3d0; color: #065f46; }
       .pb-warn { background: #fffbeb; border-color: #fde68a; color: #92400e; }
@@ -70,7 +70,7 @@
       .pb-hol { background: #fdf4ff; border-color: #f5d0fe; color: #86198f; }
 
       /* ป้ายชนิดประกาศ / ปฏิทิน */
-      .tag { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 99px; white-space: nowrap; }
+      .tag { font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 99px; white-space: nowrap; }
       .tag-announce, .tag-event { background: #dbeafe; color: #1e40af; }
       .tag-homework { background: #fef3c7; color: #92400e; }
       .tag-exam { background: #fee2e2; color: #991b1b; }
@@ -106,9 +106,9 @@
       html.cards #heroSection > div.mt-8 { margin-top: 0; }
       .hc { border: 1px solid; border-radius: 1rem; padding: 0.75rem 0.9rem; font-size: 0.875rem; display: flex; gap: 0.6rem; align-items: flex-start; }
       .hc .hc-ic { font-size: 1.1rem; line-height: 1.4; flex: none; }
-      .hc .hc-body { flex: 1; min-width: 0; } .hc .hc-t { font-weight: 800; } .hc .hc-s { font-size: 0.8rem; opacity: 0.85; margin-top: 0.1rem; }
+      .hc .hc-body { flex: 1; min-width: 0; } .hc .hc-t { font-weight: 600; } .hc .hc-s { font-size: 0.8rem; opacity: 0.85; margin-top: 0.1rem; }
       .hc .hc-x { flex: none; width: 2rem; height: 2rem; border-radius: 0.6rem; font-size: 0.9rem; opacity: 0.65; margin: -0.3rem -0.4rem 0 0; } .hc .hc-x:hover { opacity: 1; background: rgba(0, 0, 0, 0.06); }
-      .hc .hc-act { margin-top: 0.45rem; font-weight: 700; font-size: 0.8rem; padding: 0.4rem 0.8rem; border-radius: 0.6rem; background: rgba(0, 0, 0, 0.08); }
+      .hc .hc-act { margin-top: 0.45rem; font-weight: 600; font-size: 0.8rem; padding: 0.4rem 0.8rem; border-radius: 0.6rem; background: rgba(0, 0, 0, 0.08); }
       .hc label.hc-row { display: flex; align-items: center; gap: 0.55rem; padding: 0.3rem 0; min-height: 2.2rem; cursor: pointer; } .hc label.hc-row input { width: 1.1rem; height: 1.1rem; accent-color: #059669; flex: none; }
       .hc-err { background: #fef2f2; border-color: #fecaca; color: #991b1b; } .hc-warn { background: #fffbeb; border-color: #fde68a; color: #92400e; }
       .hc-exam { background: #f5f3ff; border-color: #ddd6fe; color: #5b21b6; } .hc-info { background: #eff6ff; border-color: #bfdbfe; color: #1e3a8a; }
@@ -121,7 +121,7 @@
 html.cards .hc { gap: 0.5rem; padding: 0.75rem 1rem; background: #fff; border-color: #e2e8f0; color: #334155; }
 html.cards .hc .hc-ic { display: inline-flex; width: 1.25rem; height: 1.5rem; align-items: center; justify-content: center; }
 html.cards .hc .hc-ic svg { width: 1.1rem; height: 1.1rem; stroke-width: 2; }
-html.cards .hc .hc-t { font-weight: 700; color: #0f172a; }
+html.cards .hc .hc-t { font-weight: 600; color: #0f172a; }
 html.cards .hc-warn .hc-ic { color: #d97706; } html.cards .hc-exam .hc-ic { color: #7c3aed; } html.cards .hc-info .hc-ic { color: #2563eb; } html.cards .hc-ok .hc-ic { color: #059669; } html.cards .hc-gray .hc-ic { color: #64748b; }
 html.cards .hc-err { background: #fef2f2; border-color: #fecaca; color: #991b1b; } html.cards .hc-err .hc-t { color: #7f1d1d; } html.cards .hc-err .hc-ic { color: #dc2626; }
 html.dark.cards .hc, html.cards.dark .hc { background: #111a2e; border-color: #243152; color: #cbd5e1; } html.cards.dark .hc .hc-t { color: #f1f5f9; }
@@ -142,7 +142,7 @@ html.cards .animate-pulse { animation: none; }
 html.cards button, html.cards .tag { transition: background-color .15s, color .15s; }
 html.cards .tag { border-radius: 6px; padding: 2px 8px; }
 html.cards #curLabel, html.cards #curBadge { border-radius: 8px; }
-html.cards .font-extrabold { font-weight: 700; }
+html.cards .font-semibold { font-weight: 600; }
 html.cards h2, html.cards h3, html.cards h4 { font-weight: 600; }
 html.cards [class*="from-indigo"], html.cards [class*="from-violet"], html.cards [class*="to-violet"], html.cards [class*="to-purple"] { background-image: none !important; background-color: #4f46e5; }
 html.cards .bg-clip-text { background-image: none !important; -webkit-text-fill-color: currentColor !important; color: #0f172a; }
@@ -166,7 +166,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       html.ui2 #chatPanel button[onclick="toggleChat(false)"] { display: none; }
       #navV2 { position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; display: flex; background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(10px); border-top: 1px solid #e2e8f0; padding: 0.4rem 0.5rem calc(0.4rem + env(safe-area-inset-bottom)); }
       html.dark #navV2 { background: rgba(11, 18, 32, 0.96); border-top-color: #243152; }
-      #navV2 button { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px; font-weight: 700; color: #94a3b8; position: relative; padding: 0.3rem 0; background: transparent; }
+      #navV2 button { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 11px; font-weight: 600; color: #94a3b8; position: relative; padding: 0.3rem 0; background: transparent; }
       #navV2 button.on { color: #0f172a; } html.dark #navV2 button.on { color: #fff; }
       #navV2 button svg { width: 22px; height: 22px; }
       /* แถบล่างแบบลอย (pill) เลื่อนตามหน้าจอ */
@@ -226,7 +226,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       @keyframes auInR { from { opacity: 0; transform: translateX(36px); } to { opacity: 1; transform: none; } }
       @keyframes auInL { from { opacity: 0; transform: translateX(-36px); } to { opacity: 1; transform: none; } }
       html.ui2 .au-c { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.5rem; }
-      html.ui2 .au-c .crest { width: 3rem; height: 3rem; } html.ui2 .au-pt { font-weight: 700; font-size: 1.25rem; } html.ui2 .au-pp { font-size: 0.8rem; color: #cbd5e1; line-height: 1.6; }
+      html.ui2 .au-c .crest { width: 3rem; height: 3rem; } html.ui2 .au-pt { font-weight: 600; font-size: 1.25rem; } html.ui2 .au-pp { font-size: 0.8rem; color: #cbd5e1; line-height: 1.6; }
       html.ui2 .au-pb { display: none; }
       html.ui2 .au-form > div:first-child img { display: none; }
       html.ui2 #otpBox:not(.hidden), html.ui2 #loginForm:not(.hidden) { animation: auFade .45s ease both; }
@@ -246,7 +246,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         html.ui2 .au-pr .au-c { transform: translateX(800px); }
         html.ui2 #authCard[data-mode="room"] .au-pl .au-c { transform: translateX(-800px); } html.ui2 #authCard[data-mode="room"] .au-pr .au-c { transform: translateX(0); }
         html.ui2 .au-c .crest { width: 5.5rem; height: 5.5rem; } html.ui2 .au-pt { font-size: 1.75rem; } html.ui2 .au-pp { font-size: 0.95rem; max-width: 18rem; }
-        html.ui2 .au-pb { display: inline-block; margin-top: 0.5rem; padding: 0.6rem 1.25rem; border: 1.5px solid rgba(255, 255, 255, 0.7); border-radius: 12px; font-weight: 700; font-size: 0.85rem; transition: background-color .2s; } html.ui2 .au-pb:hover { background: rgba(255, 255, 255, 0.12); }
+        html.ui2 .au-pb { display: inline-block; margin-top: 0.5rem; padding: 0.6rem 1.25rem; border: 1.5px solid rgba(255, 255, 255, 0.7); border-radius: 12px; font-weight: 600; font-size: 0.85rem; transition: background-color .2s; } html.ui2 .au-pb:hover { background: rgba(255, 255, 255, 0.12); }
         html.ui2 .au-form { width: 50%; margin-left: 0; padding: 2.5rem 2rem; transform: translate3d(100%, 0, 0); transition: transform 1s cubic-bezier(.65, 0, .35, 1) 0.7s; will-change: transform; }
         html.ui2 #authCard[data-mode="room"] .au-form { transform: translate3d(0, 0, 0); }
       }
@@ -254,7 +254,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       /* ปุ่มด่วนบนสุดของหน้าแรก: เปิดแจ้งเตือน / ติดตั้งแอป (ซ่อนบนจอใหญ่ที่หัวเว็บมีปุ่มอยู่แล้ว) */
       #topActions { margin-bottom: 0.75rem; }
       .ta-row { display: flex; gap: 0.5rem; }
-      .ta-btn { flex: 1 1 0; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; min-height: 2.75rem; padding: 0 0.75rem; border-radius: 12px; border: 1px solid #e2e8f0; background: #fff; color: #0f172a; font-size: 0.875rem; font-weight: 700; transition: background-color .15s; }
+      .ta-btn { flex: 1 1 0; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; min-height: 2.75rem; padding: 0 0.75rem; border-radius: 12px; border: 1px solid #e2e8f0; background: #fff; color: #0f172a; font-size: 0.875rem; font-weight: 600; transition: background-color .15s; }
       .ta-btn:active { background: #f1f5f9; }
       .ta-main { background: #0f172a; border-color: #0f172a; color: #f8fafc; } .ta-main:active { background: #1e293b; }
       .ta-hint { margin-top: 0.5rem; padding: 0.6rem 0.75rem; border-radius: 12px; background: #f1f5f9; color: #334155; font-size: 0.8rem; line-height: 1.5; }
@@ -279,20 +279,20 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       /* หน้าโปรไฟล์ + โซเชียล (ui2) */
       html.ui2:not([data-view="social"]) .v-social { display: none !important; }
       .pf-card { display: flex; align-items: center; gap: 1rem; padding: 0.25rem 0 0.75rem; }
-      .pf-av { flex: none; width: 76px; height: 76px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 700; color: #fff; background-size: cover; background-position: center; border: 1px solid rgba(15, 23, 42, 0.08); }
+      .pf-av { flex: none; width: 76px; height: 76px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 600; color: #fff; background-size: cover; background-position: center; border: 1px solid rgba(15, 23, 42, 0.08); }
       .pf-av-lg { width: 96px; height: 96px; font-size: 2.4rem; }
-      .pf-info { min-width: 0; } .pf-name { font-size: 1.25rem; font-weight: 700; word-break: break-word; } .pf-sub { font-size: 0.85rem; color: #64748b; } .pf-bio { font-size: 0.875rem; margin-top: 0.25rem; word-break: break-word; }
-      .pf-edit { width: 100%; padding: 0.6rem; border-radius: 12px; background: #f1f5f9; font-weight: 700; font-size: 0.875rem; } html.dark .pf-edit { background: rgba(255, 255, 255, 0.1); }
+      .pf-info { min-width: 0; } .pf-name { font-size: 1.25rem; font-weight: 600; word-break: break-word; } .pf-sub { font-size: 0.85rem; color: #64748b; } .pf-bio { font-size: 0.875rem; margin-top: 0.25rem; word-break: break-word; }
+      .pf-edit { width: 100%; padding: 0.6rem; border-radius: 12px; background: #f1f5f9; font-weight: 600; font-size: 0.875rem; } html.dark .pf-edit { background: rgba(255, 255, 255, 0.1); }
       .pf-note { font-size: 0.75rem; color: #94a3b8; margin: 0.5rem 0.25rem 0; }
       .pf-sheet { position: fixed; inset: 0; z-index: 80; background: rgba(15, 23, 42, 0.45); display: flex; align-items: flex-end; justify-content: center; animation: pfFade .2s ease-out; }
       .pf-sheet.hidden { display: none; }
       .pf-panel { width: 100%; max-width: 28rem; max-height: 90vh; overflow: auto; background: #fff; border-radius: 20px 20px 0 0; padding: 1rem 1.25rem calc(1.25rem + env(safe-area-inset-bottom)); animation: pfUp .25s cubic-bezier(.2, .8, .2, 1); } html.dark .pf-panel { background: #111a2e; }
       .pf-ph { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; } .pf-ph button { width: 2.25rem; height: 2.25rem; display: flex; align-items: center; justify-content: center; }
       .pf-photo { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; } .pf-photo-b { display: flex; flex-direction: column; gap: 0.5rem; }
-      .pf-btn { padding: 0.45rem 1rem; border-radius: 10px; background: #0f172a; color: #fff; font-weight: 700; font-size: 0.8rem; text-align: center; cursor: pointer; } .pf-btn-g { background: #f1f5f9; color: #334155; } html.dark .pf-btn { background: #f1f5f9; color: #0f172a; } html.dark .pf-btn-g { background: rgba(255, 255, 255, 0.1); color: #e2e8f0; }
-      .pf-l { display: block; font-size: 0.8rem; font-weight: 700; color: #64748b; margin-bottom: 0.9rem; } .pf-l input, .pf-l textarea { display: block; width: 100%; margin-top: 0.3rem; padding: 0.6rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 1rem; font-weight: 500; color: #0f172a; background: #fff; } html.dark .pf-l input, html.dark .pf-l textarea { background: #0b1220; border-color: #243152; color: #f1f5f9; }
+      .pf-btn { padding: 0.45rem 1rem; border-radius: 10px; background: #0f172a; color: #fff; font-weight: 600; font-size: 0.8rem; text-align: center; cursor: pointer; } .pf-btn-g { background: #f1f5f9; color: #334155; } html.dark .pf-btn { background: #f1f5f9; color: #0f172a; } html.dark .pf-btn-g { background: rgba(255, 255, 255, 0.1); color: #e2e8f0; }
+      .pf-l { display: block; font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 0.9rem; } .pf-l input, .pf-l textarea { display: block; width: 100%; margin-top: 0.3rem; padding: 0.6rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 1rem; font-weight: 500; color: #0f172a; background: #fff; } html.dark .pf-l input, html.dark .pf-l textarea { background: #0b1220; border-color: #243152; color: #f1f5f9; }
       .pf-colors { display: flex; gap: 0.6rem; margin-top: 0.4rem; } .pf-colors button { width: 2rem; height: 2rem; border-radius: 50%; border: 2px solid transparent; } .pf-colors button.on { border-color: #0f172a; box-shadow: 0 0 0 2px #fff inset; } html.dark .pf-colors button.on { border-color: #fff; }
-      .pf-save { width: 100%; padding: 0.75rem; border-radius: 12px; background: #0f172a; color: #fff; font-weight: 700; } html.dark .pf-save { background: #f1f5f9; color: #0f172a; }
+      .pf-save { width: 100%; padding: 0.75rem; border-radius: 12px; background: #0f172a; color: #fff; font-weight: 600; } html.dark .pf-save { background: #f1f5f9; color: #0f172a; }
       /* ติดต่อ: แถวเรียบ ไอคอนคอลัมน์เดียว คำอธิบายบรรทัดเดียว จุดสถานะเล็กๆ บอกว่าแชตแอดมินเปิดอยู่ */
       .ct-lead { font-size: 0.8rem; color: #64748b; margin: -0.25rem 0 0.75rem; } html.dark .ct-lead { color: #94a3b8; }
       .ct-list { border: 1px solid #e2e8f0; border-radius: 16px; overflow: hidden; } html.dark .ct-list { border-color: #243152; }
@@ -308,12 +308,12 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .ai-f select { display: block; width: 100%; margin-top: 0.3rem; padding: 0.6rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 1rem; background: #fff; color: #0f172a; } html.dark .ai-f select { background: #0b1220; border-color: #243152; color: #f1f5f9; }
       .ai-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; } .ai-f.hidden, .ai-row .hidden { display: none; }
       .ai-err { margin: 0.75rem 0 0; padding: 0.7rem 0.9rem; border-radius: 12px; background: #fff1f2; color: #9f1239; font-size: 0.85rem; } html.dark .ai-err { background: rgba(225, 29, 72, 0.12); color: #fda4af; }
-      .ai-out-h { display: flex; align-items: center; justify-content: space-between; margin: 1.1rem 0 0.5rem; } .ai-mini { padding: 0.35rem 0.8rem; border-radius: 10px; background: #f1f5f9; color: #334155; font-size: 0.78rem; font-weight: 700; margin-left: 0.4rem; } html.dark .ai-mini { background: rgba(255, 255, 255, 0.1); color: #e2e8f0; }
+      .ai-out-h { display: flex; align-items: center; justify-content: space-between; margin: 1.1rem 0 0.5rem; } .ai-mini { padding: 0.35rem 0.8rem; border-radius: 10px; background: #f1f5f9; color: #334155; font-size: 0.78rem; font-weight: 600; margin-left: 0.4rem; } html.dark .ai-mini { background: rgba(255, 255, 255, 0.1); color: #e2e8f0; }
       .ai-text { white-space: pre-wrap; word-break: break-word; font-family: inherit; font-size: 0.92rem; line-height: 1.65; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px; padding: 0.9rem 1rem; margin: 0; color: #0f172a; } html.dark .ai-text { background: #0b1220; border-color: #243152; color: #e2e8f0; }
       #portfolioV2 input[hidden] { display: none !important; }   /* ช่องเลือกไฟล์ที่ซ่อนไว้ (ใช้ป้าย "เลือกรูป" แทน) ไม่ให้โดนสไตล์ input ของฟอร์มทับ */
       .pt-head { margin-bottom: 0.9rem; } .pt-sub { font-size: 0.85rem; color: #64748b; line-height: 1.6; } html.dark .pt-sub { color: #94a3b8; }
       .pt-chip { display: inline-block; margin-left: 0.3rem; padding: 0.1rem 0.6rem; border-radius: 99px; background: #f1f5f9; color: #334155; font-size: 0.75rem; font-weight: 600; } .pt-chip:empty { display: none; } html.dark .pt-chip { background: rgba(255, 255, 255, 0.1); color: #e2e8f0; }
-      .pt-grid { display: grid; gap: 1.25rem; } .pt-out-h { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.5rem; } .pt-out-t { font-size: 0.8rem; font-weight: 700; color: #64748b; }
+      .pt-grid { display: grid; gap: 1.25rem; } .pt-out-h { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.5rem; } .pt-out-t { font-size: 0.8rem; font-weight: 600; color: #64748b; }
       .pt-tools { display: inline-flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
       .pt-seg { display: inline-flex; gap: 2px; padding: 2px; border-radius: 10px; background: #f1f5f9; } .pt-seg.hidden { display: none; } .pt-seg button { padding: 0.25rem 0.75rem; border-radius: 8px; font-size: 0.78rem; font-weight: 600; color: #64748b; } .pt-seg button.on { background: #fff; color: #0f172a; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1); } html.dark .pt-seg { background: rgba(255, 255, 255, 0.08); } html.dark .pt-seg button.on { background: rgba(255, 255, 255, 0.16); color: #fff; box-shadow: none; }
       .pt-acc { display: inline-flex; align-items: center; gap: 0.35rem; } .pt-acc.hidden { display: none; } .pt-acc input[type=color] { width: 2rem; height: 2rem; padding: 0; border: 1px solid #e2e8f0; border-radius: 8px; background: none; cursor: pointer; } .pt-acc .ai-mini { margin-left: 0; }
@@ -325,9 +325,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .pc-ic { width: 2.25rem; height: 2.25rem; flex: none; display: grid; place-items: center; border-radius: 50%; border: 1px solid #e2e8f0; color: #475569; background: transparent; transition: background-color .15s, color .15s; } .pc-ic:hover { background: #f1f5f9; } .pc-ic.hidden { display: none; } .pc-ic.on { background: #fee2e2; color: #b91c1c; border-color: #fecaca; }
       html.dark .pc-ic { border-color: #33333b; color: #d4d4d8; } html.dark .pc-ic:hover { background: #24242a; }
       .pc-ic svg, .pc-send svg, .pc-pill svg, .pc-x svg { width: 16px; height: 16px; }
-      .pc-pill { position: relative; display: inline-flex; align-items: center; height: 2.25rem; border-radius: 99px; border: 1px solid #e2e8f0; padding: 0 0.7rem 0 0.9rem; gap: 0.3rem; font-weight: 700; font-size: 0.85rem; cursor: pointer; } html.dark .pc-pill { border-color: #33333b; }
+      .pc-pill { position: relative; display: inline-flex; align-items: center; height: 2.25rem; border-radius: 99px; border: 1px solid #e2e8f0; padding: 0 0.7rem 0 0.9rem; gap: 0.3rem; font-weight: 600; font-size: 0.85rem; cursor: pointer; } html.dark .pc-pill { border-color: #33333b; }
       .pc-pill select { appearance: none; -webkit-appearance: none; border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; outline: none; padding-right: 0.1rem; } .pc-pill svg { color: #94a3b8; pointer-events: none; }
-      .pc-model { display: inline-flex; align-items: center; gap: 0.45rem; font-weight: 700; font-size: 0.85rem; white-space: nowrap; } .pc-model small { font-weight: 400; color: #94a3b8; font-size: 0.85rem; }
+      .pc-model { display: inline-flex; align-items: center; gap: 0.45rem; font-weight: 600; font-size: 0.85rem; white-space: nowrap; } .pc-model small { font-weight: 400; color: #94a3b8; font-size: 0.85rem; }
       .pc-mark { width: 1.35rem; height: 1.35rem; border-radius: 50%; background: #0f172a; position: relative; flex: none; } .pc-mark::after { content: ''; position: absolute; inset: 0.35rem; border-radius: 50%; background: #d97757; } html.dark .pc-mark { background: #000; }
       .pc-send { width: 2.25rem; height: 2.25rem; display: grid; place-items: center; border-radius: 50%; background: #0f172a; color: #fff; transition: opacity .15s, transform var(--d-fast) var(--e-out); } .pc-send:disabled { opacity: 0.3; cursor: default; } .pc-send:not(:disabled):active { transform: scale(0.94); } html.dark .pc-send { background: #f4f4f5; color: #0f172a; }
       .pc-send.busy svg { animation: pcSpin 0.9s linear infinite; } @keyframes pcSpin { to { transform: rotate(360deg); } }
@@ -339,7 +339,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       @media (min-width: 1024px) { .pt-tpl { flex-wrap: wrap; overflow: visible; } .tp { flex: 0 0 118px; } .tp .th { width: 118px; height: 157px; } .tp .th iframe { transform: scale(0.1311); } }
       @media (max-width: 480px) { .pc-model small { display: none; } }
       .pt-prompt { display: flex; gap: 0.5rem; margin-top: 0.75rem; padding: 0.4rem; border: 1px solid #e2e8f0; border-radius: 16px; background: #fff; box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05); } html.dark .pt-prompt { background: #111a2e; border-color: #243152; } .pt-prompt.hidden { display: none; }
-      .pt-prompt input { flex: 1; min-width: 0; padding: 0.55rem 0.75rem; border: 0; background: transparent; font-size: 0.95rem; color: inherit; outline: none; } .pt-prompt button { padding: 0.5rem 1.1rem; border-radius: 12px; background: #0f172a; color: #fff; font-weight: 700; font-size: 0.9rem; } html.dark .pt-prompt button { background: #f1f5f9; color: #0f172a; } .pt-prompt button:disabled { opacity: 0.5; }
+      .pt-prompt input { flex: 1; min-width: 0; padding: 0.55rem 0.75rem; border: 0; background: transparent; font-size: 0.95rem; color: inherit; outline: none; } .pt-prompt button { padding: 0.5rem 1.1rem; border-radius: 12px; background: #0f172a; color: #fff; font-weight: 600; font-size: 0.9rem; } html.dark .pt-prompt button { background: #f1f5f9; color: #0f172a; } .pt-prompt button:disabled { opacity: 0.5; }
       .pt-tpl { display: flex; gap: 0.75rem; overflow-x: auto; padding: 0.15rem 0.15rem 0.6rem; margin-bottom: 0.4rem; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; } .pt-tpl.hidden { display: none; }
       .tp { flex: 0 0 140px; scroll-snap-align: start; text-align: left; background: transparent; -webkit-tap-highlight-color: transparent; }
       .tp .th { display: block; position: relative; width: 140px; height: 187px; overflow: hidden; border-radius: 12px; border: 1px solid #e2e8f0; background: #fff; transition: box-shadow .15s, transform var(--d-med) var(--e-out); } html.dark .tp .th { border-color: #243152; }
@@ -348,7 +348,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .tp .tn { display: block; margin-top: 0.45rem; font-size: 0.8rem; font-weight: 600; color: #475569; } .tp.on .tn { color: #0f172a; } html.dark .tp .tn { color: #94a3b8; } html.dark .tp.on .tn { color: #f1f5f9; } .tp .tn small { display: block; font-weight: 400; color: #94a3b8; font-size: 0.72rem; }
       @media (prefers-reduced-motion: reduce) { .tp .th, .tp:hover .th, .tp:active .th { transition: none; transform: none; } }
       .pt-card { border: 1px solid #e2e8f0; border-radius: 16px; padding: 0 1rem; margin-bottom: 0.7rem; background: #fff; } html.dark .pt-card { background: #111a2e; border-color: #243152; } .pt-card.hidden { display: none; }
-      .pt-card > summary { list-style: none; cursor: pointer; padding: 0.85rem 0; font-weight: 700; font-size: 0.92rem; display: flex; align-items: center; justify-content: space-between; } .pt-card > summary::-webkit-details-marker { display: none; } .pt-card > summary::after { content: "+"; color: #94a3b8; font-weight: 500; font-size: 1.2rem; line-height: 1; } .pt-card[open] > summary::after { content: "–"; } .pt-card > summary small { font-weight: 400; color: #94a3b8; margin-left: 0.4rem; } .pt-card[open] { padding-bottom: 0.35rem; }
+      .pt-card > summary { list-style: none; cursor: pointer; padding: 0.85rem 0; font-weight: 600; font-size: 0.92rem; display: flex; align-items: center; justify-content: space-between; } .pt-card > summary::-webkit-details-marker { display: none; } .pt-card > summary::after { content: "+"; color: #94a3b8; font-weight: 500; font-size: 1.2rem; line-height: 1; } .pt-card[open] > summary::after { content: "–"; } .pt-card > summary small { font-weight: 400; color: #94a3b8; margin-left: 0.4rem; } .pt-card[open] { padding-bottom: 0.35rem; }
       .pt-run { display: flex; align-items: center; gap: 0.6rem; } .pt-run .pf-save { flex: 1; } .pt-run .ai-mini { margin-left: 0; white-space: nowrap; }
       .pt-stage { border-radius: 18px; background: #e8ebf0; padding: 0.75rem; display: flex; justify-content: center; } html.dark .pt-stage { background: #0b1220; } .pt-stage .ai-frame { border: 1px solid rgba(15, 23, 42, 0.08); box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08); } .pt-stage .ai-text { width: 100%; }
       .pt-stage.mob .ai-frame { width: 390px; max-width: 100%; border-radius: 22px; }
@@ -368,8 +368,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       #portfolioV2 .pt-sub { margin-top: 4px; font-size: 0.875rem; color: var(--pt-mute); }
       .pt-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; } .pt-saved { font-size: 0.75rem; color: var(--pt-mute); }
       .pt-step { display: flex; align-items: center; gap: 8px; margin: 28px 0 12px; } .pt-form > .pt-step:first-child { margin-top: 0; }
-      .pt-n { width: 24px; height: 24px; flex: none; border-radius: 50%; background: var(--pt-ink); color: #fff; display: grid; place-items: center; font-size: 0.8rem; font-weight: 700; } html.dark .pt-n { color: #0f172a; }
-      .pt-step b { font-size: 1rem; font-weight: 700; } .pt-step small { margin-left: auto; font-size: 0.75rem; color: var(--pt-mute); }
+      .pt-n { width: 24px; height: 24px; flex: none; border-radius: 50%; background: var(--pt-ink); color: #fff; display: grid; place-items: center; font-size: 0.8rem; font-weight: 600; } html.dark .pt-n { color: #0f172a; }
+      .pt-step b { font-size: 1rem; font-weight: 600; } .pt-step small { margin-left: auto; font-size: 0.75rem; color: var(--pt-mute); }
       .pt-help { display: block; font-size: 0.75rem; font-weight: 400; color: var(--pt-mute); margin-top: 2px; line-height: 1.5; } .pt-help-b { margin: -4px 0 12px; }
       .pt-note { display: flex; gap: 8px; align-items: flex-start; padding: 12px; border-radius: 12px; background: var(--pt-soft); color: #475569; font-size: 0.8rem; line-height: 1.55; margin: 0 0 12px; } html.dark .pt-note { color: #94a3b8; } .pt-note svg { width: 16px; height: 16px; flex: none; margin-top: 2px; } .pt-note.hidden { display: none; }
       #portfolioV2 .pf-l { font-weight: 500; font-size: 0.875rem; color: #334155; margin-bottom: 16px; } html.dark #portfolioV2 .pf-l { color: #cbd5e1; } #portfolioV2 .pf-l input, #portfolioV2 .pf-l textarea, #portfolioV2 .pf-l select { margin-top: 6px; }
@@ -403,7 +403,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .pt-mswitch { display: none; }
       @media (max-width: 1023px) {
         .pt-mswitch { position: sticky; top: 0; z-index: 30; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; margin: 0 0 12px; border-radius: 14px; background: #f1f5f9; } html.dark .pt-mswitch { background: #0b1220; } .pt-mswitch.hidden { display: none; }
-        .pt-mswitch button { min-height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 700; font-size: 0.9rem; color: var(--pt-mute); } .pt-mswitch button.on { background: #fff; color: var(--pt-ink); box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1); } html.dark .pt-mswitch button.on { background: #1e293b; } .pt-mswitch svg { width: 16px; height: 16px; }
+        .pt-mswitch button { min-height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 600; font-size: 0.9rem; color: var(--pt-mute); } .pt-mswitch button.on { background: #fff; color: var(--pt-ink); box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1); } html.dark .pt-mswitch button.on { background: #1e293b; } .pt-mswitch svg { width: 16px; height: 16px; }
         #aiMain[data-pane="edit"] .pt-out { display: none; } #aiMain[data-pane="view"] .pt-form { display: none; }
         #portfolioV2 .pt-out .ai-frame { height: calc(100dvh - 260px); min-height: 420px; }
         .pt-btn, .pc-chip, #portfolioV2 .pt-seg button { min-height: 44px; } .pt-ibtn, .pt-sw { width: 44px; height: 44px; }
@@ -416,14 +416,14 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .so-ring { position: relative; width: 96px; height: 96px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
       .so-ring svg { width: 36px; height: 36px; animation: soSpin 6s ease-in-out infinite; }
       .so-ring span { position: absolute; inset: 0; border: 1.5px solid #94a3b8; border-radius: 50%; animation: soPing 2.4s ease-out infinite; } .so-ring span:nth-child(2) { animation-delay: 1.2s; }
-      .so-t { font-size: 1.75rem; font-weight: 700; } .so-badge { margin-top: 0.5rem; padding: 4px 14px; border-radius: 999px; background: #0f172a; color: #fff; font-size: 0.8rem; font-weight: 700; } html.dark .so-badge { background: #f1f5f9; color: #0f172a; }
+      .so-t { font-size: 1.75rem; font-weight: 600; } .so-badge { margin-top: 0.5rem; padding: 4px 14px; border-radius: 999px; background: #0f172a; color: #fff; font-size: 0.8rem; font-weight: 600; } html.dark .so-badge { background: #f1f5f9; color: #0f172a; }
       .so-p { margin-top: 0.9rem; color: #64748b; font-size: 0.9rem; line-height: 1.6; }
       .so-list { width: 100%; margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; }
       .so-card { display: flex; align-items: center; gap: 0.85rem; text-align: left; padding: 0.85rem 1rem; border: 1px solid #e2e8f0; border-radius: 14px; background: #fff; opacity: 0; animation: soIn .5s cubic-bezier(.2, .8, .2, 1) forwards; animation-delay: calc(var(--d) * 120ms + 150ms); position: relative; overflow: hidden; }
       html.dark .so-card { background: #111a2e; border-color: #243152; }
       .so-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(148, 163, 184, 0.18) 50%, transparent 70%); transform: translateX(-100%); animation: soShine 3.2s ease-in-out infinite; animation-delay: calc(var(--d) * 400ms + 1s); }
       .so-card svg { width: 22px; height: 22px; flex: none; color: #64748b; } .so-card b { display: block; font-size: 0.9rem; } .so-card small { color: #94a3b8; }
-      .so-demo { width: 100%; margin-top: 1.75rem; text-align: left; pointer-events: none; user-select: none; } .so-demo-h { font-size: 0.75rem; font-weight: 700; color: #94a3b8; margin-bottom: 0.6rem; text-align: center; }
+      .so-demo { width: 100%; margin-top: 1.75rem; text-align: left; pointer-events: none; user-select: none; } .so-demo-h { font-size: 0.75rem; font-weight: 600; color: #94a3b8; margin-bottom: 0.6rem; text-align: center; }
       .so-stories { display: flex; gap: 0.7rem; margin-bottom: 0.9rem; } .so-st { width: 52px; height: 52px; border-radius: 50%; background: #e2e8f0; flex: none; border: 2px solid #fff; box-shadow: 0 0 0 1.5px #cbd5e1; display: flex; align-items: center; justify-content: center; } html.dark .so-st { background: #243152; border-color: #0b1220; box-shadow: 0 0 0 1.5px #334155; } .so-st-me { background: #0f172a; color: #fff; box-shadow: none; } .so-st svg { width: 20px; height: 20px; }
       .so-post { border: 1px solid #e2e8f0; border-radius: 14px; padding: 0.75rem; background: #fff; } html.dark .so-post { background: #111a2e; border-color: #243152; }
       .so-ph { display: flex; align-items: center; gap: 0.6rem; } .so-ph b { display: block; font-size: 0.85rem; } .so-ph small { color: #94a3b8; font-size: 0.7rem; } .so-av { width: 36px; height: 36px; border-radius: 50%; background: #cbd5e1; flex: none; }
@@ -431,16 +431,16 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .so-pt { font-size: 0.875rem; } .so-acts { display: flex; gap: 1.1rem; margin-top: 0.6rem; color: #64748b; font-size: 0.8rem; } .so-acts span { display: inline-flex; align-items: center; gap: 0.3rem; } .so-acts svg { width: 18px; height: 18px; }
       .so-video { width: min(100%, 24rem); border-radius: 20px; overflow: hidden; background: #0f172a; aspect-ratio: 4 / 5; } .so-video video { display: block; width: 100%; height: 100%; object-fit: cover; }
       /* กำแพงขอบคุณ */
-      .so-w { padding: 0.5rem 0 1rem; } .so-wh h2 { font-size: 1.5rem; font-weight: 800; color: #0f172a; } html.dark .so-wh h2 { color: #f8fafc; } .so-wh p { color: #64748b; font-size: 0.85rem; margin: 0.15rem 0 0.9rem; } html.dark .so-wh p { color: #94a3b8; }
+      .so-w { padding: 0.5rem 0 1rem; } .so-wh h2 { font-size: 1.5rem; font-weight: 600; color: #0f172a; } html.dark .so-wh h2 { color: #f8fafc; } .so-wh p { color: #64748b; font-size: 0.85rem; margin: 0.15rem 0 0.9rem; } html.dark .so-wh p { color: #94a3b8; }
       .so-card2 { border: 1px solid #e2e8f0; border-radius: 14px; background: #fff; padding: 0.9rem; margin-bottom: 0.9rem; } html.dark .so-card2 { background: #111a2e; border-color: #243152; }
-      .so-lb { display: block; font-size: 0.85rem; font-weight: 700; color: #0f172a; margin-bottom: 0.45rem; } html.dark .so-lb { color: #f1f5f9; } .so-lb small { font-weight: 500; color: #64748b; margin-left: 0.3rem; } .so-lb2 { margin-top: 0.85rem; }
+      .so-lb { display: block; font-size: 0.85rem; font-weight: 600; color: #0f172a; margin-bottom: 0.45rem; } html.dark .so-lb { color: #f1f5f9; } .so-lb small { font-weight: 500; color: #64748b; margin-left: 0.3rem; } .so-lb2 { margin-top: 0.85rem; }
       .so-card2 input { width: 100%; min-height: 44px; border: 1px solid #cbd5e1; border-radius: 10px; padding: 0 0.8rem; font-size: 0.9rem; background: #fff; color: #0f172a; } html.dark .so-card2 input { background: #0b1220; border-color: #334155; color: #f1f5f9; }
       .so-card2 input:focus-visible, .so-tag:focus-visible, .so-btn:focus-visible, .so-act:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-card2 input:focus-visible, html.dark .so-tag:focus-visible, html.dark .so-btn:focus-visible, html.dark .so-act:focus-visible { outline-color: #e2e8f0; }
       .so-row { display: flex; gap: 0.5rem; align-items: center; } .so-row-end { justify-content: space-between; margin-top: 0.7rem; }
       .so-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
       .so-tag { min-height: 44px; padding: 0 0.95rem; border-radius: 999px; border: 1px solid #cbd5e1; background: #fff; color: #334155; font-size: 0.85rem; font-weight: 600; transition: background-color var(--d-med) var(--e-out), color var(--d-med) var(--e-out), transform var(--d-fast) var(--e-out); } html.dark .so-tag { background: #0b1220; border-color: #334155; color: #cbd5e1; }
       .so-tag[aria-checked="true"] { background: #0f172a; border-color: #0f172a; color: #fff; } html.dark .so-tag[aria-checked="true"] { background: #f1f5f9; border-color: #f1f5f9; color: #0f172a; } .so-tag:active { transform: scale(0.96); }
-      .so-btn { min-height: 44px; padding: 0 1rem; border-radius: 10px; border: 1px solid #cbd5e1; background: #fff; color: #0f172a; font-size: 0.875rem; font-weight: 700; flex: none; } html.dark .so-btn { background: #0b1220; border-color: #334155; color: #f1f5f9; }
+      .so-btn { min-height: 44px; padding: 0 1rem; border-radius: 10px; border: 1px solid #cbd5e1; background: #fff; color: #0f172a; font-size: 0.875rem; font-weight: 600; flex: none; } html.dark .so-btn { background: #0b1220; border-color: #334155; color: #f1f5f9; }
       .so-btn-p { background: #0f172a; border-color: #0f172a; color: #fff; } html.dark .so-btn-p { background: #f1f5f9; border-color: #f1f5f9; color: #0f172a; } .so-btn:disabled { opacity: 0.4; cursor: not-allowed; } .so-btn:active:not(:disabled) { transform: scale(0.975); }
       .so-cnt { font-size: 0.75rem; color: #64748b; font-variant-numeric: tabular-nums; }
       /* โหวต: แท็บเลือกชนิดโพสต์ในแผ่นเขียน, ช่องตัวเลือก, การ์ดโหวต */
@@ -450,7 +450,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .so-poll { margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.45rem; }
       .so-po { position: relative; overflow: hidden; display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; width: 100%; text-align: left; padding: 0.6rem 0.8rem; border: 1px solid #cbd5e1; border-radius: 12px; background: transparent; color: #0f172a; font-size: 0.95rem; line-height: 1.5; cursor: pointer; } html.dark .so-po { border-color: #334155; color: #f1f5f9; } .so-po:disabled { cursor: default; } .so-po:active:not(:disabled) { transform: scale(0.985); }
       .so-po > span { position: relative; z-index: 1; overflow-wrap: anywhere; } .so-po .so-pn { flex: none; font-variant-numeric: tabular-nums; font-size: 0.85rem; color: #475569; } html.dark .so-po .so-pn { color: #94a3b8; }
-      .so-po i { position: absolute; inset: 0 auto 0 0; z-index: 0; background: #e2e8f0; transition: width 0.4s ease; } html.dark .so-po i { background: #1e2a44; } .so-po.mine { border-color: #0f172a; font-weight: 700; } html.dark .so-po.mine { border-color: #e2e8f0; }
+      .so-po i { position: absolute; inset: 0 auto 0 0; z-index: 0; background: #e2e8f0; transition: width 0.4s ease; } html.dark .so-po i { background: #1e2a44; } .so-po.mine { border-color: #0f172a; font-weight: 600; } html.dark .so-po.mine { border-color: #e2e8f0; }
       .so-pm { font-size: 0.78rem; color: #64748b; font-variant-numeric: tabular-nums; } @media (prefers-reduced-motion: reduce) { .so-po i { transition: none; } }
       .so-msg { margin-top: 0.7rem; padding: 0.6rem 0.75rem; border-radius: 10px; font-size: 0.85rem; line-height: 1.6; background: #fef3c7; color: #78350f; } .so-msg.ok { background: #dcfce7; color: #14532d; } .so-msg.care { background: #e0f2fe; color: #0c4a6e; }
       html.dark .so-msg { background: #3b2a08; color: #fde68a; } html.dark .so-msg.ok { background: #0d3320; color: #bbf7d0; } html.dark .so-msg.care { background: #0b2a40; color: #bae6fd; }
@@ -461,10 +461,10 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       #soList.so-grid { display: block; column-count: 2; column-gap: 0.6rem; } #soList.so-grid .so-k { break-inside: avoid; margin-bottom: 0.6rem; } @media (min-width: 900px) { #soList.so-grid { column-count: 3; } }
       .so-vt { position: absolute; right: 0.45rem; top: 50%; width: 36px; height: 36px; margin-top: -18px; border: 0; border-radius: 999px; background: transparent; color: #64748b; display: grid; place-items: center; cursor: pointer; } .so-vt svg { position: static; margin: 0; width: 18px; height: 18px; pointer-events: none; } .so-vt[aria-pressed="true"] { background: #f1f5f9; color: #0f172a; } html.dark .so-vt[aria-pressed="true"] { background: #1a2540; color: #f1f5f9; } .so-srch input#soSearch { padding-right: 3rem; }
       .so-k { border: 1px solid #e2e8f0; border-radius: 14px; background: #fff; padding: 0.75rem 0.85rem; } html.dark .so-k { background: #111a2e; border-color: #243152; }
-      .so-k .so-av { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 0.9rem; }
+      .so-k .so-av { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 0.9rem; }
       .so-k .so-ph small { color: #64748b; font-size: 0.72rem; } html.dark .so-k .so-ph small { color: #94a3b8; }
       .so-k .so-ph { gap: 0.65rem; } .so-k .so-ph > div { flex: 1; min-width: 0; }
-      .so-pill { display: inline-block; margin-top: 0.5rem; padding: 0.15rem 0.7rem 0.2rem; border-radius: 999px; background: #f1f5f9; color: #334155; font-size: 0.78rem; font-weight: 700; line-height: 1.7; } html.dark .so-pill { background: #1a2540; color: #cbd5e1; }
+      .so-pill { display: inline-block; margin-top: 0.5rem; padding: 0.15rem 0.7rem 0.2rem; border-radius: 999px; background: #f1f5f9; color: #334155; font-size: 0.78rem; font-weight: 600; line-height: 1.7; } html.dark .so-pill { background: #1a2540; color: #cbd5e1; }
       .so-ln { margin-top: 0.45rem; font-size: 0.9rem; line-height: 1.75; color: #0f172a; } html.dark .so-ln { color: #f1f5f9; }
       .so-ac { display: flex; align-items: center; gap: 0.25rem; margin-top: 0.4rem; margin-left: -0.5rem; }
       .so-act { min-height: 44px; min-width: 44px; padding: 0 0.6rem; border-radius: 10px; display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.8rem; font-weight: 600; color: #64748b; background: transparent; transition: color var(--d-med) var(--e-out), transform var(--d-fast) var(--e-out); } .so-act svg { width: 18px; height: 18px; } .so-act:active { transform: scale(0.94); }
@@ -473,10 +473,10 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       /* โซเชียลรุ่น 2: ชนิดโพสต์ ตัวกรอง ความเห็น โปรไฟล์เพื่อน */
       /* โซเชียลแบบ IG: แถบเขียนอะไรสักอย่าง + ปุ่ม + ลอย + หน้าเขียนโพสต์ + แตะสองครั้งเพื่อขอบคุณ */
       .so-stub { margin-bottom: 0.8rem; } .so-stubb { width: 100%; min-height: 56px; display: flex; align-items: center; gap: 0.7rem; padding: 0.5rem 0.9rem 0.5rem 0.6rem; border: 1px solid #e2e8f0; border-radius: 999px; background: #fff; text-align: left; transition: background-color var(--d-med) var(--e-out), transform var(--d-fast) var(--e-out); } html.dark .so-stubb { background: #111a2e; border-color: #243152; } .so-stubb:active { transform: scale(0.985); } .so-stubb:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-stubb:focus-visible { outline-color: #e2e8f0; }
-      .so-stub-av { width: 38px; height: 38px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 0.9rem; background-size: cover; background-position: center; } .so-stubt { color: #64748b; font-size: 0.9rem; }
+      .so-stub-av { width: 38px; height: 38px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 0.9rem; background-size: cover; background-position: center; } .so-stubt { color: #64748b; font-size: 0.9rem; }
       .so-fab { position: fixed; right: 16px; bottom: calc(92px + env(safe-area-inset-bottom)); z-index: 60; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #0f172a; color: #fff; box-shadow: 0 8px 20px rgba(15, 23, 42, 0.28); transition: transform var(--d-med) var(--e-spring); } html.dark .so-fab { background: #f1f5f9; color: #0f172a; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); } .so-fab svg { width: 26px; height: 26px; } .so-fab:active { transform: scale(0.92); } .so-fab:focus-visible { outline: 2px solid #0f172a; outline-offset: 3px; } html.dark .so-fab:focus-visible { outline-color: #e2e8f0; } .so-fab.hidden { display: none; }
       @media (min-width: 1024px) { .so-fab { bottom: 24px; right: 24px; } }
-      .so-who { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; } .so-who .so-av { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 0.9rem; background-size: cover; background-position: center; } .so-who b { font-size: 0.95rem; }
+      .so-who { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; } .so-who .so-av { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; font-size: 0.9rem; background-size: cover; background-position: center; } .so-who b { font-size: 0.95rem; }
       #soBody { width: 100%; border: 1px solid #cbd5e1; border-radius: 12px; padding: 0.7rem 0.85rem; font-size: 1rem; line-height: 1.75; background: #fff; color: #0f172a; resize: none; min-height: 132px; } html.dark #soBody { background: #0b1220; border-color: #334155; color: #f1f5f9; } #soBody:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark #soBody:focus-visible { outline-color: #e2e8f0; }
       .so-k { position: relative; touch-action: manipulation; } .so-ln { font-size: 0.95rem; }
       .so-burst { position: absolute; left: 50%; top: 45%; width: 84px; height: 84px; margin: -42px 0 0 -42px; color: #e11d48; pointer-events: none; animation: soBurst .7s var(--e-out) forwards; } .so-burst svg { width: 100%; height: 100%; fill: currentColor; stroke: none; }
@@ -485,7 +485,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .so-new { width: 100%; margin-bottom: 0.9rem; }
       /* ค้นหา + แฮชแท็ก */
       #soWall.so-searching :is(#soStories, #soStub, #soReelBar) { display: none !important; }
-      .so-ht { display: inline; padding: 0; min-height: 0; background: transparent; font: inherit; font-weight: 700; color: #2563eb; cursor: pointer; text-decoration: underline; text-decoration-color: rgba(37, 99, 235, 0.35); text-underline-offset: 3px; } html.dark .so-ht { color: #93c5fd; text-decoration-color: rgba(147, 197, 253, 0.4); } .so-ht:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 3px; }
+      .so-ht { display: inline; padding: 0; min-height: 0; background: transparent; font: inherit; font-weight: 600; color: #2563eb; cursor: pointer; text-decoration: underline; text-decoration-color: rgba(37, 99, 235, 0.35); text-underline-offset: 3px; } html.dark .so-ht { color: #93c5fd; text-decoration-color: rgba(147, 197, 253, 0.4); } .so-ht:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; border-radius: 3px; }
       .so-hc { flex: none; min-height: 40px; padding: 0 0.85rem; border-radius: 999px; border: 1px solid #cbd5e1; background: #fff; color: #1d4ed8; font-size: 0.85rem; font-weight: 600; } html.dark .so-hc { background: #0b1220; border-color: #334155; color: #93c5fd; } .so-hc:active { transform: scale(0.96); } .so-hc:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-hc:focus-visible { outline-color: #e2e8f0; }
       .so-sinfo { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.7rem; font-size: 0.85rem; color: #475569; overflow-wrap: anywhere; } html.dark .so-sinfo { color: #cbd5e1; } .so-sinfo.hidden { display: none; } .so-sinfo .so-act { flex: none; }
       /* แท็บคลิป: สลับ ฟีด | คลิป, ช่องค้นหา, กริดการ์ดแบบ Pinterest, ตัวดูคลิป */
@@ -495,31 +495,31 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .so-rb-t { flex: 1; min-width: 0; line-height: 1.35; } .so-rb-t b { display: block; font-size: 0.9rem; color: #0f172a; } html.dark .so-rb-t b { color: #f8fafc; } .so-rb-t small { display: block; font-size: 0.75rem; color: #64748b; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       .so-rb-th { display: flex; flex: none; padding-left: 8px; } .so-rb-th img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; margin-left: -8px; background: #cbd5e1; } html.dark .so-rb-th img { border-color: #111a2e; }
       .so-reels { position: fixed; inset: 0; z-index: 85; overflow-y: auto; overscroll-behavior: contain; background: #f8fafc; padding: 0 1rem calc(2rem + env(safe-area-inset-bottom)); animation: pfFade .2s ease-out; } html.dark .so-reels { background: #0b1220; } .so-reels.hidden { display: none; } .so-reels > * { max-width: 44rem; margin-left: auto; margin-right: auto; }
-      .so-rl-h { position: sticky; top: 0; z-index: 3; display: flex; align-items: center; justify-content: space-between; padding: 0.7rem 0; background: inherit; } .so-rl-h b { font-size: 1.3rem; font-weight: 800; color: #0f172a; } html.dark .so-rl-h b { color: #f8fafc; } .so-rl-x { color: #0f172a; } html.dark .so-rl-x { color: #f8fafc; } .so-rl-x:focus-visible { outline-color: #0f172a; } html.dark .so-rl-x:focus-visible { outline-color: #e2e8f0; }
+      .so-rl-h { position: sticky; top: 0; z-index: 3; display: flex; align-items: center; justify-content: space-between; padding: 0.7rem 0; background: inherit; } .so-rl-h b { font-size: 1.3rem; font-weight: 600; color: #0f172a; } html.dark .so-rl-h b { color: #f8fafc; } .so-rl-x { color: #0f172a; } html.dark .so-rl-x { color: #f8fafc; } .so-rl-x:focus-visible { outline-color: #0f172a; } html.dark .so-rl-x:focus-visible { outline-color: #e2e8f0; }
       #soClipComp, #soClipView { z-index: 95; }
       @media (prefers-reduced-motion: reduce) { .so-reels { animation: none; } .so-rb { transition: none; } }
       .so-tabs { display: flex; gap: 0.3rem; padding: 0.25rem; border-radius: 999px; background: #f1f5f9; margin-bottom: 0.9rem; } html.dark .so-tabs { background: #111a2e; }
-      .so-tabs button { flex: 1; min-height: 44px; border-radius: 999px; font-size: 0.9rem; font-weight: 700; color: #64748b; background: transparent; transition: background-color var(--d-med) var(--e-out), color var(--d-med) var(--e-out); } .so-tabs button[aria-selected="true"] { background: #fff; color: #0f172a; box-shadow: 0 1px 3px rgba(15, 23, 42, 0.14); } html.dark .so-tabs button[aria-selected="true"] { background: #243152; color: #f8fafc; } .so-tabs button:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-tabs button:focus-visible { outline-color: #e2e8f0; }
+      .so-tabs button { flex: 1; min-height: 44px; border-radius: 999px; font-size: 0.9rem; font-weight: 600; color: #64748b; background: transparent; transition: background-color var(--d-med) var(--e-out), color var(--d-med) var(--e-out); } .so-tabs button[aria-selected="true"] { background: #fff; color: #0f172a; box-shadow: 0 1px 3px rgba(15, 23, 42, 0.14); } html.dark .so-tabs button[aria-selected="true"] { background: #243152; color: #f8fafc; } .so-tabs button:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-tabs button:focus-visible { outline-color: #e2e8f0; }
       .so-srch { position: relative; margin-bottom: 0.7rem; } .so-srch svg { position: absolute; left: 0.9rem; top: 50%; width: 18px; height: 18px; margin-top: -9px; color: #64748b; pointer-events: none; } .so-srch input { width: 100%; min-height: 48px; padding: 0 1rem 0 2.6rem; border: 1px solid #cbd5e1; border-radius: 999px; background: #fff; color: #0f172a; font-size: 0.95rem; } html.dark .so-srch input { background: #0b1220; border-color: #334155; color: #f1f5f9; } .so-srch input:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-srch input:focus-visible { outline-color: #e2e8f0; }
       .so-grid { column-count: 2; column-gap: 0.6rem; } @media (min-width: 640px) { .so-grid { column-count: 3; } }
       .so-cc { position: relative; display: block; width: 100%; margin: 0 0 0.6rem; padding: 0; border-radius: 16px; overflow: hidden; background: #0f172a; break-inside: avoid; transition: transform var(--d-med) var(--e-out); } .so-cc:active { transform: scale(0.97); } .so-cc:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-cc:focus-visible { outline-color: #e2e8f0; }
       .so-cc img { display: block; width: 100%; height: auto; object-fit: cover; background: #1e293b; } .so-cc img.bad { min-height: 110px; }
       .so-cc-sh { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.18) 55%, transparent); pointer-events: none; }
       .so-cc-top { position: absolute; left: 0; top: 0; right: 0; padding: 0.6rem 0.65rem; text-align: left; color: #fff; } .so-cc-h { display: block; } .so-cc-r { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.25rem; }
-      .so-cc-av { flex: none; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(255, 255, 255, 0.85); font-size: 0.65rem; font-weight: 800; color: #fff; background-size: cover; background-position: center; } .so-cc-nm { font-size: 0.78rem; font-weight: 700; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .so-cc-av { flex: none; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(255, 255, 255, 0.85); font-size: 0.65rem; font-weight: 600; color: #fff; background-size: cover; background-position: center; } .so-cc-nm { font-size: 0.78rem; font-weight: 600; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
       .so-cc-tt { display: block; font-size: 0.85rem; font-weight: 600; line-height: 1.5; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6); overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; padding-bottom: 0.1em; }
       .so-cc-pl { position: absolute; right: 0.55rem; bottom: 0.55rem; width: 36px; height: 36px; border-radius: 50%; background: rgba(0, 0, 0, 0.55); color: #fff; display: flex; align-items: center; justify-content: center; } .so-cc-pl svg { width: 20px; height: 20px; }
       .so-center { text-align: center; } .so-in { width: 100%; min-height: 48px; border: 1px solid #cbd5e1; border-radius: 10px; padding: 0 0.85rem; font-size: 0.95rem; background: #fff; color: #0f172a; } html.dark .so-in { background: #0b1220; border-color: #334155; color: #f1f5f9; } .so-in:focus-visible, .so-ta:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-in:focus-visible, html.dark .so-ta:focus-visible { outline-color: #e2e8f0; }
       .so-ta { width: 100%; border: 1px solid #cbd5e1; border-radius: 10px; padding: 0.6rem 0.85rem; font-size: 0.95rem; line-height: 1.7; background: #fff; color: #0f172a; resize: none; } html.dark .so-ta { background: #0b1220; border-color: #334155; color: #f1f5f9; }
       .so-cv { max-width: 40rem; } .so-cvt { font-size: 0.95rem; line-height: 1.5; padding-right: 0.5rem; overflow-wrap: anywhere; } .so-cvf { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 12px; overflow: hidden; } .so-cvf iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-      .so-cvw { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.6rem; } .so-cvw .so-av-s { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; } .so-cv .so-ac { margin-left: -0.5rem; } .so-cv .so-pfb { margin: 0.7rem 0 0; }
+      .so-cvw { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.6rem; } .so-cvw .so-av-s { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; } .so-cv .so-ac { margin-left: -0.5rem; } .so-cv .so-pfb { margin: 0.7rem 0 0; }
       @media (prefers-reduced-motion: reduce) { .so-cc, .so-tabs button { transition: none; } }
       /* สตอรี่: แถววงกลม + ตัวดูเต็มจอ (ข้อความบนพื้นสีของโปรไฟล์ ไม่มีรูปถ่าย) */
       .so-stories { display: flex; gap: 0.9rem; overflow-x: auto; padding: 0.1rem 0.1rem 0.8rem; margin-bottom: 0.2rem; scrollbar-width: none; } .so-stories::-webkit-scrollbar { display: none; } .so-stories.hidden { display: none; }
       .so-sr { flex: none; width: 72px; display: flex; flex-direction: column; align-items: center; gap: 0.35rem; background: transparent; border-radius: 12px; padding: 0.15rem 0; } .so-sr:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-sr:focus-visible { outline-color: #e2e8f0; }
       .so-sr-r { width: 68px; height: 68px; border-radius: 50%; padding: 3px; background: linear-gradient(135deg, #0f172a, #64748b); display: block; transition: transform var(--d-med) var(--e-out); } .so-sr:active .so-sr-r { transform: scale(0.94); } .so-sr-r.seen { background: #cbd5e1; } html.dark .so-sr-r.seen { background: #334155; } html.dark .so-sr-r { background: linear-gradient(135deg, #e2e8f0, #64748b); }
       .so-sr-i { display: block; width: 100%; height: 100%; border-radius: 50%; padding: 2px; background: #fff; } html.dark .so-sr-i { background: #0b1220; }
-      .so-sr-a { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%; color: #fff; font-weight: 800; font-size: 1.15rem; background-size: cover; background-position: center; }
+      .so-sr-a { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%; color: #fff; font-weight: 600; font-size: 1.15rem; background-size: cover; background-position: center; }
       .so-sr-n { font-size: 0.72rem; color: #475569; max-width: 72px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.5; } html.dark .so-sr-n { color: #cbd5e1; }
       .so-sr-c { position: relative; width: 68px; height: 68px; border-radius: 50%; border: 2px dashed #94a3b8; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #64748b; } html.dark .so-sr-c { background: #111a2e; border-color: #475569; } .so-sr-c > svg { width: 28px; height: 28px; }
       .so-sr-plus { position: absolute; right: -2px; bottom: -2px; width: 24px; height: 24px; border-radius: 50%; background: #0f172a; color: #fff; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; } html.dark .so-sr-plus { background: #f1f5f9; color: #0f172a; border-color: #0b1220; } .so-sr-plus svg { width: 14px; height: 14px; }
@@ -531,18 +531,18 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .so-sth { position: relative; z-index: 2; display: flex; align-items: center; gap: 0.6rem; padding: 12px; } .so-sth .so-av-s { display: flex; align-items: center; justify-content: center; color: #fff; border: 2px solid rgba(255, 255, 255, 0.8); } .so-stw { flex: 1; min-width: 0; line-height: 1.4; } .so-stw b { display: block; font-size: 0.9rem; } .so-stw small { font-size: 0.72rem; color: rgba(255, 255, 255, 0.85); }
       .so-stx { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #fff; background: transparent; border-radius: 50%; } .so-stx svg { width: 22px; height: 22px; } .so-stx:focus-visible, .so-stz:focus-visible { outline: 2px solid #fff; outline-offset: -3px; }
       .so-stb { position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 0.7rem; padding: 0 1.5rem 3rem; text-align: center; overflow-wrap: anywhere; touch-action: manipulation; }
-      .so-stp { align-self: center; padding: 0.15rem 0.8rem 0.2rem; border-radius: 999px; background: rgba(255, 255, 255, 0.2); font-size: 0.8rem; font-weight: 700; line-height: 1.7; } .so-stt { font-size: 1.25rem; font-weight: 800; line-height: 1.5; } .so-stl { font-size: 1.35rem; font-weight: 600; line-height: 1.75; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35); }
+      .so-stp { align-self: center; padding: 0.15rem 0.8rem 0.2rem; border-radius: 999px; background: rgba(255, 255, 255, 0.2); font-size: 0.8rem; font-weight: 600; line-height: 1.7; } .so-stt { font-size: 1.25rem; font-weight: 600; line-height: 1.5; } .so-stl { font-size: 1.35rem; font-weight: 600; line-height: 1.75; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35); }
       .so-stz { position: absolute; top: 72px; bottom: 0; z-index: 3; width: 38%; background: transparent; } .so-stz-l { left: 0; } .so-stz-r { right: 0; width: 62%; }
       @media (prefers-reduced-motion: reduce) { .so-story { animation: none; } .so-sr-r { transition: none; } }
       .so-seg { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 0.9rem; } .so-chips { display: flex; gap: 0.45rem; overflow-x: auto; padding: 0.1rem 0 0.7rem; scrollbar-width: none; } .so-chips::-webkit-scrollbar { display: none; } .so-chips .so-tag, .so-seg .so-tag { flex: none; }
       .so-card2 textarea { width: 100%; border: 1px solid #cbd5e1; border-radius: 10px; padding: 0.6rem 0.8rem; font-size: 0.9rem; line-height: 1.7; background: #fff; color: #0f172a; resize: vertical; min-height: 96px; } html.dark .so-card2 textarea { background: #0b1220; border-color: #334155; color: #f1f5f9; } .so-card2 textarea:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-card2 textarea:focus-visible { outline-color: #e2e8f0; }
       .so-avb { padding: 0; border-radius: 50%; background: transparent; flex: none; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; } .so-av-s { width: 28px; height: 28px; font-size: 0.75rem; }
-      .so-tt { margin-top: 0.4rem; font-size: 1.02rem; font-weight: 700; line-height: 1.5; color: #0f172a; } html.dark .so-tt { color: #f8fafc; }
+      .so-tt { margin-top: 0.4rem; font-size: 1.02rem; font-weight: 600; line-height: 1.5; color: #0f172a; } html.dark .so-tt { color: #f8fafc; }
       .so-pill-work { background: #dbeafe; color: #1e3a8a; } .so-pill-offer { background: #dcfce7; color: #14532d; } html.dark .so-pill-work { background: #172554; color: #bfdbfe; } html.dark .so-pill-offer { background: #0d3320; color: #bbf7d0; }
       .so-cm { margin-top: 0.4rem; padding-top: 0.6rem; border-top: 1px solid #e2e8f0; } html.dark .so-cm { border-top-color: #243152; } .so-cl { display: flex; flex-direction: column; gap: 0.55rem; margin-bottom: 0.6rem; }
       .so-ci { display: flex; gap: 0.5rem; align-items: flex-start; } .so-ct { flex: 1; min-width: 0; } .so-cn { font-size: 0.78rem; } .so-cn small { color: #64748b; } .so-ct p { font-size: 0.88rem; line-height: 1.7; color: #0f172a; } html.dark .so-ct p { color: #f1f5f9; }
       .so-cx { min-height: 44px; padding: 0 0.5rem; font-size: 0.75rem; color: #64748b; background: transparent; border-radius: 8px; flex: none; } .so-cx:focus-visible { outline: 2px solid #0f172a; } html.dark .so-cx:focus-visible { outline-color: #e2e8f0; }
-      .so-pfh { display: flex; gap: 0.9rem; align-items: center; margin: 0.4rem 0 1rem; } .so-pfh .pf-av { flex: none; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; } .so-pfh b { font-size: 1.05rem; } .so-pfb { color: #64748b; font-size: 0.88rem; line-height: 1.7; margin-top: 0.15rem; overflow-wrap: anywhere; }
+      .so-pfh { display: flex; gap: 0.9rem; align-items: center; margin: 0.4rem 0 1rem; } .so-pfh .pf-av { flex: none; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; } .so-pfh b { font-size: 1.05rem; } .so-pfb { color: #64748b; font-size: 0.88rem; line-height: 1.7; margin-top: 0.15rem; overflow-wrap: anywhere; }
       .so-pfp { display: flex; flex-direction: column; gap: 0.5rem; } .so-pr { display: flex; gap: 0.5rem; align-items: baseline; font-size: 0.88rem; line-height: 1.7; overflow-wrap: anywhere; } .so-pr .so-pill { margin-top: 0; flex: none; }
       @keyframes soPop { 0% { transform: scale(0.85); } 55% { transform: scale(1.18); } 100% { transform: scale(1); } }
       .so-act.pop svg { animation: soPop var(--d-med) var(--e-spring); }
@@ -565,9 +565,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
 
       body.teacher-mode #navRoom, body.teacher-mode #navPortfolio, body.teacher-mode .student-only { display: none !important; }
       .v2-tabs { display: flex; border-bottom: 1px solid #e2e8f0; } html.dark .v2-tabs { border-bottom-color: #243152; }
-      .v2-tabs button { flex: 1; padding: 0.7rem 0.25rem; font-weight: 700; font-size: 0.9rem; color: #64748b; border-bottom: 2px solid transparent; }
+      .v2-tabs button { flex: 1; padding: 0.7rem 0.25rem; font-weight: 600; font-size: 0.9rem; color: #64748b; border-bottom: 2px solid transparent; }
       .v2-tabs button.on { color: #0f172a; border-bottom-color: #0f172a; } html.dark .v2-tabs button.on { color: #fff; border-bottom-color: #fff; }
-      .v2-group { font-size: 0.75rem; font-weight: 700; color: #64748b; margin: 0.9rem 0.25rem 0.4rem; }
+      .v2-group { font-size: 0.75rem; font-weight: 600; color: #64748b; margin: 0.9rem 0.25rem 0.4rem; }
       .v2-list { border: 1px solid #e2e8f0; border-radius: 1rem; overflow: hidden; background: #fff; } html.dark .v2-list { background: #111a2e; border-color: #243152; }
       .v2-item { display: flex; align-items: center; gap: 0.75rem; width: 100%; text-align: left; padding: 0.85rem 1rem; font-weight: 600; border-bottom: 1px solid #f1f5f9; } html.dark .v2-item { border-bottom-color: #1a2540; }
       .v2-item:last-child { border-bottom: 0; } .v2-item svg { width: 20px; height: 20px; flex: none; color: #64748b; } .v2-item small { color: #94a3b8; font-weight: 400; }
@@ -632,7 +632,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         <div class="au-form">
         <div class="text-center mb-6">
           <img src="crest.svg" alt="โลโก้ โรงเรียนท่าบ่อ" class="crest mx-auto mb-3 h-20 w-20" />
-          <h1 class="text-2xl font-bold text-slate-900">เข้าสู่ระบบ ClassKhab</h1>
+          <h1 class="text-2xl font-semibold text-slate-900">เข้าสู่ระบบ ClassKhab</h1>
           <p class="text-xs text-slate-500 mt-1">เลือกระดับชั้นเรียนเพื่อดูตารางสอนโรงเรียนท่าบ่อ</p>
         </div>
 
@@ -644,12 +644,12 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
               <input type="text" id="otpEmail" inputmode="email" autocomplete="username" placeholder="เช่น 12345 หรือ 12345@thaboschool.ac.th" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900" onkeydown="if(event.key==='Enter'){event.preventDefault();otpSend();}" />
               <p class="text-[11px] text-slate-500 mt-1">ระบบจะส่งรหัส 6 หลักไปที่อีเมลโรงเรียนของคุณ และพาเข้าห้องของคุณอัตโนมัติ</p>
             </div>
-            <button type="button" id="otpSendBtn" onclick="otpSend()" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm rounded-xl shadow-md transition-all">ส่งรหัสเข้าอีเมล</button>
+            <button type="button" id="otpSendBtn" onclick="otpSend()" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm rounded-xl shadow-md transition-colors">ส่งรหัสเข้าอีเมล</button>
           </div>
           <div id="otpStep2" class="hidden space-y-3">
             <p class="text-xs text-slate-600">ส่งรหัสไปที่ <b id="otpSentTo"></b> แล้ว (ใช้ได้ 10 นาที) ดูในกล่องจดหมาย หรือถ้าไม่เจอลองดูในจดหมายขยะ ถ้ารอเกิน 1–2 นาทีแล้วยังไม่มา ห้องของคุณอาจยังไม่เข้าระบบนี้ ให้กด "เปลี่ยนเลข/อีเมล" แล้วเลือก "เข้าด้วยรหัสห้องแทน"</p>
-            <input type="text" id="otpCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="รหัส 6 หลัก" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-center text-xl tracking-[0.4em] font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900" onkeydown="if(event.key==='Enter'){event.preventDefault();otpVerify();}" oninput="this.value=this.value.replace(/\D/g,'');if(this.value.length===6)otpVerify();" />
-            <button type="button" id="otpVerifyBtn" onclick="otpVerify()" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm rounded-xl shadow-md transition-all">เข้าสู่ระบบ</button>
+            <input type="text" id="otpCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="รหัส 6 หลัก" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-center text-xl tracking-[0.4em] font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900" onkeydown="if(event.key==='Enter'){event.preventDefault();otpVerify();}" oninput="this.value=this.value.replace(/\D/g,'');if(this.value.length===6)otpVerify();" />
+            <button type="button" id="otpVerifyBtn" onclick="otpVerify()" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm rounded-xl shadow-md transition-colors">เข้าสู่ระบบ</button>
             <div class="flex items-center justify-between text-xs"><button type="button" id="otpResend" onclick="otpSend(true)" class="font-semibold text-blue-600 disabled:text-slate-400" disabled>ขอรหัสใหม่</button><button type="button" onclick="otpBack()" class="text-slate-500 hover:underline">เปลี่ยนเลข/อีเมล</button></div>
           </div>
           <div id="otpError" class="hidden text-xs text-rose-500 bg-rose-50 p-2.5 rounded-xl border border-rose-200"></div>
@@ -733,7 +733,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
 
           <div id="loginError" class="hidden text-xs text-rose-500 bg-rose-50 p-2.5 rounded-xl border border-rose-200"></div>
 
-          <button type="submit" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm rounded-xl shadow-md transition-all flex items-center justify-center space-x-2">
+          <button type="submit" class="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-sm rounded-xl shadow-md transition-colors flex items-center justify-center space-x-2">
             <span>เข้าใช้งานตารางเรียน</span>
             <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </button>
@@ -756,7 +756,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             <div class="flex-shrink-0">
               <a href="#" class="flex items-center space-x-2 rounded outline-none">
                 <img src="crest.svg" alt="โลโก้ โรงเรียนท่าบ่อ" class="crest h-9 w-9" />
-                <span class="text-xl font-extrabold tracking-tight text-slate-900">ClassKhab</span>
+                <span class="text-xl font-semibold tracking-tight text-slate-900">ClassKhab</span>
               </a>
             </div>
 
@@ -772,19 +772,19 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             </div>
 
             <div class="hidden lg:ml-auto lg:flex lg:items-center lg:space-x-4">
-              <a href="help.html" class="inline-flex items-center px-3 py-2 text-sm font-bold text-slate-600 hover:text-slate-900">วิธีใช้</a>
-              <button onclick="toggleTheme()" title="สลับโหมดมืด/สว่าง" aria-label="สลับโหมดมืด/สว่าง" class="p-2 text-slate-600 bg-slate-100 rounded-xl hover:bg-slate-200 transition-all">
+              <a href="help.html" class="inline-flex items-center px-3 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900">วิธีใช้</a>
+              <button onclick="toggleTheme()" title="สลับโหมดมืด/สว่าง" aria-label="สลับโหมดมืด/สว่าง" class="p-2 text-slate-600 bg-slate-100 rounded-xl hover:bg-slate-200 transition-colors">
                 <i data-lucide="moon" class="w-4 h-4"></i>
               </button>
-              <button onclick="togglePush()" class="inline-flex items-center space-x-2 px-4 py-2 text-sm font-bold text-white bg-blue-600 rounded-xl hover:bg-blue-700 transition-all">
+              <button onclick="togglePush()" class="inline-flex items-center space-x-2 px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-xl hover:bg-blue-700 transition-colors">
                 <i data-lucide="bell" class="w-4 h-4"></i>
                 <span class="pushLabel">เปิดแจ้งเตือน</span>
               </button>
-              <a id="sgsLinkDesktop" href="#" target="_blank" rel="noopener" class="hidden inline-flex items-center space-x-2 px-4 py-2 text-sm font-bold text-slate-900 bg-slate-100 rounded-xl hover:bg-slate-200 transition-all">
+              <a id="sgsLinkDesktop" href="#" target="_blank" rel="noopener" class="hidden inline-flex items-center space-x-2 px-4 py-2 text-sm font-semibold text-slate-900 bg-slate-100 rounded-xl hover:bg-slate-200 transition-colors">
                 <i data-lucide="graduation-cap" class="w-4 h-4"></i>
                 <span>ดูเกรด (SGS)</span>
               </a>
-              <button onclick="handleLogout()" class="inline-flex items-center justify-center px-5 py-2 text-sm font-bold text-white bg-slate-900 rounded-xl hover:bg-slate-700 transition-all">
+              <button onclick="handleLogout()" class="inline-flex items-center justify-center px-5 py-2 text-sm font-semibold text-white bg-slate-900 rounded-xl hover:bg-slate-700 transition-colors">
                 ออกจากระบบ
               </button>
             </div>
@@ -797,7 +797,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
               <i data-lucide="moon" class="w-4 h-4"></i>
               <span>สลับโหมดมืด/สว่าง</span>
             </button>
-            <button onclick="togglePush()" class="w-full text-left p-2.5 text-sm font-bold text-blue-700 hover:bg-blue-50 rounded-xl flex items-center space-x-2">
+            <button onclick="togglePush()" class="w-full text-left p-2.5 text-sm font-semibold text-blue-700 hover:bg-blue-50 rounded-xl flex items-center space-x-2">
               <i data-lucide="bell" class="w-4 h-4"></i>
               <span class="pushLabel">เปิดแจ้งเตือน</span>
             </button>
@@ -805,7 +805,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
               <i data-lucide="graduation-cap" class="w-4 h-4"></i>
               <span>ดูเกรด (SGS)</span>
             </a>
-            <button onclick="handleLogout()" class="w-full text-center py-2.5 text-sm font-bold text-white bg-rose-600 rounded-xl">
+            <button onclick="handleLogout()" class="w-full text-center py-2.5 text-sm font-semibold text-white bg-rose-600 rounded-xl">
               ออกจากระบบ
             </button>
           </div>
@@ -816,12 +816,12 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       <section id="heroSection" class="pt-10 sm:pt-14 pb-12 bg-slate-50">
         <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div id="heroText" class="max-w-3xl mx-auto text-center">
-            <h1 class="px-6 text-sm font-semibold tracking-wide text-blue-600 uppercase">Smart School Schedule System</h1>
-            <p class="mt-4 text-3xl font-extrabold text-slate-900 sm:text-5xl lg:text-6xl tracking-tight">
+            <h1 class="px-6 text-sm font-semibold text-blue-600">Smart School Schedule System</h1>
+            <p class="mt-4 text-3xl font-semibold text-slate-900 sm:text-5xl lg:text-6xl tracking-tight">
               ไม่พลาดทุกคาบเรียนด้วยระบบ
               <span class="relative inline-flex">
-                <span class="bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] blur-lg filter opacity-30 absolute inset-0"></span>
-                <span class="relative bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">ClassKhab</span>
+                <span class="hidden"></span>
+                <span class="relative text-slate-900">ClassKhab</span>
               </span>
             </p>
             <p class="mt-4 text-base sm:text-lg text-slate-600">
@@ -844,38 +844,38 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
 
             <div id="homeCards" class="hidden space-y-2" aria-label="งานและแจ้งเตือนวันนี้"></div>
             <div id="nowNextGrid" class="grid grid-cols-1 md:grid-cols-3 gap-5">
-              <div class="md:col-span-2 bg-gradient-to-br from-slate-900 to-slate-800 text-white p-6 rounded-2xl shadow-md flex flex-col justify-between">
+              <div class="md:col-span-2 bg-slate-900 text-white p-6 rounded-2xl shadow-md flex flex-col justify-between">
                 <div>
                   <div class="flex items-center justify-between mb-3">
-                    <span id="curLabel" class="text-[11px] font-bold uppercase tracking-wider bg-white/10 px-3 py-1 rounded-full text-blue-300">คาบเรียนปัจจุบัน</span>
+                    <span id="curLabel" class="text-[11px] font-semibold bg-white/10 px-3 py-1 rounded-full text-blue-300">คาบเรียนปัจจุบัน</span>
                     <span id="curBadge" class="flex items-center space-x-1.5 text-xs text-emerald-400 font-medium bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
                       <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                       <span>กำลังเรียน</span>
                     </span>
                   </div>
-                  <h3 id="activeSubject" class="text-2xl sm:text-3xl font-bold mb-2">กำลังคำนวณ...</h3>
+                  <h3 id="activeSubject" class="text-2xl sm:text-3xl font-semibold mb-2">กำลังคำนวณ...</h3>
                   <p id="activeMeta" class="text-sm text-slate-300">--:-- | ห้อง -- | ครู --</p>
                 </div>
                 <div class="mt-6">
                   <div class="flex justify-between text-xs text-slate-400 mb-1">
                     <span id="curCountLbl">เวลาเหลือในคาบนี้</span>
-                    <span id="activeCountdown" class="text-white font-bold">-- นาที</span>
+                    <span id="activeCountdown" class="text-white font-semibold">-- นาที</span>
                   </div>
                   <div class="w-full bg-slate-700/50 rounded-full h-2 overflow-hidden">
-                    <div id="progressBar" class="bg-blue-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+                    <div id="progressBar" class="bg-blue-500 h-2 rounded-full transition-[width] duration-500" style="width: 0%"></div>
                   </div>
                 </div>
               </div>
 
               <div id="nextCard" class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-between">
                 <div>
-                  <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 bg-slate-200 px-3 py-1 rounded-full">คาบถัดไป</span>
-                  <h4 id="nextSubject" class="text-xl font-bold text-slate-800 mt-3 mb-1">--</h4>
+                  <span class="text-[11px] font-semibold text-slate-500 bg-slate-200 px-3 py-1 rounded-full">คาบถัดไป</span>
+                  <h4 id="nextSubject" class="text-xl font-semibold text-slate-800 mt-3 mb-1">--</h4>
                   <p id="nextMeta" class="text-xs text-slate-500">เวลา -- | ห้อง --</p>
                 </div>
                 <div class="mt-4 pt-3 border-t border-slate-200/60 flex items-center justify-between">
                   <span class="text-xs text-slate-400">เริ่มในอีก</span>
-                  <span id="nextCountdown" class="text-xs font-bold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md">-- นาที</span>
+                  <span id="nextCountdown" class="text-xs font-semibold text-blue-600 bg-blue-50 px-2.5 py-1 rounded-md">-- นาที</span>
                 </div>
               </div>
             </div>
@@ -884,12 +884,12 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             <div id="scheduleBlock">
               <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3 mb-4 border-b border-slate-100 gap-2">
                 <div class="flex items-center gap-3">
-                  <h3 id="schedTitle" class="font-bold text-slate-800 text-base">ตารางเรียนสัปดาห์นี้</h3>
-                  <button id="shareBtn" onclick="shareTimetable()" class="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg hover:opacity-80">
+                  <h3 id="schedTitle" class="font-semibold text-slate-800 text-base">ตารางเรียนสัปดาห์นี้</h3>
+                  <button id="shareBtn" onclick="shareTimetable()" class="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg hover:opacity-80">
                     <i data-lucide="share-2" class="w-3.5 h-3.5"></i><span>แชร์เป็นรูป</span>
                   </button>
-                  <span id="verifiedBadge" class="text-[11px] font-bold px-2 py-1 rounded-lg hidden"></span>
-                  <button id="reportModeBtn" onclick="toggleReportMode()" class="text-[11px] font-bold text-slate-500 px-2 py-1 rounded-lg hover:text-rose-600"><i data-lucide="flag" class="ic"></i> แจ้งตารางผิด</button>
+                  <span id="verifiedBadge" class="text-[11px] font-semibold px-2 py-1 rounded-lg hidden"></span>
+                  <button id="reportModeBtn" onclick="toggleReportMode()" class="text-[11px] font-semibold text-slate-500 px-2 py-1 rounded-lg hover:text-rose-600"><i data-lucide="flag" class="ic"></i> แจ้งตารางผิด</button>
                 </div>
                 <div class="flex overflow-x-auto space-x-1 bg-slate-100 p-1 rounded-xl text-xs font-medium" id="dayTabs">
                   <button onclick="selectDay('จันทร์')" class="day-tab px-3 py-1.5 rounded-lg text-slate-600" data-day="จันทร์">จันทร์</button>
@@ -897,7 +897,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                   <button onclick="selectDay('พุธ')" class="day-tab px-3 py-1.5 rounded-lg text-slate-600" data-day="พุธ">พุธ</button>
                   <button onclick="selectDay('พฤหัสบดี')" class="day-tab px-3 py-1.5 rounded-lg text-slate-600" data-day="พฤหัสบดี">พฤหัสบดี</button>
                   <button onclick="selectDay('ศุกร์')" class="day-tab px-3 py-1.5 rounded-lg text-slate-600" data-day="ศุกร์">ศุกร์</button>
-                  <button onclick="selectDay('all')" class="day-tab px-3 py-1.5 rounded-lg bg-white text-slate-900 font-bold shadow-sm" data-day="all">ทั้งหมด</button>
+                  <button onclick="selectDay('all')" class="day-tab px-3 py-1.5 rounded-lg bg-white text-slate-900 font-semibold shadow-sm" data-day="all">ทั้งหมด</button>
                 </div>
               </div>
 
@@ -906,13 +906,13 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
 
             <!-- ปฏิทินโรงเรียน -->
             <div id="eventsSection" class="hidden">
-              <div class="pb-3 mb-4 border-b border-slate-100"><h3 class="font-bold text-slate-800 text-base">ปฏิทินโรงเรียน</h3></div>
+              <div class="pb-3 mb-4 border-b border-slate-100"><h3 class="font-semibold text-slate-800 text-base">ปฏิทินโรงเรียน</h3></div>
               <div id="eventsList" class="grid grid-cols-1 md:grid-cols-2 gap-2"></div>
             </div>
 
             <!-- ห้องเรา (v2): หัวข้อ + แท็บ ประกาศ/การบ้าน · ชีท · แชต -->
             <div id="roomTabs" class="v2-only">
-              <h2 class="text-2xl font-extrabold text-slate-900">ห้องเรา</h2>
+              <h2 class="text-2xl font-semibold text-slate-900">ห้องเรา</h2>
               <p id="roomSub" class="text-xs text-slate-500 mb-2">เห็นเฉพาะคนในห้อง</p>
               <div class="v2-tabs">
                 <button id="rtAnn" onclick="setView('room','ann')" class="on">ประกาศ/การบ้าน</button>
@@ -923,7 +923,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
 
             <!-- เมนู (v2) -->
             <div id="menuV2" class="v2-only">
-              <h2 class="text-2xl font-extrabold text-slate-900 mb-3">โปรไฟล์</h2>
+              <h2 class="text-2xl font-semibold text-slate-900 mb-3">โปรไฟล์</h2>
               <div class="pf-card">
                 <button id="pfAvatar" class="pf-av" onclick="openProfileEdit()" aria-label="แก้ไขรูปโปรไฟล์"></button>
                 <div class="pf-info">
@@ -1086,7 +1086,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             <div id="portfolioV2" class="v2-only v-portfolio">
               <div class="pt-head">
                 <div>
-                  <h2 class="text-2xl font-extrabold text-slate-900">พอร์ตโฟลิโอ</h2>
+                  <h2 class="text-2xl font-semibold text-slate-900">พอร์ตโฟลิโอ</h2>
                   <p class="pt-sub">กรอกข้อมูลจริง หน้าพอร์ตเปลี่ยนตามทันที (ฟรี) ให้ AI ช่วยเขียนเมื่อพร้อม</p>
                 </div>
                 <div class="pt-meta"><span id="aiLeft" class="pt-chip" aria-live="polite"></span><span id="aiSaved" class="pt-saved" aria-live="polite"></span></div>
@@ -1186,8 +1186,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
 
             <!-- ประกาศ / การบ้านของห้อง -->            <div id="annSection">
               <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100 gap-2">
-                <h3 class="font-bold text-slate-800 text-base">ประกาศและการบ้านของห้อง <span id="annGrade"></span></h3>
-                <button id="annNewBtn" onclick="toggleAnnForm()" class="hidden flex-none whitespace-nowrap text-xs font-bold text-white bg-slate-900 px-3 py-1.5 rounded-lg hover:opacity-80">+ โพสต์</button>
+                <h3 class="font-semibold text-slate-800 text-base">ประกาศและการบ้านของห้อง <span id="annGrade"></span></h3>
+                <button id="annNewBtn" onclick="toggleAnnForm()" class="hidden flex-none whitespace-nowrap text-xs font-semibold text-white bg-slate-900 px-3 py-1.5 rounded-lg hover:opacity-80">+ โพสต์</button>
               </div>
               <div id="annNeedLogin" class="pb pb-warn hidden">
                 <span>ต้องเข้าสู่ระบบใหม่หนึ่งครั้งเพื่อใช้ประกาศ/การบ้าน</span>
@@ -1205,8 +1205,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                   <label class="text-xs text-slate-500">กำหนดส่ง/วันสอบ (ไม่บังคับ)</label>
                   <input id="annDue" type="date" class="bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-sm text-slate-800" />
                   <span class="flex-1"></span>
-                  <button type="button" onclick="toggleAnnForm(false)" class="text-xs font-bold text-slate-600 px-3 py-2">ยกเลิก</button>
-                  <button id="annSubmit" type="submit" class="text-xs font-bold text-white bg-blue-600 px-4 py-2 rounded-lg">โพสต์ (แจ้งเตือนทั้งห้อง)</button>
+                  <button type="button" onclick="toggleAnnForm(false)" class="text-xs font-semibold text-slate-600 px-3 py-2">ยกเลิก</button>
+                  <button id="annSubmit" type="submit" class="text-xs font-semibold text-white bg-blue-600 px-4 py-2 rounded-lg">โพสต์ (แจ้งเตือนทั้งห้อง)</button>
                 </div>
                 <p class="text-[11px] text-slate-500">โพสต์ได้ทุกคนในห้อง ขอให้ใช้เรื่องเรียนเท่านั้น ห้ามใส่ข้อมูลส่วนตัว (จำกัด 6 โพสต์ต่อชั่วโมง)</p>
               </form>
@@ -1216,10 +1216,10 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             <!-- คลังสรุป/ชีทรายห้อง (ขึ้นเมื่อห้องนี้เปิดแชต) -->
             <div id="studySection" class="hidden">
               <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100 gap-2">
-                <h3 class="font-bold text-slate-800 text-base"><i data-lucide="book-open" class="ic"></i> คลังสรุป/ชีท <span id="studyGrade"></span></h3>
+                <h3 class="font-semibold text-slate-800 text-base"><i data-lucide="book-open" class="ic"></i> คลังสรุป/ชีท <span id="studyGrade"></span></h3>
                 <div class="flex gap-2">
-                  <button id="studyNewBtn" onclick="toggleStudyForm()" class="hidden flex-none whitespace-nowrap text-xs font-bold text-white bg-slate-900 px-3 py-1.5 rounded-lg hover:opacity-80">+ เพิ่มชีท</button>
-                  <button id="studyOpenBtn" onclick="toggleStudy()" class="flex-none whitespace-nowrap text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg hover:opacity-80">เปิดคลัง</button>
+                  <button id="studyNewBtn" onclick="toggleStudyForm()" class="hidden flex-none whitespace-nowrap text-xs font-semibold text-white bg-slate-900 px-3 py-1.5 rounded-lg hover:opacity-80">+ เพิ่มชีท</button>
+                  <button id="studyOpenBtn" onclick="toggleStudy()" class="flex-none whitespace-nowrap text-xs font-semibold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg hover:opacity-80">เปิดคลัง</button>
                 </div>
               </div>
               <div id="studyBody" class="hidden space-y-3">
@@ -1237,8 +1237,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                   </div>
                   <div class="flex items-center gap-3">
                     <span class="flex-1 text-[11px] text-slate-500">ใช้เรื่องเรียนเท่านั้น ใช้ของที่ทำเองหรือที่แชร์ได้ ห้ามรูปคน/หน้าเพื่อน ห้ามใส่ข้อมูลส่วนตัว (จำกัด 3 โพสต์ต่อชั่วโมง)</span>
-                    <button type="button" onclick="toggleStudyForm(false)" class="text-xs font-bold text-slate-600 px-3 py-2">ยกเลิก</button>
-                    <button id="studySubmit" type="submit" class="text-xs font-bold text-white bg-blue-600 px-4 py-2 rounded-lg">เพิ่มเข้าคลัง</button>
+                    <button type="button" onclick="toggleStudyForm(false)" class="text-xs font-semibold text-slate-600 px-3 py-2">ยกเลิก</button>
+                    <button id="studySubmit" type="submit" class="text-xs font-semibold text-white bg-blue-600 px-4 py-2 rounded-lg">เพิ่มเข้าคลัง</button>
                   </div>
                 </form>
                 <div id="studyFilter" class="flex flex-wrap gap-1.5"></div>
@@ -1246,14 +1246,14 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
               </div>
             </div>
             <!-- แชตห้อง (นำร่อง) -->
-            <button id="chatFab" onclick="toggleChat()" aria-label="เปิดแชตห้อง" title="แชตห้อง" class="hidden fixed right-4 bottom-4 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-[0_8px_24px_-4px_rgba(99,102,241,0.55)] transition hover:scale-105 active:scale-95">
+            <button id="chatFab" onclick="toggleChat()" aria-label="เปิดแชตห้อง" title="แชตห้อง" class="hidden fixed right-4 bottom-4 z-30 flex h-14 w-14 items-center justify-center rounded-full bg-slate-900 text-white ring-1 ring-white/10 shadow-lg transition-colors hover:bg-slate-800 active:scale-95">
               <i data-lucide="message-circle" class="w-6 h-6"></i><span id="fabDot" class="hidden absolute -right-0.5 -top-0.5 h-3.5 w-3.5 rounded-full border-2 border-zinc-900 bg-rose-500"></span>
             </button>
             <div id="chatSection">
-              <div id="chatPanel" class="chat-msg hidden fixed z-40 inset-x-0 bottom-0 sm:inset-x-auto sm:right-4 sm:bottom-24 sm:w-96 flex-col overflow-hidden rounded-t-3xl sm:rounded-2xl border border-white/10 bg-gradient-to-b from-zinc-900 to-zinc-950 shadow-[0_24px_64px_-16px_rgba(0,0,0,0.5)] max-h-[85vh]">
+              <div id="chatPanel" class="chat-msg hidden fixed z-40 inset-x-0 bottom-0 sm:inset-x-auto sm:right-4 sm:bottom-24 sm:w-96 flex-col overflow-hidden rounded-t-3xl sm:rounded-2xl border border-white/10 bg-zinc-900 shadow-[0_24px_64px_-16px_rgba(0,0,0,0.5)] max-h-[85vh]">
                 <div class="flex items-center justify-between border-b border-white/5 px-4 py-3">
                   <div class="flex items-center gap-2">
-                    <div class="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600"><i data-lucide="users" class="w-4 h-4 text-white"></i></div>
+                    <div class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-700"><i data-lucide="users" class="w-4 h-4 text-white"></i></div>
                     <div>
                       <h3 class="text-sm font-medium text-white">แชตห้อง <span id="chatGrade"></span></h3>
                       <p class="text-xs text-white/40">คุยกันสุภาพนะ</p>
@@ -1273,7 +1273,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                   </ul>
                   <div class="flex gap-2">
                     <input id="chatNick" maxlength="16" required placeholder="ชื่อเล่นในแชต" class="min-w-0 flex-1 rounded-xl border border-white/10 bg-zinc-800/50 px-4 py-2 text-sm text-white outline-none placeholder:text-white/30 focus:border-white/20" />
-                    <button id="chatNickBtn" type="submit" class="flex-none rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-4 py-2 text-xs font-medium text-white hover:opacity-90">ยอมรับกติกา เข้าแชต</button>
+                    <button id="chatNickBtn" type="submit" class="flex-none rounded-xl bg-slate-700 px-4 py-2 text-xs font-medium text-white transition-colors hover:bg-slate-600">ยอมรับกติกา เข้าแชต</button>
                   </div>
                 </form>
                 <div id="chatBox" class="hidden">
@@ -2034,7 +2034,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       async function androidInstallWarn() {
         const standalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
         if (standalone || !/android/i.test(navigator.userAgent)) return true;
-        if (confirm('⚠️ ยังไม่ได้ติดตั้งแอป ClassKhab\n\nถ้าไม่ติดตั้งแอป ระบบอาจแจ้งเตือนไม่ได้ (โดยเฉพาะตอนปิดเบราว์เซอร์) แนะนำให้ติดตั้งก่อน\n\nกด "ตกลง" เพื่อเปิดแจ้งเตือนต่อ\nกด "ยกเลิก" เพื่อดูวิธีติดตั้งแอป')) return true;
+        if (confirm('ยังไม่ได้ติดตั้งแอป ClassKhab\n\nถ้าไม่ติดตั้งแอป ระบบอาจแจ้งเตือนไม่ได้ (โดยเฉพาะตอนปิดเบราว์เซอร์) แนะนำให้ติดตั้งก่อน\n\nกด "ตกลง" เพื่อเปิดแจ้งเตือนต่อ\nกด "ยกเลิก" เพื่อดูวิธีติดตั้งแอป')) return true;
         if (deferredInstall) installApp(); else openGuide('android');
         return false;
       }
@@ -2222,7 +2222,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const first = list[0];
         const live = first.date <= today;
         const when = live ? 'กำลังสอบ/วันนี้' : dueText(first.date);
-        { const sp = mk('span', 'font-bold'); sp.append(ic('pencil-line'), document.createTextNode(` ${first.title} · ${thDate(first.date)} · ${when}`)); box.append(sp); }
+        { const sp = mk('span', 'font-semibold'); sp.append(ic('pencil-line'), document.createTextNode(` ${first.title} · ${thDate(first.date)} · ${when}`)); box.append(sp); }
         if (list.length > 1) box.append(mk('span', 'text-xs opacity-80', `ถัดไป: ${list[1].title} (${thDate(list[1].date)})${list.length > 2 ? ` +อีก ${list.length - 2}` : ''}`));
         box.classList.remove('hidden');
       }
@@ -2239,7 +2239,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const rows = r.ok ? await r.json() : [];
           const v = rows[0] && rows[0].verified_at;
           if (!v) return;   // ยังไม่ตรวจ: ไม่แสดงอะไร (แสดงเฉพาะห้องที่แอดมินติ๊กว่าตรวจแล้ว)
-          el.className = 'text-[11px] font-bold px-2 py-1 rounded-lg bg-emerald-50 text-emerald-700';
+          el.className = 'text-[11px] font-semibold px-2 py-1 rounded-lg bg-emerald-50 text-emerald-700';
           el.textContent = `✓ โรงเรียนตรวจตารางแล้ว ${thDate(v.slice(0, 10))}`;
         } catch (e) { /* ไม่แสดงป้าย */ }
       }
@@ -2249,7 +2249,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         reportMode = typeof force === 'boolean' ? force : !reportMode;
         const b = document.getElementById('reportModeBtn');
         b.replaceChildren(ic(reportMode ? 'x' : 'flag'), document.createTextNode(reportMode ? ' ยกเลิก · แตะคาบที่ผิด' : ' แจ้งตารางผิด'));
-        b.className = 'text-[11px] font-bold px-2 py-1 rounded-lg ' + (reportMode ? 'bg-rose-50 text-rose-600' : 'text-slate-500 hover:text-rose-600');
+        b.className = 'text-[11px] font-semibold px-2 py-1 rounded-lg ' + (reportMode ? 'bg-rose-50 text-rose-600' : 'text-slate-500 hover:text-rose-600');
         renderSchedule();
       }
       async function cardTap(dayName, period) {
@@ -2297,8 +2297,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             const when = it.date <= today && (it.end || it.date) >= today ? 'กำลังจัด' : dueText(it.date);
             row.append(
               mk('span', 'tag tag-' + it.kind, KIND[it.kind] || 'กิจกรรม'),
-              (() => { const d = mk('div', 'flex-1 min-w-0'); d.append(mk('div', 'text-sm font-bold text-slate-800 truncate', it.title), mk('div', 'text-[11px] text-slate-500', thDate(it.date) + (it.end ? ' – ' + thDate(it.end) : ''))); return d; })(),
-              mk('span', 'text-xs font-bold text-blue-600 whitespace-nowrap', when)
+              (() => { const d = mk('div', 'flex-1 min-w-0'); d.append(mk('div', 'text-sm font-semibold text-slate-800 truncate', it.title), mk('div', 'text-[11px] text-slate-500', thDate(it.date) + (it.end ? ' – ' + thDate(it.end) : ''))); return d; })(),
+              mk('span', 'text-xs font-semibold text-blue-600 whitespace-nowrap', when)
             );
             list.append(row);
           }
@@ -2402,7 +2402,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         h.append('คุณคือ ', mk('b', 'text-white/70', chatMyNick), ' · ห้ามส่งเบอร์/ไอดี/ลิงก์ · ส่งได้ทุก 5 วินาที');
       }
       function paintTabs() {
-        const on = 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white', off = 'bg-white/5 text-white/60 hover:bg-white/10';
+        const on = 'bg-slate-600 text-white', off = 'bg-white/5 text-white/60 hover:bg-white/10';
         const base = 'rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ';
         document.getElementById('tabClass').className = base + (chatChannel === 'class' ? on : off);
         document.getElementById('tabAdmin').className = base + (chatChannel === 'admin' ? on : off);
@@ -2463,7 +2463,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const own = it.own;
           const row = mk('div', 'chat-msg flex w-full ' + (own ? 'justify-end' : 'justify-start')); row.dataset.id = it.id;
           const wrap = mk('div', 'flex max-w-[85%] items-end gap-2' + (own ? ' flex-row-reverse' : ''));
-          if (!own) wrap.append(mk('div', 'flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ' + (it.admin ? 'from-emerald-500 to-teal-600' : 'from-indigo-500 to-violet-600') + ' text-xs font-bold text-white', it.admin ? 'A' : (Array.from(it.nick)[0] || '?')));
+          if (!own) wrap.append(mk('div', 'flex h-8 w-8 shrink-0 items-center justify-center rounded-full ' + (it.admin ? 'bg-emerald-600' : 'bg-slate-600') + ' text-xs font-semibold text-white', it.admin ? 'A' : (Array.from(it.nick)[0] || '?')));
           const col = mk('div', 'min-w-0');
           const meta = mk('div', 'mb-0.5 flex items-center gap-1.5 px-1 text-[10px] text-white/40' + (own ? ' justify-end' : ''));
           if (!own) meta.append(mk('span', 'font-medium ' + (it.admin ? 'text-emerald-300' : 'text-white/70'), it.nick));
@@ -2483,7 +2483,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             }
           }
           const bubble = mk('div', 'break-words whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed ' + (own
-            ? 'rounded-tr-md bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-[0_8px_24px_-4px_rgba(99,102,241,0.4)]'
+            ? 'rounded-tr-md bg-slate-600 text-white'
             : 'rounded-tl-md border border-white/10 bg-zinc-800/90 text-zinc-100 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)]'), it.body);
           col.append(meta, bubble); wrap.append(col); row.append(wrap);
           list.append(row);
@@ -2564,7 +2564,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const subs = [...new Set(studyItems.map((x) => x.subject))];
         const mkChip = (label, val) => {
           const on = studyFilterSubject === val;
-          const b = mk('button', 'text-xs font-bold px-3 py-1 rounded-full ' + (on ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'), label);
+          const b = mk('button', 'text-xs font-semibold px-3 py-1 rounded-full ' + (on ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'), label);
           b.onclick = () => { studyFilterSubject = val; renderStudy(); }; return b;
         };
         if (subs.length > 1) { chips.append(mkChip('ทั้งหมด', '')); subs.forEach((s) => chips.append(mkChip(s, s))); }
@@ -2573,7 +2573,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         for (const it of items) {
           const card = mk('div', 'bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3');
           const head = mk('div', 'flex items-center gap-2 flex-wrap');
-          head.append(mk('span', 'tag tag-announce', it.subject), mk('span', 'text-sm font-bold text-slate-800 flex-1 min-w-0 break-words', it.title));
+          head.append(mk('span', 'tag tag-announce', it.subject), mk('span', 'text-sm font-semibold text-slate-800 flex-1 min-w-0 break-words', it.title));
           if (it.own) {
             const del = micon('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', 'trash-2'); del.title = 'ลบชีทของฉัน';
             del.onclick = async () => { if (confirm('ลบชีทนี้?')) { await studyCall({ action: 'delete', id: it.id }); loadStudy(); } };
@@ -2594,8 +2594,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             a.append(img); card.append(a);
           }
           const acts = mk('div', 'flex flex-wrap gap-2 mt-2');
-          if (it.link_url && it.link_url.startsWith('https://')) { const a = micon('a', 'text-xs font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg', 'link', 'เปิดลิงก์'); a.href = it.link_url; a.target = '_blank'; a.rel = 'noopener noreferrer'; acts.append(a); }
-          if (it.file_url && it.file_kind === 'pdf' && it.file_url.startsWith('https://')) { const a = micon('a', 'text-xs font-bold text-rose-600 bg-rose-50 px-3 py-1.5 rounded-lg', 'file-text', 'เปิด PDF' + (it.file_name ? ' · ' + it.file_name : '')); a.href = it.file_url; a.target = '_blank'; a.rel = 'noopener noreferrer'; acts.append(a); }
+          if (it.link_url && it.link_url.startsWith('https://')) { const a = micon('a', 'text-xs font-semibold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-lg', 'link', 'เปิดลิงก์'); a.href = it.link_url; a.target = '_blank'; a.rel = 'noopener noreferrer'; acts.append(a); }
+          if (it.file_url && it.file_kind === 'pdf' && it.file_url.startsWith('https://')) { const a = micon('a', 'text-xs font-semibold text-rose-600 bg-rose-50 px-3 py-1.5 rounded-lg', 'file-text', 'เปิด PDF' + (it.file_name ? ' · ' + it.file_name : '')); a.href = it.file_url; a.target = '_blank'; a.rel = 'noopener noreferrer'; acts.append(a); }
           if (acts.children.length) card.append(acts);
           card.append(mk('p', 'text-[11px] text-slate-400 mt-1.5', `${it.nick} · ${ago(it.created_at)}`));
           list.append(card);
@@ -2672,7 +2672,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           return da - db2 || ka - kb || (ka === 0 ? a.due_date.localeCompare(b.due_date) : b.created_at.localeCompare(a.created_at));
         });
         const pending = items.filter((x) => isTask(x) && !done.has(x.id)).length;
-        if (pending) list.append(mk('p', 'text-xs font-bold text-amber-700', `ยังไม่เสร็จ ${pending} รายการที่ใกล้ส่ง/สอบ`));
+        if (pending) list.append(mk('p', 'text-xs font-semibold text-amber-700', `ยังไม่เสร็จ ${pending} รายการที่ใกล้ส่ง/สอบ`));
         for (const it of items) {
           const isDone = done.has(it.id);
           const card = mk('div', 'bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3' + (isDone ? ' opacity-60' : ''));
@@ -2682,8 +2682,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             cb.onchange = () => { setDone(it.id, cb.checked); loadAnnouncements(); };
             head.append(cb);
           }
-          head.append(mk('span', 'tag tag-' + it.kind, KIND[it.kind]), mk('span', 'text-sm font-bold text-slate-800 flex-1 min-w-[9rem] break-words' + (isDone ? ' line-through' : ''), it.title));
-          if (it.due_date) head.append(mk('span', 'text-xs font-bold ' + (daysUntil(it.due_date) < 0 ? 'text-rose-600' : 'text-blue-600') + ' whitespace-nowrap', `${thDate(it.due_date)} · ${dueText(it.due_date)}`));
+          head.append(mk('span', 'tag tag-' + it.kind, KIND[it.kind]), mk('span', 'text-sm font-semibold text-slate-800 flex-1 min-w-[9rem] break-words' + (isDone ? ' line-through' : ''), it.title));
+          if (it.due_date) head.append(mk('span', 'text-xs font-semibold ' + (daysUntil(it.due_date) < 0 ? 'text-rose-600' : 'text-blue-600') + ' whitespace-nowrap', `${thDate(it.due_date)} · ${dueText(it.due_date)}`));
           if (it.own) {
             const del = micon('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', 'trash-2');
             del.title = 'ลบโพสต์ของฉัน'; del.onclick = async () => { if (confirm('ลบโพสต์นี้?')) { await annCall({ action: 'delete', id: it.id }); loadAnnouncements(); } };
@@ -2811,7 +2811,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       // เปิด/ปิดแจ้งเตือนของเครื่องนี้ (ผูกกับห้องที่ล็อกอินอยู่)
       async function togglePush() {
         if (iosNeedsInstall()) {
-          alert('⚠️ ยังไม่ได้ติดตั้งแอป ระบบจะแจ้งเตือนบน iPhone/iPad ไม่ได้\n\nวิธีติดตั้ง: กดปุ่มแชร์ แล้วเลือก "เพิ่มไปยังหน้าจอโฮม" จากนั้นเปิดแอป ClassKhab จากหน้าจอโฮม แล้วกด "เปิดแจ้งเตือน" อีกครั้ง\n\nหรือเลือกรับทางไลน์แทนได้');
+          alert('ยังไม่ได้ติดตั้งแอป ระบบจะแจ้งเตือนบน iPhone/iPad ไม่ได้\n\nวิธีติดตั้ง: กดปุ่มแชร์ แล้วเลือก "เพิ่มไปยังหน้าจอโฮม" จากนั้นเปิดแอป ClassKhab จากหน้าจอโฮม แล้วกด "เปิดแจ้งเตือน" อีกครั้ง\n\nหรือเลือกรับทางไลน์แทนได้');
           try { openGuide('ios'); } catch (e) { /* ข้าม */ }
           return;
         }

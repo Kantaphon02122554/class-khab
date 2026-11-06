@@ -17,25 +17,25 @@
   body { font-family: 'Sarabun', sans-serif; background: var(--bg); color: var(--t1); min-height: 100vh; padding: 16px; }
   .wrap { max-width: 1040px; margin: 0 auto; }
   header { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
-  h1 { font-size: 20px; font-weight: 800; } h1 small { color: var(--t3); font-weight: 600; font-size: 13px; margin-left: 6px; }
+  h1 { font-size: 20px; font-weight:600; } h1 small { color: var(--t3); font-weight: 600; font-size: 13px; margin-left: 6px; }
   .tools { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--t2); }
-  button { font-family: inherit; cursor: pointer; border: 0; border-radius: 10px; padding: 8px 14px; font-weight: 700; font-size: 13px; background: var(--btn); color: var(--t1); }
+  button { font-family: inherit; cursor: pointer; border: 0; border-radius: 10px; padding: 8px 14px; font-weight:600; font-size: 13px; background: var(--btn); color: var(--t1); }
   button:hover { filter: brightness(0.96); } button.pri { background: #2563eb; color: #fff; }
 
   .hero { border-radius: 18px; padding: 18px 20px; display: flex; align-items: center; gap: 16px; border: 1px solid var(--line); background: var(--card); margin-bottom: 14px; }
   .hero .dot { flex: none; width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; font-size: 24px; }
   .hero.ok .dot { background: rgba(34, 197, 94, 0.18); box-shadow: 0 0 22px rgba(34, 197, 94, 0.35); } .hero.warn .dot { background: rgba(245, 158, 11, 0.18); box-shadow: 0 0 22px rgba(245, 158, 11, 0.35); } .hero.bad .dot { background: rgba(239, 68, 68, 0.2); box-shadow: 0 0 22px rgba(239, 68, 68, 0.4); }
-  .hero h2 { font-size: 20px; font-weight: 800; } .hero p { color: var(--t2); font-size: 13px; margin-top: 2px; }
+  .hero h2 { font-size: 20px; font-weight:600; } .hero p { color: var(--t2); font-size: 13px; margin-top: 2px; }
   .alerts { margin-bottom: 14px; display: grid; gap: 8px; }
   .alert { border-radius: 12px; padding: 10px 14px; font-size: 14px; border: 1px solid; }
   .alert.red { background: rgba(239, 68, 68, 0.12); border-color: rgba(239, 68, 68, 0.5); color: var(--al-red-t); } .alert.yellow { background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.45); color: var(--al-yel-t); }
 
   .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
   .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; }
-  .card h3 { font-size: 14px; color: var(--t2); font-weight: 700; margin-bottom: 12px; letter-spacing: 0.02em; }
+  .card h3 { font-size: 14px; color: var(--t2); font-weight:600; margin-bottom: 12px; letter-spacing: 0.02em; }
   .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
-  .row:last-child { border-bottom: 0; } .row span:first-child { color: var(--t2); } .row b { font-weight: 800; text-align: right; }
-  .big { font-size: 30px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; } .sub { color: var(--t3); font-size: 12px; }
+  .row:last-child { border-bottom: 0; } .row span:first-child { color: var(--t2); } .row b { font-weight:600; text-align: right; }
+  .big { font-size: 30px; font-weight:600; letter-spacing: -0.02em; line-height: 1.1; } .sub { color: var(--t3); font-size: 12px; }
   .chk { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; } .chk:last-child { border-bottom: 0; }
   .chk i { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 8px var(--ok); } .chk.fail i { background: var(--bad); box-shadow: 0 0 8px var(--bad); }
   .chk .nm { flex: 1; min-width: 0; } .chk .dt { color: var(--t3); font-size: 12px; } .chk .ms { color: var(--t2); font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; }
@@ -52,10 +52,10 @@
   .room:hover { border-color: #3b82f6; filter: none; } .room b { font-size: 17px; display: block; margin-bottom: 6px; }
   .room small { display: block; color: var(--t2); font-size: 12px; line-height: 1.6; } .room .wdot { position: absolute; top: 12px; right: 12px; width: 8px; height: 8px; border-radius: 50%; background: var(--warn); }
   .back { margin-bottom: 12px; } .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin-top: 14px; }
-  .tt { width: 100%; border-collapse: collapse; font-size: 12px; } .tt th, .tt td { border: 1px solid var(--line); padding: 4px 6px; text-align: center; white-space: nowrap; } .tt th { color: var(--t2); font-weight: 700; background: var(--th); }
+  .tt { width: 100%; border-collapse: collapse; font-size: 12px; } .tt th, .tt td { border: 1px solid var(--line); padding: 4px 6px; text-align: center; white-space: nowrap; } .tt th { color: var(--t2); font-weight:600; background: var(--th); }
   .post { border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; margin-bottom: 8px; font-size: 14px; } .post .meta { color: var(--t3); font-size: 11px; margin-top: 4px; }
   .post .top { display: flex; gap: 8px; align-items: flex-start; } .post .top b { flex: 1; word-break: break-word; } .x { background: transparent; color: var(--t3); padding: 0 4px; } .x:hover { color: var(--bad); }
-  .kd { font-size: 11px; font-weight: 700; padding: 1px 8px; border-radius: 99px; background: var(--kd); color: var(--kd-t); white-space: nowrap; } .kd.homework { background: var(--kd-hw); color: var(--kd-hw-t); } .kd.exam { background: var(--kd-ex); color: var(--kd-ex-t); }
+  .kd { font-size: 11px; font-weight:600; padding: 1px 8px; border-radius: 99px; background: var(--kd); color: var(--kd-t); white-space: nowrap; } .kd.homework { background: var(--kd-hw); color: var(--kd-hw-t); } .kd.exam { background: var(--kd-ex); color: var(--kd-ex-t); }
   /* ปุ่มแชทลอย + หน้าต่างส่งข้อความ */
   #fab { position: fixed; right: 18px; bottom: 18px; width: 58px; height: 58px; border-radius: 50%; font-size: 26px; padding: 0; background: #2563eb; color: #fff; box-shadow: 0 6px 24px rgba(37, 99, 235, 0.55); z-index: 20; }
   #modal { position: fixed; inset: 0; background: var(--backdrop); z-index: 30; display: flex; align-items: flex-end; justify-content: center; padding: 0; } @media (min-width: 640px) { #modal { align-items: center; padding: 20px; } }
@@ -98,7 +98,7 @@
     <div class="tools">
       <span id="stamp">—</span>
       <label style="display:flex;gap:5px;align-items:center"><input type="checkbox" id="auto" checked /> รีเฟรชอัตโนมัติ 30 วิ</label>
-      <button onclick="pushBtnToggle()" id="pushBtn" title="รับแจ้งเตือนเข้าเครื่องนี้เมื่อระบบมีปัญหาหรือมีข้อความ/รายงานใหม่">🔕 รับแจ้งเตือนแอดมิน: …</button>
+      <button onclick="pushBtnToggle()" id="pushBtn" title="รับแจ้งเตือนเข้าเครื่องนี้เมื่อระบบมีปัญหาหรือมีข้อความ/รายงานใหม่">รับแจ้งเตือนแอดมิน: …</button>
       <button onclick="refresh()" id="refBtn">รีเฟรช</button>
       <button onclick="signOut()">ออก</button>
     </div>
@@ -142,7 +142,7 @@
       <p class="sub">คำนวณจากวันที่เครื่องสมัครแจ้งเตือน (เครื่องที่ถูกลบออกเพราะหมดอายุจะไม่ถูกนับย้อนหลัง)</p>
     </div>
 
-    <div class="card" style="grid-column:1/-1"><h3>⌨ คำสั่งด่วน (ตั้งวันหยุด / กิจกรรม)</h3>
+    <div class="card" style="grid-column:1/-1"><h3>คำสั่งด่วน (ตั้งวันหยุด / กิจกรรม)</h3>
       <p class="sub" style="margin-bottom:8px">พิมพ์คำสั่งแล้วกด Enter ระบบจะแสดงตัวอย่างให้ยืนยันก่อนบันทึกเสมอ พิมพ์ <b>ช่วย</b> เพื่อดูคำสั่งทั้งหมด</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap"><input type="text" id="cmdIn" maxlength="200" autocomplete="off" placeholder="เช่น หยุด 10/12/2569 วันรัฐธรรมนูญ" style="flex:1;min-width:220px" onkeydown="if(event.key==='Enter'){event.preventDefault();cmdRun()}" /><button class="pri" onclick="cmdRun()">ตรวจคำสั่ง</button></div>
       <pre id="cmdOut" class="muted" style="white-space:pre-wrap;margin:10px 0 0;font:inherit;display:none"></pre>
@@ -167,7 +167,7 @@
   <p class="muted" style="margin-top:16px;text-align:center">เปิดเว็บ: <a style="color:#93c5fd" href="./" target="_blank" rel="noopener">ClassKhab</a> · หน้านี้เปลี่ยนข้อมูลได้ (ปิดเปิดโซเชียล ซ่อน/ลบโพสต์ ตั้งวันหยุด) ทุกอย่างต้องล็อกอินแอดมิน</p>
 </div>
 
-<button id="fab" class="hidden" title="ส่งข้อความหาทุกคน" onclick="openChat()">💬</button>
+<button id="fab" class="hidden" title="ส่งข้อความหาทุกคน" onclick="openChat()" aria-label="ส่งข้อความหาทุกคน"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></button>
 
 <div id="modal" class="hidden" onclick="if(event.target===this)closeChat()">
   <div class="box">
@@ -224,11 +224,11 @@
   async function currentSub() { try { const reg = await navigator.serviceWorker.getRegistration(); return reg ? await reg.pushManager.getSubscription() : null; } catch (e) { return null; } }
   async function pushBtnInit() {
     const b = $('pushBtn'); if (!b) return;
-    if (!pushOk) { b.textContent = '🔕 เครื่องนี้ไม่รองรับแจ้งเตือน'; b.disabled = true; return; }
+    if (!pushOk) { b.textContent = 'เครื่องนี้ไม่รองรับแจ้งเตือน'; b.disabled = true; return; }
     const sub = await currentSub();
     let on = false;
     if (sub) { try { const r = await call(store.get(), { action: 'admin_push_status', endpoint: sub.endpoint }); on = !!(r.body && r.body.subscribed); } catch (e) { /* ไม่รู้สถานะ */ } }
-    b.textContent = on ? '🔔 รับแจ้งเตือนแอดมิน: เปิด' : '🔕 รับแจ้งเตือนแอดมิน: ปิด'; b.dataset.on = on ? '1' : '';
+    b.textContent = on ? 'รับแจ้งเตือนแอดมิน: เปิด' : 'รับแจ้งเตือนแอดมิน: ปิด'; b.dataset.on = on ? '1' : '';
   }
   async function pushBtnToggle() {
     const b = $('pushBtn'); b.disabled = true;
@@ -271,7 +271,7 @@
     $('heroDot').textContent = red ? '✕' : yel ? '!' : '✓';
     $('heroT').textContent = red ? 'ระบบมีปัญหา ต้องแก้' : yel ? 'ใช้งานได้ แต่มีเรื่องต้องดู' : 'ระบบปกติทุกอย่าง';
     $('heroP').textContent = red ? `${red} เรื่องร้ายแรง${yel ? ` · ${yel} เรื่องที่ควรดู` : ''}` : yel ? `${yel} เรื่องที่ควรดู` : 'ตัวส่งแจ้งเตือนทำงาน ทุกฟังก์ชันตอบ เว็บเปิดได้';
-    const al = $('alerts'); al.textContent = ''; d.alerts.forEach((a) => al.append(mk('div', 'alert ' + a.level, (a.level === 'red' ? '🔴 ' : '🟡 ') + a.text)));
+    const al = $('alerts'); al.textContent = ''; d.alerts.forEach((a) => al.append(mk('div', 'alert ' + a.level, (a.level === 'red' ? 'ด่วน · ' : 'เฝ้าระวัง · ') + a.text)));
     const ck = $('checks'); ck.textContent = '';
     d.checks.forEach((c) => { const r = mk('div', 'chk' + (c.ok ? '' : ' fail')); const m = mk('div', 'nm'); m.append(mk('div', null, c.name), mk('div', 'dt', c.detail)); r.append(mk('i'), m, mk('span', 'ms', c.ms + ' ms')); ck.append(r); });
 
@@ -379,7 +379,7 @@
   async function cmdRun() {
     cmdPending = null; const line = $('cmdIn').value; if (!line.trim()) return;
     const p = cmdParse(line);
-    if (p.error) return cmdShow('⚠ ' + p.error, false);
+    if (p.error) return cmdShow('' + p.error, false);
     if (p.info) return cmdShow(p.info, false);
     if (p.list) {
       cmdShow('กำลังโหลด…', false);
@@ -396,7 +396,7 @@
     try {
       const r = await api(call);
       if (r.body.ok) { $('cmdOut').textContent = '✓ บันทึกแล้ว' + (r.body.n ? ` (${r.body.n} วัน)` : '') + ' · พิมพ์ "รายการ" เพื่อตรวจ'; $('cmdIn').value = ''; }
-      else $('cmdOut').textContent = '⚠ บันทึกไม่สำเร็จ' + (r.body.error === 'date' ? ' (วันที่ไม่ถูกต้อง)' : ' ลองใหม่อีกครั้ง');
+      else $('cmdOut').textContent = 'บันทึกไม่สำเร็จ' + (r.body.error === 'date' ? ' (วันที่ไม่ถูกต้อง)' : ' ลองใหม่อีกครั้ง');
     } catch (e) { /* ล็อกเอาต์ */ }
   }
 
@@ -417,22 +417,22 @@
       const g = $('roomGrid'); g.textContent = '';
       const rp = await api({ action: 'reports' });   // โพสต์ที่ถูกรายงาน
       if (rp.body.ok && rp.body.items.length) {
-        const cf = mk('div', 'card'); cf.append(mk('h3', null, `🚩 โพสต์ที่ถูกรายงาน (${rp.body.items.length})`));
+        const cf = mk('div', 'card'); cf.append(mk('h3', null, `โพสต์ที่ถูกรายงาน (${rp.body.items.length})`));
         rp.body.items.forEach((a) => {
           const p = mk('div', 'post'), top = mk('div', 'top'); top.append(mk('span', 'kd ' + a.kind, KIND[a.kind] || a.kind), mk('b', null, `[${a.class_id}] ${a.title}`));
-          const x = mk('button', 'x', '🗑'); x.title = 'ลบโพสต์นี้'; x.onclick = async () => { if (confirm(`ลบโพสต์ "${a.title}" ?`)) { await api({ action: 'delete_announcement', id: a.id }); loadRooms(); } }; top.append(x);
+          const x = mk('button', 'x', 'ลบ'); x.title = 'ลบโพสต์นี้'; x.onclick = async () => { if (confirm(`ลบโพสต์ "${a.title}" ?`)) { await api({ action: 'delete_announcement', id: a.id }); loadRooms(); } }; top.append(x);
           p.append(top); if (a.body) p.append(mk('div', 'muted', a.body));
-          p.append(mk('div', 'meta', `${fmt(a.created_at)} · ผู้โพสต์ ${a.student_id ? 'เลข ' + a.student_id : '#' + (a.poster || 'ไม่ทราบ')} · 🚩 ${a.reports} รายงาน${a.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}`)); cf.append(p);
+          p.append(mk('div', 'meta', `${fmt(a.created_at)} · ผู้โพสต์ ${a.student_id ? 'เลข ' + a.student_id : '#' + (a.poster || 'ไม่ทราบ')} · ${a.reports} รายงาน${a.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}`)); cf.append(p);
         });
         g.append(cf);
       }
       const sr = await api({ action: 'schedule_reports' });   // รายงานตารางผิด
       if (sr.body.ok && sr.body.items.length) {
-        const cs = mk('div', 'card'); cs.append(mk('h3', null, `📝 รายงานตารางผิด (${sr.body.items.length} คาบ)`));
+        const cs = mk('div', 'card'); cs.append(mk('h3', null, `รายงานตารางผิด (${sr.body.items.length} คาบ)`));
         sr.body.items.forEach((g) => {
           const p = mk('div', 'post'), top = mk('div', 'top');
           top.append(mk('b', null, `[${g.class_id}] วัน${DAYS[g.day - 1]} คาบ ${g.period} · ${g.ids.length} คนแจ้ง`));
-          const open = mk('button', 'x', '👁'); open.title = 'ดูตารางห้องนี้'; open.onclick = () => openRoom(g.class_id);
+          const open = mk('button', 'x', 'ดู'); open.title = 'ดูตารางห้องนี้'; open.onclick = () => openRoom(g.class_id);
           const ok = mk('button', 'x', '✓'); ok.title = 'ปิดรายงาน (แก้แล้ว/ไม่ใช่ข้อผิดพลาด)'; ok.onclick = async () => { await api({ action: 'resolve_reports', ids: g.ids }); loadRooms(); };
           top.append(open, ok); p.append(top);
           if (g.notes.length) p.append(mk('div', 'muted', g.notes.slice(0, 3).join(' | ')));
@@ -442,10 +442,10 @@
       }
       const at = await api({ action: 'achat_threads' });   // กล่องข้อความจากนักเรียนถึงแอดมิน
       if (at.body.ok && at.body.threads.length) {
-        const ca = mk('div', 'card'); ca.append(mk('h3', null, `📨 ข้อความถึงแอดมิน (${at.body.unread} ยังไม่อ่าน)`));
+        const ca = mk('div', 'card'); ca.append(mk('h3', null, `ข้อความถึงแอดมิน (${at.body.unread} ยังไม่อ่าน)`));
         at.body.threads.forEach((t) => {
           const p = mk('div', 'post'); p.style.cursor = 'pointer';
-          const top = mk('div', 'top'); top.append(mk('b', null, `[${t.class_id}] ${t.nick || 'ไม่มีชื่อเล่น'} #${t.thread}${t.unread ? ` · 🔴 ${t.unread} ใหม่` : ''}`));
+          const top = mk('div', 'top'); top.append(mk('b', null, `[${t.class_id}] ${t.nick || 'ไม่มีชื่อเล่น'} #${t.thread}${t.unread ? ` · ${t.unread} ใหม่` : ''}`));
           p.append(top, mk('div', 'muted', (t.from_admin ? 'คุณ: ' : '') + t.last), mk('div', 'meta', fmt(t.last_at)));
           p.onclick = () => openThread(t.class_id, t.thread, t.nick);
           ca.append(p);
@@ -455,7 +455,7 @@
       const wrap = mk('div', 'rooms');
       ROOMS.forEach((x) => {
         const b = mk('button', 'room'); b.onclick = () => openRoom(x.class);
-        b.append(mk('b', null, x.class), mk('small', null, `📱 ${x.push} เครื่องแจ้งเตือน`), mk('small', null, `💬 ${x.line} ไลน์ · 📌 ${x.ann_7d} โพสต์ 7 วัน`), mk('small', null, x.last_notified ? 'แจ้งเตือนล่าสุด ' + ago(x.last_notified) : 'ยังไม่เคยแจ้งเตือน'));
+        b.append(mk('b', null, x.class), mk('small', null, `${x.push} เครื่องแจ้งเตือน`), mk('small', null, `${x.line} ไลน์ · ${x.ann_7d} โพสต์ 7 วัน`), mk('small', null, x.last_notified ? 'แจ้งเตือนล่าสุด ' + ago(x.last_notified) : 'ยังไม่เคยแจ้งเตือน'));
         if (!x.items || !x.has_pw) b.append(mk('span', 'wdot'));
         wrap.append(b);
       });
@@ -483,8 +483,8 @@
     const d = r.body; box.textContent = '';
     const back = mk('button', 'back', '← กลับไปเลือกห้อง'); back.onclick = () => { box.classList.add('hidden'); $('roomGrid').classList.remove('hidden'); loadRooms(); };
     const head = mk('div', 'hero ok'); head.style.cssText = 'margin-bottom:0;justify-content:space-between;flex-wrap:wrap';
-    const hl = mk('div'); hl.append(mk('h2', null, 'ห้อง ' + d.class), mk('p', null, `📱 ${d.devices.length} เครื่องแจ้งเตือน · 💬 ${d.line} ผู้ใช้ไลน์ · รหัสห้อง ${d.has_pw ? 'ตั้งแล้ว' : 'ยังไม่ตั้ง'} · ${d.schedule.length} คาบ`));
-    const send = mk('button', 'pri', '💬 ส่งข้อความหาห้องนี้'); send.onclick = () => openChat([d.class]);
+    const hl = mk('div'); hl.append(mk('h2', null, 'ห้อง ' + d.class), mk('p', null, `${d.devices.length} เครื่องแจ้งเตือน · ${d.line} ผู้ใช้ไลน์ · รหัสห้อง ${d.has_pw ? 'ตั้งแล้ว' : 'ยังไม่ตั้ง'} · ${d.schedule.length} คาบ`));
+    const send = mk('button', 'pri', 'ส่งข้อความหาห้องนี้'); send.onclick = () => openChat([d.class]);
     const ver = mk('button', null, d.verified_at ? `✓ ตรวจแล้ว ${fmt(d.verified_at)} (กดเพื่อยกเลิก)` : '☐ ทำเครื่องหมายว่าตารางตรวจแล้ว');
     ver.onclick = async () => { await api({ action: 'verify_class', class_id: d.class, verified: !d.verified_at }); openRoom(id); };
     head.append(hl, send, ver);
@@ -502,8 +502,8 @@
     if (!d.announcements.length) c2.append(mk('p', 'muted', 'ยังไม่มีโพสต์'));
     d.announcements.forEach((a) => {
       const p = mk('div', 'post'), top = mk('div', 'top'); top.append(mk('span', 'kd ' + a.kind, KIND[a.kind] || a.kind), mk('b', null, a.title));
-      const x = mk('button', 'x', '🗑'); x.title = 'ลบโพสต์นี้'; x.onclick = async () => { if (confirm(`ลบโพสต์ "${a.title}" ?`)) { await api({ action: 'delete_announcement', id: a.id }); openRoom(id); } }; top.append(x);
-      p.append(top); if (a.body) p.append(mk('div', 'muted', a.body)); p.append(mk('div', 'meta', `${fmt(a.created_at)}${a.due_date ? ' · กำหนด ' + a.due_date : ''} · ผู้โพสต์ ${a.student_id ? 'เลข ' + a.student_id : '#' + (a.poster || 'ไม่ทราบ')}${a.reports ? ` · 🚩 ${a.reports} รายงาน${a.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : ''}`)); c2.append(p);
+      const x = mk('button', 'x', 'ลบ'); x.title = 'ลบโพสต์นี้'; x.onclick = async () => { if (confirm(`ลบโพสต์ "${a.title}" ?`)) { await api({ action: 'delete_announcement', id: a.id }); openRoom(id); } }; top.append(x);
+      p.append(top); if (a.body) p.append(mk('div', 'muted', a.body)); p.append(mk('div', 'meta', `${fmt(a.created_at)}${a.due_date ? ' · กำหนด ' + a.due_date : ''} · ผู้โพสต์ ${a.student_id ? 'เลข ' + a.student_id : '#' + (a.poster || 'ไม่ทราบ')}${a.reports ? ` · ${a.reports} รายงาน${a.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : ''}`)); c2.append(p);
     });
     two.append(c2);
     // แชตห้อง (นำร่อง): เปิด/ปิด + ดูข้อความ + ลบ + ระงับเครื่อง
@@ -511,8 +511,8 @@
     if (chat.body.ok) {
       const cc = mk('div', 'card'), ch = chat.body;
       const hd = mk('div', 'top'); hd.style.cssText = 'margin-bottom:10px;align-items:center';
-      const ttl = mk('h3', null, `💬 แชตห้อง (${ch.members} คนตั้งชื่อเล่นแล้ว)`); ttl.style.cssText = 'flex:1;margin:0';
-      const tg = mk('button', ch.enabled ? null : 'pri', ch.enabled ? '■ ปิดแชตห้องนี้' : '▶ เปิดแชตห้องนี้');
+      const ttl = mk('h3', null, `แชตห้อง (${ch.members} คนตั้งชื่อเล่นแล้ว)`); ttl.style.cssText = 'flex:1;margin:0';
+      const tg = mk('button', ch.enabled ? null : 'pri', ch.enabled ? 'ปิดแชตห้องนี้' : 'เปิดแชตห้องนี้');
       tg.onclick = async () => {
         if (!ch.enabled && !confirm(`เปิดแชตให้ห้อง ${d.class}? นักเรียนในห้องจะเห็นปุ่มแชตและคุยกันได้ทันที`)) return;
         await api({ action: 'chat_toggle', class_id: d.class, enabled: !ch.enabled }); openRoom(id);
@@ -523,12 +523,12 @@
       ch.messages.forEach((m) => {
         const p = mk('div', 'post'), top = mk('div', 'top');
         top.append(mk('b', null, `${m.nick}: ${m.body}`));
-        const ban = mk('button', 'x', '🚫'); ban.title = 'ระงับเครื่องนี้ 24 ชม.';
+        const ban = mk('button', 'x', 'ระงับ'); ban.title = 'ระงับเครื่องนี้ 24 ชม.';
         ban.onclick = async () => { if (confirm(`ระงับผู้ส่ง #${m.poster} (${m.nick}) 24 ชั่วโมง?`)) { await api({ action: 'chat_ban', class_id: d.class, poster: m.poster, hours: 24 }); openRoom(id); } };
-        const del = mk('button', 'x', '🗑'); del.title = 'ลบข้อความนี้';
+        const del = mk('button', 'x', 'ลบ'); del.title = 'ลบข้อความนี้';
         del.onclick = async () => { await api({ action: 'chat_delete', id: m.id }); openRoom(id); };
         top.append(ban, del); p.append(top);
-        p.append(mk('div', 'meta', `${fmt(m.created_at)} · ผู้ส่ง ${m.student_id ? 'เลข ' + m.student_id : '#' + m.poster}${m.reports ? ` · 🚩 ${m.reports} รายงาน${m.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : ''}`));
+        p.append(mk('div', 'meta', `${fmt(m.created_at)} · ผู้ส่ง ${m.student_id ? 'เลข ' + m.student_id : '#' + m.poster}${m.reports ? ` · ${m.reports} รายงาน${m.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : ''}`));
         cc.append(p);
       });
       two.append(cc);
@@ -538,16 +538,16 @@
     if (so.body.ok) {
       const s = so.body, sc = mk('div', 'card'); sc.style.gridColumn = '1 / -1';
       const hd = mk('div', 'top'); hd.style.cssText = 'margin-bottom:10px;align-items:center;flex-wrap:wrap;gap:8px';
-      const ttl = mk('h3', null, `✨ โซเชียลห้อง · ${!s.global ? 'ปิดทั้งระบบอยู่' : (s.enabled ? (s.posting ? 'เปิด' : 'เปิด (ดูได้อย่างเดียว)') : 'ปิด')}`); ttl.style.cssText = 'flex:1;margin:0';
-      const tg = mk('button', s.enabled ? null : 'pri', s.enabled ? '■ ปิดห้องนี้' : '▶ เปิดห้องนี้');
+      const ttl = mk('h3', null, `โซเชียลห้อง · ${!s.global ? 'ปิดทั้งระบบอยู่' : (s.enabled ? (s.posting ? 'เปิด' : 'เปิด (ดูได้อย่างเดียว)') : 'ปิด')}`); ttl.style.cssText = 'flex:1;margin:0';
+      const tg = mk('button', s.enabled ? null : 'pri', s.enabled ? 'ปิดห้องนี้' : 'เปิดห้องนี้');
       tg.onclick = async () => { if (!s.enabled && !confirm(`เปิดโซเชียลให้ห้อง ${d.class}? นักเรียนจะโพสต์ แชร์คลิป และคอมเมนต์ได้ทันที (ข้อความที่พิมพ์เองจะถูกส่งให้ Haiku ตรวจ)`)) return; await api({ action: 'social_toggle', class_id: d.class, enabled: !s.enabled }); openRoom(id); };
-      const pt = mk('button', null, s.posting ? '⏸ หยุดการโพสต์ (ดูได้อย่างเดียว)' : '▶ ให้โพสต์ได้อีก');
+      const pt = mk('button', null, s.posting ? 'หยุดการโพสต์ (ดูได้อย่างเดียว)' : 'ให้โพสต์ได้อีก');
       pt.onclick = async () => { await api({ action: 'social_toggle', class_id: d.class, posting: !s.posting }); openRoom(id); };
-      const gl = mk('button', s.global ? null : 'pri', s.global ? '🛑 ปิดโซเชียลทุกห้อง' : '▶ เปิดระบบโซเชียลทั้งระบบ');
+      const gl = mk('button', s.global ? null : 'pri', s.global ? 'ปิดโซเชียลทุกห้อง' : 'เปิดระบบโซเชียลทั้งระบบ');
       gl.onclick = async () => { if (s.global && !confirm('ปิดโซเชียลทุกห้องทันที? นักเรียนทุกห้องจะเห็นหน้า "กำลังเตรียม"')) return; await api({ action: 'social_global', enabled: !s.global }); openRoom(id); };
       hd.append(ttl, tg, pt, gl); sc.append(hd);
       // สรุปรายงานด้วย Haiku (กดเองเท่านั้น ส่งแต่ข้อความที่ถูกรายงาน ไม่ส่งชื่อ/เลข/รหัสผู้ส่ง) ผลเป็นคำแนะนำ แอดมินตัดสินเอง
-      const sm = mk('button', null, '🤖 สรุปรายงานด้วย Haiku'), smBox = mk('pre', 'muted'); smBox.style.cssText = 'white-space:pre-wrap;margin:8px 0 0;font:inherit;display:none';
+      const sm = mk('button', null, 'สรุปรายงานด้วย Haiku'), smBox = mk('pre', 'muted'); smBox.style.cssText = 'white-space:pre-wrap;margin:8px 0 0;font:inherit;display:none';
       const SM_ERR = { no_key: 'ยังไม่ได้ตั้งคีย์ AI ใน Supabase', budget: 'งบ AI เดือนนี้หมดแล้ว', ai: 'AI สรุปไม่สำเร็จ ลองใหม่อีกครั้ง' };
       sm.onclick = async () => {
         sm.disabled = true; smBox.style.display = 'block'; smBox.textContent = 'กำลังสรุป…';
@@ -556,12 +556,12 @@
       };
       sc.append(sm, smBox);
       if (s.bans.length) sc.append(mk('div', 'muted', 'ระงับอยู่ (ใช้ร่วมกับแชต): ' + s.bans.map((x) => `#${x.poster} (ถึง ${fmt(x.until)})`).join(', ')));
-      const flag = (n, sh, hid) => (sh ? ' · 🚨 รายงานเรื่องความปลอดภัย' : '') + (n ? ` · 🚩 ${n} รายงาน${n >= 3 || sh ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : '') + (hid ? ' · ซ่อนโดยแอดมิน' : '');
+      const flag = (n, sh, hid) => (sh ? ' · รายงานเรื่องความปลอดภัย (เร่งด่วน)' : '') + (n ? ` · ${n} รายงาน${n >= 3 || sh ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : '') + (hid ? ' · ซ่อนโดยแอดมิน' : '');
       const who = (x) => `ผู้ส่ง ${x.student_id ? 'เลข ' + x.student_id : '#' + x.poster}`;
       const row = (label, text, x, ops) => {
         const p = mk('div', 'post'), top = mk('div', 'top'); top.append(mk('b', null, `${x.nick}: ${text}`));
         if (label) top.insertBefore(mk('span', 'kd', label), top.firstChild);
-        const ban = mk('button', 'x', '🚫'); ban.title = 'ระงับผู้ส่ง 24 ชม. (ใช้ร่วมกับแชต)'; ban.onclick = async () => { if (confirm(`ระงับผู้ส่ง #${x.poster} (${x.nick}) 24 ชั่วโมง?`)) { await api({ action: 'chat_ban', class_id: d.class, poster: x.poster, hours: 24 }); openRoom(id); } };
+        const ban = mk('button', 'x', 'ระงับ'); ban.title = 'ระงับผู้ส่ง 24 ชม. (ใช้ร่วมกับแชต)'; ban.onclick = async () => { if (confirm(`ระงับผู้ส่ง #${x.poster} (${x.nick}) 24 ชั่วโมง?`)) { await api({ action: 'chat_ban', class_id: d.class, poster: x.poster, hours: 24 }); openRoom(id); } };
         top.append(ban); ops.forEach((o) => top.append(o)); p.append(top);
         p.append(mk('div', 'meta', `${fmt(x.created_at)} · ${who(x)}${flag(x.reports, x.selfharm, x.hidden)}`)); return p;
       };
@@ -573,38 +573,38 @@
       sorted(s.posts).forEach((p) => {
         const text = p.kind === 'kudos' ? (p.line || p.tag || '') : (p.title ? p.title + ' — ' + (p.line || '') : (p.line || ''));
         sc.append(row(KD[p.kind] || p.kind, text, p, [
-          btn(p.hidden ? '👁' : '🙈', p.hidden ? 'แสดงกลับ' : 'ซ่อนโพสต์นี้ (ไม่ลบ)', async () => { await api({ action: 'social_hide', id: p.id, hidden: !p.hidden }); openRoom(id); }),
-          btn('🗑', 'ลบโพสต์นี้', async () => { if (confirm('ลบโพสต์นี้?')) { await api({ action: 'social_delete', id: p.id }); openRoom(id); } })]));
+          btn(p.hidden ? 'แสดง' : 'ซ่อน', p.hidden ? 'แสดงกลับ' : 'ซ่อนโพสต์นี้ (ไม่ลบ)', async () => { await api({ action: 'social_hide', id: p.id, hidden: !p.hidden }); openRoom(id); }),
+          btn('ลบ', 'ลบโพสต์นี้', async () => { if (confirm('ลบโพสต์นี้?')) { await api({ action: 'social_delete', id: p.id }); openRoom(id); } })]));
       });
       sc.append(mk('h3', null, `คลิป (${s.clips.length})`)); sc.lastChild.style.marginTop = '12px';
       if (!s.clips.length) sc.append(mk('p', 'muted', 'ยังไม่มีคลิป'));
       sorted(s.clips).forEach((c) => {
         const r = row('คลิป', c.title + (c.note ? ' — ' + c.note : ''), c, [
-          btn(c.hidden ? '👁' : '🙈', c.hidden ? 'แสดงกลับ' : 'ซ่อนคลิปนี้ (ไม่ลบ)', async () => { await api({ action: 'social_clip_hide', id: c.id, hidden: !c.hidden }); openRoom(id); }),
-          btn('🗑', 'ลบคลิปนี้', async () => { if (confirm('ลบคลิปนี้?')) { await api({ action: 'social_clip_delete', id: c.id }); openRoom(id); } })]);
-        const a = mk('a', null, '▶ เปิดใน YouTube'); a.href = 'https://www.youtube.com/watch?v=' + encodeURIComponent(c.yt_id); a.target = '_blank'; a.rel = 'noopener noreferrer'; r.append(a); sc.append(r);
+          btn(c.hidden ? 'แสดง' : 'ซ่อน', c.hidden ? 'แสดงกลับ' : 'ซ่อนคลิปนี้ (ไม่ลบ)', async () => { await api({ action: 'social_clip_hide', id: c.id, hidden: !c.hidden }); openRoom(id); }),
+          btn('ลบ', 'ลบคลิปนี้', async () => { if (confirm('ลบคลิปนี้?')) { await api({ action: 'social_clip_delete', id: c.id }); openRoom(id); } })]);
+        const a = mk('a', null, 'เปิดใน YouTube'); a.href = 'https://www.youtube.com/watch?v=' + encodeURIComponent(c.yt_id); a.target = '_blank'; a.rel = 'noopener noreferrer'; r.append(a); sc.append(r);
       });
       sc.append(mk('h3', null, `ความเห็นที่ถูกรายงาน (${s.comments.length})`)); sc.lastChild.style.marginTop = '12px';
       if (!s.comments.length) sc.append(mk('p', 'muted', 'ไม่มี'));
-      sorted(s.comments).forEach((c) => sc.append(row('ความเห็น', c.body, c, [btn('🗑', 'ลบความเห็นนี้', async () => { if (confirm('ลบความเห็นนี้?')) { await api({ action: 'social_comment_delete', id: c.id }); openRoom(id); } })])));
+      sorted(s.comments).forEach((c) => sc.append(row('ความเห็น', c.body, c, [btn('ลบ', 'ลบความเห็นนี้', async () => { if (confirm('ลบความเห็นนี้?')) { await api({ action: 'social_comment_delete', id: c.id }); openRoom(id); } })])));
       two.append(sc);
     }
     // คลังสรุป/ชีทของห้อง: ดู ลบ (รูป/PDF เปิดผ่านลิงก์ชั่วคราว)
     const st = await api({ action: 'study_list', class_id: id });
     if (st.body.ok) {
-      const cs = mk('div', 'card'); cs.append(mk('h3', null, `📚 คลังสรุป/ชีท (${st.body.items.length})`));
+      const cs = mk('div', 'card'); cs.append(mk('h3', null, `คลังสรุป/ชีท (${st.body.items.length})`));
       if (!st.body.items.length) cs.append(mk('p', 'muted', 'ยังไม่มีชีท'));
       st.body.items.forEach((m) => {
         const p = mk('div', 'post'), top = mk('div', 'top');
         top.append(mk('span', 'kd', m.subject), mk('b', null, m.title));
-        const del = mk('button', 'x', '🗑'); del.title = 'ลบชีทนี้ (รวมไฟล์)';
+        const del = mk('button', 'x', 'ลบ'); del.title = 'ลบชีทนี้ (รวมไฟล์)';
         del.onclick = async () => { if (confirm(`ลบชีท "${m.title}" ?`)) { await api({ action: 'study_delete', id: m.id }); openRoom(id); } };
         top.append(del); p.append(top);
         if (m.body) p.append(mk('div', 'muted', m.body));
         const links = mk('div', 'meta');
-        if (m.link_url) { const a = mk('a', null, '🔗 ลิงก์'); a.href = m.link_url; a.target = '_blank'; a.rel = 'noopener noreferrer'; links.append(a, document.createTextNode(' · ')); }
-        if (m.file_url) { const a = mk('a', null, m.file_kind === 'pdf' ? '📄 PDF' : '🖼 รูป'); a.href = m.file_url; a.target = '_blank'; a.rel = 'noopener noreferrer'; links.append(a, document.createTextNode(' · ')); }
-        links.append(document.createTextNode(`${fmt(m.created_at)} · ผู้โพสต์ ${m.student_id ? 'เลข ' + m.student_id : '#' + m.poster}${m.hidden ? ' · ซ่อน' : ''}${m.reports ? ` · 🚩 ${m.reports} รายงาน${m.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : ''}`));
+        if (m.link_url) { const a = mk('a', null, 'ลิงก์'); a.href = m.link_url; a.target = '_blank'; a.rel = 'noopener noreferrer'; links.append(a, document.createTextNode(' · ')); }
+        if (m.file_url) { const a = mk('a', null, m.file_kind === 'pdf' ? 'PDF' : 'รูป'); a.href = m.file_url; a.target = '_blank'; a.rel = 'noopener noreferrer'; links.append(a, document.createTextNode(' · ')); }
+        links.append(document.createTextNode(`${fmt(m.created_at)} · ผู้โพสต์ ${m.student_id ? 'เลข ' + m.student_id : '#' + m.poster}${m.hidden ? ' · ซ่อน' : ''}${m.reports ? ` · ${m.reports} รายงาน${m.reports >= 3 ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : ''}`));
         p.append(links); cs.append(p);
       });
       two.append(cs);
@@ -627,7 +627,7 @@
   function closeChat() { $('modal').classList.add('hidden'); }
   function drawAud() {
     const w = $('audBtns'); w.textContent = '';
-    const all = mk('button', AUD.length ? '' : 'on', '👥 ทุกห้อง'); all.onclick = () => { AUD = []; drawAud(); }; w.append(all);
+    const all = mk('button', AUD.length ? '' : 'on', 'ทุกห้อง'); all.onclick = () => { AUD = []; drawAud(); }; w.append(all);
     ROOMS.forEach((r) => { const b = mk('button', AUD.includes(r.class) ? 'on' : '', r.class); b.onclick = () => { AUD = AUD.includes(r.class) ? AUD.filter((x) => x !== r.class) : [...AUD, r.class]; drawAud(); }; w.append(b); });
   }
   function preview() {
