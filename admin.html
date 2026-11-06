@@ -142,6 +142,13 @@
       <p class="sub">คำนวณจากวันที่เครื่องสมัครแจ้งเตือน (เครื่องที่ถูกลบออกเพราะหมดอายุจะไม่ถูกนับย้อนหลัง)</p>
     </div>
 
+    <div class="card" style="grid-column:1/-1"><h3>⌨ คำสั่งด่วน (ตั้งวันหยุด / กิจกรรม)</h3>
+      <p class="sub" style="margin-bottom:8px">พิมพ์คำสั่งแล้วกด Enter ระบบจะแสดงตัวอย่างให้ยืนยันก่อนบันทึกเสมอ พิมพ์ <b>ช่วย</b> เพื่อดูคำสั่งทั้งหมด</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><input type="text" id="cmdIn" maxlength="200" autocomplete="off" placeholder="เช่น หยุด 10/12/2569 วันรัฐธรรมนูญ" style="flex:1;min-width:220px" onkeydown="if(event.key==='Enter'){event.preventDefault();cmdRun()}" /><button class="pri" onclick="cmdRun()">ตรวจคำสั่ง</button></div>
+      <pre id="cmdOut" class="muted" style="white-space:pre-wrap;margin:10px 0 0;font:inherit;display:none"></pre>
+      <div id="cmdOk" style="display:none;gap:8px;margin-top:8px"><button class="pri" onclick="cmdConfirm()">✓ ยืนยันบันทึก</button><button onclick="cmdCancel()">ยกเลิก</button></div>
+    </div>
+
     <div class="card"><h3>เนื้อหา</h3>
       <div class="row"><span>ห้องในระบบ</span><b id="classes">—</b></div>
       <div class="row"><span>คาบเรียนทั้งหมด</span><b id="items">—</b></div>
@@ -314,6 +321,83 @@
       drawChart(pChart, days, cum, 'g');
       statBox(pStats, [['ตอนนี้', s.push_total], ['เพิ่มใหม่วันนี้', add[days[days.length - 1]] || 0], ['เพิ่มใหม่ 7 วัน', days.slice(-7).reduce((a, d) => a + (add[d] || 0), 0)], ['เพิ่มใหม่ 30 วัน', days.reduce((a, d) => a + (add[d] || 0), 0)]]);
     } catch (e) { statsAt = 0; }
+  }
+
+  // ======================= คำสั่งด่วน: วันหยุด / กิจกรรม =======================
+  // แปลคำสั่งภาษาไทยเป็นการกระทำที่ชัดเจน (ไม่ใช้ AI) แสดงตัวอย่างให้ยืนยันก่อนบันทึกทุกครั้ง
+  const CMD_HELP = `คำสั่งที่ใช้ได้ (วันที่พิมพ์เป็น 10/12/2569 หรือ 2026-12-10 หรือ วันนี้ / พรุ่งนี้):
+• หยุด 10/12/2569 วันรัฐธรรมนูญ — ตั้งวันหยุด (ไม่ส่งแจ้งเตือน)
+• หยุด 1/3/2570 ถึง 31/3/2570 ปิดเทอม — ตั้งวันหยุดเป็นช่วง
+• เลิกหยุด 10/12/2569 — ยกเลิกวันหยุด (ใส่ ถึง ... เป็นช่วงได้)
+• กิจกรรม 5/12/2569 กีฬาสี — เพิ่มกิจกรรมในปฏิทินโรงเรียน (ใส่ ถึง ... เป็นช่วงได้)
+• สอบ 14/12/2569 ถึง 18/12/2569 สอบปลายภาค — เพิ่มวันสอบ
+• ลบกิจกรรม 12 — ลบกิจกรรมตามเลข # ที่เห็นในรายการ
+• รายการ — ดูวันหยุดและกิจกรรมที่กำลังจะมา`;
+  let cmdPending = null;
+  const cmdToday = () => new Date(Date.now() + 7 * 3600_000).toISOString().slice(0, 10);
+  function cmdDate(tok) {   // คืน 'YYYY-MM-DD' (ค.ศ.) หรือ null; ปีเกิน 2400 ถือเป็น พ.ศ.
+    if (!tok) return null; let t = tok.trim();
+    if (t === 'วันนี้') return cmdToday();
+    if (t === 'พรุ่งนี้') { const d = new Date(cmdToday() + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + 1); return d.toISOString().slice(0, 10); }
+    let y, m, d, mt;
+    if ((mt = t.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/))) { y = +mt[1]; m = +mt[2]; d = +mt[3]; }
+    else if ((mt = t.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/))) { d = +mt[1]; m = +mt[2]; y = +mt[3]; }
+    else return null;
+    if (y > 2400) y -= 543;
+    const iso = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    const chk = new Date(iso + 'T00:00:00Z'); return !Number.isNaN(chk.getTime()) && chk.toISOString().slice(0, 10) === iso && y >= 2020 && y <= 2100 ? iso : null;
+  }
+  const cmdTh = (iso) => { const [y, m, d] = iso.split('-').map(Number); return `${d}/${m}/${y + 543}`; };
+  const cmdSpan = (a, z) => (z && z !== a ? `${cmdTh(a)} ถึง ${cmdTh(z)}` : cmdTh(a));
+  function cmdParse(line) {   // คืน { text, call } พร้อมบันทึก หรือ { error } หรือ { info }
+    const w = line.trim().split(/\s+/); const verb = w.shift() || '';
+    if (!verb || verb === 'ช่วย' || verb === 'help') return { info: CMD_HELP };
+    if (verb === 'รายการ') return { list: true };
+    const range = () => {   // อ่าน <วันที่> [ถึง <วันที่>] แล้วเหลือข้อความที่เหลือใน w
+      const a = cmdDate(w.shift()); if (!a) return null;
+      let z = null; if (w[0] === 'ถึง') { w.shift(); z = cmdDate(w.shift()); if (!z) return null; if (z < a) return null; }
+      return { a, z: z || a };
+    };
+    if (verb === 'หยุด' || verb === 'เลิกหยุด') {
+      const r = range(); if (!r) return { error: 'อ่านวันที่ไม่ออก ลองเช่น: ' + (verb === 'หยุด' ? 'หยุด 10/12/2569 วันรัฐธรรมนูญ' : 'เลิกหยุด 10/12/2569') };
+      const days = Math.round((new Date(r.z) - new Date(r.a)) / 86400e3) + 1; if (days > 400) return { error: 'ช่วงวันที่ยาวเกิน 400 วัน' };
+      const note = w.join(' ');
+      return verb === 'หยุด'
+        ? { text: `ตั้งวันหยุด ${cmdSpan(r.a, r.z)} (${days} วัน)${note ? ' · หมายเหตุ: ' + note : ''}\nวันเหล่านี้จะไม่ส่งแจ้งเตือนคาบเรียน และแสดงในปฏิทินของเว็บ`, call: { action: 'calendar', op: 'holiday_add', start: r.a, end: r.z, note } }
+        : { text: `ยกเลิกวันหยุด ${cmdSpan(r.a, r.z)} (${days} วัน) วันเหล่านี้จะกลับมาส่งแจ้งเตือนตามปกติ`, call: { action: 'calendar', op: 'holiday_remove', start: r.a, end: r.z } };
+    }
+    if (verb === 'กิจกรรม' || verb === 'สอบ') {
+      const r = range(); const title = w.join(' ');
+      if (!r || !title) return { error: 'ใช้: ' + verb + ' 5/12/2569 ชื่อกิจกรรม (ใส่ ถึง <วันที่> เป็นช่วงได้)' };
+      return { text: `เพิ่ม${verb === 'สอบ' ? 'วันสอบ' : 'กิจกรรม'}: "${title}" ${cmdSpan(r.a, r.z)}\nแสดงในปฏิทินโรงเรียนบนเว็บ (ไม่ได้ปิดแจ้งเตือนคาบ ถ้าวันนั้นหยุดจริงให้ใช้คำสั่ง "หยุด" ด้วย)`, call: { action: 'calendar', op: 'event_add', kind: verb === 'สอบ' ? 'exam' : 'event', date: r.a, end: r.z === r.a ? null : r.z, title } };
+    }
+    if (verb === 'ลบกิจกรรม') { const id = Number((w[0] || '').replace('#', '')); return Number.isInteger(id) && id > 0 ? { text: `ลบกิจกรรม #${id}`, call: { action: 'calendar', op: 'event_remove', id } } : { error: 'ใช้: ลบกิจกรรม 12 (ดูเลข # จากคำสั่ง "รายการ")' }; }
+    return { error: `ไม่รู้จักคำสั่ง "${verb}" พิมพ์ ช่วย เพื่อดูคำสั่งทั้งหมด` };
+  }
+  function cmdShow(text, ok) { const o = $('cmdOut'); o.style.display = 'block'; o.textContent = text; $('cmdOk').style.display = ok ? 'flex' : 'none'; }
+  function cmdCancel() { cmdPending = null; $('cmdOut').style.display = 'none'; $('cmdOk').style.display = 'none'; }
+  async function cmdRun() {
+    cmdPending = null; const line = $('cmdIn').value; if (!line.trim()) return;
+    const p = cmdParse(line);
+    if (p.error) return cmdShow('⚠ ' + p.error, false);
+    if (p.info) return cmdShow(p.info, false);
+    if (p.list) {
+      cmdShow('กำลังโหลด…', false);
+      try {
+        const r = await api({ action: 'calendar', op: 'list' }); if (!r.body.ok) return cmdShow('โหลดรายการไม่สำเร็จ', false);
+        const h = r.body.holidays.map((x) => `  ${cmdTh(x.date)}${x.note ? ' · ' + x.note : ''}`), e = r.body.events.map((x) => `  #${x.id} ${cmdSpan(x.date, x.end_date)} · [${x.kind === 'exam' ? 'สอบ' : x.kind === 'holiday' ? 'หยุด' : 'กิจกรรม'}] ${x.title}`);
+        return cmdShow(`วันหยุดที่กำลังจะมา (${h.length})\n${h.join('\n') || '  ไม่มี'}\n\nกิจกรรมที่กำลังจะมา (${e.length})\n${e.join('\n') || '  ไม่มี'}`, false);
+      } catch (e) { return; }
+    }
+    cmdPending = p.call; cmdShow(p.text + '\n\nกด "ยืนยันบันทึก" เพื่อทำจริง', true);
+  }
+  async function cmdConfirm() {
+    if (!cmdPending) return; const call = cmdPending; cmdPending = null; $('cmdOk').style.display = 'none';
+    try {
+      const r = await api(call);
+      if (r.body.ok) { $('cmdOut').textContent = '✓ บันทึกแล้ว' + (r.body.n ? ` (${r.body.n} วัน)` : '') + ' · พิมพ์ "รายการ" เพื่อตรวจ'; $('cmdIn').value = ''; }
+      else $('cmdOut').textContent = '⚠ บันทึกไม่สำเร็จ' + (r.body.error === 'date' ? ' (วันที่ไม่ถูกต้อง)' : ' ลองใหม่อีกครั้ง');
+    } catch (e) { /* ล็อกเอาต์ */ }
   }
 
   // ======================= แท็บ "ห้อง" =======================
