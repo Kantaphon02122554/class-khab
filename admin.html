@@ -449,6 +449,53 @@
       });
       two.append(cc);
     }
+    // โซเชียลของห้อง: เปิด/ปิด, ปิดโพสต์ชั่วคราว (ดูอย่างเดียว), ปิดทั้งระบบ, ดูโพสต์/คลิป/ความเห็น พร้อมรายงาน, ซ่อน, ลบ, ระงับผู้ส่ง
+    const so = await api({ action: 'social_room', class_id: id });
+    if (so.body.ok) {
+      const s = so.body, sc = mk('div', 'card'); sc.style.gridColumn = '1 / -1';
+      const hd = mk('div', 'top'); hd.style.cssText = 'margin-bottom:10px;align-items:center;flex-wrap:wrap;gap:8px';
+      const ttl = mk('h3', null, `✨ โซเชียลห้อง · ${!s.global ? 'ปิดทั้งระบบอยู่' : (s.enabled ? (s.posting ? 'เปิด' : 'เปิด (ดูได้อย่างเดียว)') : 'ปิด')}`); ttl.style.cssText = 'flex:1;margin:0';
+      const tg = mk('button', s.enabled ? null : 'pri', s.enabled ? '■ ปิดห้องนี้' : '▶ เปิดห้องนี้');
+      tg.onclick = async () => { if (!s.enabled && !confirm(`เปิดโซเชียลให้ห้อง ${d.class}? นักเรียนจะโพสต์ แชร์คลิป และคอมเมนต์ได้ทันที (ข้อความที่พิมพ์เองจะถูกส่งให้ Haiku ตรวจ)`)) return; await api({ action: 'social_toggle', class_id: d.class, enabled: !s.enabled }); openRoom(id); };
+      const pt = mk('button', null, s.posting ? '⏸ หยุดการโพสต์ (ดูได้อย่างเดียว)' : '▶ ให้โพสต์ได้อีก');
+      pt.onclick = async () => { await api({ action: 'social_toggle', class_id: d.class, posting: !s.posting }); openRoom(id); };
+      const gl = mk('button', s.global ? null : 'pri', s.global ? '🛑 ปิดโซเชียลทุกห้อง' : '▶ เปิดระบบโซเชียลทั้งระบบ');
+      gl.onclick = async () => { if (s.global && !confirm('ปิดโซเชียลทุกห้องทันที? นักเรียนทุกห้องจะเห็นหน้า "กำลังเตรียม"')) return; await api({ action: 'social_global', enabled: !s.global }); openRoom(id); };
+      hd.append(ttl, tg, pt, gl); sc.append(hd);
+      if (s.bans.length) sc.append(mk('div', 'muted', 'ระงับอยู่ (ใช้ร่วมกับแชต): ' + s.bans.map((x) => `#${x.poster} (ถึง ${fmt(x.until)})`).join(', ')));
+      const flag = (n, sh, hid) => (sh ? ' · 🚨 รายงานเรื่องความปลอดภัย' : '') + (n ? ` · 🚩 ${n} รายงาน${n >= 3 || sh ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : '') + (hid ? ' · ซ่อนโดยแอดมิน' : '');
+      const who = (x) => `ผู้ส่ง ${x.student_id ? 'เลข ' + x.student_id : '#' + x.poster}`;
+      const row = (label, text, x, ops) => {
+        const p = mk('div', 'post'), top = mk('div', 'top'); top.append(mk('b', null, `${x.nick}: ${text}`));
+        if (label) top.insertBefore(mk('span', 'kd', label), top.firstChild);
+        const ban = mk('button', 'x', '🚫'); ban.title = 'ระงับผู้ส่ง 24 ชม. (ใช้ร่วมกับแชต)'; ban.onclick = async () => { if (confirm(`ระงับผู้ส่ง #${x.poster} (${x.nick}) 24 ชั่วโมง?`)) { await api({ action: 'chat_ban', class_id: d.class, poster: x.poster, hours: 24 }); openRoom(id); } };
+        top.append(ban); ops.forEach((o) => top.append(o)); p.append(top);
+        p.append(mk('div', 'meta', `${fmt(x.created_at)} · ${who(x)}${flag(x.reports, x.selfharm, x.hidden)}`)); return p;
+      };
+      const btn = (t, title, fn) => { const b2 = mk('button', 'x', t); b2.title = title; b2.onclick = fn; return b2; };
+      const sorted = (arr) => arr.slice().sort((a, b) => (b.selfharm - a.selfharm) || (b.reports - a.reports) || (new Date(b.created_at) - new Date(a.created_at)));
+      const KD = { kudos: 'ขอบคุณ', work: 'ผลงาน', offer: 'บริการ', post: 'โพสต์' };
+      sc.append(mk('h3', null, `โพสต์ (${s.posts.length})`)); sc.lastChild.style.marginTop = '12px';
+      if (!s.posts.length) sc.append(mk('p', 'muted', 'ยังไม่มีโพสต์'));
+      sorted(s.posts).forEach((p) => {
+        const text = p.kind === 'kudos' ? (p.line || p.tag || '') : (p.title ? p.title + ' — ' + (p.line || '') : (p.line || ''));
+        sc.append(row(KD[p.kind] || p.kind, text, p, [
+          btn(p.hidden ? '👁' : '🙈', p.hidden ? 'แสดงกลับ' : 'ซ่อนโพสต์นี้ (ไม่ลบ)', async () => { await api({ action: 'social_hide', id: p.id, hidden: !p.hidden }); openRoom(id); }),
+          btn('🗑', 'ลบโพสต์นี้', async () => { if (confirm('ลบโพสต์นี้?')) { await api({ action: 'social_delete', id: p.id }); openRoom(id); } })]));
+      });
+      sc.append(mk('h3', null, `คลิป (${s.clips.length})`)); sc.lastChild.style.marginTop = '12px';
+      if (!s.clips.length) sc.append(mk('p', 'muted', 'ยังไม่มีคลิป'));
+      sorted(s.clips).forEach((c) => {
+        const r = row('คลิป', c.title + (c.note ? ' — ' + c.note : ''), c, [
+          btn(c.hidden ? '👁' : '🙈', c.hidden ? 'แสดงกลับ' : 'ซ่อนคลิปนี้ (ไม่ลบ)', async () => { await api({ action: 'social_clip_hide', id: c.id, hidden: !c.hidden }); openRoom(id); }),
+          btn('🗑', 'ลบคลิปนี้', async () => { if (confirm('ลบคลิปนี้?')) { await api({ action: 'social_clip_delete', id: c.id }); openRoom(id); } })]);
+        const a = mk('a', null, '▶ เปิดใน YouTube'); a.href = 'https://www.youtube.com/watch?v=' + encodeURIComponent(c.yt_id); a.target = '_blank'; a.rel = 'noopener noreferrer'; r.append(a); sc.append(r);
+      });
+      sc.append(mk('h3', null, `ความเห็นที่ถูกรายงาน (${s.comments.length})`)); sc.lastChild.style.marginTop = '12px';
+      if (!s.comments.length) sc.append(mk('p', 'muted', 'ไม่มี'));
+      sorted(s.comments).forEach((c) => sc.append(row('ความเห็น', c.body, c, [btn('🗑', 'ลบความเห็นนี้', async () => { if (confirm('ลบความเห็นนี้?')) { await api({ action: 'social_comment_delete', id: c.id }); openRoom(id); } })])));
+      two.append(sc);
+    }
     // คลังสรุป/ชีทของห้อง: ดู ลบ (รูป/PDF เปิดผ่านลิงก์ชั่วคราว)
     const st = await api({ action: 'study_list', class_id: id });
     if (st.body.ok) {
