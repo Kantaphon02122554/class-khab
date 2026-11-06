@@ -457,6 +457,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .so-hint, .so-rules { font-size: 0.75rem; line-height: 1.7; color: #64748b; margin-top: 0.7rem; } .so-rules { margin-top: 1.1rem; text-align: center; }
       .so-empty { text-align: center; color: #64748b; font-size: 0.9rem; padding: 1.5rem 0; }
       #soList { display: flex; flex-direction: column; gap: 0.6rem; overflow-wrap: anywhere; }
+      /* มุมมองกริด (แบบ Pinterest) สลับด้วยปุ่มในช่องค้นหา จำค่าไว้ในเครื่อง */
+      #soList.so-grid { display: block; column-count: 2; column-gap: 0.6rem; } #soList.so-grid .so-k { break-inside: avoid; margin-bottom: 0.6rem; } @media (min-width: 900px) { #soList.so-grid { column-count: 3; } }
+      .so-vt { position: absolute; right: 0.45rem; top: 50%; width: 36px; height: 36px; margin-top: -18px; border: 0; border-radius: 999px; background: transparent; color: #64748b; display: grid; place-items: center; cursor: pointer; } .so-vt svg { position: static; margin: 0; width: 18px; height: 18px; pointer-events: none; } .so-vt[aria-pressed="true"] { background: #f1f5f9; color: #0f172a; } html.dark .so-vt[aria-pressed="true"] { background: #1a2540; color: #f1f5f9; } .so-srch input#soSearch { padding-right: 3rem; }
       .so-k { border: 1px solid #e2e8f0; border-radius: 14px; background: #fff; padding: 0.75rem 0.85rem; } html.dark .so-k { background: #111a2e; border-color: #243152; }
       .so-k .so-av { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 0.9rem; }
       .so-k .so-ph small { color: #64748b; font-size: 0.72rem; } html.dark .so-k .so-ph small { color: #94a3b8; }
@@ -963,7 +966,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                 </div>
                 <div id="soNote" class="so-msg hidden" role="status" aria-live="polite"></div>
                 <div id="soReadonly" class="pt-note hidden">ตอนนี้ดูได้อย่างเดียว แอดมินปิดการโพสต์ชั่วคราว</div>
-                <div class="so-srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="soSearch" type="search" placeholder="ค้นหาโพสต์ #แฮชแท็ก หรือชื่อเพื่อน" aria-label="ค้นหาโพสต์" autocomplete="off" oninput="soSearchInput()"></div>
+                <div class="so-srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="soSearch" type="search" placeholder="ค้นหาโพสต์ #แฮชแท็ก หรือชื่อเพื่อน" aria-label="ค้นหาโพสต์" autocomplete="off" oninput="soSearchInput()"><button id="soVT" type="button" class="so-vt" aria-pressed="false" aria-label="สลับเป็นมุมมองกริด" onclick="soViewToggle()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="9" rx="1.5"/><rect x="13" y="4" width="7" height="5" rx="1.5"/><rect x="13" y="11" width="7" height="9" rx="1.5"/><rect x="4" y="15" width="7" height="5" rx="1.5"/></svg></button></div>
                 <div id="soHot" class="so-chips hidden" role="group" aria-label="แฮชแท็กที่เพื่อนใช้ช่วงนี้"></div>
                 <div id="soSInfo" class="so-sinfo hidden" role="status" aria-live="polite"></div>
                 <div id="soStories" class="so-stories hidden" role="list" aria-label="โพสต์ของเพื่อนใน 24 ชั่วโมง"></div>
@@ -3470,6 +3473,10 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         ov.onclick = (e) => { if (e.target === ov) soStoryClose(); };
         x.focus();
       }
+      const SO_VIEW = 'classkhab_so_view';
+      function soViewApply(grid) { document.getElementById('soList').classList.toggle('so-grid', grid); const b = document.getElementById('soVT'); b.setAttribute('aria-pressed', String(grid)); b.setAttribute('aria-label', grid ? 'สลับเป็นมุมมองรายการ' : 'สลับเป็นมุมมองกริด'); }
+      function soViewToggle() { const g = !document.getElementById('soList').classList.contains('so-grid'); soViewApply(g); try { localStorage.setItem(SO_VIEW, g ? 'grid' : 'list'); } catch (e) { /* ไม่มี storage */ } }
+      try { if (localStorage.getItem(SO_VIEW) === 'grid') soViewApply(true); } catch (e) { /* ข้าม */ }
       let soComposeMode = 'text';
       function soPollVals() { return [...document.querySelectorAll('#soPOpts input')].map((i) => i.value.replace(/\s+/g, ' ').trim()).filter(Boolean); }
       function soCount() {
