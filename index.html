@@ -2007,6 +2007,15 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         return ios && !standalone;
       }
 
+      // Android/แท็บเล็ตที่เปิดในเบราว์เซอร์ (ยังไม่ติดตั้งแอป): เตือนก่อนเปิดแจ้งเตือน คืน true = ไปต่อ, false = ไปดูวิธีติดตั้ง
+      async function androidInstallWarn() {
+        const standalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+        if (standalone || !/android/i.test(navigator.userAgent)) return true;
+        if (confirm('⚠️ ยังไม่ได้ติดตั้งแอป ClassKhab\n\nถ้าไม่ติดตั้งแอป ระบบอาจแจ้งเตือนไม่ได้ (โดยเฉพาะตอนปิดเบราว์เซอร์) แนะนำให้ติดตั้งก่อน\n\nกด "ตกลง" เพื่อเปิดแจ้งเตือนต่อ\nกด "ยกเลิก" เพื่อดูวิธีติดตั้งแอป')) return true;
+        if (deferredInstall) installApp(); else openGuide('android');
+        return false;
+      }
+
       async function callPushApi(body, tokenOverride) {
         if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return { ok: false };
         try {
@@ -2779,9 +2788,11 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       // เปิด/ปิดแจ้งเตือนของเครื่องนี้ (ผูกกับห้องที่ล็อกอินอยู่)
       async function togglePush() {
         if (iosNeedsInstall()) {
-          alert('บน iPhone/iPad: กดปุ่มแชร์ แล้วเลือก "เพิ่มไปยังหน้าจอโฮม" จากนั้นเปิดแอป ClassKhab จากหน้าจอโฮม แล้วกด "เปิดแจ้งเตือน" อีกครั้ง\n\nหรือเลือกรับทางไลน์แทนได้');
+          alert('⚠️ ยังไม่ได้ติดตั้งแอป ระบบจะแจ้งเตือนบน iPhone/iPad ไม่ได้\n\nวิธีติดตั้ง: กดปุ่มแชร์ แล้วเลือก "เพิ่มไปยังหน้าจอโฮม" จากนั้นเปิดแอป ClassKhab จากหน้าจอโฮม แล้วกด "เปิดแจ้งเตือน" อีกครั้ง\n\nหรือเลือกรับทางไลน์แทนได้');
+          try { openGuide('ios'); } catch (e) { /* ข้าม */ }
           return;
         }
+        if (!(await androidInstallWarn())) return;
         if (!pushSupported) {
           alert('เบราว์เซอร์นี้ไม่รองรับการแจ้งเตือน ลองใช้ Chrome หรือเลือกรับทางไลน์แทน');
           return;
@@ -3033,6 +3044,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           let sub = await reg.pushManager.getSubscription();
           if (sub) { await callPushApi({ action: 'unsubscribe', subscription: sub.toJSON() }); await sub.unsubscribe(); }
           else {
+            if (!(await androidInstallWarn())) return;
             if ((await Notification.requestPermission()) !== 'granted') { alert('ยังไม่ได้อนุญาตการแจ้งเตือน เปิดได้ที่การตั้งค่าของเบราว์เซอร์'); return; }
             sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64uToUint8(VAPID_PUBLIC_KEY) });
             const r = await callPushApi({ action: 'subscribe_teacher', subscription: sub.toJSON() }, teacherToken());
