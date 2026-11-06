@@ -458,6 +458,75 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .so-act { min-height: 44px; min-width: 44px; padding: 0 0.6rem; border-radius: 10px; display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.8rem; font-weight: 600; color: #64748b; background: transparent; transition: color var(--d-med) var(--e-out), transform var(--d-fast) var(--e-out); } .so-act svg { width: 18px; height: 18px; } .so-act:active { transform: scale(0.94); }
       .so-act[aria-pressed="true"] { color: #be123c; } .so-act[aria-pressed="true"] svg { fill: currentColor; } html.dark .so-act[aria-pressed="true"] { color: #fb7185; }
       .so-rep { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.3rem; } .so-rep button { min-height: 44px; padding: 0 0.8rem; border-radius: 999px; border: 1px solid #cbd5e1; background: #fff; font-size: 0.8rem; color: #334155; } html.dark .so-rep button { background: #0b1220; border-color: #334155; color: #cbd5e1; }
+      /* โซเชียลรุ่น 2: ชนิดโพสต์ ตัวกรอง ความเห็น โปรไฟล์เพื่อน */
+      /* โซเชียลแบบ IG: แถบเขียนอะไรสักอย่าง + ปุ่ม + ลอย + หน้าเขียนโพสต์ + แตะสองครั้งเพื่อขอบคุณ */
+      .so-stub { margin-bottom: 0.8rem; } .so-stubb { width: 100%; min-height: 56px; display: flex; align-items: center; gap: 0.7rem; padding: 0.5rem 0.9rem 0.5rem 0.6rem; border: 1px solid #e2e8f0; border-radius: 999px; background: #fff; text-align: left; transition: background-color var(--d-med) var(--e-out), transform var(--d-fast) var(--e-out); } html.dark .so-stubb { background: #111a2e; border-color: #243152; } .so-stubb:active { transform: scale(0.985); } .so-stubb:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-stubb:focus-visible { outline-color: #e2e8f0; }
+      .so-stub-av { width: 38px; height: 38px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 0.9rem; background-size: cover; background-position: center; } .so-stubt { color: #64748b; font-size: 0.9rem; }
+      .so-fab { position: fixed; right: 16px; bottom: calc(92px + env(safe-area-inset-bottom)); z-index: 60; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #0f172a; color: #fff; box-shadow: 0 8px 20px rgba(15, 23, 42, 0.28); transition: transform var(--d-med) var(--e-spring); } html.dark .so-fab { background: #f1f5f9; color: #0f172a; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); } .so-fab svg { width: 26px; height: 26px; } .so-fab:active { transform: scale(0.92); } .so-fab:focus-visible { outline: 2px solid #0f172a; outline-offset: 3px; } html.dark .so-fab:focus-visible { outline-color: #e2e8f0; } .so-fab.hidden { display: none; }
+      @media (min-width: 1024px) { .so-fab { bottom: 24px; right: 24px; } }
+      .so-who { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.7rem; } .so-who .so-av { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 0.9rem; background-size: cover; background-position: center; } .so-who b { font-size: 0.95rem; }
+      #soBody { width: 100%; border: 1px solid #cbd5e1; border-radius: 12px; padding: 0.7rem 0.85rem; font-size: 1rem; line-height: 1.75; background: #fff; color: #0f172a; resize: none; min-height: 132px; } html.dark #soBody { background: #0b1220; border-color: #334155; color: #f1f5f9; } #soBody:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark #soBody:focus-visible { outline-color: #e2e8f0; }
+      .so-k { position: relative; touch-action: manipulation; } .so-ln { font-size: 0.95rem; }
+      .so-burst { position: absolute; left: 50%; top: 45%; width: 84px; height: 84px; margin: -42px 0 0 -42px; color: #e11d48; pointer-events: none; animation: soBurst .7s var(--e-out) forwards; } .so-burst svg { width: 100%; height: 100%; fill: currentColor; stroke: none; }
+      @keyframes soBurst { 0% { transform: scale(0.4); opacity: 0; } 25% { transform: scale(1.15); opacity: 0.95; } 100% { transform: scale(1); opacity: 0; } }
+      @media (prefers-reduced-motion: reduce) { .so-burst { animation: none; display: none; } .so-fab, .so-stubb { transition: none; } }
+      .so-new { width: 100%; margin-bottom: 0.9rem; }
+      /* แท็บคลิป: สลับ ฟีด | คลิป, ช่องค้นหา, กริดการ์ดแบบ Pinterest, ตัวดูคลิป */
+      /* Reels: แถบบรรทัดเดียวในฟีด กดแล้วเปิดหน้าเต็มจอ (กริดคลิป + ค้นหา) ไม่เบียดฟีด */
+      .so-rb { width: 100%; min-height: 52px; display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.8rem; padding: 0.4rem 0.8rem; border: 1px solid #e2e8f0; border-radius: 14px; background: #fff; text-align: left; transition: transform var(--d-fast) var(--e-out); } html.dark .so-rb { background: #111a2e; border-color: #243152; } .so-rb:active { transform: scale(0.985); } .so-rb:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-rb:focus-visible { outline-color: #e2e8f0; } .so-rb.hidden { display: none; }
+      .so-rb-i { flex: none; width: 32px; height: 32px; border-radius: 10px; background: #0f172a; color: #fff; display: flex; align-items: center; justify-content: center; } html.dark .so-rb-i { background: #f1f5f9; color: #0f172a; } .so-rb-i svg { width: 16px; height: 16px; }
+      .so-rb-t { flex: 1; min-width: 0; line-height: 1.35; } .so-rb-t b { display: block; font-size: 0.9rem; color: #0f172a; } html.dark .so-rb-t b { color: #f8fafc; } .so-rb-t small { display: block; font-size: 0.75rem; color: #64748b; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .so-rb-th { display: flex; flex: none; padding-left: 8px; } .so-rb-th img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; margin-left: -8px; background: #cbd5e1; } html.dark .so-rb-th img { border-color: #111a2e; }
+      .so-reels { position: fixed; inset: 0; z-index: 85; overflow-y: auto; overscroll-behavior: contain; background: #f8fafc; padding: 0 1rem calc(2rem + env(safe-area-inset-bottom)); animation: pfFade .2s ease-out; } html.dark .so-reels { background: #0b1220; } .so-reels.hidden { display: none; } .so-reels > * { max-width: 44rem; margin-left: auto; margin-right: auto; }
+      .so-rl-h { position: sticky; top: 0; z-index: 3; display: flex; align-items: center; justify-content: space-between; padding: 0.7rem 0; background: inherit; } .so-rl-h b { font-size: 1.3rem; font-weight: 800; color: #0f172a; } html.dark .so-rl-h b { color: #f8fafc; } .so-rl-x { color: #0f172a; } html.dark .so-rl-x { color: #f8fafc; } .so-rl-x:focus-visible { outline-color: #0f172a; } html.dark .so-rl-x:focus-visible { outline-color: #e2e8f0; }
+      #soClipComp, #soClipView { z-index: 95; }
+      @media (prefers-reduced-motion: reduce) { .so-reels { animation: none; } .so-rb { transition: none; } }
+      .so-tabs { display: flex; gap: 0.3rem; padding: 0.25rem; border-radius: 999px; background: #f1f5f9; margin-bottom: 0.9rem; } html.dark .so-tabs { background: #111a2e; }
+      .so-tabs button { flex: 1; min-height: 44px; border-radius: 999px; font-size: 0.9rem; font-weight: 700; color: #64748b; background: transparent; transition: background-color var(--d-med) var(--e-out), color var(--d-med) var(--e-out); } .so-tabs button[aria-selected="true"] { background: #fff; color: #0f172a; box-shadow: 0 1px 3px rgba(15, 23, 42, 0.14); } html.dark .so-tabs button[aria-selected="true"] { background: #243152; color: #f8fafc; } .so-tabs button:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-tabs button:focus-visible { outline-color: #e2e8f0; }
+      .so-srch { position: relative; margin-bottom: 0.7rem; } .so-srch svg { position: absolute; left: 0.9rem; top: 50%; width: 18px; height: 18px; margin-top: -9px; color: #64748b; pointer-events: none; } .so-srch input { width: 100%; min-height: 48px; padding: 0 1rem 0 2.6rem; border: 1px solid #cbd5e1; border-radius: 999px; background: #fff; color: #0f172a; font-size: 0.95rem; } html.dark .so-srch input { background: #0b1220; border-color: #334155; color: #f1f5f9; } .so-srch input:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-srch input:focus-visible { outline-color: #e2e8f0; }
+      .so-grid { column-count: 2; column-gap: 0.6rem; } @media (min-width: 640px) { .so-grid { column-count: 3; } }
+      .so-cc { position: relative; display: block; width: 100%; margin: 0 0 0.6rem; padding: 0; border-radius: 16px; overflow: hidden; background: #0f172a; break-inside: avoid; transition: transform var(--d-med) var(--e-out); } .so-cc:active { transform: scale(0.97); } .so-cc:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-cc:focus-visible { outline-color: #e2e8f0; }
+      .so-cc img { display: block; width: 100%; height: auto; object-fit: cover; background: #1e293b; } .so-cc img.bad { min-height: 110px; }
+      .so-cc-sh { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.18) 55%, transparent); pointer-events: none; }
+      .so-cc-top { position: absolute; left: 0; top: 0; right: 0; padding: 0.6rem 0.65rem; text-align: left; color: #fff; } .so-cc-h { display: block; } .so-cc-r { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.25rem; }
+      .so-cc-av { flex: none; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid rgba(255, 255, 255, 0.85); font-size: 0.65rem; font-weight: 800; color: #fff; background-size: cover; background-position: center; } .so-cc-nm { font-size: 0.78rem; font-weight: 700; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .so-cc-tt { display: block; font-size: 0.85rem; font-weight: 600; line-height: 1.5; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6); overflow-wrap: anywhere; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; padding-bottom: 0.1em; }
+      .so-cc-pl { position: absolute; right: 0.55rem; bottom: 0.55rem; width: 36px; height: 36px; border-radius: 50%; background: rgba(0, 0, 0, 0.55); color: #fff; display: flex; align-items: center; justify-content: center; } .so-cc-pl svg { width: 20px; height: 20px; }
+      .so-center { text-align: center; } .so-in { width: 100%; min-height: 48px; border: 1px solid #cbd5e1; border-radius: 10px; padding: 0 0.85rem; font-size: 0.95rem; background: #fff; color: #0f172a; } html.dark .so-in { background: #0b1220; border-color: #334155; color: #f1f5f9; } .so-in:focus-visible, .so-ta:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-in:focus-visible, html.dark .so-ta:focus-visible { outline-color: #e2e8f0; }
+      .so-ta { width: 100%; border: 1px solid #cbd5e1; border-radius: 10px; padding: 0.6rem 0.85rem; font-size: 0.95rem; line-height: 1.7; background: #fff; color: #0f172a; resize: none; } html.dark .so-ta { background: #0b1220; border-color: #334155; color: #f1f5f9; }
+      .so-cv { max-width: 40rem; } .so-cvt { font-size: 0.95rem; line-height: 1.5; padding-right: 0.5rem; overflow-wrap: anywhere; } .so-cvf { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; border-radius: 12px; overflow: hidden; } .so-cvf iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+      .so-cvw { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.6rem; } .so-cvw .so-av-s { display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; } .so-cv .so-ac { margin-left: -0.5rem; } .so-cv .so-pfb { margin: 0.7rem 0 0; }
+      @media (prefers-reduced-motion: reduce) { .so-cc, .so-tabs button { transition: none; } }
+      /* สตอรี่: แถววงกลม + ตัวดูเต็มจอ (ข้อความบนพื้นสีของโปรไฟล์ ไม่มีรูปถ่าย) */
+      .so-stories { display: flex; gap: 0.9rem; overflow-x: auto; padding: 0.1rem 0.1rem 0.8rem; margin-bottom: 0.2rem; scrollbar-width: none; } .so-stories::-webkit-scrollbar { display: none; } .so-stories.hidden { display: none; }
+      .so-sr { flex: none; width: 72px; display: flex; flex-direction: column; align-items: center; gap: 0.35rem; background: transparent; border-radius: 12px; padding: 0.15rem 0; } .so-sr:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-sr:focus-visible { outline-color: #e2e8f0; }
+      .so-sr-r { width: 68px; height: 68px; border-radius: 50%; padding: 3px; background: linear-gradient(135deg, #0f172a, #64748b); display: block; transition: transform var(--d-med) var(--e-out); } .so-sr:active .so-sr-r { transform: scale(0.94); } .so-sr-r.seen { background: #cbd5e1; } html.dark .so-sr-r.seen { background: #334155; } html.dark .so-sr-r { background: linear-gradient(135deg, #e2e8f0, #64748b); }
+      .so-sr-i { display: block; width: 100%; height: 100%; border-radius: 50%; padding: 2px; background: #fff; } html.dark .so-sr-i { background: #0b1220; }
+      .so-sr-a { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: 50%; color: #fff; font-weight: 800; font-size: 1.15rem; background-size: cover; background-position: center; }
+      .so-sr-n { font-size: 0.72rem; color: #475569; max-width: 72px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.5; } html.dark .so-sr-n { color: #cbd5e1; }
+      .so-sr-c { position: relative; width: 68px; height: 68px; border-radius: 50%; border: 2px dashed #94a3b8; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #64748b; } html.dark .so-sr-c { background: #111a2e; border-color: #475569; } .so-sr-c > svg { width: 28px; height: 28px; }
+      .so-sr-plus { position: absolute; right: -2px; bottom: -2px; width: 24px; height: 24px; border-radius: 50%; background: #0f172a; color: #fff; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; } html.dark .so-sr-plus { background: #f1f5f9; color: #0f172a; border-color: #0b1220; } .so-sr-plus svg { width: 14px; height: 14px; }
+      .so-story { position: fixed; inset: 0; z-index: 90; background: rgba(2, 6, 23, 0.9); display: flex; align-items: center; justify-content: center; animation: pfFade .2s ease-out; } .so-story.hidden { display: none; }
+      .so-st-card { position: relative; width: min(100vw, 26rem); height: min(100dvh, 46rem); display: flex; flex-direction: column; overflow: hidden; color: #fff; background: linear-gradient(160deg, var(--sc, #0f172a) 0%, #0b1220 125%); } @media (min-width: 480px) { .so-st-card { border-radius: 20px; } }
+      .so-st-card::before { content: ''; position: absolute; inset: 0; background: rgba(0, 0, 0, 0.22); pointer-events: none; }
+      .so-pbs { position: relative; z-index: 2; display: flex; gap: 4px; padding: 12px 12px 0; } .so-pb { flex: 1; height: 3px; border-radius: 2px; background: rgba(255, 255, 255, 0.35); overflow: hidden; } .so-pb i { display: block; height: 100%; width: 0; background: #fff; } .so-pb i.done { width: 100%; } .so-pb i.run { animation: soPb 6s linear forwards; } .so-st-card.paused .so-pb i.run { animation-play-state: paused; }
+      @keyframes soPb { from { width: 0; } to { width: 100%; } }
+      .so-sth { position: relative; z-index: 2; display: flex; align-items: center; gap: 0.6rem; padding: 12px; } .so-sth .so-av-s { display: flex; align-items: center; justify-content: center; color: #fff; border: 2px solid rgba(255, 255, 255, 0.8); } .so-stw { flex: 1; min-width: 0; line-height: 1.4; } .so-stw b { display: block; font-size: 0.9rem; } .so-stw small { font-size: 0.72rem; color: rgba(255, 255, 255, 0.85); }
+      .so-stx { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; color: #fff; background: transparent; border-radius: 50%; } .so-stx svg { width: 22px; height: 22px; } .so-stx:focus-visible, .so-stz:focus-visible { outline: 2px solid #fff; outline-offset: -3px; }
+      .so-stb { position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 0.7rem; padding: 0 1.5rem 3rem; text-align: center; overflow-wrap: anywhere; touch-action: manipulation; }
+      .so-stp { align-self: center; padding: 0.15rem 0.8rem 0.2rem; border-radius: 999px; background: rgba(255, 255, 255, 0.2); font-size: 0.8rem; font-weight: 700; line-height: 1.7; } .so-stt { font-size: 1.25rem; font-weight: 800; line-height: 1.5; } .so-stl { font-size: 1.35rem; font-weight: 600; line-height: 1.75; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.35); }
+      .so-stz { position: absolute; top: 72px; bottom: 0; z-index: 3; width: 38%; background: transparent; } .so-stz-l { left: 0; } .so-stz-r { right: 0; width: 62%; }
+      @media (prefers-reduced-motion: reduce) { .so-story { animation: none; } .so-sr-r { transition: none; } }
+      .so-seg { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-bottom: 0.9rem; } .so-chips { display: flex; gap: 0.45rem; overflow-x: auto; padding: 0.1rem 0 0.7rem; scrollbar-width: none; } .so-chips::-webkit-scrollbar { display: none; } .so-chips .so-tag, .so-seg .so-tag { flex: none; }
+      .so-card2 textarea { width: 100%; border: 1px solid #cbd5e1; border-radius: 10px; padding: 0.6rem 0.8rem; font-size: 0.9rem; line-height: 1.7; background: #fff; color: #0f172a; resize: vertical; min-height: 96px; } html.dark .so-card2 textarea { background: #0b1220; border-color: #334155; color: #f1f5f9; } .so-card2 textarea:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-card2 textarea:focus-visible { outline-color: #e2e8f0; }
+      .so-avb { padding: 0; border-radius: 50%; background: transparent; flex: none; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; } .so-av-s { width: 28px; height: 28px; font-size: 0.75rem; }
+      .so-tt { margin-top: 0.4rem; font-size: 1.02rem; font-weight: 700; line-height: 1.5; color: #0f172a; } html.dark .so-tt { color: #f8fafc; }
+      .so-pill-work { background: #dbeafe; color: #1e3a8a; } .so-pill-offer { background: #dcfce7; color: #14532d; } html.dark .so-pill-work { background: #172554; color: #bfdbfe; } html.dark .so-pill-offer { background: #0d3320; color: #bbf7d0; }
+      .so-cm { margin-top: 0.4rem; padding-top: 0.6rem; border-top: 1px solid #e2e8f0; } html.dark .so-cm { border-top-color: #243152; } .so-cl { display: flex; flex-direction: column; gap: 0.55rem; margin-bottom: 0.6rem; }
+      .so-ci { display: flex; gap: 0.5rem; align-items: flex-start; } .so-ct { flex: 1; min-width: 0; } .so-cn { font-size: 0.78rem; } .so-cn small { color: #64748b; } .so-ct p { font-size: 0.88rem; line-height: 1.7; color: #0f172a; } html.dark .so-ct p { color: #f1f5f9; }
+      .so-cx { min-height: 44px; padding: 0 0.5rem; font-size: 0.75rem; color: #64748b; background: transparent; border-radius: 8px; flex: none; } .so-cx:focus-visible { outline: 2px solid #0f172a; } html.dark .so-cx:focus-visible { outline-color: #e2e8f0; }
+      .so-pfh { display: flex; gap: 0.9rem; align-items: center; margin: 0.4rem 0 1rem; } .so-pfh .pf-av { flex: none; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; } .so-pfh b { font-size: 1.05rem; } .so-pfb { color: #64748b; font-size: 0.88rem; line-height: 1.7; margin-top: 0.15rem; overflow-wrap: anywhere; }
+      .so-pfp { display: flex; flex-direction: column; gap: 0.5rem; } .so-pr { display: flex; gap: 0.5rem; align-items: baseline; font-size: 0.88rem; line-height: 1.7; overflow-wrap: anywhere; } .so-pr .so-pill { margin-top: 0; flex: none; }
       @keyframes soPop { 0% { transform: scale(0.85); } 55% { transform: scale(1.18); } 100% { transform: scale(1); } }
       .so-act.pop svg { animation: soPop var(--d-med) var(--e-spring); }
       @media (prefers-reduced-motion: reduce) { .so-act.pop svg { animation: none; } .so-tag, .so-btn, .so-act { transition: none; } }
@@ -872,25 +941,71 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             <!-- โซเชียล (เร็วๆ นี้) -->
             <div id="socialV2" class="v2-only v-social">
               <!-- กำแพงขอบคุณรายห้อง (โซเชียลรุ่นแรก) แสดงเมื่อแอดมินเปิดห้องนี้เท่านั้น ไม่งั้นแสดง "กำลังเตรียม" ด้านล่าง -->
-              <div id="soWall" class="so-w hidden">
-                <div class="so-wh"><h2>กำแพงขอบคุณ</h2><p>ขอบคุณเพื่อนในห้องสั้นๆ เห็นกันเฉพาะห้องเรา</p></div>
+              <div id="soWall" class="so-w hidden" data-tab="feed">
                 <div id="soNeedLogin" class="pt-note hidden">ใช้ได้เมื่อเข้าด้วยเลขประจำตัวหรืออีเมลโรงเรียน ไปที่โปรไฟล์ → ออกจากระบบ → เข้าใหม่ด้วยเลขประจำตัว</div>
                 <div id="soNickBox" class="so-card2 hidden">
                   <label for="soNickIn" class="so-lb">ตั้งชื่อเล่นก่อนโพสต์ <small>ใช้ชื่อเล่นเดียวกับแชต ตั้งแล้วเปลี่ยนเองไม่ได้</small></label>
                   <div class="so-row"><input id="soNickIn" maxlength="16" placeholder="เช่น ปัน" autocomplete="off"><button type="button" class="so-btn" onclick="soSetNick()">ตั้งชื่อ</button></div>
                 </div>
-                <div id="soComposer" class="so-card2 hidden">
-                  <div class="so-lb" id="soTagLb">ขอบคุณเรื่องอะไร</div>
-                  <div id="soTags" class="so-tags" role="radiogroup" aria-labelledby="soTagLb"></div>
-                  <label for="soLine" class="so-lb so-lb2">ข้อความสั้นๆ <small>ไม่บังคับ</small></label>
-                  <input id="soLine" maxlength="80" placeholder="เช่น ขอบคุณที่ติวเลขให้เมื่อวาน" autocomplete="off" oninput="soCount()">
-                  <div class="so-row so-row-end"><span id="soCnt" class="so-cnt" aria-hidden="true">0/80</span><button id="soSend" type="button" class="so-btn so-btn-p" onclick="soPost()" disabled>ส่งขอบคุณ</button></div>
-                  <p id="soMsg" class="so-msg hidden" role="status" aria-live="polite"></p>
-                  <p class="so-hint">ห้ามใส่ชื่อจริง เบอร์ ไอดี หรือลิงก์ · ข้อความที่พิมพ์เองจะถูกตรวจอัตโนมัติก่อนขึ้น (ส่งแท็กอย่างเดียวไม่ต้องตรวจ) · แอดมินดูได้ว่าใครโพสต์</p>
-                </div>
+                <div id="soNote" class="so-msg hidden" role="status" aria-live="polite"></div>
                 <div id="soReadonly" class="pt-note hidden">ตอนนี้ดูได้อย่างเดียว แอดมินปิดการโพสต์ชั่วคราว</div>
-                <div id="soList" role="feed" aria-label="ขอบคุณจากเพื่อนในห้อง" lang="th"></div>
-                <div id="soEmpty" class="so-empty hidden">ยังไม่มีใครขอบคุณใครเลย เป็นคนแรกของห้องได้เลย</div>
+                <div id="soStories" class="so-stories hidden" role="list" aria-label="โพสต์ของเพื่อนใน 24 ชั่วโมง"></div>
+                <div id="soStory" class="so-story hidden" role="dialog" aria-modal="true" aria-label="ดูโพสต์แบบสตอรี่"></div>
+                <div id="soStub" class="so-stub hidden"><button type="button" class="so-stubb" onclick="soCompOpen()"><span id="soStubAv" class="so-stub-av" aria-hidden="true"></span><span class="so-stubt">เขียนอะไรสักอย่างให้เพื่อนในห้อง…</span></button></div>
+                <button id="soReelBar" type="button" class="so-rb hidden" onclick="soReelsOpen()" aria-haspopup="dialog" aria-label="เปิด Reels คลิปจากเพื่อน"></button>
+                <div id="soList" role="feed" aria-label="โพสต์ของเพื่อนในห้อง" lang="th"></div>
+                <div id="soEmpty" class="so-empty hidden">ยังไม่มีโพสต์ในห้องเลย เป็นคนแรกได้เลย</div>
+                <button id="soFab" type="button" class="so-fab hidden" aria-label="เขียนโพสต์ใหม่" onclick="soCompOpen()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+                <div id="soComp" class="pf-sheet hidden" onclick="if(event.target===this)soCompClose()">
+                  <div class="pf-panel" role="dialog" aria-label="โพสต์ใหม่">
+                    <div class="pf-ph"><b>โพสต์ใหม่</b><button type="button" onclick="soCompClose()" aria-label="ปิด"><i data-lucide="x"></i></button></div>
+                    <div class="so-who"><div id="soCompAv" class="so-av"></div><b id="soCompNick"></b></div>
+                    <label for="soBody" class="sr-only">ข้อความโพสต์</label>
+                    <textarea id="soBody" maxlength="280" rows="5" placeholder="เขียนอะไรสักอย่าง เช่น ขอบคุณเพื่อน โชว์ผลงาน หรือชวนติวฟรี" oninput="soCount()"></textarea>
+                    <div class="so-row so-row-end"><span id="soCnt" class="so-cnt" aria-hidden="true">0/280</span><button id="soSend" type="button" class="so-btn so-btn-p" onclick="soPost()" disabled>โพสต์</button></div>
+                    <p id="soMsg" class="so-msg hidden" role="status" aria-live="polite"></p>
+                    <p class="so-hint">ห้ามใส่ชื่อจริง เบอร์ ไอดี ลิงก์ หรือราคา · ข้อความจะถูกตรวจอัตโนมัติก่อนขึ้น · แอดมินดูได้ว่าใครโพสต์</p>
+                  </div>
+                </div>
+                <div id="soClipsPane" class="so-reels hidden" role="dialog" aria-modal="true" aria-label="Reels คลิปจากเพื่อน">
+                  <div class="so-rl-h"><b>Reels</b><button type="button" class="so-stx so-rl-x" onclick="soReelsClose()" aria-label="ปิด Reels"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+                  <div class="so-srch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="soQ" type="search" placeholder="ค้นหาคลิป ชื่อคลิป หรือชื่อเล่นเพื่อน" aria-label="ค้นหาคลิป" autocomplete="off" oninput="soClipsRender()"></div>
+                  <button id="soClipAdd" type="button" class="so-btn so-btn-p so-new hidden" onclick="soClipCompOpen()">แชร์คลิป YouTube</button>
+                  <div id="soGrid" class="so-grid" role="list" lang="th"></div>
+                  <div id="soClipEmpty" class="so-empty hidden"></div>
+                  <p class="so-hint so-center">ภาพปกโหลดจาก YouTube โดยตรง · คลิปเปิดดูผ่านตัวเล่นของ YouTube</p>
+                </div>
+                <div id="soClipComp" class="pf-sheet hidden" onclick="if(event.target===this)soClipCompClose()">
+                  <div class="pf-panel" role="dialog" aria-label="แชร์คลิป">
+                    <div class="pf-ph"><b>แชร์คลิป YouTube</b><button type="button" onclick="soClipCompClose()" aria-label="ปิด"><i data-lucide="x"></i></button></div>
+                    <label for="soClipUrl" class="so-lb">ลิงก์ YouTube</label>
+                    <input id="soClipUrl" class="so-in" inputmode="url" autocomplete="off" placeholder="วางลิงก์ youtube.com หรือ youtu.be" oninput="soClipCount()">
+                    <label for="soClipTitle" class="so-lb so-lb2">ชื่อที่ใช้ค้นหา <small>ไม่เกิน 60 ตัว</small></label>
+                    <input id="soClipTitle" class="so-in" maxlength="60" autocomplete="off" placeholder="เช่น สรุปฟิสิกส์ แรงและการเคลื่อนที่" oninput="soClipCount()">
+                    <label for="soClipNote" class="so-lb so-lb2">ทำไมน่าดู <small>ไม่บังคับ</small></label>
+                    <textarea id="soClipNote" class="so-ta" maxlength="120" rows="3" placeholder="เช่น อธิบายเข้าใจง่าย ยาว 8 นาที" oninput="soClipCount()"></textarea>
+                    <div class="so-row so-row-end"><span id="soClipCnt" class="so-cnt" aria-hidden="true">0/120</span><button id="soClipSend" type="button" class="so-btn so-btn-p" onclick="soClipPost()" disabled>แชร์</button></div>
+                    <p id="soClipMsg" class="so-msg hidden" role="status" aria-live="polite"></p>
+                    <p class="so-hint">ใช้ลิงก์ YouTube เท่านั้น · ระบบตรวจชื่อคลิปจริงกับข้อความที่พิมพ์ก่อนขึ้น · ห้ามคลิปที่ไม่เหมาะกับนักเรียน · แอดมินดูได้ว่าใครแชร์</p>
+                  </div>
+                </div>
+                <div id="soClipView" class="pf-sheet hidden" onclick="if(event.target===this)soClipViewClose()">
+                  <div class="pf-panel so-cv" role="dialog" aria-label="ดูคลิป">
+                    <div class="pf-ph"><b id="soCvT" class="so-cvt"></b><button type="button" onclick="soClipViewClose()" aria-label="ปิด"><i data-lucide="x"></i></button></div>
+                    <div id="soCvFrame" class="so-cvf"></div>
+                    <p id="soCvNote" class="so-pfb"></p>
+                    <div id="soCvWho" class="so-cvw"></div>
+                    <div id="soCvAct" class="so-ac"></div>
+                  </div>
+                </div>
+                <div id="soProf" class="pf-sheet hidden" onclick="if(event.target===this)soProfClose()">
+                  <div class="pf-panel" role="dialog" aria-label="โปรไฟล์เพื่อน">
+                    <div class="pf-ph"><b>โปรไฟล์</b><button type="button" onclick="soProfClose()" aria-label="ปิด"><i data-lucide="x"></i></button></div>
+                    <div class="so-pfh"><div id="soProfAv" class="pf-av pf-av-lg"></div><div><b id="soProfNick"></b><p id="soProfBio" class="so-pfb"></p></div></div>
+                    <div class="so-lb" id="soProfLb">โพสต์ล่าสุด</div>
+                    <div id="soProfPosts" class="so-pfp"></div>
+                  </div>
+                </div>
                 <p class="so-rules">กติกา: พูดดีๆ ต่อกัน · ไม่แซะ ไม่ล้อ · ไม่ใส่ข้อมูลส่วนตัวของใคร · เจอโพสต์ที่ไม่โอเคกด "รายงาน" แอดมินจะดู</p>
               </div>
               <div class="so-wrap" id="soClosed">
@@ -3063,19 +3178,21 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         document.getElementById('ctSheet').classList.remove('hidden'); if (window.lucide) lucide.createIcons();
       }
       function closeContact() { document.getElementById('ctSheet').classList.add('hidden'); }
-      // ---- โซเชียล: กำแพงขอบคุณรายห้อง ----
-      // เปิดเฉพาะห้องที่แอดมินเปิด (ฟังก์ชัน social ตอบ enabled) ข้อความของผู้ใช้ใส่ด้วย textContent เท่านั้น
+      // ---- โซเชียลห้องเรา: โพสต์ข้อความอย่างเดียว ไม่มีหมวดหมู่ ----
+      // เปิดเฉพาะห้องที่แอดมินเปิด (ฟังก์ชัน social ตอบ enabled) ข้อความของผู้ใช้ใส่ด้วย textContent เท่านั้น ไม่มีรูปถ่ายขึ้นเซิร์ฟเวอร์
+      // โพสต์เก่าที่เป็นขอบคุณ/ผลงาน/บริการฟรี ยังแสดงได้ตามเดิม (ป้ายชนิดแสดงเฉพาะโพสต์เก่า)
       const SO_TAGS = { helped: 'ช่วยเพื่อน', explained: 'อธิบายเก่ง', funny: 'ทำให้ขำ', teamwork: 'ทำงานกลุ่มดี', kind: 'ใจดี' };
+      const SO_KINDS = { kudos: 'ขอบคุณ', work: 'ผลงาน', offer: 'บริการฟรี' };
       const SO_ERR = {
-        auth: 'ต้องเข้าสู่ระบบห้องใหม่หนึ่งครั้งก่อนใช้งาน', closed: 'ห้องนี้ยังไม่เปิดกำแพงขอบคุณ', banned: 'คุณถูกระงับชั่วคราว โพสต์ไม่ได้ในตอนนี้', readonly: 'ตอนนี้ดูได้อย่างเดียว แอดมินปิดการโพสต์ชั่วคราว',
-        slow: 'ช้าลงนิดหนึ่ง รอสักครู่แล้วส่งใหม่', rate: 'วันนี้โพสต์ครบจำนวนแล้ว พรุ่งนี้ส่งต่อได้', net: 'เชื่อมต่อไม่ได้ ตรวจอินเทอร์เน็ตแล้วลองใหม่',
+        auth: 'ต้องเข้าสู่ระบบห้องใหม่หนึ่งครั้งก่อนใช้งาน', closed: 'ห้องนี้ยังไม่เปิดโซเชียล', banned: 'คุณถูกระงับชั่วคราว โพสต์ไม่ได้ในตอนนี้', readonly: 'ตอนนี้ดูได้อย่างเดียว แอดมินปิดการโพสต์ชั่วคราว',
+        slow: 'ช้าลงนิดหนึ่ง รอสักครู่แล้วส่งใหม่', rate: 'วันนี้ส่งครบจำนวนแล้ว พรุ่งนี้ส่งต่อได้', net: 'เชื่อมต่อไม่ได้ ตรวจอินเทอร์เน็ตแล้วลองใหม่', empty: 'พิมพ์ข้อความก่อนส่ง',
         filter_contact: 'ห้ามใส่เบอร์ อีเมล หรือไอดีติดต่อ ลบออกแล้วลองใหม่', filter_link: 'ห้ามใส่ลิงก์ ลบออกแล้วลองใหม่', filter_word: 'ข้อความมีคำที่ไม่อนุญาต ปรับถ้อยคำแล้วลองใหม่',
-        ai_bullying: 'ข้อความนี้อาจทำให้เพื่อนไม่สบายใจ ลองเขียนใหม่ให้เป็นคำขอบคุณตรงๆ หรือส่งแค่แท็ก', ai_private: 'ดูเหมือนมีข้อมูลส่วนตัวของใครบางคน ลบออกแล้วลองใหม่',
-        ai_sexual: 'ข้อความนี้ไม่เหมาะกับกำแพงนี้ ลองเขียนใหม่', ai_other: 'ข้อความนี้ไม่ใช่คำขอบคุณ ลองเขียนใหม่หรือส่งแค่แท็ก',
-        review_unavailable: 'ตอนนี้ตรวจข้อความไม่ได้ ส่งแค่แท็กไปก่อน หรือลองใหม่ภายหลัง', nick_taken: 'ชื่อเล่นนี้มีคนใช้แล้วในห้อง', nick_length: 'ชื่อเล่นต้องยาว 2–16 ตัวอักษร',
+        ai_bullying: 'ข้อความนี้อาจทำให้เพื่อนไม่สบายใจ ลองเขียนใหม่', ai_private: 'ดูเหมือนมีข้อมูลส่วนตัวของใครบางคน ลบออกแล้วลองใหม่',
+        ai_sexual: 'ข้อความนี้ไม่เหมาะกับพื้นที่นี้ ลองเขียนใหม่', ai_other: 'ข้อความนี้ใช้ไม่ได้ที่นี่ (ไม่ขายของ ไม่ใส่ราคา ไม่ชวนคุยนอกแอป) ลองเขียนใหม่',
+        review_unavailable: 'ตอนนี้ตรวจข้อความไม่ได้ ลองใหม่ภายหลัง', nick_taken: 'ชื่อเล่นนี้มีคนใช้แล้วในห้อง', nick_length: 'ชื่อเล่นต้องยาว 2–16 ตัวอักษร',
         nick_chars: 'ใช้ได้เฉพาะตัวอักษรไทย อังกฤษ ตัวเลข และเว้นวรรค', nick_reserved: 'ชื่อนี้สงวนไว้ เลือกชื่ออื่น', nick_word: 'ชื่อนี้ไม่อนุญาต เลือกชื่ออื่น',
       };
-      let soTag = '', soNick = null, soTimer = null, soBusy = false, soOpenNow = false;
+      let soItems = [], soTimer = null, soBusy = false, soOpenNow = false, soNick = null, soCanPost = false;
       const soCall = async (body) => {
         const token = getToken(); if (!token) return { ok: false, error: 'auth' };
         try {
@@ -3083,85 +3200,338 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const j = await res.json().catch(() => ({})); if (res.status === 401) localStorage.removeItem('classkhab_token'); return { ...j, status: res.status };
         } catch (e) { return { ok: false, error: 'net' }; }
       };
-      function soMsg(text, kind) {
-        const m = document.getElementById('soMsg'); m.textContent = text || ''; m.className = 'so-msg' + (kind ? ' ' + kind : '') + (text ? '' : ' hidden');
+      const soMyAv = () => Math.max(0, PF_COLORS.indexOf(readProfile().color));
+      function soSay(id, text, kind) {   // ข้อความแจ้งสั้นๆ: soMsg อยู่ในหน้าเขียนโพสต์ soNote อยู่เหนือฟีด
+        const m = document.getElementById(id); if (!m) return; m.textContent = text || ''; m.className = 'so-msg' + (kind ? ' ' + kind : '') + (text ? '' : ' hidden');
       }
+      const soMsg = (t, k) => soSay('soMsg', t, k), soNote = (t, k) => soSay('soNote', t, k);
       function soShow(wall) { document.getElementById('soWall').classList.toggle('hidden', !wall); document.getElementById('soClosed').classList.toggle('hidden', wall); }
-      function soBuildTags() {
-        const box = document.getElementById('soTags'); if (box.children.length) return;
-        Object.entries(SO_TAGS).forEach(([k, label]) => {
-          const b = mk('button', 'so-tag', label); b.type = 'button'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', 'false'); b.dataset.tag = k;
-          b.onclick = () => { soTag = k; box.querySelectorAll('.so-tag').forEach((x) => x.setAttribute('aria-checked', String(x === b))); soCount(); };
-          box.appendChild(b);
-        });
-      }
-      function soCount() {
-        const v = document.getElementById('soLine').value;
-        document.getElementById('soCnt').textContent = [...v].length + '/80';
-        document.getElementById('soSend').disabled = !soTag || soBusy;
-      }
       function soAgo(iso) {
         const s = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
         if (s < 60) return 'เมื่อกี้'; if (s < 3600) return Math.floor(s / 60) + ' นาทีที่แล้ว'; if (s < 86400) return Math.floor(s / 3600) + ' ชม.ที่แล้ว'; return Math.floor(s / 86400) + ' วันที่แล้ว';
       }
-      const SO_HUES = ['#fecaca', '#fed7aa', '#fde68a', '#bbf7d0', '#a5f3fc', '#bfdbfe', '#ddd6fe', '#fbcfe8'];
-      const soHue = (s) => { let h = 0; for (const c of s) h = (h * 31 + c.codePointAt(0)) >>> 0; return SO_HUES[h % SO_HUES.length]; };
+      // รูปโปรไฟล์: ของตัวเองใช้รูป/สีที่ตั้งในโปรไฟล์ (เก็บในเครื่อง) ของคนอื่นเห็นเป็นสีพื้นที่เขาเลือก + ตัวอักษรแรกของชื่อเล่น (รูปถ่ายไม่ได้ส่งขึ้นเซิร์ฟเวอร์)
+      function soAvatar(el, it) {
+        if (it.own) paintAvatar(el, { ...readProfile(), name: it.nick }); else paintAvatar(el, { color: PF_COLORS[it.av] || PF_COLORS[0], name: it.nick });
+        el.style.backgroundSize = 'cover'; el.style.backgroundPosition = 'center';
+      }
       const SO_HEART = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>';
+      const SO_CHAT = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+      function soReportBox(anchor, send, afterOk) {   // เลือกเหตุผลก่อนรายงาน (ใช้ทั้งโพสต์และความเห็น)
+        const box = mk('div', 'so-rep'); box.setAttribute('role', 'group'); box.setAttribute('aria-label', 'เหตุผลที่รายงาน');
+        [['bullying', 'ล้อเลียน/ไม่สุภาพ'], ['private', 'ข้อมูลส่วนตัว'], ['selfharm', 'ห่วงความปลอดภัยของเพื่อน'], ['other', 'อื่นๆ']].forEach(([k, text]) => {
+          const bt = mk('button', '', text); bt.type = 'button';
+          bt.onclick = async () => { const r = await send(k); box.remove(); if (r.ok) { anchor.textContent = 'รายงานแล้ว'; anchor.disabled = true; soNote('ส่งรายงานให้แอดมินแล้ว ขอบคุณที่ช่วยดูแลห้อง', 'ok'); afterOk && afterOk(k); } else { anchor.disabled = false; soNote(SO_ERR[r.error] || 'ส่งรายงานไม่สำเร็จ ลองใหม่', ''); } };
+          box.appendChild(bt);
+        });
+        return box;
+      }
+      function soBurst(card) {   // แตะสองครั้งที่โพสต์เพื่อกดขอบคุณ (แบบ IG)
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const h = mk('div', 'so-burst'); h.innerHTML = SO_HEART; h.setAttribute('aria-hidden', 'true'); card.appendChild(h); setTimeout(() => h.remove(), 700);
+      }
       function soCard(it) {
-        const card = mk('article', 'so-k'); card.setAttribute('aria-label', 'ขอบคุณจาก ' + it.nick);
-        // รูปโปรไฟล์: ของตัวเองใช้รูป/สีที่ตั้งในโปรไฟล์ (เก็บในเครื่อง) ของคนอื่นเห็นเป็นสีพื้นที่เขาเลือก + ตัวอักษรแรกของชื่อเล่น (รูปถ่ายไม่ได้ส่งขึ้นเซิร์ฟเวอร์)
-        const ph = mk('div', 'so-ph'); const av = mk('div', 'so-av');
-        if (it.own) { const p = readProfile(); paintAvatar(av, { ...p, name: it.nick }); } else paintAvatar(av, { color: PF_COLORS[it.av] || PF_COLORS[0], name: it.nick });
-        av.style.backgroundSize = 'cover'; av.style.backgroundPosition = 'center';
+        const card = mk('article', 'so-k'); card.setAttribute('aria-label', 'โพสต์จาก ' + it.nick);
+        const ph = mk('div', 'so-ph');
+        const avb = mk('button', 'so-avb'); avb.type = 'button'; avb.setAttribute('aria-label', 'ดูโปรไฟล์ ' + it.nick); const av = mk('div', 'so-av'); soAvatar(av, it); avb.appendChild(av); avb.onclick = () => soProfOpen(it);
         const who = mk('div'); who.append(mk('b', '', it.nick), mk('small', '', soAgo(it.created_at)));
-        ph.append(av, who); card.appendChild(ph);
-        card.appendChild(mk('span', 'so-pill', SO_TAGS[it.tag] || it.tag));
+        ph.append(avb, who); card.appendChild(ph);
+        if (it.kind === 'kudos') card.appendChild(mk('span', 'so-pill', SO_TAGS[it.tag] || it.tag));
+        else if (it.kind === 'work' || it.kind === 'offer') { card.appendChild(mk('span', 'so-pill so-pill-' + it.kind, SO_KINDS[it.kind])); card.appendChild(mk('h3', 'so-tt', it.title || '')); }
         if (it.line) card.appendChild(mk('p', 'so-ln', it.line));
         const ac = mk('div', 'so-ac');
         const lk = mk('button', 'so-act'); lk.type = 'button'; lk.innerHTML = SO_HEART; lk.setAttribute('aria-pressed', String(!!it.liked));
-        const lt = mk('span', '', it.own ? (it.likes ? it.likes + ' คนขอบคุณ' : 'ยังไม่มีใครกด') : 'ขอบคุณ'); lk.appendChild(lt);
+        lk.appendChild(mk('span', 'so-n', it.own ? String(it.likes || 0) : ''));   // ตัวเลขอย่างเดียว เจ้าของโพสต์เห็นจำนวน คนอื่นเห็นแค่หัวใจ
         lk.setAttribute('aria-label', it.own ? 'จำนวนคนกดขอบคุณโพสต์ของคุณ' : 'กดขอบคุณโพสต์นี้');
         if (it.own) { lk.disabled = true; lk.style.opacity = '.8'; }
-        else lk.onclick = async () => {
-          const on = lk.getAttribute('aria-pressed') !== 'true'; lk.setAttribute('aria-pressed', String(on));
-          if (on) { lk.classList.remove('pop'); void lk.offsetWidth; lk.classList.add('pop'); try { navigator.vibrate && navigator.vibrate(8); } catch (e) { /* ไม่รองรับ */ } }
-          const r = await soCall({ action: 'like', id: it.id, on }); if (!r.ok) { lk.setAttribute('aria-pressed', String(!on)); soMsg(SO_ERR[r.error] || 'ทำรายการไม่สำเร็จ ลองใหม่', ''); }
-        };
+        else {
+          lk.onclick = async () => {
+            const on = lk.getAttribute('aria-pressed') !== 'true'; lk.setAttribute('aria-pressed', String(on));
+            if (on) { lk.classList.remove('pop'); void lk.offsetWidth; lk.classList.add('pop'); try { navigator.vibrate && navigator.vibrate(8); } catch (e) { /* ไม่รองรับ */ } }
+            const r = await soCall({ action: 'like', id: it.id, on }); if (!r.ok) { lk.setAttribute('aria-pressed', String(!on)); soNote(SO_ERR[r.error] || 'ทำรายการไม่สำเร็จ ลองใหม่', ''); }
+          };
+          card.addEventListener('dblclick', (e) => { if (e.target.closest('button,input,.so-cm')) return; soBurst(card); if (lk.getAttribute('aria-pressed') !== 'true') lk.click(); });
+        }
         ac.appendChild(lk);
+        const cm = mk('button', 'so-act'); cm.type = 'button'; cm.innerHTML = SO_CHAT; const cmn = mk('span', '', it.comments ? it.comments + ' ความเห็น' : 'ความเห็น'); cm.appendChild(cmn);
+        cm.setAttribute('aria-expanded', 'false'); cm.onclick = () => soToggleComments(card, it, cm, cmn);
+        ac.appendChild(cm);
         if (it.own) {
           const del = mk('button', 'so-act', 'ลบ'); del.type = 'button'; del.setAttribute('aria-label', 'ลบโพสต์ของฉัน');
-          del.onclick = async () => { if (!confirm('ลบโพสต์นี้?')) return; const r = await soCall({ action: 'delete', id: it.id }); if (r.ok) card.remove(); else soMsg(SO_ERR[r.error] || 'ลบไม่สำเร็จ ลองใหม่', ''); };
+          del.onclick = async () => { if (!confirm('ลบโพสต์นี้?')) return; const r = await soCall({ action: 'delete', id: it.id }); if (r.ok) { soItems = soItems.filter((x) => x.id !== it.id); card.remove(); soEmptyCheck(); } else soNote(SO_ERR[r.error] || 'ลบไม่สำเร็จ ลองใหม่', ''); };
           ac.appendChild(del);
         } else if (!it.reported) {
           const rp = mk('button', 'so-act', 'รายงาน'); rp.type = 'button'; rp.setAttribute('aria-label', 'รายงานโพสต์นี้');
-          rp.onclick = () => {
-            rp.disabled = true; const box = mk('div', 'so-rep'); box.setAttribute('role', 'group'); box.setAttribute('aria-label', 'เหตุผลที่รายงาน');
-            [['bullying', 'ล้อเลียน/ไม่สุภาพ'], ['private', 'ข้อมูลส่วนตัว'], ['selfharm', 'ห่วงความปลอดภัยของเพื่อน'], ['other', 'อื่นๆ']].forEach(([k, label]) => {
-              const bt = mk('button', '', label); bt.type = 'button';
-              bt.onclick = async () => { const r = await soCall({ action: 'report', id: it.id, reason: k }); box.remove(); if (r.ok) { rp.textContent = 'รายงานแล้ว'; soMsg('ส่งรายงานให้แอดมินแล้ว ขอบคุณที่ช่วยดูแลห้อง', 'ok'); if (k === 'selfharm') card.remove(); } else { rp.disabled = false; soMsg(SO_ERR[r.error] || 'ส่งรายงานไม่สำเร็จ ลองใหม่', ''); } };
-              box.appendChild(bt);
-            });
-            card.appendChild(box);
-          };
+          rp.onclick = () => { rp.disabled = true; card.appendChild(soReportBox(rp, (k) => soCall({ action: 'report', id: it.id, reason: k }), (k) => { if (k === 'selfharm') card.remove(); })); };
           ac.appendChild(rp);
         } else ac.appendChild(mk('span', 'so-act', 'รายงานแล้ว'));
         card.appendChild(ac);
         return card;
       }
+      async function soToggleComments(card, it, btn, label) {
+        const open = card.querySelector('.so-cm');
+        if (open) { open.remove(); btn.setAttribute('aria-expanded', 'false'); return; }
+        const box = mk('div', 'so-cm'); box.setAttribute('role', 'region'); box.setAttribute('aria-label', 'ความเห็น'); btn.setAttribute('aria-expanded', 'true');
+        const list = mk('div', 'so-cl'); list.setAttribute('aria-live', 'polite');
+        const row = mk('div', 'so-row'); const inp = mk('input'); inp.maxLength = 100; inp.placeholder = 'เขียนความเห็นสั้นๆ'; inp.setAttribute('aria-label', 'ความเห็น'); inp.autocomplete = 'off';
+        const send = mk('button', 'so-btn so-btn-p', 'ส่ง'); send.type = 'button';
+        row.append(inp, send); box.append(list, row); card.appendChild(box);
+        const paint = (items) => {
+          list.textContent = ''; if (!items.length) list.appendChild(mk('p', 'so-hint', 'ยังไม่มีความเห็น'));
+          items.forEach((c) => {
+            const li = mk('div', 'so-ci'); const a = mk('div', 'so-av so-av-s'); soAvatar(a, c);
+            const t = mk('div', 'so-ct'); const h = mk('div', 'so-cn'); h.append(mk('b', '', c.nick), mk('small', '', ' · ' + soAgo(c.created_at))); t.append(h, mk('p', '', c.body));
+            li.append(a, t);
+            if (c.own) { const d = mk('button', 'so-cx', 'ลบ'); d.type = 'button'; d.setAttribute('aria-label', 'ลบความเห็นของฉัน'); d.onclick = async () => { const r = await soCall({ action: 'cdelete', id: c.id }); if (r.ok) load(); }; li.appendChild(d); }
+            else if (!c.reported) { const rp = mk('button', 'so-cx', 'รายงาน'); rp.type = 'button'; rp.setAttribute('aria-label', 'รายงานความเห็นนี้'); rp.onclick = () => { rp.disabled = true; t.appendChild(soReportBox(rp, (k) => soCall({ action: 'creport', id: c.id, reason: k }), (k) => { if (k === 'selfharm') li.remove(); })); }; li.appendChild(rp); }
+            list.appendChild(li);
+          });
+          label.textContent = items.length ? items.length + ' ความเห็น' : 'ความเห็น'; it.comments = items.length;
+        };
+        const load = async () => { const r = await soCall({ action: 'comments', id: it.id }); if (r.ok) paint(r.items || []); else list.textContent = SO_ERR[r.error] || 'โหลดความเห็นไม่สำเร็จ'; };
+        send.onclick = async () => {
+          const body = inp.value.replace(/\s+/g, ' ').trim(); if (!body) return;
+          send.disabled = true; soNote('กำลังตรวจความเห็น…', 'ok');
+          const r = await soCall({ action: 'comment', id: it.id, body, av: soMyAv() }); send.disabled = false;
+          if (r.ok) { inp.value = ''; soNote('', ''); await load(); return; }
+          soNote(r.error === 'care' ? 'ความเห็นนี้ยังไม่ขึ้น แต่เราห่วงคุณ ถ้าไม่สบายใจ โทรสายด่วนสุขภาพจิต 1323 ได้ฟรีตลอด 24 ชม. หรือบอกครูที่ไว้ใจ' : (SO_ERR[r.error] || 'ส่งไม่สำเร็จ ลองใหม่'), r.error === 'care' ? 'care' : '');
+        };
+        inp.onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); send.click(); } };
+        await load(); inp.focus();
+      }
+      async function soProfOpen(it) {
+        const sh = document.getElementById('soProf'); sh.classList.remove('hidden');
+        document.getElementById('soProfNick').textContent = it.nick; document.getElementById('soProfBio').textContent = '';
+        soAvatar(document.getElementById('soProfAv'), it); document.getElementById('soProfPosts').textContent = '';
+        sh.querySelector('button[aria-label="ปิด"]').focus();
+        const r = await soCall({ action: 'profile', id: it.id }); if (!r.ok || sh.classList.contains('hidden')) return;
+        const bio = document.getElementById('soProfBio'); bio.textContent = r.bio || (r.own ? 'ยังไม่มีคำอธิบาย แก้ได้ที่แท็บโปรไฟล์' : 'ยังไม่มีคำอธิบาย');
+        const box = document.getElementById('soProfPosts');
+        (r.posts || []).forEach((p) => { const row = mk('div', 'so-pr'); row.appendChild(mk('span', '', p.kind === 'kudos' ? (p.line || SO_TAGS[p.tag] || 'ขอบคุณ') : (p.title ? p.title + ' · ' + (p.line || '') : (p.line || '')))); box.appendChild(row); });
+        if (!(r.posts || []).length) box.appendChild(mk('p', 'so-hint', 'ยังไม่มีโพสต์'));
+      }
+      function soProfClose() { document.getElementById('soProf').classList.add('hidden'); }
+      function soCompOpen() {
+        if (!soCanPost) return;
+        if (soTabNow === 'clips') return soClipCompOpen();   // ปุ่ม + ในแท็บคลิป = แชร์คลิป
+        const p = { ...readProfile(), name: soNick || '' };
+        paintAvatar(document.getElementById('soCompAv'), p); document.getElementById('soCompNick').textContent = soNick || '';
+        document.getElementById('soComp').classList.remove('hidden'); soMsg('', ''); soCount();
+        setTimeout(() => document.getElementById('soBody').focus(), 60);
+      }
+      function soCompClose() { document.getElementById('soComp').classList.add('hidden'); }
+      document.addEventListener('keydown', (e) => {
+        if (soSt) { if (e.key === 'Escape') soStoryClose(); else if (e.key === 'ArrowRight') soStoryStep(1); else if (e.key === 'ArrowLeft') soStoryStep(-1); return; }
+        if (e.key !== 'Escape') return;
+        const open = (id) => !document.getElementById(id).classList.contains('hidden');
+        if (open('soClipView')) soClipViewClose(); else if (open('soClipComp')) soClipCompClose(); else if (open('soClipsPane')) soReelsClose(); else { soProfClose(); soCompClose(); }
+      });
+      // ---- สตอรี่ (ข้อความบนพื้นสี): แถววงกลมของเพื่อนที่โพสต์ใน 24 ชม. กดแล้วเปิดเต็มจอ แตะซ้าย/ขวาข้าม ไม่มีรูปถ่าย ----
+      let soSt = null, soStOpener = null;
+      const SO_SEEN = 'classkhab_so_seen';
+      const soSeenGet = () => { try { return JSON.parse(localStorage.getItem(SO_SEEN) || '{}') || {}; } catch (e) { return {}; } };
+      const soReduce = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function soStoryUsers() {
+        const cut = Date.now() - 86400e3, by = new Map(), seen = soSeenGet();
+        soItems.filter((it) => new Date(it.created_at).getTime() >= cut).slice().reverse().forEach((it) => {   // เก่า → ใหม่
+          let u = by.get(it.nick); if (!u) { u = { nick: it.nick, av: it.av, own: !!it.own, items: [] }; by.set(it.nick, u); }
+          u.items.push(it);
+        });
+        return [...by.values()].map((u) => { const last = u.items[u.items.length - 1]; return { ...u, last, viewed: (seen[u.nick] || 0) >= last.id }; })
+          .sort((a, b) => (b.own - a.own) || (a.viewed - b.viewed) || (new Date(b.last.created_at) - new Date(a.last.created_at)));
+      }
+      function soStoriesBuild() {
+        const box = document.getElementById('soStories'); box.textContent = '';
+        const users = soStoryUsers();
+        box.classList.toggle('hidden', !soCanPost && !users.length);
+        if (soCanPost) {
+          const add = mk('button', 'so-sr so-sr-add'); add.type = 'button'; add.setAttribute('role', 'listitem'); add.setAttribute('aria-label', 'เขียนโพสต์ใหม่');
+          const c = mk('span', 'so-sr-c'); c.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/></svg>';
+          const plus = mk('span', 'so-sr-plus'); plus.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 6v12M6 12h12"/></svg>'; c.appendChild(plus);
+          add.append(c, mk('span', 'so-sr-n', 'เพิ่มโพสต์')); add.onclick = () => soCompOpen(); box.appendChild(add);
+        }
+        users.forEach((u) => {
+          const b = mk('button', 'so-sr'); b.type = 'button'; b.setAttribute('role', 'listitem'); b.setAttribute('aria-label', 'ดูโพสต์ของ ' + (u.own ? 'ฉัน' : u.nick) + (u.viewed ? '' : ' (ยังไม่ได้ดู)'));
+          const ring = mk('span', 'so-sr-r' + (u.viewed ? ' seen' : '')); const inner = mk('span', 'so-sr-i'); const av = mk('span', 'so-sr-a'); soAvatar(av, { ...u.last, own: u.own }); inner.appendChild(av); ring.appendChild(inner);
+          b.append(ring, mk('span', 'so-sr-n', u.own ? 'คุณ' : u.nick)); b.onclick = () => soStoryOpen(u, b); box.appendChild(b);
+        });
+      }
+      function soStoryOpen(u, opener) {
+        soStOpener = opener || null; soSt = { u, i: 0 };
+        const ov = document.getElementById('soStory'); ov.classList.remove('hidden'); document.body.style.overflow = 'hidden';
+        soStoryRender();
+      }
+      function soStoryClose() {
+        const ov = document.getElementById('soStory'); ov.classList.add('hidden'); ov.textContent = ''; document.body.style.overflow = '';
+        soSt = null; soStoriesBuild(); if (soStOpener && document.contains(soStOpener)) soStOpener.focus();
+      }
+      function soStoryStep(d) {
+        if (!soSt) return;
+        const n = soSt.u.items.length, i = soSt.i + d;
+        if (i >= 0 && i < n) { soSt.i = i; soStoryRender(); return; }
+        const users = soStoryUsers(), idx = users.findIndex((x) => x.nick === soSt.u.nick), nu = users[idx + (d > 0 ? 1 : -1)];
+        if (!nu) { if (d > 0) soStoryClose(); return; }
+        soSt = { u: nu, i: d > 0 ? 0 : nu.items.length - 1 }; soStoryRender();
+      }
+      function soStoryRender() {
+        const ov = document.getElementById('soStory'), { u, i } = soSt, it = u.items[i]; ov.textContent = '';
+        const seen = soSeenGet(); seen[u.nick] = Math.max(seen[u.nick] || 0, it.id); try { localStorage.setItem(SO_SEEN, JSON.stringify(seen)); } catch (e) { /* ข้าม */ }
+        const col = PF_COLORS[u.av] || PF_COLORS[0];
+        const card = mk('div', 'so-st-card'); card.style.setProperty('--sc', col);
+        const bars = mk('div', 'so-pbs'); bars.setAttribute('aria-hidden', 'true');
+        u.items.forEach((_, k) => { const p = mk('span', 'so-pb'); const f = mk('i', k < i ? 'done' : (k === i ? (soReduce() ? 'done' : 'run') : '')); p.appendChild(f); if (k === i && !soReduce()) f.addEventListener('animationend', () => soStoryStep(1)); bars.appendChild(p); });
+        const head = mk('div', 'so-sth'); const av = mk('div', 'so-av so-av-s'); soAvatar(av, { ...it, own: u.own });
+        const who = mk('div', 'so-stw'); who.append(mk('b', '', u.own ? 'คุณ' : u.nick), mk('small', '', soAgo(it.created_at)));
+        const x = mk('button', 'so-stx'); x.type = 'button'; x.setAttribute('aria-label', 'ปิด'); x.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>'; x.onclick = soStoryClose;
+        head.append(av, who, x);
+        const body = mk('div', 'so-stb'); body.setAttribute('aria-live', 'polite');
+        if (it.kind === 'kudos') body.appendChild(mk('span', 'so-stp', 'ขอบคุณ · ' + (SO_TAGS[it.tag] || '')));
+        else if (it.kind === 'work' || it.kind === 'offer') { body.appendChild(mk('span', 'so-stp', SO_KINDS[it.kind])); body.appendChild(mk('h3', 'so-stt', it.title || '')); }
+        if (it.line) body.appendChild(mk('p', 'so-stl', it.line));
+        const prev = mk('button', 'so-stz so-stz-l'); prev.type = 'button'; prev.setAttribute('aria-label', 'ก่อนหน้า'); prev.onclick = () => soStoryStep(-1);
+        const next = mk('button', 'so-stz so-stz-r'); next.type = 'button'; next.setAttribute('aria-label', 'ถัดไป'); next.onclick = () => soStoryStep(1);
+        ['pointerdown'].forEach((ev) => body.addEventListener(ev, () => card.classList.add('paused')));
+        ['pointerup', 'pointercancel', 'pointerleave'].forEach((ev) => body.addEventListener(ev, () => card.classList.remove('paused')));
+        card.append(bars, head, body, prev, next); ov.appendChild(card);
+        ov.onclick = (e) => { if (e.target === ov) soStoryClose(); };
+        x.focus();
+      }
+      function soCount() {
+        const v = document.getElementById('soBody').value;
+        document.getElementById('soCnt').textContent = [...v].length + '/280';
+        document.getElementById('soSend').disabled = !v.trim() || soBusy;
+      }
+      // ---- แท็บคลิป: กริดการ์ดแบบ Pinterest ของคลิป YouTube ที่เพื่อนแชร์ + ค้นหา (ไม่เก็บวิดีโอเอง ใช้ภาพปกและตัวเล่นของ YouTube) ----
+      Object.assign(SO_ERR, {
+        clip_url: 'ลิงก์ต้องเป็นลิงก์ YouTube (youtube.com หรือ youtu.be) ตรวจลิงก์อีกครั้ง', clip_dup: 'ห้องเรามีคนแชร์คลิปนี้แล้ว', clip_missing: 'หาคลิปนี้ไม่เจอ หรือเป็นคลิปส่วนตัว/จำกัดอายุ ลองคลิปอื่น',
+      });
+      let soTabNow = 'feed', soClips = [];
+      const SO_YT = /^[A-Za-z0-9_-]{11}$/, SO_RATIOS = ['16 / 10', '1 / 1', '4 / 5'];
+      const soClipRatio = (id) => { let h = 0; for (const c of id) h = (h * 31 + c.charCodeAt(0)) >>> 0; return SO_RATIOS[h % SO_RATIOS.length]; };
+      function soReelsClose() { document.getElementById('soClipsPane').classList.add('hidden'); document.body.style.overflow = ''; soTabNow = 'feed'; soClipViewClose(); soClipCompClose(); const o = document.getElementById('soReelBar'); if (!o.classList.contains('hidden')) o.focus(); }
+      function soReelBarBuild() {   // แถบ Reels บรรทัดเดียวในฟีด: ไอคอน + จำนวนคลิป + ภาพปกเล็ก 3 ภาพ
+        const b = document.getElementById('soReelBar'); b.textContent = '';
+        const show = soOpenNow && (soClips.length > 0 || soCanPost); b.classList.toggle('hidden', !show); if (!show) return;
+        const ic = mk('span', 'so-rb-i'); ic.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>';
+        const t = mk('span', 'so-rb-t'); t.append(mk('b', '', 'Reels'), mk('small', '', soClips.length ? soClips.length + ' คลิปจากเพื่อนในห้อง' : 'แชร์คลิปแรกของห้อง'));
+        const th = mk('span', 'so-rb-th'); th.setAttribute('aria-hidden', 'true');
+        soClips.filter((c) => SO_YT.test(c.yt)).slice(0, 3).forEach((c) => { const i = mk('img'); i.alt = ''; i.loading = 'lazy'; i.referrerPolicy = 'no-referrer'; i.src = 'https://i.ytimg.com/vi/' + c.yt + '/mqdefault.jpg'; i.onerror = () => i.remove(); th.appendChild(i); });
+        b.append(ic, t, th);
+      }
+      let soClipsAt = 0;
+      function soReelsRefresh() { if (Date.now() - soClipsAt > 120000 || !document.getElementById('soClipsPane').classList.contains('hidden')) soClipsLoad(); else soReelBarBuild(); }
+      function soReelsOpen() {
+        document.getElementById('soClipsPane').classList.remove('hidden'); document.body.style.overflow = 'hidden'; soTabNow = 'clips';
+        document.querySelector('#soClipsPane .so-rl-x').focus();
+        soClipsLoad();
+      }
+      async function soClipsLoad() {
+        const r = await soCall({ action: 'clips' });
+        if (r.ok && r.enabled) { soClips = r.items || []; soClipsAt = Date.now(); }
+        soClipsRender(); soReelBarBuild();
+      }
+      const soNorm = (s) => String(s || '').toLowerCase().normalize('NFKC');
+      function soClipsRender() {
+        document.getElementById('soClipAdd').classList.toggle('hidden', !soCanPost);
+        const q = soNorm(document.getElementById('soQ').value).trim(), grid = document.getElementById('soGrid'); grid.textContent = '';
+        const rows = soClips.filter((c) => !q || soNorm(c.title + ' ' + (c.note || '') + ' ' + (c.yt_title || '') + ' ' + c.nick).includes(q));
+        rows.forEach((c) => {
+          if (!SO_YT.test(c.yt)) return;
+          const b = mk('button', 'so-cc'); b.type = 'button'; b.setAttribute('role', 'listitem'); b.setAttribute('aria-label', 'เปิดคลิป ' + c.title + ' จาก ' + c.nick);
+          const img = mk('img'); img.loading = 'lazy'; img.alt = ''; img.src = 'https://i.ytimg.com/vi/' + c.yt + '/mqdefault.jpg'; img.referrerPolicy = 'no-referrer'; img.style.aspectRatio = soClipRatio(c.yt);
+          img.onerror = () => { img.removeAttribute('src'); img.classList.add('bad'); };
+          const sh = mk('span', 'so-cc-sh'); sh.setAttribute('aria-hidden', 'true');
+          const top = mk('span', 'so-cc-top'); const av = mk('span', 'so-cc-av'); soAvatar(av, c); const nm = mk('span', 'so-cc-nm', c.own ? 'คุณ' : c.nick);
+          const tt = mk('span', 'so-cc-tt', c.title);
+          const hd = mk('span', 'so-cc-h'); const row = mk('span', 'so-cc-r'); row.append(av, nm); hd.append(row, tt); top.appendChild(hd);
+          const pl = mk('span', 'so-cc-pl'); pl.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>'; pl.setAttribute('aria-hidden', 'true');
+          b.append(img, sh, top, pl); b.onclick = () => soClipView(c, b); grid.appendChild(b);
+        });
+        const e = document.getElementById('soClipEmpty'); e.classList.toggle('hidden', grid.children.length > 0);
+        e.textContent = q ? 'ไม่เจอคลิปที่ตรงกับ "' + document.getElementById('soQ').value.trim() + '"' : 'ยังไม่มีคลิปในห้อง แชร์คลิปที่ช่วยเรื่องเรียนเป็นคนแรกได้เลย';
+      }
+      let soCvOpener = null;
+      function soClipView(c, opener) {
+        soCvOpener = opener || null;
+        document.getElementById('soCvT').textContent = c.title; document.getElementById('soCvNote').textContent = c.note || '';
+        const fr = document.getElementById('soCvFrame'); fr.textContent = '';
+        const f = mk('iframe'); f.src = 'https://www.youtube-nocookie.com/embed/' + c.yt + '?rel=0&playsinline=1'; f.title = c.yt_title || c.title; f.allow = 'fullscreen; picture-in-picture'; f.allowFullscreen = true;
+        f.referrerPolicy = 'strict-origin-when-cross-origin'; f.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-presentation allow-popups allow-popups-to-escape-sandbox'); fr.appendChild(f);
+        const who = document.getElementById('soCvWho'); who.textContent = ''; const av = mk('div', 'so-av so-av-s'); soAvatar(av, c); const t = mk('div', 'so-stw'); t.append(mk('b', '', c.own ? 'คุณ' : c.nick), mk('small', '', 'แชร์เมื่อ ' + soAgo(c.created_at))); who.append(av, t);
+        const ac = document.getElementById('soCvAct'); ac.textContent = '';
+        const yt = mk('a', 'so-act', 'เปิดใน YouTube'); yt.href = 'https://www.youtube.com/watch?v=' + c.yt; yt.target = '_blank'; yt.rel = 'noopener noreferrer'; ac.appendChild(yt);
+        if (c.own) {
+          const del = mk('button', 'so-act', 'ลบ'); del.type = 'button'; del.onclick = async () => { if (!confirm('ลบคลิปนี้?')) return; const r = await soCall({ action: 'clip_delete', id: c.id }); if (r.ok) { soClips = soClips.filter((x) => x.id !== c.id); soClipViewClose(); soClipsRender(); } else soNote(SO_ERR[r.error] || 'ลบไม่สำเร็จ ลองใหม่', ''); }; ac.appendChild(del);
+        } else if (!c.reported) {
+          const rp = mk('button', 'so-act', 'รายงาน'); rp.type = 'button'; rp.onclick = () => { rp.disabled = true; ac.after(soReportBox(rp, (k) => soCall({ action: 'clip_report', id: c.id, reason: k }), (k) => { c.reported = true; if (k === 'selfharm') { soClips = soClips.filter((x) => x.id !== c.id); soClipViewClose(); soClipsRender(); } })); }; ac.appendChild(rp);
+        } else ac.appendChild(mk('span', 'so-act', 'รายงานแล้ว'));
+        document.getElementById('soClipView').classList.remove('hidden'); document.getElementById('soClipView').querySelector('button[aria-label="ปิด"]').focus();
+      }
+      function soClipViewClose() {
+        const v = document.getElementById('soClipView'); if (v.classList.contains('hidden')) return;
+        v.classList.add('hidden'); document.getElementById('soCvFrame').textContent = '';   // ลบตัวเล่นทิ้งเพื่อหยุดเสียง
+        const r = v.querySelector('.so-rep'); r && r.remove();
+        if (soCvOpener && document.contains(soCvOpener)) soCvOpener.focus();
+      }
+      function soClipCompOpen() {
+        if (!soCanPost) return;
+        document.getElementById('soClipMsg').className = 'so-msg hidden'; soClipCount();
+        document.getElementById('soClipComp').classList.remove('hidden'); setTimeout(() => document.getElementById('soClipUrl').focus(), 60);
+      }
+      function soClipCompClose() { document.getElementById('soClipComp').classList.add('hidden'); }
+      function soClipCount() {
+        const n = [...document.getElementById('soClipNote').value].length; document.getElementById('soClipCnt').textContent = n + '/120';
+        document.getElementById('soClipSend').disabled = !(document.getElementById('soClipUrl').value.trim() && document.getElementById('soClipTitle').value.trim()) || soBusy;
+      }
+      async function soClipPost() {
+        if (soBusy) return;
+        const g = (i) => document.getElementById(i).value.replace(/\s+/g, ' ').trim(), msg = (t, k) => soSay('soClipMsg', t, k);
+        const url = g('soClipUrl'), title = g('soClipTitle'), note = g('soClipNote'); if (!url || !title) return;
+        soBusy = true; soClipCount(); msg('กำลังตรวจคลิปและข้อความ…', 'ok');
+        const r = await soCall({ action: 'clip_post', url, title, note, av: soMyAv() });
+        soBusy = false; soClipCount();
+        if (r.ok) { ['soClipUrl', 'soClipTitle', 'soClipNote'].forEach((i) => { document.getElementById(i).value = ''; }); soClipCompClose(); msg('', ''); soNote('แชร์คลิปแล้ว', 'ok'); await soClipsLoad(); setTimeout(() => soNote('', ''), 2500); return; }
+        if (r.error === 'care') { msg('ข้อความนี้ยังไม่ขึ้น แต่เราห่วงคุณ ถ้าไม่สบายใจ โทรสายด่วนสุขภาพจิต 1323 ได้ฟรีตลอด 24 ชม. หรือบอกครูที่ไว้ใจ', 'care'); return; }
+        if (r.error === 'banned') { msg(r.auto ? 'คุณใช้ถ้อยคำรุนแรงหลายครั้ง จึงถูกระงับชั่วคราว ' + (r.hours || 24) + ' ชั่วโมง' : SO_ERR.banned, ''); return; }
+        msg(SO_ERR[r.error] || 'แชร์ไม่สำเร็จ ลองใหม่อีกครั้ง', '');
+      }
+      function soEmptyCheck() {
+        const n = document.getElementById('soList').children.length;
+        document.getElementById('soEmpty').classList.toggle('hidden', n > 0);
+      }
+      function soRender() {
+        const list = document.getElementById('soList'); list.textContent = '';
+        soItems.forEach((it) => list.appendChild(soCard(it)));
+        soStoriesBuild();
+        soEmptyCheck();
+      }
+      function soPaintNew() {   // ฟีดมาก่อน: แถบ "เขียนอะไรสักอย่าง" ด้านบน + ปุ่ม + ลอย เปิดหน้าเขียนโพสต์ (ไม่มีหมวดหมู่ให้เลือก)
+        document.getElementById('soStub').classList.toggle('hidden', !soCanPost);
+        document.getElementById('soFab').classList.toggle('hidden', !soCanPost);
+        if (soCanPost) paintAvatar(document.getElementById('soStubAv'), { ...readProfile(), name: soNick || '' });
+        else soCompClose();
+      }
+      // ส่งคำอธิบายกับสีโปรไฟล์ของเราขึ้นไปให้เพื่อนเห็น (เมื่อเปลี่ยน) รูปถ่ายไม่ถูกส่ง
+      async function soSyncProfile() {
+        const p = readProfile(), payload = { bio: (p.bio || '').trim().slice(0, 80), av: soMyAv() }, sig = JSON.stringify(payload);
+        let old = ''; try { old = localStorage.getItem('classkhab_so_prof') || ''; } catch (e) { /* ไม่มี storage */ }
+        if (old === sig) return;
+        const r = await soCall({ action: 'profile_set', ...payload });
+        if (r.ok || (r.error && r.error !== 'review_unavailable' && r.error !== 'net')) { try { localStorage.setItem('classkhab_so_prof', sig); } catch (e) { /* ข้าม */ } }
+        if (!r.ok && r.error && r.error !== 'review_unavailable' && r.error !== 'net') soNote('คำอธิบายในโปรไฟล์ไม่ผ่านการตรวจ จึงยังไม่แสดงให้เพื่อนเห็น แก้ที่แท็บโปรไฟล์ได้', '');
+      }
       async function soLoad() {
         const r = await soCall({ action: 'list' });
         const closedHint = document.getElementById('soNeedLogin');
-        if (r.error === 'need_email_login') { soShow(true); closedHint.classList.remove('hidden'); ['soNickBox', 'soComposer'].forEach((i) => document.getElementById(i).classList.add('hidden')); document.getElementById('soList').textContent = ''; document.getElementById('soEmpty').classList.add('hidden'); return; }
-        if (!r.ok || !r.enabled) { soOpenNow = false; soShow(false); return; }
+        if (r.error === 'need_email_login') { soShow(true); closedHint.classList.remove('hidden'); document.getElementById('soNickBox').classList.add('hidden'); soCanPost = false; soPaintNew(); document.getElementById('soList').textContent = ''; document.getElementById('soEmpty').classList.add('hidden'); return; }
+        if (!r.ok || !r.enabled) { soOpenNow = false; soCanPost = false; soPaintNew(); soShow(false); return; }
         soOpenNow = true; soShow(true); closedHint.classList.add('hidden');
-        soNick = r.nick || null;
+        soNick = r.nick || null; soItems = r.items || [];
         document.getElementById('soNickBox').classList.toggle('hidden', !!soNick || r.banned);
-        document.getElementById('soComposer').classList.toggle('hidden', !soNick || !r.posting || r.banned);
         document.getElementById('soReadonly').classList.toggle('hidden', r.posting !== false);
-        const list = document.getElementById('soList'); list.textContent = '';
-        (r.items || []).forEach((it) => list.appendChild(soCard(it)));
-        document.getElementById('soEmpty').classList.toggle('hidden', !!(r.items || []).length);
-        soBuildTags(); soCount();
+        soCanPost = !!soNick && r.posting !== false && !r.banned; soPaintNew(); soRender();
+        if (soNick && !r.banned) soSyncProfile();
+        soReelsRefresh();
       }
       async function soEnter() {
         if (!UI2) return; await soLoad(); soSchedule();
@@ -3169,33 +3539,34 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       function soSchedule() {
         clearTimeout(soTimer); soTimer = null;
         if (document.documentElement.dataset.view !== 'social' || !soOpenNow) return;
-        soTimer = setTimeout(async () => { if (!document.hidden && !soBusy && !document.querySelector('#soWall .so-rep')) await soLoad(); soSchedule(); }, 30000);   // เปิดหน้านี้อยู่เท่านั้น ไม่ดึงตอนซ่อนแท็บ
+        soTimer = setTimeout(async () => { if (!document.hidden && !soBusy && document.getElementById('soComp').classList.contains('hidden') && !document.querySelector('#soWall .so-rep, #soWall .so-cm')) await soLoad(); soSchedule(); }, 30000);   // เปิดหน้านี้อยู่เท่านั้น ไม่ดึงตอนซ่อนแท็บ ไม่ดึงทับตอนกำลังเขียน
       }
-      function soStop() { clearTimeout(soTimer); soTimer = null; }
+      function soStop() {   // ออกจากหน้าโซเชียล: หยุดดึงข้อมูล และปิดหน้าซ้อน (Reels / สตอรี่ / แผ่นเขียนโพสต์) ไม่ให้ค้างทับหน้าอื่น
+        clearTimeout(soTimer); soTimer = null;
+        if (soSt) soStoryClose();
+        if (!document.getElementById('soClipsPane').classList.contains('hidden')) soReelsClose();
+        soCompClose(); soClipCompClose(); soProfClose();
+      }
       async function soSetNick() {
         const inp = document.getElementById('soNickIn'); const nick = inp.value.replace(/\s+/g, ' ').trim();
         const r = await soCall({ action: 'nick', nick });
-        if (!r.ok) { soMsg(SO_ERR[r.error] || 'ตั้งชื่อไม่สำเร็จ ลองใหม่', ''); document.getElementById('soNickBox').classList.remove('hidden'); return; }
-        soMsg('', ''); await soLoad();
+        if (!r.ok) { soNote(SO_ERR[r.error] || 'ตั้งชื่อไม่สำเร็จ ลองใหม่', ''); document.getElementById('soNickBox').classList.remove('hidden'); return; }
+        soNote('', ''); await soLoad();
       }
       async function soPost() {
-        if (soBusy || !soTag) return; soBusy = true; soCount();
-        const line = document.getElementById('soLine').value.replace(/\s+/g, ' ').trim();
-        soMsg(line ? 'กำลังตรวจข้อความ…' : 'กำลังส่ง…', 'ok');
-        const r = await soCall({ action: 'post', tag: soTag, line, av: Math.max(0, PF_COLORS.indexOf(readProfile().color)) });
-        soBusy = false;
-        if (r.ok) {
-          document.getElementById('soLine').value = ''; soTag = ''; document.querySelectorAll('#soTags .so-tag').forEach((x) => x.setAttribute('aria-checked', 'false')); soCount();
-          soMsg('ส่งแล้ว', 'ok'); await soLoad(); return;
-        }
-        soCount();
-        if (r.error === 'care') { soMsg('ข้อความนี้ยังไม่ขึ้นกำแพง แต่เราห่วงคุณ ถ้าไม่สบายใจหรืออยากคุยกับใคร โทรสายด่วนสุขภาพจิต 1323 ได้ฟรีตลอด 24 ชม. หรือบอกครูที่ไว้ใจ ดูช่องทางอื่นที่หน้า "ติดต่อ"', 'care'); return; }
+        if (soBusy) return;
+        const line = document.getElementById('soBody').value.replace(/\s+/g, ' ').trim(); if (!line) return;
+        soBusy = true; soCount(); soMsg('กำลังตรวจข้อความ…', 'ok');
+        const r = await soCall({ action: 'post', kind: 'post', line, av: soMyAv() });
+        soBusy = false; soCount();
+        if (r.ok) { document.getElementById('soBody').value = ''; soCount(); soCompClose(); soMsg('', ''); soNote('โพสต์แล้ว', 'ok'); await soLoad(); setTimeout(() => soNote('', ''), 2500); return; }
+        if (r.error === 'care') { soMsg('ข้อความนี้ยังไม่ขึ้น แต่เราห่วงคุณ ถ้าไม่สบายใจหรืออยากคุยกับใคร โทรสายด่วนสุขภาพจิต 1323 ได้ฟรีตลอด 24 ชม. หรือบอกครูที่ไว้ใจ ดูช่องทางอื่นที่หน้า "ติดต่อ"', 'care'); return; }
         if (r.error === 'banned') { soMsg(r.auto ? 'คุณใช้ถ้อยคำรุนแรงหลายครั้ง จึงถูกระงับชั่วคราว ' + (r.hours || 24) + ' ชั่วโมง' : SO_ERR.banned, ''); return; }
         if (r.error === 'filter_word' && r.left != null) { soMsg(SO_ERR.filter_word + ' (เหลืออีก ' + r.left + ' ครั้งก่อนถูกระงับชั่วคราว)', ''); return; }
         soMsg(SO_ERR[r.error] || 'ส่งไม่สำเร็จ ลองใหม่อีกครั้ง', '');
       }
 
-      // ---- ผู้ช่วย AI ทำพอร์ตโฟลิโอ (ทดลอง) ----
+// ---- ผู้ช่วย AI ทำพอร์ตโฟลิโอ (ทดลอง) ----
       let aiMode = 'page', aiBusy = false, aiLastHtml = '';
       const AI_ERR = {
         need_email_login: 'ฟีเจอร์นี้ใช้ได้เมื่อเข้าสู่ระบบด้วยอีเมลโรงเรียนเท่านั้น', auth: 'ต้องเข้าสู่ระบบห้องใหม่หนึ่งครั้งก่อนใช้งาน',
