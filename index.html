@@ -443,6 +443,15 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .so-btn { min-height: 44px; padding: 0 1rem; border-radius: 10px; border: 1px solid #cbd5e1; background: #fff; color: #0f172a; font-size: 0.875rem; font-weight: 700; flex: none; } html.dark .so-btn { background: #0b1220; border-color: #334155; color: #f1f5f9; }
       .so-btn-p { background: #0f172a; border-color: #0f172a; color: #fff; } html.dark .so-btn-p { background: #f1f5f9; border-color: #f1f5f9; color: #0f172a; } .so-btn:disabled { opacity: 0.4; cursor: not-allowed; } .so-btn:active:not(:disabled) { transform: scale(0.975); }
       .so-cnt { font-size: 0.75rem; color: #64748b; font-variant-numeric: tabular-nums; }
+      /* โหวต: แท็บเลือกชนิดโพสต์ในแผ่นเขียน, ช่องตัวเลือก, การ์ดโหวต */
+      .so-mode { display: flex; gap: 0.35rem; margin-bottom: 0.7rem; } .so-mode button { flex: 1; padding: 0.45rem 0.5rem; border: 1px solid #cbd5e1; border-radius: 10px; background: transparent; color: #475569; font-size: 0.9rem; font-weight: 600; cursor: pointer; } .so-mode button[aria-pressed="true"] { background: #0f172a; border-color: #0f172a; color: #fff; } html.dark .so-mode button { border-color: #334155; color: #94a3b8; } html.dark .so-mode button[aria-pressed="true"] { background: #f1f5f9; border-color: #f1f5f9; color: #0f172a; }
+      .so-pollf { display: flex; flex-direction: column; gap: 0.5rem; } .so-pollf input, .so-pollf select { width: 100%; border: 1px solid #cbd5e1; border-radius: 12px; padding: 0.6rem 0.8rem; font-size: 1rem; background: #fff; color: #0f172a; } html.dark .so-pollf input, html.dark .so-pollf select { background: #0b1220; border-color: #334155; color: #f1f5f9; } .so-pollf input:focus-visible, .so-pollf select:focus-visible { outline: 2px solid #0f172a; outline-offset: 2px; } html.dark .so-pollf input:focus-visible, html.dark .so-pollf select:focus-visible { outline-color: #e2e8f0; }
+      .so-pollf .so-lb { margin: 0.2rem 0 0; } .so-popt { display: flex; gap: 0.4rem; align-items: center; } .so-popt button { flex: none; width: 2.4rem; height: 2.4rem; border: 1px solid #cbd5e1; border-radius: 10px; background: transparent; color: #64748b; font-size: 1.1rem; cursor: pointer; } html.dark .so-popt button { border-color: #334155; color: #94a3b8; }
+      .so-poll { margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.45rem; }
+      .so-po { position: relative; overflow: hidden; display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; width: 100%; text-align: left; padding: 0.6rem 0.8rem; border: 1px solid #cbd5e1; border-radius: 12px; background: transparent; color: #0f172a; font-size: 0.95rem; line-height: 1.5; cursor: pointer; } html.dark .so-po { border-color: #334155; color: #f1f5f9; } .so-po:disabled { cursor: default; } .so-po:active:not(:disabled) { transform: scale(0.985); }
+      .so-po > span { position: relative; z-index: 1; overflow-wrap: anywhere; } .so-po .so-pn { flex: none; font-variant-numeric: tabular-nums; font-size: 0.85rem; color: #475569; } html.dark .so-po .so-pn { color: #94a3b8; }
+      .so-po i { position: absolute; inset: 0 auto 0 0; z-index: 0; background: #e2e8f0; transition: width 0.4s ease; } html.dark .so-po i { background: #1e2a44; } .so-po.mine { border-color: #0f172a; font-weight: 700; } html.dark .so-po.mine { border-color: #e2e8f0; }
+      .so-pm { font-size: 0.78rem; color: #64748b; font-variant-numeric: tabular-nums; } @media (prefers-reduced-motion: reduce) { .so-po i { transition: none; } }
       .so-msg { margin-top: 0.7rem; padding: 0.6rem 0.75rem; border-radius: 10px; font-size: 0.85rem; line-height: 1.6; background: #fef3c7; color: #78350f; } .so-msg.ok { background: #dcfce7; color: #14532d; } .so-msg.care { background: #e0f2fe; color: #0c4a6e; }
       html.dark .so-msg { background: #3b2a08; color: #fde68a; } html.dark .so-msg.ok { background: #0d3320; color: #bbf7d0; } html.dark .so-msg.care { background: #0b2a40; color: #bae6fd; }
       .so-hint, .so-rules { font-size: 0.75rem; line-height: 1.7; color: #64748b; margin-top: 0.7rem; } .so-rules { margin-top: 1.1rem; text-align: center; }
@@ -968,8 +977,19 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                   <div class="pf-panel" role="dialog" aria-label="โพสต์ใหม่">
                     <div class="pf-ph"><b>โพสต์ใหม่</b><button type="button" onclick="soCompClose()" aria-label="ปิด"><i data-lucide="x"></i></button></div>
                     <div class="so-who"><div id="soCompAv" class="so-av"></div><b id="soCompNick"></b></div>
-                    <label for="soBody" class="sr-only">ข้อความโพสต์</label>
-                    <textarea id="soBody" maxlength="280" rows="5" placeholder="เขียนอะไรสักอย่าง ใส่ #แฮชแท็ก ได้ เช่น #สอบกลางภาค" oninput="soCount()"></textarea>
+                    <div class="so-mode" role="group" aria-label="ชนิดโพสต์"><button type="button" id="soModeT" aria-pressed="true" onclick="soMode('text')">ข้อความ</button><button type="button" id="soModeP" aria-pressed="false" onclick="soMode('poll')">โหวต</button></div>
+                    <div id="soTextF">
+                      <label for="soBody" class="sr-only">ข้อความโพสต์</label>
+                      <textarea id="soBody" maxlength="280" rows="5" placeholder="เขียนอะไรสักอย่าง ใส่ #แฮชแท็ก ได้ เช่น #สอบกลางภาค" oninput="soCount()"></textarea>
+                    </div>
+                    <div id="soPollF" class="so-pollf hidden">
+                      <label for="soPQ" class="sr-only">คำถามโหวต</label>
+                      <input id="soPQ" maxlength="80" placeholder="หัวข้อโหวต เช่น เลือกวันติวสอบ" autocomplete="off" oninput="soCount()">
+                      <div id="soPOpts" class="so-pollf"></div>
+                      <button type="button" id="soPAdd" class="so-btn" onclick="soPollAddOpt()">+ เพิ่มตัวเลือก</button>
+                      <label for="soPHrs" class="so-lb">โหวตได้นานเท่าไร</label>
+                      <select id="soPHrs"><option value="1">1 ชั่วโมง</option><option value="6">6 ชั่วโมง</option><option value="24" selected>1 วัน</option><option value="72">3 วัน</option><option value="168">7 วัน</option></select>
+                    </div>
                     <div class="so-row so-row-end"><span id="soCnt" class="so-cnt" aria-hidden="true">0/280</span><button id="soSend" type="button" class="so-btn so-btn-p" onclick="soPost()" disabled>โพสต์</button></div>
                     <p id="soMsg" class="so-msg hidden" role="status" aria-live="polite"></p>
                     <p class="so-hint">ห้ามใส่ชื่อจริง เบอร์ ไอดี ลิงก์ หรือราคา · ข้อความจะถูกตรวจอัตโนมัติก่อนขึ้น · แอดมินดูได้ว่าใครโพสต์</p>
@@ -3209,6 +3229,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         filter_contact: 'ห้ามใส่เบอร์ อีเมล หรือไอดีติดต่อ ลบออกแล้วลองใหม่', filter_link: 'ห้ามใส่ลิงก์ ลบออกแล้วลองใหม่', filter_word: 'ข้อความมีคำที่ไม่อนุญาต ปรับถ้อยคำแล้วลองใหม่',
         ai_bullying: 'ข้อความนี้อาจทำให้เพื่อนไม่สบายใจ ลองเขียนใหม่', ai_private: 'ดูเหมือนมีข้อมูลส่วนตัวของใครบางคน ลบออกแล้วลองใหม่',
         ai_sexual: 'ข้อความนี้ไม่เหมาะกับพื้นที่นี้ ลองเขียนใหม่', ai_other: 'ข้อความนี้ใช้ไม่ได้ที่นี่ (ไม่ขายของ ไม่ใส่ราคา ไม่ชวนคุยนอกแอป) ลองเขียนใหม่',
+        poll_options: 'ต้องมีตัวเลือก 2–5 ข้อ และห้ามซ้ำกัน', poll_closed: 'โหวตนี้หมดเวลาแล้ว', poll_voted: 'คุณโหวตข้อนี้ไปแล้ว เปลี่ยนไม่ได้',
         review_unavailable: 'ตอนนี้ตรวจข้อความไม่ได้ ลองใหม่ภายหลัง', nick_taken: 'ชื่อเล่นนี้มีคนใช้แล้วในห้อง', nick_length: 'ชื่อเล่นต้องยาว 2–16 ตัวอักษร',
         nick_chars: 'ใช้ได้เฉพาะตัวอักษรไทย อังกฤษ ตัวเลข และเว้นวรรค', nick_reserved: 'ชื่อนี้สงวนไว้ เลือกชื่ออื่น', nick_word: 'ชื่อนี้ไม่อนุญาต เลือกชื่ออื่น',
       };
@@ -3258,7 +3279,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         ph.append(avb, who); card.appendChild(ph);
         if (it.kind === 'kudos') card.appendChild(mk('span', 'so-pill', SO_TAGS[it.tag] || it.tag));
         else if (it.kind === 'work' || it.kind === 'offer') { card.appendChild(mk('span', 'so-pill so-pill-' + it.kind, SO_KINDS[it.kind])); card.appendChild(mk('h3', 'so-tt', it.title || '')); }
+        if (it.kind === 'poll') card.appendChild(mk('span', 'so-pill', 'โหวต'));
         if (it.line) card.appendChild(soText(it.line));
+        if (it.kind === 'poll' && it.poll) card.appendChild(soPollBox(it));
         const ac = mk('div', 'so-ac');
         const lk = mk('button', 'so-act'); lk.type = 'button'; lk.innerHTML = SO_HEART; lk.setAttribute('aria-pressed', String(!!it.liked));
         lk.appendChild(mk('span', 'so-n', it.own ? String(it.likes || 0) : ''));   // ตัวเลขอย่างเดียว เจ้าของโพสต์เห็นจำนวน คนอื่นเห็นแค่หัวใจ
@@ -3287,6 +3310,38 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         } else ac.appendChild(mk('span', 'so-act', 'รายงานแล้ว'));
         card.appendChild(ac);
         return card;
+      }
+      // เวลาที่เหลือของโหวต เช่น "เหลือ 2 ชม." / "หมดเวลาแล้ว"
+      function soLeft(iso) {
+        const s = (new Date(iso).getTime() - Date.now()) / 1000;
+        if (s <= 0) return 'หมดเวลาแล้ว';
+        if (s < 3600) return 'เหลือ ' + Math.max(1, Math.ceil(s / 60)) + ' นาที'; if (s < 86400) return 'เหลือ ' + Math.ceil(s / 3600) + ' ชม.'; return 'เหลือ ' + Math.ceil(s / 86400) + ' วัน';
+      }
+      // การ์ดโหวต: ยังไม่โหวต = เห็นแค่ตัวเลือก กดแล้วเห็นผล (เปลี่ยนไม่ได้) หมดเวลาแล้ว/เจ้าของโพสต์ = เห็นผลเสมอ
+      function soPollBox(it) {
+        const box = mk('div', 'so-poll'); box.setAttribute('role', 'group'); box.setAttribute('aria-label', 'ตัวเลือกโหวต');
+        const paint = () => {
+          const p = it.poll; box.textContent = '';
+          const done = p.closed || new Date(p.ends_at).getTime() <= Date.now(); p.closed = done;
+          const show = p.total !== undefined, tot = p.total || 0;
+          p.options.forEach((o) => {
+            const b = mk('button', 'so-po' + (p.my === o.id ? ' mine' : '')); b.type = 'button';
+            const pct = show && tot ? Math.round((o.n / tot) * 100) : 0;
+            if (show) { const bar = mk('i'); bar.style.width = pct + '%'; b.appendChild(bar); }
+            b.appendChild(mk('span', '', (p.my === o.id ? '✓ ' : '') + o.label));
+            if (show) b.appendChild(mk('span', 'so-pn', pct + '% · ' + o.n));
+            b.disabled = done || p.my != null || !soCanPost;
+            if (!b.disabled) b.onclick = async () => {
+              box.querySelectorAll('button').forEach((x) => { x.disabled = true; });
+              const r = await soCall({ action: 'vote', id: it.id, option: o.id });
+              if (r.ok && r.poll) { it.poll = r.poll; paint(); return; }
+              soNote(SO_ERR[r.error] || 'โหวตไม่สำเร็จ ลองใหม่', ''); if (r.error === 'poll_closed' || r.error === 'poll_voted') await soLoad(); else paint();
+            };
+            box.appendChild(b);
+          });
+          box.appendChild(mk('div', 'so-pm', (show ? tot + ' โหวต · ' : (done ? '' : 'โหวตแล้วจะเห็นผล · ')) + soLeft(p.ends_at)));
+        };
+        paint(); return box;
       }
       async function soToggleComments(card, it, btn, label) {
         const open = card.querySelector('.so-cm');
@@ -3336,8 +3391,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         if (soTabNow === 'clips') return soClipCompOpen();   // ปุ่ม + ในแท็บคลิป = แชร์คลิป
         const p = { ...readProfile(), name: soNick || '' };
         paintAvatar(document.getElementById('soCompAv'), p); document.getElementById('soCompNick').textContent = soNick || '';
-        document.getElementById('soComp').classList.remove('hidden'); soMsg('', ''); soCount();
-        setTimeout(() => document.getElementById('soBody').focus(), 60);
+        document.getElementById('soComp').classList.remove('hidden'); soMsg('', ''); soMode('text');
       }
       function soCompClose() { document.getElementById('soComp').classList.add('hidden'); }
       document.addEventListener('keydown', (e) => {
@@ -3416,10 +3470,34 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         ov.onclick = (e) => { if (e.target === ov) soStoryClose(); };
         x.focus();
       }
+      let soComposeMode = 'text';
+      function soPollVals() { return [...document.querySelectorAll('#soPOpts input')].map((i) => i.value.replace(/\s+/g, ' ').trim()).filter(Boolean); }
       function soCount() {
+        if (soComposeMode === 'poll') {
+          const q = document.getElementById('soPQ').value.trim(), o = soPollVals();
+          document.getElementById('soCnt').textContent = o.length + ' ตัวเลือก';
+          document.getElementById('soSend').disabled = !q || o.length < 2 || soBusy;
+          return;
+        }
         const v = document.getElementById('soBody').value;
         document.getElementById('soCnt').textContent = [...v].length + '/280';
         document.getElementById('soSend').disabled = !v.trim() || soBusy;
+      }
+      function soPollAddOpt(focus = true) {
+        const box = document.getElementById('soPOpts'), n = box.children.length; if (n >= 5) return;
+        const row = mk('div', 'so-popt'), inp = mk('input'); inp.maxLength = 30; inp.placeholder = 'ตัวเลือกที่ ' + (n + 1); inp.autocomplete = 'off'; inp.setAttribute('aria-label', 'ตัวเลือกที่ ' + (n + 1)); inp.oninput = soCount;
+        row.appendChild(inp);
+        if (n >= 2) { const x = mk('button', '', '×'); x.type = 'button'; x.setAttribute('aria-label', 'ลบตัวเลือกนี้'); x.onclick = () => { row.remove(); document.getElementById('soPAdd').classList.remove('hidden'); soCount(); }; row.appendChild(x); }
+        box.appendChild(row); document.getElementById('soPAdd').classList.toggle('hidden', box.children.length >= 5);
+        if (focus) inp.focus();
+      }
+      function soMode(m) {
+        soComposeMode = m;
+        document.getElementById('soModeT').setAttribute('aria-pressed', String(m === 'text')); document.getElementById('soModeP').setAttribute('aria-pressed', String(m === 'poll'));
+        document.getElementById('soTextF').classList.toggle('hidden', m !== 'text'); document.getElementById('soPollF').classList.toggle('hidden', m !== 'poll');
+        if (m === 'poll' && !document.getElementById('soPOpts').children.length) { soPollAddOpt(false); soPollAddOpt(false); }
+        soMsg('', ''); soCount();
+        setTimeout(() => document.getElementById(m === 'poll' ? 'soPQ' : 'soBody').focus(), 30);
       }
       // ---- แท็บคลิป: กริดการ์ดแบบ Pinterest ของคลิป YouTube ที่เพื่อนแชร์ + ค้นหา (ไม่เก็บวิดีโอเอง ใช้ภาพปกและตัวเล่นของ YouTube) ----
       Object.assign(SO_ERR, {
@@ -3610,11 +3688,14 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       }
       async function soPost() {
         if (soBusy) return;
-        const line = document.getElementById('soBody').value.replace(/\s+/g, ' ').trim(); if (!line) return;
+        const isPoll = soComposeMode === 'poll';
+        const line = document.getElementById('soBody').value.replace(/\s+/g, ' ').trim(); if (!isPoll && !line) return;
+        const question = document.getElementById('soPQ').value.replace(/\s+/g, ' ').trim(), options = soPollVals();
+        if (isPoll && (!question || options.length < 2)) return;
         soBusy = true; soCount(); soMsg('กำลังตรวจข้อความ…', 'ok');
-        const r = await soCall({ action: 'post', kind: 'post', line, av: soMyAv() });
+        const r = await soCall(isPoll ? { action: 'post', kind: 'poll', question, options, hours: Number(document.getElementById('soPHrs').value), av: soMyAv() } : { action: 'post', kind: 'post', line, av: soMyAv() });
         soBusy = false; soCount();
-        if (r.ok) { document.getElementById('soBody').value = ''; soCount(); soCompClose(); soMsg('', ''); soNote('โพสต์แล้ว', 'ok'); await soLoad(); setTimeout(() => soNote('', ''), 2500); return; }
+        if (r.ok) { document.getElementById('soBody').value = ''; document.getElementById('soPQ').value = ''; document.getElementById('soPOpts').textContent = ''; soMode('text'); soCount(); soCompClose(); soMsg('', ''); soNote('โพสต์แล้ว', 'ok'); await soLoad(); setTimeout(() => soNote('', ''), 2500); return; }
         if (r.error === 'care') { soMsg('ข้อความนี้ยังไม่ขึ้น แต่เราห่วงคุณ ถ้าไม่สบายใจหรืออยากคุยกับใคร โทรสายด่วนสุขภาพจิต 1323 ได้ฟรีตลอด 24 ชม. หรือบอกครูที่ไว้ใจ ดูช่องทางอื่นที่หน้า "ติดต่อ"', 'care'); return; }
         if (r.error === 'banned') { soMsg(r.auto ? 'คุณใช้ถ้อยคำรุนแรงหลายครั้ง จึงถูกระงับชั่วคราว ' + (r.hours || 24) + ' ชั่วโมง' : SO_ERR.banned, ''); return; }
         if (r.error === 'filter_word' && r.left != null) { soMsg(SO_ERR.filter_word + ' (เหลืออีก ' + r.left + ' ครั้งก่อนถูกระงับชั่วคราว)', ''); return; }
