@@ -462,6 +462,15 @@
       const gl = mk('button', s.global ? null : 'pri', s.global ? '🛑 ปิดโซเชียลทุกห้อง' : '▶ เปิดระบบโซเชียลทั้งระบบ');
       gl.onclick = async () => { if (s.global && !confirm('ปิดโซเชียลทุกห้องทันที? นักเรียนทุกห้องจะเห็นหน้า "กำลังเตรียม"')) return; await api({ action: 'social_global', enabled: !s.global }); openRoom(id); };
       hd.append(ttl, tg, pt, gl); sc.append(hd);
+      // สรุปรายงานด้วย Haiku (กดเองเท่านั้น ส่งแต่ข้อความที่ถูกรายงาน ไม่ส่งชื่อ/เลข/รหัสผู้ส่ง) ผลเป็นคำแนะนำ แอดมินตัดสินเอง
+      const sm = mk('button', null, '🤖 สรุปรายงานด้วย Haiku'), smBox = mk('pre', 'muted'); smBox.style.cssText = 'white-space:pre-wrap;margin:8px 0 0;font:inherit;display:none';
+      const SM_ERR = { no_key: 'ยังไม่ได้ตั้งคีย์ AI ใน Supabase', budget: 'งบ AI เดือนนี้หมดแล้ว', ai: 'AI สรุปไม่สำเร็จ ลองใหม่อีกครั้ง' };
+      sm.onclick = async () => {
+        sm.disabled = true; smBox.style.display = 'block'; smBox.textContent = 'กำลังสรุป…';
+        const r = await api({ action: 'social_summary', class_id: d.class }); sm.disabled = false;
+        smBox.textContent = r.body.ok ? r.body.summary + (r.body.count ? `\n\n(สรุปจาก ${r.body.count} รายการ เป็นคำแนะนำเท่านั้น ตรวจเองก่อนลบหรือระงับ)` : '') : (SM_ERR[r.body.error] || 'สรุปไม่สำเร็จ');
+      };
+      sc.append(sm, smBox);
       if (s.bans.length) sc.append(mk('div', 'muted', 'ระงับอยู่ (ใช้ร่วมกับแชต): ' + s.bans.map((x) => `#${x.poster} (ถึง ${fmt(x.until)})`).join(', ')));
       const flag = (n, sh, hid) => (sh ? ' · 🚨 รายงานเรื่องความปลอดภัย' : '') + (n ? ` · 🚩 ${n} รายงาน${n >= 3 || sh ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : '') + (hid ? ' · ซ่อนโดยแอดมิน' : '');
       const who = (x) => `ผู้ส่ง ${x.student_id ? 'เลข ' + x.student_id : '#' + x.poster}`;
@@ -474,7 +483,7 @@
       };
       const btn = (t, title, fn) => { const b2 = mk('button', 'x', t); b2.title = title; b2.onclick = fn; return b2; };
       const sorted = (arr) => arr.slice().sort((a, b) => (b.selfharm - a.selfharm) || (b.reports - a.reports) || (new Date(b.created_at) - new Date(a.created_at)));
-      const KD = { kudos: 'ขอบคุณ', work: 'ผลงาน', offer: 'บริการ', post: 'โพสต์' };
+      const KD = { kudos: 'ขอบคุณ', work: 'ผลงาน', offer: 'บริการ', post: 'โพสต์', poll: 'โหวต' };
       sc.append(mk('h3', null, `โพสต์ (${s.posts.length})`)); sc.lastChild.style.marginTop = '12px';
       if (!s.posts.length) sc.append(mk('p', 'muted', 'ยังไม่มีโพสต์'));
       sorted(s.posts).forEach((p) => {
