@@ -2937,7 +2937,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
 
       // ---- ล็อกอินด้วยอีเมลโรงเรียน (OTP) ----
       // เปิดใช้จริงเมื่อฝั่งเซิร์ฟเวอร์พร้อม: เปลี่ยน OTP_DEFAULT เป็น true (ทดสอบก่อนได้ด้วย ?otp=1)
-      const OTP_DEFAULT = false, SCHOOL_DOMAIN = 'thaboschool.ac.th';
+      const OTP_DEFAULT = true, SCHOOL_DOMAIN = 'thaboschool.ac.th';
       const OTP_ON = OTP_DEFAULT ? new URLSearchParams(location.search).get('otp') !== '0' : (new URLSearchParams(location.search).get('otp') === '1' || (document.documentElement.classList.contains('ui2') && new URLSearchParams(location.search).get('otp') !== '0'));   // โครงใหม่ (?ui=2) ใช้อีเมลเป็นทางหลัก
       let otpEmail = '', otpTimer = null;
       const otpErr = (m) => { const e = document.getElementById('otpError'); e.textContent = m || ''; e.classList.toggle('hidden', !m); };
