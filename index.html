@@ -100,7 +100,9 @@
       html.ui2:not([data-view="home"]) .v-home, html.ui2:not([data-view="room"]) .v-room, html.ui2:not([data-view="menu"]) .v-menu, html.ui2:not([data-view="portfolio"]) .v-portfolio,
       html.ui2:not([data-view="room"][data-room="ann"]) .v-room-ann, html.ui2:not([data-view="room"][data-room="study"]) .v-room-study, html.ui2:not([data-view="msg"][data-room="chat"]):not([data-view="msg"][data-room="admin"]) .v-room-chat, html.ui2:not([data-view="msg"][data-room="open"]) .v-room-open, html.ui2:not([data-view="msg"][data-room="teach"]) .v-room-teach, html.ui2:not([data-view="msg"]) .v-msg, html.ui2:not([data-view="msg"][data-room="inbox"]) .v-msg-inbox { display: none !important; }
       html.ui2 #chatTabs { display: none; }
-      body.teacher-mode #socialV2 > :not(.so-mh):not(#soTeacherNote) { display: none !important; } body:not(.teacher-mode) #soTeacherNote { display: none !important; }
+      body:not(.teacher-mode) #soTeacherBar { display: none !important; }
+      .so-tbar { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem; } .so-tbar label { font-size: 0.8rem; font-weight: 600; color: #64748b; } .so-tbar select { flex: 1; padding: 0.5rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 12px; background: #fff; color: #0f172a; font-weight: 600; } html.dark .so-tbar select { background: #0b1220; border-color: #243152; color: #f1f5f9; }
+      .so-tbadge { margin-left: 0.4rem; padding: 0 0.35rem; border-radius: 6px; font-size: 0.7rem; font-weight: 600; background: #d1fae5; color: #065f46; } html.dark .so-tbadge { background: rgba(5, 150, 105, 0.25); color: #6ee7b7; }
       .so-mh { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; } .so-mh h2 { font-size: 1.5rem; font-weight: 600; color: #0f172a; } html.dark .so-mh h2 { color: #f1f5f9; }
       #msgBtn { position: relative; width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0f172a; background: transparent; } #msgBtn:hover { background: rgba(100, 116, 139, 0.12); } html.dark #msgBtn { color: #f1f5f9; } #msgBtn svg { width: 1.4rem; height: 1.4rem; }
       .so-mdot { position: absolute; top: 0.45rem; right: 0.45rem; width: 0.6rem; height: 0.6rem; border-radius: 50%; background: #e11d48; border: 2px solid #fff; } html.dark .so-mdot { border-color: #0b1220; }
@@ -1107,7 +1109,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                   <span id="msgDot" class="so-mdot hidden"></span>
                 </button>
               </div>
-              <p id="soTeacherNote" class="pt-note">ครูใช้ปุ่มข้อความมุมขวาบน คุยในโอเพ่นแชทกับนักเรียนและในห้องครู ส่วนกำแพงโซเชียลเป็นของนักเรียนรายห้อง</p>
+              <div id="soTeacherBar" class="so-tbar"><label for="soTeacherRoom">ห้องที่สอน</label><select id="soTeacherRoom" onchange="soTeacherPick(this.value)"></select></div>
+              <p id="soTeacherNote" class="pt-note hidden">ไม่พบห้องในตารางสอนของคุณ ถ้าตารางสอนยังไม่ครบ แจ้งแอดมินให้เพิ่ม</p>
               <!-- กำแพงขอบคุณรายห้อง (โซเชียลรุ่นแรก) แสดงเมื่อแอดมินเปิดห้องนี้เท่านั้น ไม่งั้นแสดง "กำลังเตรียม" ด้านล่าง -->
               <div id="soWall" class="so-w hidden" data-tab="feed">
                 <div id="soNeedLogin" class="pt-note hidden">ใช้ได้เมื่อเข้าด้วยเลขประจำตัวหรืออีเมลโรงเรียน ไปที่โปรไฟล์ → ออกจากระบบ → เข้าใหม่ด้วยเลขประจำตัว</div>
@@ -3461,7 +3464,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       async function openCall(body) {
         const tt = teacherMode ? teacherToken() : null, token = getToken(); if (!token && !tt) return { ok: false, error: 'auth' };   // ครูใช้โทเค็นครู นักเรียนใช้โทเค็นห้อง
         try {
-          const res = await fetch(`${SUPABASE_URL}/functions/v1/openchat`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ ...body, token: tt ? undefined : token, ttoken: tt || undefined, sid: getSid() }) });
+          const res = await fetch(`${SUPABASE_URL}/functions/v1/openchat`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ ...body, token: tt ? undefined : token, ttoken: tt || undefined, tname: tt ? ((readProfile().name || '').trim().slice(0, 20) || undefined) : undefined, sid: getSid() }) });
           const j = await res.json().catch(() => ({})); if (res.status === 401) localStorage.removeItem('classkhab_token'); return { ...j, status: res.status };
         } catch (e) { return { ok: false, error: 'net' }; }
       }
@@ -3634,10 +3637,11 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         nick_chars: 'ใช้ได้เฉพาะตัวอักษรไทย อังกฤษ ตัวเลข และเว้นวรรค', nick_reserved: 'ชื่อนี้สงวนไว้ เลือกชื่ออื่น', nick_word: 'ชื่อนี้ไม่อนุญาต เลือกชื่ออื่น',
       };
       let soItems = [], soTimer = null, soBusy = false, soOpenNow = false, soNick = null, soCanPost = false;
+      var soTeacherRoom = '';
       const soCall = async (body) => {
-        const token = getToken(); if (!token) return { ok: false, error: 'auth' };
+        const tt = teacherMode ? teacherToken() : null, token = getToken(); if (!token && !tt) return { ok: false, error: 'auth' };   // ครูใช้โทเค็นครู + ห้องที่เลือก
         try {
-          const res = await fetch(`${SUPABASE_URL}/functions/v1/social`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ ...body, token, sid: getSid() }) });
+          const res = await fetch(`${SUPABASE_URL}/functions/v1/social`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ ...body, token: tt ? undefined : token, ttoken: tt || undefined, tname: tt ? ((readProfile().name || '').trim().slice(0, 20) || undefined) : undefined, room: tt ? soTeacherRoom : undefined, sid: getSid() }) });
           const j = await res.json().catch(() => ({})); if (res.status === 401) localStorage.removeItem('classkhab_token'); return { ...j, status: res.status };
         } catch (e) { return { ok: false, error: 'net' }; }
       };
@@ -3653,6 +3657,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       }
       // รูปโปรไฟล์: ของตัวเองใช้รูป/สีที่ตั้งในโปรไฟล์ (เก็บในเครื่อง) ของคนอื่นเห็นเป็นสีพื้นที่เขาเลือก + ตัวอักษรแรกของชื่อเล่น (รูปถ่ายไม่ได้ส่งขึ้นเซิร์ฟเวอร์)
       function soAvatar(el, it) {
+        if (it.teacher) { el.textContent = 'ครู'; el.style.backgroundImage = ''; el.style.backgroundColor = '#047857'; el.style.color = '#fff'; el.style.fontSize = '0.65rem'; el.style.fontWeight = '600'; return; }
         if (it.own) paintAvatar(el, { ...readProfile(), name: it.nick }); else if (it.ava) avaPaint(el, it.ava, it.nick); else paintAvatar(el, { color: PF_COLORS[it.av] || PF_COLORS[0], name: it.nick });
         el.style.backgroundSize = 'cover'; el.style.backgroundPosition = 'center';
       }
@@ -3675,7 +3680,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const card = mk('article', 'so-k'); card.setAttribute('aria-label', 'โพสต์จาก ' + it.nick);
         const ph = mk('div', 'so-ph');
         const avb = mk('button', 'so-avb'); avb.type = 'button'; avb.setAttribute('aria-label', 'ดูโปรไฟล์ ' + it.nick); const av = mk('div', 'so-av'); soAvatar(av, it); avb.appendChild(av); avb.onclick = () => soProfOpen(it);
-        const who = mk('div'); who.append(mk('b', '', it.nick), mk('small', '', soAgo(it.created_at)));
+        const nm = mk('b', '', it.nick); if (it.teacher) nm.append(mk('span', 'so-tbadge', 'ครู'));
+        const who = mk('div'); who.append(nm, mk('small', '', soAgo(it.created_at)));
         ph.append(avb, who); card.appendChild(ph);
         if (it.kind === 'kudos') card.appendChild(mk('span', 'so-pill', SO_TAGS[it.tag] || it.tag));
         else if (it.kind === 'work' || it.kind === 'offer') { card.appendChild(mk('span', 'so-pill so-pill-' + it.kind, SO_KINDS[it.kind])); card.appendChild(mk('h3', 'so-tt', it.title || '')); }
@@ -4050,6 +4056,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       }
       // ส่งคำอธิบายกับสีโปรไฟล์ของเราขึ้นไปให้เพื่อนเห็น (เมื่อเปลี่ยน) รูปถ่ายไม่ถูกส่ง
       async function soSyncProfile() {
+        if (teacherMode) return;
         const p = readProfile(), payload = { bio: (p.bio || '').trim().slice(0, 80), av: soMyAv() }, sig = JSON.stringify(payload);
         let old = ''; try { old = localStorage.getItem('classkhab_so_prof') || ''; } catch (e) { /* ไม่มี storage */ }
         if (old === sig) return;
@@ -4071,12 +4078,37 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         soReelsRefresh();
       }
       async function soEnter() {
-        if (!UI2 || teacherMode) return; await soLoad(); soSchedule();
+        if (!UI2) return;
+        if (teacherMode) { soTeacherInit(); if (!soTeacherRoom) { document.getElementById('soWall').classList.add('hidden'); document.getElementById('soClosed').classList.add('hidden'); return; } }
+        await soLoad(); soSchedule();
       }
       function soSchedule() {
         clearTimeout(soTimer); soTimer = null;
         if (document.documentElement.dataset.view !== 'social' || !soOpenNow) return;
         soTimer = setTimeout(async () => { if (!document.hidden && !soBusy && document.getElementById('soComp').classList.contains('hidden') && !document.querySelector('#soWall .so-rep, #soWall .so-cm')) await soLoad(); soSchedule(); }, 30000);   // เปิดหน้านี้อยู่เท่านั้น ไม่ดึงตอนซ่อนแท็บ ไม่ดึงทับตอนกำลังเขียน
+      }
+      // ครู: เลือกห้องที่สอนจากตารางสอน (ชื่อห้องตัดคำต่อท้าย เช่น "ม.1/2 พิเศษ" → "ม.1/2")
+      function soTeacherRooms() {
+        let sc = []; try { sc = (JSON.parse(localStorage.getItem('classkhab_teacher') || 'null') || {}).schedule || []; } catch (e) { /* ไม่มีตาราง */ }
+        const set = new Set(); for (const s of sc) { const m = String(s.class || '').match(/^ม\.\d+\/\d+(\((?:JAP|KOR|CHI)\))?/); if (m) set.add(m[0]); }
+        return [...set].sort((a, b) => a.localeCompare(b, 'th', { numeric: true }));
+      }
+      function soTeacherInit() {
+        const sel = document.getElementById('soTeacherRoom'), rooms = soTeacherRooms();
+        document.getElementById('soTeacherNote').classList.toggle('hidden', rooms.length > 0);
+        document.getElementById('soTeacherBar').classList.toggle('hidden', !rooms.length);
+        if (sel.dataset.built === rooms.join('|')) return;
+        sel.textContent = ''; sel.dataset.built = rooms.join('|');
+        const ph = mk('option', null, 'เลือกห้อง…'); ph.value = ''; sel.append(ph);
+        for (const r of rooms) { const o = mk('option', null, r); o.value = r; sel.append(o); }
+        let last = ''; try { last = localStorage.getItem('classkhab_so_troom') || ''; } catch (e) { /* ไม่เป็นไร */ }
+        soTeacherRoom = rooms.includes(last) ? last : (rooms.length === 1 ? rooms[0] : ''); sel.value = soTeacherRoom;
+      }
+      async function soTeacherPick(v) {
+        soTeacherRoom = v; try { localStorage.setItem('classkhab_so_troom', v); } catch (e) { /* ไม่เป็นไร */ }
+        soItems = []; soNick = null; document.getElementById('soList').textContent = '';
+        if (!v) { document.getElementById('soWall').classList.add('hidden'); document.getElementById('soClosed').classList.add('hidden'); return; }
+        await soLoad(); soSchedule();
       }
       function soStop() {   // ออกจากหน้าโซเชียล: หยุดดึงข้อมูล และปิดหน้าซ้อน (Reels / สตอรี่ / แผ่นเขียนโพสต์) ไม่ให้ค้างทับหน้าอื่น
         clearTimeout(soTimer); soTimer = null;
