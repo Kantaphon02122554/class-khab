@@ -3400,6 +3400,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         else { el.textContent = (p.name || '').trim().charAt(0) || '?'; return; }
         el.style.backgroundSize = 'cover'; el.style.backgroundPosition = 'center';
       }
+      const avaCanSync = () => !!getSid() || (teacherMode && !!teacherToken());   // รูปที่เพื่อนเห็นต้องมีตัวตนบนเซิร์ฟเวอร์: นักเรียนล็อกอินอีเมล หรือครูล็อกอินรหัสครู
       const AVA_ERR = {
         need_email_login: 'รูปที่เพื่อนเห็นต้องล็อกอินด้วยอีเมลโรงเรียนก่อน (ตอนนี้บันทึกไว้ในเครื่องนี้เท่านั้น)',
         review_unavailable: 'ระบบตรวจรูปใช้ไม่ได้ชั่วคราว ลองใหม่ภายหลัง หรือเลือกอวตารสำเร็จรูปแทน',
@@ -3408,9 +3409,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         slow: 'เปลี่ยนรูปบ่อยเกินไป รอสักครู่แล้วลองใหม่', too_big: 'ไฟล์รูปใหญ่เกินไป ลองรูปอื่น', file: 'อ่านรูปนี้ไม่ได้ ลองรูปอื่น', net: 'เชื่อมต่อไม่ได้ ลองใหม่', auth: 'ต้องเข้าสู่ระบบห้องใหม่ก่อน',
       };
       async function avaCall(body) {
-        const token = getToken(); if (!token) return { ok: false, error: 'auth' };
+        const tt = teacherMode ? teacherToken() : null, token = getToken(); if (!token && !tt) return { ok: false, error: 'auth' };
         try {
-          const res = await fetch(`${SUPABASE_URL}/functions/v1/avatar`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ ...body, token, sid: getSid() }) });
+          const res = await fetch(`${SUPABASE_URL}/functions/v1/avatar`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ ...body, token: tt ? undefined : token, ttoken: tt || undefined, sid: getSid() }) });
           const j = await res.json().catch(() => ({})); if (res.status === 401) localStorage.removeItem('classkhab_token'); return { ...j, status: res.status };
         } catch (e) { return { ok: false, error: 'net' }; }
       }
@@ -3424,14 +3425,14 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         pfDraft = { ...readProfile() }; pfOrig = { img: pfDraft.img || '', preset: Number.isInteger(pfDraft.preset) ? pfDraft.preset : null };
         const err0 = document.getElementById('pfErr'); err0.classList.add('hidden');
         const note = document.getElementById('pfAvaNote');
-        note.textContent = getSid() ? 'เพื่อนในห้องและเพื่อนทั้งโรงเรียนจะเห็นรูปนี้ที่ชื่อคุณ รูปถ่ายผ่านการตรวจโดย AI และแอดมินซ่อนได้ ไม่ควรใช้รูปที่มีคนอื่นหรือข้อมูลส่วนตัว' : 'ล็อกอินด้วยอีเมลโรงเรียนก่อน เพื่อนถึงจะเห็นรูปนี้ ตอนนี้เก็บไว้ในเครื่องนี้เท่านั้น';
+        note.textContent = avaCanSync() ? 'เพื่อนในห้องและเพื่อนทั้งโรงเรียนจะเห็นรูปนี้ที่ชื่อคุณ รูปถ่ายผ่านการตรวจโดย AI และแอดมินซ่อนได้ ไม่ควรใช้รูปที่มีคนอื่นหรือข้อมูลส่วนตัว' : 'ล็อกอินด้วยอีเมลโรงเรียนก่อน เพื่อนถึงจะเห็นรูปนี้ ตอนนี้เก็บไว้ในเครื่องนี้เท่านั้น';
         const pbox = document.getElementById('pfPresets'); pbox.textContent = '';
         for (let n = 0; n < 36; n++) {
           const b = mk('button'); b.type = 'button'; b.style.backgroundImage = 'url("' + presetUri(n) + '")'; b.setAttribute('aria-label', 'อวตาร ' + (n + 1)); b.className = pfDraft.preset === n && !pfDraft.img ? 'on' : '';
           b.onclick = () => { pfDraft.preset = n; pfDraft.img = ''; pfDraft.imgNew = false; [...pbox.children].forEach((x, i) => x.classList.toggle('on', i === n)); paintAvatar(document.getElementById('pfPrev'), { ...pfDraft, name: document.getElementById('pfInName').value }); };
           pbox.append(b);
         }
-        if (getSid() && !pfDraft.img && !Number.isInteger(pfDraft.preset)) avaCall({ action: 'mine' }).then((r) => {   // เครื่องใหม่: ดึงรูปที่เคยตั้งไว้มาแสดง
+        if (avaCanSync() && !pfDraft.img && !Number.isInteger(pfDraft.preset)) avaCall({ action: 'mine' }).then((r) => {   // เครื่องใหม่: ดึงรูปที่เคยตั้งไว้มาแสดง
           if (!r.ok || !r.ava || !pfDraft || pfDraft.img || Number.isInteger(pfDraft.preset)) return;
           if (r.ava.k === 'p') { pfDraft.preset = r.ava.n; pfOrig.preset = r.ava.n; [...pbox.children].forEach((x, i) => x.classList.toggle('on', i === r.ava.n)); }
           else { pfDraft.img = r.ava.u; pfOrig.img = r.ava.u; }
@@ -3516,7 +3517,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const own = it.own;
           const row = mk('div', 'chat-msg flex w-full ' + (own ? 'justify-end' : 'justify-start')); row.dataset.id = it.id;
           const wrap = mk('div', 'flex max-w-[85%] items-end gap-2' + (own ? ' flex-row-reverse' : ''));
-          if (!own) { const av = mk('div', 'flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-600 text-xs font-semibold text-white'); avaPaint(av, it.ava, it.nick, '#475569'); if (it.teacher) { av.style.backgroundImage = ''; av.style.backgroundColor = '#047857'; av.textContent = 'ครู'; av.style.fontSize = '10px'; } wrap.append(av); }
+          if (!own) { const av = mk('div', 'flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-600 text-xs font-semibold text-white'); avaPaint(av, it.ava, it.nick, '#475569'); if (it.teacher && !it.ava) { av.style.backgroundImage = ''; av.style.backgroundColor = '#047857'; av.textContent = 'ครู'; av.style.fontSize = '10px'; } wrap.append(av); }
           const col = mk('div', 'min-w-0');
           const meta = mk('div', 'mb-0.5 flex items-center gap-1.5 px-1 text-[10px] text-white/40' + (own ? ' justify-end' : ''));
           if (!own) meta.append(mk('span', 'font-medium ' + (it.teacher ? 'text-emerald-300' : 'text-white/70'), it.nick));
@@ -3657,7 +3658,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       }
       // รูปโปรไฟล์: ของตัวเองใช้รูป/สีที่ตั้งในโปรไฟล์ (เก็บในเครื่อง) ของคนอื่นเห็นเป็นสีพื้นที่เขาเลือก + ตัวอักษรแรกของชื่อเล่น (รูปถ่ายไม่ได้ส่งขึ้นเซิร์ฟเวอร์)
       function soAvatar(el, it) {
-        if (it.teacher) { el.textContent = 'ครู'; el.style.backgroundImage = ''; el.style.backgroundColor = '#047857'; el.style.color = '#fff'; el.style.fontSize = '0.65rem'; el.style.fontWeight = '600'; return; }
+        if (it.teacher && !it.ava && !it.own) { el.textContent = 'ครู'; el.style.backgroundImage = ''; el.style.backgroundColor = '#047857'; el.style.color = '#fff'; el.style.fontSize = '0.65rem'; el.style.fontWeight = '600'; return; }
         if (it.own) paintAvatar(el, { ...readProfile(), name: it.nick }); else if (it.ava) avaPaint(el, it.ava, it.nick); else paintAvatar(el, { color: PF_COLORS[it.av] || PF_COLORS[0], name: it.nick });
         el.style.backgroundSize = 'cover'; el.style.backgroundPosition = 'center';
       }
@@ -4725,7 +4726,7 @@ footer{border-top:1px solid var(--line);padding-top:24px;font-size:12px;color:va
         const p = { name: document.getElementById('pfInName').value.trim().slice(0, 20), bio: document.getElementById('pfInBio').value.trim().slice(0, 80), color: pfDraft.color || PF_COLORS[0], img: (pfDraft.img || '').startsWith('data:') ? pfDraft.img : '', preset: Number.isInteger(pfDraft.preset) ? pfDraft.preset : null };
         // ส่งรูปให้เซิร์ฟเวอร์ (เพื่อนถึงจะเห็น) ก่อนบันทึกในเครื่อง ถ้ารูปไม่ผ่านการตรวจจะไม่ปิดหน้านี้
         const btn = document.querySelector('#pfSheet .pf-save'), err = document.getElementById('pfErr'); err.classList.add('hidden');
-        if (getSid()) {
+        if (avaCanSync()) {
           let r = null;
           if (pfDraft.imgNew && pfDraft.img) r = await (async () => { btn.disabled = true; btn.textContent = 'กำลังตรวจรูป…'; return avaCall({ action: 'set_photo', file: { data: pfDraft.img.split(',')[1] } }); })();
           else if (!pfDraft.img && p.preset !== null && (p.preset !== pfOrig.preset || pfOrig.img)) { btn.disabled = true; r = await avaCall({ action: 'set_preset', preset: p.preset }); }
