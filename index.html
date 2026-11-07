@@ -3401,6 +3401,19 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         el.style.backgroundSize = 'cover'; el.style.backgroundPosition = 'center';
       }
       const avaCanSync = () => !!getSid() || (teacherMode && !!teacherToken());   // รูปที่เพื่อนเห็นต้องมีตัวตนบนเซิร์ฟเวอร์: นักเรียนล็อกอินอีเมล หรือครูล็อกอินรหัสครู
+      // รูปที่ตั้งไว้ในเครื่องแต่ยังไม่เคยขึ้นเซิร์ฟเวอร์ (เช่นตั้งก่อนมีระบบนี้) ส่งขึ้นเองหนึ่งครั้งต่อรูป ถ้าเซิร์ฟเวอร์ตอบชัดเจน (ผ่าน/ไม่ผ่าน) จำไว้ ไม่ส่งซ้ำ ถ้าเน็ตหรือระบบตรวจรูปขัดข้องจะลองใหม่ตอนเปิดเว็บครั้งหน้า
+      async function avaAutoSync() {
+        try {
+          if (!avaCanSync()) return;
+          const p = readProfile(), photo = typeof p.img === 'string' && p.img.startsWith('data:image/jpeg') ? p.img : '', preset = Number.isInteger(p.preset) ? p.preset : null;
+          if (!photo && preset === null) return;
+          const sig = (teacherMode ? 'T' : 'S') + ':' + (photo ? 'p' + photo.length + photo.slice(-24) : 'a' + preset);
+          if (localStorage.getItem('classkhab_ava_sig') === sig) return;
+          const r = photo ? await avaCall({ action: 'set_photo', file: { data: photo.split(',')[1] } }) : await avaCall({ action: 'set_preset', preset });
+          const retry = r.error === 'net' || r.error === 'review_unavailable' || r.error === 'slow' || r.error === 'auth' || r.status >= 500;
+          if (!retry) localStorage.setItem('classkhab_ava_sig', sig);
+        } catch (e) { /* ไม่เป็นไร ลองใหม่ครั้งหน้า */ }
+      }
       const AVA_ERR = {
         need_email_login: 'รูปที่เพื่อนเห็นต้องล็อกอินด้วยอีเมลโรงเรียนก่อน (ตอนนี้บันทึกไว้ในเครื่องนี้เท่านั้น)',
         review_unavailable: 'ระบบตรวจรูปใช้ไม่ได้ชั่วคราว ลองใหม่ภายหลัง หรือเลือกอวตารสำเร็จรูปแทน',
@@ -4735,6 +4748,7 @@ footer{border-top:1px solid var(--line);padding-top:24px;font-size:12px;color:va
           if (r && !r.ok) { err.textContent = AVA_ERR[r.error] || 'บันทึกรูปไม่สำเร็จ ลองใหม่'; err.classList.remove('hidden'); return; }
         }
         pfDraft.imgNew = false;
+        try { const ph = p.img && p.img.startsWith('data:image/jpeg') ? p.img : ''; localStorage.setItem('classkhab_ava_sig', (teacherMode ? 'T' : 'S') + ':' + (ph ? 'p' + ph.length + ph.slice(-24) : (p.preset !== null ? 'a' + p.preset : ''))); } catch (e) { /* ไม่เป็นไร */ }
         try { localStorage.setItem(PF_KEY, JSON.stringify(p)); } catch (e) { alert('บันทึกไม่ได้ (พื้นที่เก็บข้อมูลเต็ม ลองเอารูปออก)'); return; }
         closeProfileEdit(); renderProfile();
       }
@@ -4864,6 +4878,7 @@ footer{border-top:1px solid var(--line);padding-top:24px;font-size:12px;color:va
         logVisit();
         updateOfflineBar();
         updateMenuV2();
+        avaAutoSync();
         if (teacherMode) { syncTeacherPush(); openPeek(); }
         else { loadVerified(); loadAnnouncements(); chatPeek(); openPeek(); syncPush(); }
       }
