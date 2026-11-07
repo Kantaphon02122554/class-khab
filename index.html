@@ -98,7 +98,16 @@
       html.ui2 #nowNextGrid { grid-template-columns: 1fr; }
       html.ui2 #nowNextGrid > div:first-child { grid-column: auto; padding: 1.1rem 1.25rem; }
       html.ui2:not([data-view="home"]) .v-home, html.ui2:not([data-view="room"]) .v-room, html.ui2:not([data-view="menu"]) .v-menu, html.ui2:not([data-view="portfolio"]) .v-portfolio,
-      html.ui2:not([data-view="room"][data-room="ann"]) .v-room-ann, html.ui2:not([data-view="room"][data-room="study"]) .v-room-study, html.ui2:not([data-view="room"][data-room="chat"]) .v-room-chat, html.ui2:not([data-view="room"][data-room="open"]) .v-room-open { display: none !important; }
+      html.ui2:not([data-view="room"][data-room="ann"]) .v-room-ann, html.ui2:not([data-view="room"][data-room="study"]) .v-room-study, html.ui2:not([data-view="msg"][data-room="chat"]):not([data-view="msg"][data-room="admin"]) .v-room-chat, html.ui2:not([data-view="msg"][data-room="open"]) .v-room-open, html.ui2:not([data-view="msg"]) .v-msg, html.ui2:not([data-view="msg"][data-room="inbox"]) .v-msg-inbox { display: none !important; }
+      html.ui2 #chatTabs { display: none; }
+      .so-mh { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; } .so-mh h2 { font-size: 1.5rem; font-weight: 600; color: #0f172a; } html.dark .so-mh h2 { color: #f1f5f9; }
+      #msgBtn { position: relative; width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0f172a; background: transparent; } #msgBtn:hover { background: rgba(100, 116, 139, 0.12); } html.dark #msgBtn { color: #f1f5f9; } #msgBtn svg { width: 1.4rem; height: 1.4rem; }
+      .so-mdot { position: absolute; top: 0.45rem; right: 0.45rem; width: 0.6rem; height: 0.6rem; border-radius: 50%; background: #e11d48; border: 2px solid #fff; } html.dark .so-mdot { border-color: #0b1220; }
+      .msg-bar { display: flex; align-items: center; gap: 0.25rem; margin-bottom: 0.75rem; } .msg-bar button { width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0f172a; } html.dark .msg-bar button { color: #f1f5f9; } .msg-bar button svg { width: 1.4rem; height: 1.4rem; } .msg-bar b { font-size: 1.15rem; font-weight: 600; color: #0f172a; } html.dark .msg-bar b { color: #f1f5f9; }
+      .msg-row { display: flex; align-items: center; gap: 0.85rem; width: 100%; text-align: left; padding: 0.75rem 0.25rem; border-radius: 12px; } .msg-row:hover { background: rgba(100, 116, 139, 0.08); }
+      .msg-ic { position: relative; flex: none; width: 3rem; height: 3rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #0f172a; color: #fff; } .msg-ic svg { width: 1.3rem; height: 1.3rem; } html.dark .msg-ic { background: #243152; }
+      .msg-t { min-width: 0; flex: 1; } .msg-t b { display: block; font-size: 0.95rem; font-weight: 600; color: #0f172a; } .msg-t small { display: block; font-size: 0.78rem; color: #64748b; } html.dark .msg-t b { color: #f1f5f9; }
+      .msg-dot { position: absolute; top: 0; right: 0; width: 0.7rem; height: 0.7rem; border-radius: 50%; background: #e11d48; border: 2px solid #fff; } html.dark .msg-dot { border-color: #0b1220; }
       /* ===== การ์ดงาน/แจ้งเตือนหน้าหลัก (html.cards): แทนแถบ สอบ/ประกาศ/วันหยุด/เวลาชั่วคราว/แจ้งเตือน เดิม ===== */
       html:not(.cards) #homeCards { display: none !important; }
       html.cards #heroText, html.cards #examBanner, html.cards #noticeBanner, html.cards #holidayBanner, html.cards #periodBanner, html.cards #pushBanner { display: none !important; }
@@ -962,9 +971,30 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
               <div class="v2-tabs">
                 <button id="rtAnn" onclick="setView('room','ann')" class="on">ประกาศ/การบ้าน</button>
                 <button id="rtStudy" onclick="setView('room','study')" class="hidden">ชีท</button>
-                <button id="rtChat" onclick="setView('room','chat')" class="hidden">แชต</button>
-                <button id="rtOpen" onclick="setView('room','open')" class="hidden">ทั้งโรงเรียน</button>
+                <button id="rtChat" class="hidden" aria-hidden="true" tabindex="-1">แชต</button>
+                <button id="rtOpen" class="hidden" aria-hidden="true" tabindex="-1">ทั้งโรงเรียน</button>
               </div>
+            </div>
+
+            <!-- ข้อความ (ในหน้าโซเชียล): แถบย้อนกลับ + รายการบทสนทนา แบบ IG/Messenger -->
+            <div id="msgBar" class="v2-only v-msg msg-bar">
+              <button type="button" onclick="msgBack()" aria-label="ย้อนกลับ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+              <b id="msgTitle">ข้อความ</b>
+            </div>
+            <div id="inboxSection" class="v2-only v-msg-inbox">
+              <button id="inRoom" type="button" class="msg-row hidden" onclick="setView('msg','chat')">
+                <span class="msg-ic"><i data-lucide="users"></i></span>
+                <span class="msg-t"><b id="inRoomT">แชตห้อง</b><small>คุยกับเพื่อนในห้องเดียวกัน</small></span>
+              </button>
+              <button id="inOpen" type="button" class="msg-row hidden" onclick="setView('msg','open')">
+                <span class="msg-ic"><i data-lucide="globe"></i></span>
+                <span class="msg-t"><b>ทั้งโรงเรียน</b><small>โอเพ่นแชท คุยกับเพื่อนทุกห้อง</small></span>
+              </button>
+              <button id="inAdmin" type="button" class="msg-row hidden" onclick="setView('msg','admin')">
+                <span class="msg-ic"><i data-lucide="shield-check"></i><span id="inDot" class="msg-dot hidden"></span></span>
+                <span class="msg-t"><b>คุยกับแอดมิน</b><small>ส่งข้อความส่วนตัว เพื่อนในห้องไม่เห็น</small></span>
+              </button>
+              <p id="inEmpty" class="hidden pt-note">ตอนนี้ยังไม่มีบทสนทนาที่เปิดให้ห้องของคุณ</p>
             </div>
 
             <!-- โอเพ่นแชท: ห้องคุยรวมทุกห้อง (ต้องล็อกอินอีเมลโรงเรียน ผ่านกติกา/คำถามทบทวน/ชื่อเล่นก่อนเข้า) -->
@@ -1044,6 +1074,13 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
 
             <!-- โซเชียล (เร็วๆ นี้) -->
             <div id="socialV2" class="v2-only v-social">
+              <div class="so-mh">
+                <h2>โซเชียล</h2>
+                <button id="msgBtn" type="button" class="hidden" onclick="setView('msg','inbox')" aria-label="ข้อความ (แชทห้อง โอเพ่นแชท คุยกับแอดมิน)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7Z"/></svg>
+                  <span id="msgDot" class="so-mdot hidden"></span>
+                </button>
+              </div>
               <!-- กำแพงขอบคุณรายห้อง (โซเชียลรุ่นแรก) แสดงเมื่อแอดมินเปิดห้องนี้เท่านั้น ไม่งั้นแสดง "กำลังเตรียม" ด้านล่าง -->
               <div id="soWall" class="so-w hidden" data-tab="feed">
                 <div id="soNeedLogin" class="pt-note hidden">ใช้ได้เมื่อเข้าด้วยเลขประจำตัวหรืออีเมลโรงเรียน ไปที่โปรไฟล์ → ออกจากระบบ → เข้าใหม่ด้วยเลขประจำตัว</div>
@@ -1351,7 +1388,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                   </div>
                   <button onclick="toggleChat(false)" aria-label="ปิดแชต" class="rounded-lg bg-white/5 px-3 py-1.5 text-xs text-white/60 transition-colors hover:bg-white/10 hover:text-white">ปิด</button>
                 </div>
-                <div class="flex gap-1.5 px-4 pt-3"><button id="tabClass" onclick="setChatChannel('class')" class="rounded-lg px-3 py-1.5 text-xs font-medium transition-colors">ห้องเรา</button><button id="tabAdmin" onclick="setChatChannel('admin')" class="rounded-lg px-3 py-1.5 text-xs font-medium transition-colors">คุยกับแอดมิน<span id="adminDot" class="hidden ml-1.5 inline-block h-2 w-2 rounded-full bg-rose-500"></span></button></div>
+                <div id="chatTabs" class="flex gap-1.5 px-4 pt-3"><button id="tabClass" onclick="setChatChannel('class')" class="rounded-lg px-3 py-1.5 text-xs font-medium transition-colors">ห้องเรา</button><button id="tabAdmin" onclick="setChatChannel('admin')" class="rounded-lg px-3 py-1.5 text-xs font-medium transition-colors">คุยกับแอดมิน<span id="adminDot" class="hidden ml-1.5 inline-block h-2 w-2 rounded-full bg-rose-500"></span></button></div>
                 <div id="chatNotice" class="hidden mx-4 mt-3 rounded-xl border border-amber-400/30 bg-amber-400/10 px-3 py-2 text-xs text-amber-200"></div>
                 <form id="chatNickForm" class="chat-scroll hidden space-y-3 overflow-y-auto p-4" onsubmit="saveNick(event)">
                   <p class="text-sm font-medium text-white">ก่อนเข้าแชต ตั้งชื่อเล่น</p>
@@ -2455,6 +2492,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const has = adminLast > adminSeen() && !(chatOpen && chatChannel === 'admin');
         document.getElementById('adminDot').classList.toggle('hidden', !has);
         document.getElementById('fabDot').classList.toggle('hidden', !has);
+        const md = document.getElementById('msgDot'), idt = document.getElementById('inDot');
+        if (md) md.classList.toggle('hidden', !has); if (idt) idt.classList.toggle('hidden', !has);
       }
       function updateFab() {
         updateRoomTabs();
@@ -3205,21 +3244,28 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         if (view === 'room') {
           room = room || de.dataset.room || 'ann';
           if (room === 'study' && document.getElementById('studySection').classList.contains('hidden')) room = 'ann';
-          if (room === 'chat' && !fabAvail) room = 'ann';
-          if (room === 'open' && !openAvail) room = 'ann';
+        }
+        if (view === 'msg') {   // ข้อความ: รายการบทสนทนา (inbox) หรือเปิดบทสนทนาเดียว (chat | open | admin)
+          room = room || 'inbox';
+          if ((room === 'chat' || room === 'admin') && !fabAvail) room = 'inbox';
+          if (room === 'open' && !openAvail) room = 'inbox';
         }
         if (view === 'portfolio' && !PORTFOLIO_OPEN) view = 'home';   // ปิดแท็บพอร์ตไว้ก่อน (โค้ดยังอยู่ครบ) เปิดคืน: PORTFOLIO_OPEN = true แล้วลบ style="display:none" ที่ #navPortfolio
-        if ((view === 'room' || view === 'portfolio') && document.body.classList.contains('teacher-mode')) view = 'home';   // ครูไม่มีแท็บห้องเรา (กดย้อนกลับจากประวัติของนักเรียนคนก่อน)
+        if ((view === 'room' || view === 'portfolio' || view === 'msg') && document.body.classList.contains('teacher-mode')) view = 'home';   // ครูไม่มีแท็บห้องเรา (กดย้อนกลับจากประวัติของนักเรียนคนก่อน)
         const prevView = de.dataset.view;
         // อัปเดตแถบล่างและวัดตำแหน่งตัวชี้ก่อนสลับเนื้อหาทั้งหน้า (วัดตอนเลย์เอาต์ยังไม่เปลี่ยน = ไม่บังคับคำนวณหน้าใหม่ซ้ำ)
-        ['Home:home', 'Social:social', 'Room:room', 'Portfolio:portfolio', 'Menu:menu'].forEach((x) => { const [n, v] = x.split(':'); const b = document.getElementById('nav' + n); b.classList.toggle('on', v === view); if (v === view) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
-        [['rtAnn', 'ann'], ['rtStudy', 'study'], ['rtChat', 'chat'], ['rtOpen', 'open']].forEach(([id, r]) => { const b = document.getElementById(id), on = view === 'room' && room === r; b.classList.toggle('on', on); if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+        const navView = view === 'msg' ? 'social' : view; ['Home:home', 'Social:social', 'Room:room', 'Portfolio:portfolio', 'Menu:menu'].forEach((x) => { const [n, v] = x.split(':'); const b = document.getElementById('nav' + n); b.classList.toggle('on', v === navView); if (v === navView) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+        [['rtAnn', 'ann'], ['rtStudy', 'study']].forEach(([id, r]) => { const b = document.getElementById(id), on = view === 'room' && room === r; b.classList.toggle('on', on); if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
         moveNavInd();
         window.scrollTo(0, 0); const md = document.getElementById('mainDashboard'); if (md) md.scrollTop = 0;   // พื้นที่เลื่อนจริงคือ #mainDashboard
-        de.dataset.view = view; if (view === 'room') de.dataset.room = room;
-        const wantChat = view === 'room' && room === 'chat';
-        if (wantChat !== chatOpen) toggleChat(wantChat);
-        const wantOpen = view === 'room' && room === 'open';
+        de.dataset.view = view; if (view === 'room' || view === 'msg') de.dataset.room = room;
+        if (view === 'msg') { document.getElementById('msgTitle').textContent = { inbox: 'ข้อความ', chat: 'แชตห้อง ' + (currentGrade || ''), open: 'ทั้งโรงเรียน', admin: 'คุยกับแอดมิน' }[room] || 'ข้อความ'; updateMsgUi(); }
+        const wantChat = view === 'msg' && (room === 'chat' || room === 'admin');
+        if (wantChat) {
+          const ch = room === 'admin' ? 'admin' : 'class';
+          if (!chatOpen) { chatChannel = ch; toggleChat(true); } else if (chatChannel !== ch) setChatChannel(ch);
+        } else if (chatOpen) toggleChat(false);
+        const wantOpen = view === 'msg' && room === 'open';
         if (wantOpen !== openOn) { if (wantOpen) openEnter(); else openStop(); }
         if (view === 'room' && room === 'study' && !studyOpen) toggleStudy(true);
         if (view === 'home') { updateTimeTracker(); renderSchedule(); }
@@ -3229,7 +3275,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         if (!noPush) history.pushState({ v: view, r: room }, '');
       }
       // ---- การเคลื่อนไหวตอนสลับแท็บ ----
-      const VIEW_ORDER = ['home', 'social', 'room', 'portfolio', 'menu'];
+      const VIEW_ORDER = ['home', 'social', 'msg', 'room', 'portfolio', 'menu'];
       const PORTFOLIO_OPEN = false;
       // ใช้ Web Animations API: ไม่ต้องบังคับคำนวณหน้าใหม่เพื่อเริ่มซ้ำ และจบแล้วไม่ทิ้ง transform ค้างบน #dashCard
       // (ถ้าค้าง แผงที่ position:fixed ข้างใน เช่น หน้าแก้โปรไฟล์ จะถูกขังในการ์ด)
@@ -3276,11 +3322,21 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         if (!UI2) return;
         const hasStudy = !document.getElementById('studySection').classList.contains('hidden');
         document.getElementById('rtStudy').classList.toggle('hidden', !hasStudy);
-        document.getElementById('rtChat').classList.toggle('hidden', !fabAvail);
         const de = document.documentElement;
-        if (de.dataset.view === 'room' && ((de.dataset.room === 'study' && !hasStudy) || (de.dataset.room === 'chat' && !fabAvail) || (de.dataset.room === 'open' && !openAvail))) setView('room', 'ann', true);
+        if (de.dataset.view === 'room' && de.dataset.room === 'study' && !hasStudy) setView('room', 'ann', true);
+        if (de.dataset.view === 'msg' && (((de.dataset.room === 'chat' || de.dataset.room === 'admin') && !fabAvail) || (de.dataset.room === 'open' && !openAvail))) setView('msg', 'inbox', true);
+        updateMsgUi();
       }
-      function openAdminChat() { setView('room', 'chat'); setTimeout(() => setChatChannel('admin'), 0); }
+      // ข้อความในหน้าโซเชียล: แสดงปุ่มกระดาษร่อน + แถวบทสนทนาเฉพาะที่ห้องนี้เปิดให้ใช้
+      function msgBack() { setView(document.documentElement.dataset.room === 'inbox' ? 'social' : 'msg', document.documentElement.dataset.room === 'inbox' ? undefined : 'inbox'); }
+      function updateMsgUi() {
+        const g = (id) => document.getElementById(id); if (!g('msgBtn')) return;
+        g('msgBtn').classList.toggle('hidden', !(fabAvail || openAvail));
+        g('inRoom').classList.toggle('hidden', !fabAvail); g('inAdmin').classList.toggle('hidden', !fabAvail); g('inOpen').classList.toggle('hidden', !openAvail);
+        g('inRoomT').textContent = 'แชตห้อง ' + (currentGrade || '');
+        g('inEmpty').classList.toggle('hidden', fabAvail || openAvail);
+      }
+      function openAdminChat() { setView('msg', 'admin'); }
       // ===== โปรไฟล์ (เก็บในเครื่องนี้เท่านั้น: ชื่อเล่น/คำอธิบาย/รูป/สี) =====
       const PF_KEY = 'classkhab_profile', PF_COLORS = ['#0f172a', '#2563eb', '#059669', '#d97706', '#e11d48', '#7c3aed'];
       let pfDraft = null, pfOrig = null;
@@ -3383,7 +3439,6 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         if (!UI2) return;
         const r = await openCall({ action: 'peek' });
         openAvail = !!(r.ok && r.enabled);
-        document.getElementById('rtOpen').classList.toggle('hidden', !openAvail);
         updateRoomTabs();
       }
       function openGateBuild() {
