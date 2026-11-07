@@ -2612,9 +2612,10 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         } finally { chatBusy = false; }
       }
       // ข้อความของตัวเอง: ชื่อไว้บนฟอง เวลา+ถังขยะไว้ล่างฟอง; ของคนอื่น: ชื่อ+เวลา+ธงไว้บนฟองตามเดิม
-      function chatOwnCol(col, meta, bubble, own, nick) {
+      function chatOwnCol(col, meta, bubble, own, nick, teacher) {
         if (!own) { col.append(meta, bubble); return; }
         const top = mk('div', 'mb-0.5 px-1 text-right text-[11px] font-medium text-white/70', nick);
+        if (teacher) top.append(mk('span', 'ml-1.5 rounded bg-emerald-600/30 px-1 text-emerald-300', 'ครู'));   // ป้ายครูอยู่บนข้างชื่อ
         meta.className = meta.className.replace('mb-0.5', 'mt-1');
         col.append(top, bubble, meta);
       }
@@ -2651,7 +2652,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const bubble = mk('div', 'break-words whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed ' + (own
             ? 'rounded-tr-md bg-slate-600 text-white'
             : 'rounded-tl-md border border-white/10 bg-zinc-800/90 text-zinc-100 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)]'), it.body);
-          chatOwnCol(col, meta, bubble, own, it.nick); wrap.append(col); row.append(wrap);
+          chatOwnCol(col, meta, bubble, own, it.nick, it.teacher); wrap.append(col); row.append(wrap);
           list.append(row);
         }
         if (full || nearBottom) list.scrollTop = list.scrollHeight;
@@ -3541,7 +3542,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const col = mk('div', 'min-w-0');
           const meta = mk('div', 'mb-0.5 flex items-center gap-1.5 px-1 text-[10px] text-white/40' + (own ? ' justify-end' : ''));
           if (!own) meta.append(mk('span', 'font-medium ' + (it.teacher ? 'text-emerald-300' : 'text-white/70'), it.nick));
-          if (it.teacher) meta.append(mk('span', 'rounded bg-emerald-600/30 px-1 text-emerald-300', 'ครู'));
+          if (it.teacher && !own) meta.append(mk('span', 'rounded bg-emerald-600/30 px-1 text-emerald-300', 'ครู'));
           meta.append(mk('span', null, new Date(it.created_at).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })));
           if (own) {
             const del = micon('button', 'px-1 text-white/30 hover:text-rose-400', 'trash-2'); del.title = 'ลบข้อความของฉัน';
@@ -3552,7 +3553,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             meta.append(rep);
           }
           const bubble = mk('div', 'break-words whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed ' + (own ? 'rounded-tr-md bg-slate-600 text-white' : 'rounded-tl-md border border-white/10 bg-zinc-800/90 text-zinc-100'), it.body);
-          chatOwnCol(col, meta, bubble, own, it.nick); wrap.append(col); row.append(wrap); list.append(row);
+          chatOwnCol(col, meta, bubble, own, it.nick, it.teacher); wrap.append(col); row.append(wrap); list.append(row);
         }
         if (window.lucide) lucide.createIcons();
         if (full || nearBottom) list.scrollTop = list.scrollHeight;
@@ -3618,7 +3619,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             meta.append(rep);
           }
           const bubble = mk('div', 'break-words whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed ' + (own ? 'rounded-tr-md bg-emerald-700 text-white' : 'rounded-tl-md border border-white/10 bg-zinc-800/90 text-zinc-100'), it.body);
-          chatOwnCol(col, meta, bubble, own, it.nick); wrap.append(col); row.append(wrap); list.append(row);
+          chatOwnCol(col, meta, bubble, own, it.nick, it.teacher); wrap.append(col); row.append(wrap); list.append(row);
         }
         if (window.lucide) lucide.createIcons();
         if (full || nearBottom) list.scrollTop = list.scrollHeight;
