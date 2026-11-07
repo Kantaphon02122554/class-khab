@@ -2567,7 +2567,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         document.getElementById('tabAdmin').className = base + (chatChannel === 'admin' ? on : off);
       }
       function setChatChannel(ch) {
-        chatChannel = ch; chatLast = 0; chatIdle = 0; paintTabs(); chatNotice('');
+        chatChannel = ch; chatLast = 0; chatIdle = 0; paintTabs(); chatNotice(''); rxReplyTo('class', null);
         document.getElementById('chatList').textContent = '';
         chatLoad(true);
       }
@@ -2588,7 +2588,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         if (chatBusy) return; chatBusy = true;
         const ch = chatChannel;
         try {
-          const r = await chatCall({ action: ch === 'admin' ? 'admin_list' : 'list', after: full ? 0 : chatLast });
+          const r = await chatCall({ action: ch === 'admin' ? 'admin_list' : 'list', after: full ? 0 : chatLast, ids: ch === 'admin' ? undefined : rxIds('class') });
           if (ch !== chatChannel) return;   // สลับแท็บระหว่างรอ
           const form = document.getElementById('chatNickForm'), box = document.getElementById('chatBox');
           if (r.error === 'auth') { chatNotice('ต้องเข้าสู่ระบบห้องใหม่หนึ่งครั้งก่อนใช้แชต (กดออกจากระบบแล้วใส่รหัสห้องอีกครั้ง)'); form.classList.add('hidden'); box.classList.add('hidden'); return; }
@@ -2606,10 +2606,93 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             renderChat(items, full, 'admin', 'ยังไม่มีข้อความ พิมพ์ถึงแอดมินได้เลย (แจ้งตารางผิด ปัญหาการใช้งาน ฯลฯ)');
             for (const x of r.items) if (x.from_admin) adminSeenMax = Math.max(adminSeenMax, x.id);
             markAdminSeen(adminSeenMax); setDots(0);
-          } else renderChat(r.items, full, 'class', 'ยังไม่มีข้อความ ลองทักทายเพื่อนดู');
+          } else renderChat(r.items, full, 'class', 'ยังไม่มีข้อความ ลองทักทายเพื่อนดู', r.rx);
           if (r.last) chatLast = r.last;
           chatIdle = r.items.length ? 0 : chatIdle + 1;
         } finally { chatBusy = false; }
+      }
+      // ===== ตอบกลับ + อีโมจิตอบสนอง (ใช้ร่วมกันทั้งแชตห้อง / โอเพ่นแชท / ห้องครู) =====
+      // ตอบกลับ: เลือกข้อความแล้วกดลูกศรตอบกลับ ขึ้นแถบเหนือช่องพิมพ์ ส่งแล้วข้อความจะมีกรอบอ้างถึงต้นทาง (ต้นทางถูกลบ = "ข้อความถูกลบ")
+      // อีโมจิ: 6 แบบ ใส่ได้อันเดียวต่อข้อความ กดอันเดิมซ้ำ = ถอน กดอันอื่น = เปลี่ยน; เซิร์ฟเวอร์ส่งจำนวนมาทุกรอบที่โหลด
+      const RX_SET = ['👍', '❤️', '😂', '😮', '😢', '🙏'];
+      const RX = {
+        class: { list: 'chatList', input: 'chatInput', call: (b) => chatCall(b), act: 'react' },
+        open: { list: 'openList', input: 'openInput', call: (b) => openCall(b), act: 'react' },
+        teach: { list: 'teachList', input: 'teachInput', call: (b) => openCall(b), act: 'treact' },
+      };
+      const rxReply = {};
+      function rxBarEl(kind) {
+        let bar = document.getElementById('rxBar-' + kind);
+        if (!bar) {
+          const form = document.getElementById(RX[kind].input).closest('form');
+          bar = mk('div', 'mb-2 flex items-center gap-2 rounded-lg border-l-2 border-sky-400/60 bg-white/5 px-3 py-1.5 text-xs text-white/60'); bar.id = 'rxBar-' + kind; bar.style.display = 'none';
+          form.parentNode.insertBefore(bar, form);
+        }
+        return bar;
+      }
+      function rxReplyTo(kind, it) {
+        rxReply[kind] = it ? it.id : null;
+        const bar = rxBarEl(kind); bar.textContent = '';
+        if (!it) { bar.style.display = 'none'; return; }
+        const txt = mk('div', 'min-w-0 flex-1'); txt.append(mk('div', 'truncate font-medium text-white/80', 'ตอบกลับ ' + it.nick), mk('div', 'truncate', it.body));
+        const x = micon('button', 'px-1 text-white/40 hover:text-white', 'x'); x.type = 'button'; x.title = 'ยกเลิกการตอบกลับ'; x.onclick = () => rxReplyTo(kind, null);
+        bar.append(txt, x); bar.style.display = 'flex';
+        document.getElementById(RX[kind].input).focus(); refreshIcons();
+      }
+      const rxTake = (kind) => rxReply[kind] || undefined;
+      const rxIds = (kind) => [...document.getElementById(RX[kind].list).querySelectorAll('[data-id]')].slice(-100).map((r) => Number(r.dataset.id));
+      // กล่องห่อฟองข้อความ: กรอบอ้างถึง (ถ้าตอบกลับ) + ฟอง + แถวอีโมจิ + ตัวเลือกอีโมจิ; ใส่ฟองทีหลังด้วย rxPlace
+      function rxWrap(kind, it, row, own) {
+        const bw = mk('div', 'flex min-w-0 flex-col ' + (own ? 'items-end' : 'items-start'));
+        if (it.reply) {
+          const q = mk('div', 'mb-1 max-w-[16rem] rounded-lg border-l-2 border-sky-400/60 bg-white/5 px-2.5 py-1 text-[11px] text-white/50');
+          if (it.reply.gone) q.append(mk('div', 'italic', 'ข้อความถูกลบ'));
+          else {
+            q.append(mk('div', 'truncate font-medium text-white/70', it.reply.nick), mk('div', 'truncate', it.reply.body)); q.classList.add('cursor-pointer');
+            q.onclick = () => {
+              const target = document.getElementById(RX[kind].list).querySelector('[data-id="' + it.reply.id + '"]');
+              if (target) { target.scrollIntoView({ block: 'center', behavior: 'smooth' }); target.classList.add('bg-white/10', 'rounded-xl'); setTimeout(() => target.classList.remove('bg-white/10', 'rounded-xl'), 1200); }
+            };
+          }
+          bw.append(q);
+        }
+        const chips = mk('div', 'mt-1 flex-wrap gap-1'); chips.dataset.rx = '1'; chips.style.display = 'none';
+        const pick = mk('div', 'mt-1 gap-1 rounded-full border border-white/10 bg-zinc-800 px-2 py-1'); pick.dataset.pick = '1'; pick.style.display = 'none';
+        for (const e of RX_SET) {
+          const b = mk('button', 'px-1 text-base transition-transform hover:scale-125', e); b.type = 'button';
+          b.onclick = () => { pick.style.display = 'none'; rxReact(kind, it.id, e, row); };
+          pick.append(b);
+        }
+        bw.append(chips, pick);
+        return bw;
+      }
+      const rxPlace = (bw, bubble) => bw.insertBefore(bubble, bw.querySelector('[data-rx]'));
+      function rxMeta(kind, it, meta, bw) {
+        const rep = micon('button', 'px-1 text-white/30 hover:text-sky-300', 'reply'); rep.type = 'button'; rep.title = 'ตอบกลับ'; rep.onclick = () => rxReplyTo(kind, it);
+        const sm = micon('button', 'px-1 text-white/30 hover:text-amber-300', 'smile-plus'); sm.type = 'button'; sm.title = 'ใส่อีโมจิ';
+        sm.onclick = () => { const p = bw.querySelector('[data-pick]'); p.style.display = p.style.display === 'flex' ? 'none' : 'flex'; };
+        meta.append(rep, sm);
+      }
+      function rxPaint(row, e, kind) {
+        const chips = row.querySelector('[data-rx]'); if (!chips) return;
+        chips.textContent = '';
+        const c = (e && e.c) || {}, keys = RX_SET.filter((k) => c[k]);
+        chips.style.display = keys.length ? 'flex' : 'none';
+        for (const k of keys) {
+          const mine = e.m === k;
+          const b = mk('button', 'rounded-full px-2 py-0.5 text-xs ' + (mine ? 'bg-sky-500/25 text-white ring-1 ring-sky-400/60' : 'bg-white/10 text-white/70'), k + ' ' + c[k]); b.type = 'button';
+          b.onclick = () => rxReact(kind, Number(row.dataset.id), k, row);
+          chips.append(b);
+        }
+      }
+      function rxApply(kind, rx) {   // รอบโหลดทุกครั้ง: อัปเดตอีโมจิของข้อความที่แสดงอยู่ (ข้อความไม่มีอีโมจิ = ล้างแถว)
+        if (!rx) return;
+        for (const row of [...document.getElementById(RX[kind].list).querySelectorAll('[data-id]')].slice(-100)) rxPaint(row, rx[row.dataset.id], kind);
+      }
+      async function rxReact(kind, id, emoji, row) {
+        const r = await RX[kind].call({ action: RX[kind].act, id, emoji });
+        if (r.ok && r.rx) rxPaint(row, r.rx, kind);
+        else if (r.error === 'banned') alert('คุณถูกระงับชั่วคราว ใส่อีโมจิไม่ได้ในตอนนี้');
       }
       // ข้อความของตัวเอง: ชื่อไว้บนฟอง เวลา+ถังขยะไว้ล่างฟอง; ของคนอื่น: ชื่อ+เวลา+ธงไว้บนฟองตามเดิม
       function chatOwnCol(col, meta, bubble, own, nick, teacher) {
@@ -2619,7 +2702,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         meta.className = meta.className.replace('mb-0.5', 'mt-1');
         col.append(top, bubble, meta);
       }
-      function renderChat(items, full, ch, emptyText) {
+      function renderChat(items, full, ch, emptyText, rx) {
         const list = document.getElementById('chatList');
         const nearBottom = list.scrollHeight - list.scrollTop - list.clientHeight < 80;
         if (full) list.textContent = '';
@@ -2635,6 +2718,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const meta = mk('div', 'mb-0.5 flex items-center gap-1.5 px-1 text-[10px] text-white/40' + (own ? ' justify-end' : ''));
           if (!own) meta.append(mk('span', 'font-medium ' + (it.admin ? 'text-emerald-300' : 'text-white/70'), it.nick));
           meta.append(mk('span', null, new Date(it.created_at).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })));
+          const bw = ch === 'class' ? rxWrap('class', it, row, own) : null; if (bw) rxMeta('class', it, meta, bw);
           if (ch === 'class') {
             if (own) {
               const del = micon('button', 'px-1 text-white/30 hover:text-rose-400', 'trash-2'); del.title = 'ลบข้อความของฉัน';
@@ -2652,9 +2736,10 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const bubble = mk('div', 'break-words whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed ' + (own
             ? 'rounded-tr-md bg-slate-600 text-white'
             : 'rounded-tl-md border border-white/10 bg-zinc-800/90 text-zinc-100 shadow-[0_4px_12px_-2px_rgba(0,0,0,0.3)]'), it.body);
-          chatOwnCol(col, meta, bubble, own, it.nick, it.teacher); wrap.append(col); row.append(wrap);
+          if (bw) rxPlace(bw, bubble); chatOwnCol(col, meta, bw || bubble, own, it.nick, it.teacher); wrap.append(col); row.append(wrap);
           list.append(row);
         }
+        if (ch === 'class') rxApply('class', rx);
         if (full || nearBottom) list.scrollTop = list.scrollHeight;
       }
       async function saveNick(e) {
@@ -2669,9 +2754,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const input = document.getElementById('chatInput'), btn = document.getElementById('chatSend');
         const body = input.value.trim(); if (!body) return;
         btn.disabled = true;
-        const r = await chatCall({ action: chatChannel === 'admin' ? 'admin_post' : 'post', body });
+        const r = await chatCall({ action: chatChannel === 'admin' ? 'admin_post' : 'post', body, reply_to: chatChannel === 'admin' ? undefined : rxTake('class') });
         btn.disabled = false;
-        if (r.ok) { input.value = ''; chatNotice(''); chatIdle = 0; await chatLoad(false); }
+        if (r.ok) { input.value = ''; rxReplyTo('class', null); chatNotice(''); chatIdle = 0; await chatLoad(false); }
         else chatNotice(harshMsg(r, CHAT_ERR.filter_word) || CHAT_ERR[r.error] || 'ส่งไม่สำเร็จ ลองใหม่อีกครั้ง');
       }
       // --- คลังสรุป/ชีทรายห้อง: ใครในห้องก็เพิ่มได้ (ข้อความ/ลิงก์ที่อนุญาต/รูป/PDF) เห็นเฉพาะในห้อง; ขึ้นเมื่อห้องเปิดแชต ---
@@ -3518,16 +3603,16 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             openNotice(p.banned ? OPEN_ERR.banned : '');
             if (!p.joined) { openGateBuild(); document.getElementById('openNickRow').classList.toggle('hidden', !!p.nick); openShow('openGate'); return; }
           }
-          const r = await openCall({ action: 'list', after: full ? 0 : openLast });
+          const r = await openCall({ action: 'list', after: full ? 0 : openLast, ids: rxIds('open') });
           if (!r.ok) { if (r.error === 'join_needed') { openLoad(true); return; } openNotice('โหลดแชตไม่สำเร็จ ลองใหม่อีกครั้ง'); return; }
           openNotice(r.banned ? OPEN_ERR.banned : ''); openNick = r.nick; openShow('openBox');
           const h = document.getElementById('openHint'); h.textContent = ''; h.append('คุณคือ ', mk('b', 'text-white/70', openNick), ' · ระบบตรวจทุกข้อความ ห้ามส่งเบอร์/ไอดี/ลิงก์ · ส่งได้ทุก 5 วินาที');
-          openRender(r.items, full);
+          openRender(r.items, full, r.rx);
           if (r.last) openLast = r.last;
           openIdle = r.items.length ? 0 : openIdle + 1;
         } finally { openBusy = false; }
       }
-      function openRender(items, full) {
+      function openRender(items, full, rx) {
         const list = document.getElementById('openList');
         const nearBottom = list.scrollHeight - list.scrollTop - list.clientHeight < 80;
         if (full) list.textContent = '';
@@ -3544,6 +3629,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           if (!own) meta.append(mk('span', 'font-medium ' + (it.teacher ? 'text-emerald-300' : 'text-white/70'), it.nick));
           if (it.teacher && !own) meta.append(mk('span', 'rounded bg-emerald-600/30 px-1 text-emerald-300', 'ครู'));
           meta.append(mk('span', null, new Date(it.created_at).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })));
+          const bw = rxWrap('open', it, row, own); rxMeta('open', it, meta, bw);
           if (own) {
             const del = micon('button', 'px-1 text-white/30 hover:text-rose-400', 'trash-2'); del.title = 'ลบข้อความของฉัน';
             del.onclick = async () => { await openCall({ action: 'delete', id: it.id }); row.remove(); }; meta.append(del);
@@ -3553,8 +3639,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             meta.append(rep);
           }
           const bubble = mk('div', 'break-words whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed ' + (own ? 'rounded-tr-md bg-slate-600 text-white' : 'rounded-tl-md border border-white/10 bg-zinc-800/90 text-zinc-100'), it.body);
-          chatOwnCol(col, meta, bubble, own, it.nick, it.teacher); wrap.append(col); row.append(wrap); list.append(row);
+          rxPlace(bw, bubble); chatOwnCol(col, meta, bw, own, it.nick, it.teacher); wrap.append(col); row.append(wrap); list.append(row);
         }
+        rxApply('open', rx);
         if (window.lucide) lucide.createIcons();
         if (full || nearBottom) list.scrollTop = list.scrollHeight;
       }
@@ -3570,9 +3657,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         e.preventDefault();
         const inp = document.getElementById('openInput'), btn = document.getElementById('openSendBtn'), body = inp.value.trim(); if (!body) return;
         btn.disabled = true;
-        const r = await openCall({ action: 'post', body });
+        const r = await openCall({ action: 'post', body, reply_to: rxTake('open') });
         btn.disabled = false;
-        if (r.ok) { inp.value = ''; openNotice(''); openIdle = 0; openLoad(false); return; }
+        if (r.ok) { inp.value = ''; rxReplyTo('open', null); openNotice(''); openIdle = 0; openLoad(false); return; }
         if (r.error === 'banned') { const h = Number(r.hours) || 24; openNotice(r.auto ? 'ผิดกติกาซ้ำ ระบบระงับการใช้งานของคุณ ' + (h >= 24 ? Math.round(h / 24) + ' วัน' : h + ' ชั่วโมง') : OPEN_ERR.banned); return; }
         if (r.error === 'care') { openNotice('ข้อความนี้ยังไม่ขึ้น แต่เราห่วงคุณ ถ้าไม่สบายใจ โทรสายด่วนสุขภาพจิต 1323 ได้ตลอด 24 ชั่วโมง หรือบอกครูที่ไว้ใจ'); return; }
         let m = OPEN_ERR[r.error] || 'ส่งไม่สำเร็จ ลองใหม่';
@@ -3587,14 +3674,14 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       async function teachLoad(full) {
         if (teachBusy) return; teachBusy = true;
         try {
-          const r = await openCall({ action: 'tlist', after: full ? 0 : teachLast });
+          const r = await openCall({ action: 'tlist', after: full ? 0 : teachLast, ids: rxIds('teach') });
           if (!r.ok || !r.enabled) { teachNotice(r.ok ? 'ห้องครูยังไม่เปิด' : 'โหลดไม่สำเร็จ ลองใหม่อีกครั้ง'); return; }
-          teachNotice(''); teachRender(r.items, full);
+          teachNotice(''); teachRender(r.items, full, r.rx);
           if (r.last) teachLast = r.last;
           teachIdle = r.items.length ? 0 : teachIdle + 1;
         } finally { teachBusy = false; }
       }
-      function teachRender(items, full) {
+      function teachRender(items, full, rx) {
         const list = document.getElementById('teachList');
         const nearBottom = list.scrollHeight - list.scrollTop - list.clientHeight < 80;
         if (full) list.textContent = '';
@@ -3610,6 +3697,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const meta = mk('div', 'mb-0.5 flex items-center gap-1.5 px-1 text-[10px] text-white/40' + (own ? ' justify-end' : ''));
           if (!own) meta.append(mk('span', 'font-medium text-emerald-300', it.nick));
           meta.append(mk('span', null, new Date(it.created_at).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })));
+          const bw = rxWrap('teach', it, row, own); rxMeta('teach', it, meta, bw);
           if (own) {
             const del = micon('button', 'px-1 text-white/30 hover:text-rose-400', 'trash-2'); del.title = 'ลบข้อความของฉัน';
             del.onclick = async () => { await openCall({ action: 'tdelete', id: it.id }); row.remove(); }; meta.append(del);
@@ -3619,16 +3707,17 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             meta.append(rep);
           }
           const bubble = mk('div', 'break-words whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed ' + (own ? 'rounded-tr-md bg-emerald-700 text-white' : 'rounded-tl-md border border-white/10 bg-zinc-800/90 text-zinc-100'), it.body);
-          chatOwnCol(col, meta, bubble, own, it.nick, it.teacher); wrap.append(col); row.append(wrap); list.append(row);
+          rxPlace(bw, bubble); chatOwnCol(col, meta, bw, own, it.nick, it.teacher); wrap.append(col); row.append(wrap); list.append(row);
         }
+        rxApply('teach', rx);
         if (window.lucide) lucide.createIcons();
         if (full || nearBottom) list.scrollTop = list.scrollHeight;
       }
       async function teachSend(e) {
         e.preventDefault();
         const inp = document.getElementById('teachInput'), btn = document.getElementById('teachSendBtn'), body = inp.value.trim(); if (!body) return;
-        btn.disabled = true; const r = await openCall({ action: 'tpost', body }); btn.disabled = false;
-        if (r.ok) { inp.value = ''; teachNotice(''); teachIdle = 0; teachLoad(false); return; }
+        btn.disabled = true; const r = await openCall({ action: 'tpost', body, reply_to: rxTake('teach') }); btn.disabled = false;
+        if (r.ok) { inp.value = ''; rxReplyTo('teach', null); teachNotice(''); teachIdle = 0; teachLoad(false); return; }
         teachNotice({ slow: 'ส่งเร็วเกินไป รอสักครู่', rate: 'ส่งบ่อยเกินไป รอสักครู่', filter_empty: 'พิมพ์ข้อความก่อนส่ง', auth: 'ออกจากระบบแล้วเข้าใหม่ด้วยรหัสครูอีกครั้ง' }[r.error] || 'ส่งไม่สำเร็จ ลองใหม่');
       }
       function teachSchedule() { clearTimeout(teachTimer); if (!teachOn) return; teachTimer = setTimeout(async () => { if (!document.hidden) await teachLoad(false); teachSchedule(); }, teachIdle >= 5 ? 15000 : 6000); }
