@@ -152,6 +152,8 @@
     <div class="card" style="grid-column:1/-1"><h3>โอเพ่นแชท (ทุกห้องคุยรวมกัน) และรูปโปรไฟล์</h3>
       <p class="sub" style="margin-bottom:8px">ต้องล็อกอินอีเมลโรงเรียน + ผ่านกติกา/ชื่อเล่นก่อนเข้า · ข้อความผ่าน Haiku ตรวจทุกข้อความ · ผิดกติกา 3 ครั้งใน 30 นาที ระงับ 24 ชม. ซ้ำเพิ่มเป็นสองเท่า สูงสุด 7 วัน</p>
       <div id="openBox" class="muted">กำลังโหลด…</div>
+      <h3 style="margin-top:14px">ห้องแชตครู (เฉพาะครู)</h3>
+      <div id="tchatBox" class="muted">กำลังโหลด…</div>
       <h3 style="margin-top:14px">รูปถ่ายโปรไฟล์ล่าสุด</h3>
       <div id="avaBox" class="muted">กำลังโหลด…</div>
     </div>
@@ -700,6 +702,25 @@
         row.append(un); box.append(row);
       }
     } catch (e) { if (e.message !== 'auth') box.textContent = 'เชื่อมต่อไม่ได้'; }
+    const tb = $('tchatBox');
+    if (tb) try {
+      const r = await api({ action: 'tchat_room' });
+      if (!r.body.ok) { tb.textContent = 'โหลดไม่สำเร็จ'; } else {
+        const s = r.body; tb.textContent = '';
+        const hd = mk('div', 'top'); hd.style.cssText = 'align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px';
+        hd.append(mk('span', null, 'สถานะ: ' + (s.enabled ? 'เปิด' : 'ปิด')));
+        const tg = mk('button', s.enabled ? null : 'pri', s.enabled ? 'ปิดห้องแชตครู' : 'เปิดห้องแชตครู');
+        tg.onclick = async () => { await api({ action: 'tchat_toggle', enabled: !s.enabled }); loadOpen(); };
+        hd.append(tg); tb.append(hd);
+        for (const m of s.messages) {
+          const row = mk('div', 'muted'); row.style.cssText = 'display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:4px 0;border-top:1px solid rgba(128,128,128,.2)';
+          row.append(mk('span', null, new Date(m.created_at).toLocaleString('th-TH', { hour12: false }).slice(0, 17) + ' · ' + m.nick + (m.reports ? ' · รายงาน ' + m.reports : '') + ': ' + m.body));
+          const del = mk('button', null, 'ลบ'); del.onclick = async () => { await api({ action: 'tchat_delete', id: m.id }); loadOpen(); };
+          row.append(del); tb.append(row);
+        }
+        if (!s.messages.length) tb.append(mk('div', 'muted', 'ยังไม่มีข้อความ'));
+      }
+    } catch (e) { if (e.message !== 'auth') tb.textContent = 'เชื่อมต่อไม่ได้'; }
     const ab = $('avaBox'); if (!ab) return;
     try {
       const r = await api({ action: 'avatar_list' }); if (!r.body.ok) { ab.textContent = 'โหลดไม่สำเร็จ'; return; }

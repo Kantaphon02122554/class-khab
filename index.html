@@ -98,8 +98,9 @@
       html.ui2 #nowNextGrid { grid-template-columns: 1fr; }
       html.ui2 #nowNextGrid > div:first-child { grid-column: auto; padding: 1.1rem 1.25rem; }
       html.ui2:not([data-view="home"]) .v-home, html.ui2:not([data-view="room"]) .v-room, html.ui2:not([data-view="menu"]) .v-menu, html.ui2:not([data-view="portfolio"]) .v-portfolio,
-      html.ui2:not([data-view="room"][data-room="ann"]) .v-room-ann, html.ui2:not([data-view="room"][data-room="study"]) .v-room-study, html.ui2:not([data-view="msg"][data-room="chat"]):not([data-view="msg"][data-room="admin"]) .v-room-chat, html.ui2:not([data-view="msg"][data-room="open"]) .v-room-open, html.ui2:not([data-view="msg"]) .v-msg, html.ui2:not([data-view="msg"][data-room="inbox"]) .v-msg-inbox { display: none !important; }
+      html.ui2:not([data-view="room"][data-room="ann"]) .v-room-ann, html.ui2:not([data-view="room"][data-room="study"]) .v-room-study, html.ui2:not([data-view="msg"][data-room="chat"]):not([data-view="msg"][data-room="admin"]) .v-room-chat, html.ui2:not([data-view="msg"][data-room="open"]) .v-room-open, html.ui2:not([data-view="msg"][data-room="teach"]) .v-room-teach, html.ui2:not([data-view="msg"]) .v-msg, html.ui2:not([data-view="msg"][data-room="inbox"]) .v-msg-inbox { display: none !important; }
       html.ui2 #chatTabs { display: none; }
+      body.teacher-mode #socialV2 > :not(.so-mh):not(#soTeacherNote) { display: none !important; } body:not(.teacher-mode) #soTeacherNote { display: none !important; }
       .so-mh { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; } .so-mh h2 { font-size: 1.5rem; font-weight: 600; color: #0f172a; } html.dark .so-mh h2 { color: #f1f5f9; }
       #msgBtn { position: relative; width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0f172a; background: transparent; } #msgBtn:hover { background: rgba(100, 116, 139, 0.12); } html.dark #msgBtn { color: #f1f5f9; } #msgBtn svg { width: 1.4rem; height: 1.4rem; }
       .so-mdot { position: absolute; top: 0.45rem; right: 0.45rem; width: 0.6rem; height: 0.6rem; border-radius: 50%; background: #e11d48; border: 2px solid #fff; } html.dark .so-mdot { border-color: #0b1220; }
@@ -990,11 +991,36 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                 <span class="msg-ic"><i data-lucide="globe"></i></span>
                 <span class="msg-t"><b>ทั้งโรงเรียน</b><small>โอเพ่นแชท คุยกับเพื่อนทุกห้อง</small></span>
               </button>
+              <button id="inTeach" type="button" class="msg-row hidden" onclick="setView('msg','teach')">
+                <span class="msg-ic"><i data-lucide="graduation-cap"></i></span>
+                <span class="msg-t"><b>ห้องครู</b><small>คุยกับครูทั้งโรงเรียน นักเรียนไม่เห็น</small></span>
+              </button>
               <button id="inAdmin" type="button" class="msg-row hidden" onclick="setView('msg','admin')">
                 <span class="msg-ic"><i data-lucide="shield-check"></i><span id="inDot" class="msg-dot hidden"></span></span>
                 <span class="msg-t"><b>คุยกับแอดมิน</b><small>ส่งข้อความส่วนตัว เพื่อนในห้องไม่เห็น</small></span>
               </button>
               <p id="inEmpty" class="hidden pt-note">ตอนนี้ยังไม่มีบทสนทนาที่เปิดให้ห้องของคุณ</p>
+            </div>
+
+            <!-- ห้องครู: แชตเฉพาะครู (นักเรียนไม่เห็น) -->
+            <div id="teachSection" class="v2-only v-room-teach">
+              <div class="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900">
+                <div class="flex items-center gap-2 border-b border-white/5 px-4 py-3">
+                  <div class="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-700"><i data-lucide="graduation-cap" class="w-4 h-4 text-white"></i></div>
+                  <div><h3 class="text-sm font-medium text-white">ห้องครู</h3><p class="text-xs text-white/40">เฉพาะครูที่ล็อกอินด้วยรหัสครู</p></div>
+                </div>
+                <div id="teachNotice" class="hidden mx-4 mt-3 rounded-xl border border-amber-400/30 bg-amber-400/10 px-3 py-2 text-xs text-amber-200"></div>
+                <div id="teachList" class="chat-scroll h-72 sm:h-96 space-y-3 overflow-y-auto p-4"></div>
+                <div class="border-t border-white/5 p-3">
+                  <form class="flex items-center gap-2 rounded-xl border border-white/10 bg-zinc-800/50 px-4 py-2 focus-within:border-white/20" onsubmit="teachSend(event)">
+                    <input id="teachInput" maxlength="500" autocomplete="off" placeholder="พิมพ์ข้อความถึงครูทุกท่าน…" class="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-white/30" />
+                    <button id="teachSendBtn" type="submit" aria-label="ส่งข้อความ" class="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-emerald-600 text-white transition-colors hover:bg-emerald-500 disabled:opacity-40">
+                      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></svg>
+                    </button>
+                  </form>
+                  <p class="mt-2 px-1 text-[11px] text-white/40">ข้อความเก็บ 90 วัน ผู้ดูแลระบบลบข้อความได้ ไม่ควรส่งข้อมูลส่วนตัวของนักเรียน</p>
+                </div>
+              </div>
             </div>
 
             <!-- โอเพ่นแชท: ห้องคุยรวมทุกห้อง (ต้องล็อกอินอีเมลโรงเรียน ผ่านกติกา/คำถามทบทวน/ชื่อเล่นก่อนเข้า) -->
@@ -1081,6 +1107,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                   <span id="msgDot" class="so-mdot hidden"></span>
                 </button>
               </div>
+              <p id="soTeacherNote" class="pt-note">ครูใช้ปุ่มข้อความมุมขวาบน คุยในโอเพ่นแชทกับนักเรียนและในห้องครู ส่วนกำแพงโซเชียลเป็นของนักเรียนรายห้อง</p>
               <!-- กำแพงขอบคุณรายห้อง (โซเชียลรุ่นแรก) แสดงเมื่อแอดมินเปิดห้องนี้เท่านั้น ไม่งั้นแสดง "กำลังเตรียม" ด้านล่าง -->
               <div id="soWall" class="so-w hidden" data-tab="feed">
                 <div id="soNeedLogin" class="pt-note hidden">ใช้ได้เมื่อเข้าด้วยเลขประจำตัวหรืออีเมลโรงเรียน ไปที่โปรไฟล์ → ออกจากระบบ → เข้าใหม่ด้วยเลขประจำตัว</div>
@@ -3249,9 +3276,10 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           room = room || 'inbox';
           if ((room === 'chat' || room === 'admin') && !fabAvail) room = 'inbox';
           if (room === 'open' && !openAvail) room = 'inbox';
+          if (room === 'teach' && !teachAvail) room = 'inbox';
         }
         if (view === 'portfolio' && !PORTFOLIO_OPEN) view = 'home';   // ปิดแท็บพอร์ตไว้ก่อน (โค้ดยังอยู่ครบ) เปิดคืน: PORTFOLIO_OPEN = true แล้วลบ style="display:none" ที่ #navPortfolio
-        if ((view === 'room' || view === 'portfolio' || view === 'msg') && document.body.classList.contains('teacher-mode')) view = 'home';   // ครูไม่มีแท็บห้องเรา (กดย้อนกลับจากประวัติของนักเรียนคนก่อน)
+        if ((view === 'room' || view === 'portfolio') && document.body.classList.contains('teacher-mode')) view = 'home';   // ครูไม่มีแท็บห้องเรา (กดย้อนกลับจากประวัติของนักเรียนคนก่อน)
         const prevView = de.dataset.view;
         // อัปเดตแถบล่างและวัดตำแหน่งตัวชี้ก่อนสลับเนื้อหาทั้งหน้า (วัดตอนเลย์เอาต์ยังไม่เปลี่ยน = ไม่บังคับคำนวณหน้าใหม่ซ้ำ)
         const navView = view === 'msg' ? 'social' : view; ['Home:home', 'Social:social', 'Room:room', 'Portfolio:portfolio', 'Menu:menu'].forEach((x) => { const [n, v] = x.split(':'); const b = document.getElementById('nav' + n); b.classList.toggle('on', v === navView); if (v === navView) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
@@ -3259,12 +3287,14 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         moveNavInd();
         window.scrollTo(0, 0); const md = document.getElementById('mainDashboard'); if (md) md.scrollTop = 0;   // พื้นที่เลื่อนจริงคือ #mainDashboard
         de.dataset.view = view; if (view === 'room' || view === 'msg') de.dataset.room = room;
-        if (view === 'msg') { document.getElementById('msgTitle').textContent = { inbox: 'ข้อความ', chat: 'แชตห้อง ' + (currentGrade || ''), open: 'ทั้งโรงเรียน', admin: 'คุยกับแอดมิน' }[room] || 'ข้อความ'; updateMsgUi(); }
+        if (view === 'msg') { document.getElementById('msgTitle').textContent = { inbox: 'ข้อความ', chat: 'แชตห้อง ' + (currentGrade || ''), open: 'ทั้งโรงเรียน', teach: 'ห้องครู', admin: 'คุยกับแอดมิน' }[room] || 'ข้อความ'; updateMsgUi(); }
         const wantChat = view === 'msg' && (room === 'chat' || room === 'admin');
         if (wantChat) {
           const ch = room === 'admin' ? 'admin' : 'class';
           if (!chatOpen) { chatChannel = ch; toggleChat(true); } else if (chatChannel !== ch) setChatChannel(ch);
         } else if (chatOpen) toggleChat(false);
+        const wantTeach = view === 'msg' && room === 'teach';
+        if (wantTeach !== teachOn) { if (wantTeach) teachEnter(); else teachStop(); }
         const wantOpen = view === 'msg' && room === 'open';
         if (wantOpen !== openOn) { if (wantOpen) openEnter(); else openStop(); }
         if (view === 'room' && room === 'study' && !studyOpen) toggleStudy(true);
@@ -3324,17 +3354,18 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         document.getElementById('rtStudy').classList.toggle('hidden', !hasStudy);
         const de = document.documentElement;
         if (de.dataset.view === 'room' && de.dataset.room === 'study' && !hasStudy) setView('room', 'ann', true);
-        if (de.dataset.view === 'msg' && (((de.dataset.room === 'chat' || de.dataset.room === 'admin') && !fabAvail) || (de.dataset.room === 'open' && !openAvail))) setView('msg', 'inbox', true);
+        if (de.dataset.view === 'msg' && (((de.dataset.room === 'chat' || de.dataset.room === 'admin') && !fabAvail) || (de.dataset.room === 'open' && !openAvail) || (de.dataset.room === 'teach' && !teachAvail))) setView('msg', 'inbox', true);
         updateMsgUi();
       }
       // ข้อความในหน้าโซเชียล: แสดงปุ่มกระดาษร่อน + แถวบทสนทนาเฉพาะที่ห้องนี้เปิดให้ใช้
       function msgBack() { setView(document.documentElement.dataset.room === 'inbox' ? 'social' : 'msg', document.documentElement.dataset.room === 'inbox' ? undefined : 'inbox'); }
       function updateMsgUi() {
         const g = (id) => document.getElementById(id); if (!g('msgBtn')) return;
-        g('msgBtn').classList.toggle('hidden', !(fabAvail || openAvail));
+        g('msgBtn').classList.toggle('hidden', !(fabAvail || openAvail || teachAvail));
+        g('inTeach').classList.toggle('hidden', !teachAvail);
         g('inRoom').classList.toggle('hidden', !fabAvail); g('inAdmin').classList.toggle('hidden', !fabAvail); g('inOpen').classList.toggle('hidden', !openAvail);
         g('inRoomT').textContent = 'แชตห้อง ' + (currentGrade || '');
-        g('inEmpty').classList.toggle('hidden', fabAvail || openAvail);
+        g('inEmpty').classList.toggle('hidden', fabAvail || openAvail || teachAvail);
       }
       function openAdminChat() { setView('msg', 'admin'); }
       // ===== โปรไฟล์ (เก็บในเครื่องนี้เท่านั้น: ชื่อเล่น/คำอธิบาย/รูป/สี) =====
@@ -3412,6 +3443,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       }
       function closeProfileEdit() { document.getElementById('pfSheet').classList.add('hidden'); }
       // ===== โอเพ่นแชท (ทั้งโรงเรียน) =====
+      var teachAvail = false, teachOn = false, teachLast = 0, teachIdle = 0, teachBusy = false, teachTimer = null;
       var openAvail = false, openOn = false, openLast = 0, openIdle = 0, openBusy = false, openTimer = null, openNick = '';
       const OPEN_QUIZ = [
         { q: 'เพื่อนต่างห้องพิมพ์ผิดตลกๆ เราควรทำอย่างไร', o: ['ล้อให้คนทั้งโรงเรียนรู้', 'ปล่อยผ่าน หรือบอกดีๆ', 'แคปรูปไปประจาน'] },
@@ -3427,9 +3459,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         review_unavailable: 'ระบบตรวจข้อความยังใช้ไม่ได้ชั่วคราว ลองใหม่ภายหลัง', join_needed: 'ต้องผ่านกติกาก่อนเข้า', auth: 'ต้องเข้าสู่ระบบห้องใหม่ก่อน', net: 'เชื่อมต่อไม่ได้ ลองใหม่',
       };
       async function openCall(body) {
-        const token = getToken(); if (!token) return { ok: false, error: 'auth' };
+        const tt = teacherMode ? teacherToken() : null, token = getToken(); if (!token && !tt) return { ok: false, error: 'auth' };   // ครูใช้โทเค็นครู นักเรียนใช้โทเค็นห้อง
         try {
-          const res = await fetch(`${SUPABASE_URL}/functions/v1/openchat`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ ...body, token, sid: getSid() }) });
+          const res = await fetch(`${SUPABASE_URL}/functions/v1/openchat`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ ...body, token: tt ? undefined : token, ttoken: tt || undefined, sid: getSid() }) });
           const j = await res.json().catch(() => ({})); if (res.status === 401) localStorage.removeItem('classkhab_token'); return { ...j, status: res.status };
         } catch (e) { return { ok: false, error: 'net' }; }
       }
@@ -3439,6 +3471,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         if (!UI2) return;
         const r = await openCall({ action: 'peek' });
         openAvail = !!(r.ok && r.enabled);
+        if (teacherMode) { const tr = await openCall({ action: 'tpeek' }); teachAvail = !!(tr.ok && tr.enabled); }
         updateRoomTabs();
       }
       function openGateBuild() {
@@ -3480,10 +3513,11 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const own = it.own;
           const row = mk('div', 'chat-msg flex w-full ' + (own ? 'justify-end' : 'justify-start')); row.dataset.id = it.id;
           const wrap = mk('div', 'flex max-w-[85%] items-end gap-2' + (own ? ' flex-row-reverse' : ''));
-          if (!own) { const av = mk('div', 'flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-600 text-xs font-semibold text-white'); avaPaint(av, it.ava, it.nick, '#475569'); wrap.append(av); }
+          if (!own) { const av = mk('div', 'flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-600 text-xs font-semibold text-white'); avaPaint(av, it.ava, it.nick, '#475569'); if (it.teacher) { av.style.backgroundImage = ''; av.style.backgroundColor = '#047857'; av.textContent = 'ครู'; av.style.fontSize = '10px'; } wrap.append(av); }
           const col = mk('div', 'min-w-0');
           const meta = mk('div', 'mb-0.5 flex items-center gap-1.5 px-1 text-[10px] text-white/40' + (own ? ' justify-end' : ''));
-          if (!own) meta.append(mk('span', 'font-medium text-white/70', it.nick));
+          if (!own) meta.append(mk('span', 'font-medium ' + (it.teacher ? 'text-emerald-300' : 'text-white/70'), it.nick));
+          if (it.teacher) meta.append(mk('span', 'rounded bg-emerald-600/30 px-1 text-emerald-300', 'ครู'));
           meta.append(mk('span', null, new Date(it.created_at).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })));
           if (own) {
             const del = micon('button', 'px-1 text-white/30 hover:text-rose-400', 'trash-2'); del.title = 'ลบข้อความของฉัน';
@@ -3523,6 +3557,58 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       function openSchedule() { clearTimeout(openTimer); if (!openOn) return; openTimer = setTimeout(async () => { if (!document.hidden && document.getElementById('openBox') && !document.getElementById('openBox').classList.contains('hidden')) await openLoad(false); openSchedule(); }, openIdle >= 5 ? 15000 : 6000); }
       function openEnter() { openOn = true; openLast = 0; openIdle = 0; openLoad(true).then(openSchedule); }
       function openStop() { openOn = false; clearTimeout(openTimer); openTimer = null; }
+      // ===== ห้องครู (แชตเฉพาะครู) =====
+      function teachNotice(msg) { const n = document.getElementById('teachNotice'); n.textContent = msg || ''; n.classList.toggle('hidden', !msg); }
+      async function teachLoad(full) {
+        if (teachBusy) return; teachBusy = true;
+        try {
+          const r = await openCall({ action: 'tlist', after: full ? 0 : teachLast });
+          if (!r.ok || !r.enabled) { teachNotice(r.ok ? 'ห้องครูยังไม่เปิด' : 'โหลดไม่สำเร็จ ลองใหม่อีกครั้ง'); return; }
+          teachNotice(''); teachRender(r.items, full);
+          if (r.last) teachLast = r.last;
+          teachIdle = r.items.length ? 0 : teachIdle + 1;
+        } finally { teachBusy = false; }
+      }
+      function teachRender(items, full) {
+        const list = document.getElementById('teachList');
+        const nearBottom = list.scrollHeight - list.scrollTop - list.clientHeight < 80;
+        if (full) list.textContent = '';
+        if (full && !items.length) { const hint = mk('p', 'text-xs text-white/40 text-center py-6', 'ยังไม่มีข้อความ ทักทายเพื่อนครูได้เลย'); hint.dataset.empty = '1'; list.append(hint); }
+        else if (items.length) { const hint = list.querySelector('[data-empty]'); if (hint) hint.remove(); }
+        for (const it of items) {
+          if (list.querySelector(`[data-id="${it.id}"]`)) continue;
+          const own = it.own;
+          const row = mk('div', 'chat-msg flex w-full ' + (own ? 'justify-end' : 'justify-start')); row.dataset.id = it.id;
+          const wrap = mk('div', 'flex max-w-[85%] items-end gap-2' + (own ? ' flex-row-reverse' : ''));
+          if (!own) wrap.append(mk('div', 'flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-700 text-xs font-semibold text-white', Array.from(it.nick)[0] || '?'));
+          const col = mk('div', 'min-w-0');
+          const meta = mk('div', 'mb-0.5 flex items-center gap-1.5 px-1 text-[10px] text-white/40' + (own ? ' justify-end' : ''));
+          if (!own) meta.append(mk('span', 'font-medium text-emerald-300', it.nick));
+          meta.append(mk('span', null, new Date(it.created_at).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })));
+          if (own) {
+            const del = micon('button', 'px-1 text-white/30 hover:text-rose-400', 'trash-2'); del.title = 'ลบข้อความของฉัน';
+            del.onclick = async () => { await openCall({ action: 'tdelete', id: it.id }); row.remove(); }; meta.append(del);
+          } else if (!it.reported) {
+            const rep = micon('button', 'px-1 text-white/30 hover:text-rose-400', 'flag'); rep.title = 'รายงานข้อความนี้';
+            rep.onclick = async () => { if (!confirm('รายงานข้อความนี้ว่าไม่เหมาะสม?')) return; const r = await openCall({ action: 'treport', id: it.id }); alert(r.ok ? 'ส่งรายงานแล้ว' : 'รายงานไม่สำเร็จ'); if (r.ok) rep.remove(); };
+            meta.append(rep);
+          }
+          const bubble = mk('div', 'break-words whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed ' + (own ? 'rounded-tr-md bg-emerald-700 text-white' : 'rounded-tl-md border border-white/10 bg-zinc-800/90 text-zinc-100'), it.body);
+          col.append(meta, bubble); wrap.append(col); row.append(wrap); list.append(row);
+        }
+        if (window.lucide) lucide.createIcons();
+        if (full || nearBottom) list.scrollTop = list.scrollHeight;
+      }
+      async function teachSend(e) {
+        e.preventDefault();
+        const inp = document.getElementById('teachInput'), btn = document.getElementById('teachSendBtn'), body = inp.value.trim(); if (!body) return;
+        btn.disabled = true; const r = await openCall({ action: 'tpost', body }); btn.disabled = false;
+        if (r.ok) { inp.value = ''; teachNotice(''); teachIdle = 0; teachLoad(false); return; }
+        teachNotice({ slow: 'ส่งเร็วเกินไป รอสักครู่', rate: 'ส่งบ่อยเกินไป รอสักครู่', filter_empty: 'พิมพ์ข้อความก่อนส่ง', auth: 'ออกจากระบบแล้วเข้าใหม่ด้วยรหัสครูอีกครั้ง' }[r.error] || 'ส่งไม่สำเร็จ ลองใหม่');
+      }
+      function teachSchedule() { clearTimeout(teachTimer); if (!teachOn) return; teachTimer = setTimeout(async () => { if (!document.hidden) await teachLoad(false); teachSchedule(); }, teachIdle >= 5 ? 15000 : 6000); }
+      function teachEnter() { teachOn = true; teachLast = 0; teachIdle = 0; teachLoad(true).then(teachSchedule); }
+      function teachStop() { teachOn = false; clearTimeout(teachTimer); teachTimer = null; }
       // ---- ติดต่อ ----
       function openContact() {
         const b = document.getElementById('ctAdmin'), sub = document.getElementById('ctAdminSub');
@@ -3985,7 +4071,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         soReelsRefresh();
       }
       async function soEnter() {
-        if (!UI2) return; await soLoad(); soSchedule();
+        if (!UI2 || teacherMode) return; await soLoad(); soSchedule();
       }
       function soSchedule() {
         clearTimeout(soTimer); soTimer = null;
@@ -4745,7 +4831,7 @@ footer{border-top:1px solid var(--line);padding-top:24px;font-size:12px;color:va
         logVisit();
         updateOfflineBar();
         updateMenuV2();
-        if (teacherMode) syncTeacherPush();
+        if (teacherMode) { syncTeacherPush(); openPeek(); }
         else { loadVerified(); loadAnnouncements(); chatPeek(); openPeek(); syncPush(); }
       }
 
