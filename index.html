@@ -98,7 +98,7 @@
       html.ui2 #nowNextGrid { grid-template-columns: 1fr; }
       html.ui2 #nowNextGrid > div:first-child { grid-column: auto; padding: 1.1rem 1.25rem; }
       html.ui2:not([data-view="home"]) .v-home, html.ui2:not([data-view="room"]) .v-room, html.ui2:not([data-view="menu"]) .v-menu, html.ui2:not([data-view="portfolio"]) .v-portfolio,
-      html.ui2:not([data-view="room"][data-room="ann"]) .v-room-ann, html.ui2:not([data-view="room"][data-room="study"]) .v-room-study, html.ui2:not([data-view="room"][data-room="chat"]) .v-room-chat { display: none !important; }
+      html.ui2:not([data-view="room"][data-room="ann"]) .v-room-ann, html.ui2:not([data-view="room"][data-room="study"]) .v-room-study, html.ui2:not([data-view="room"][data-room="chat"]) .v-room-chat, html.ui2:not([data-view="room"][data-room="open"]) .v-room-open { display: none !important; }
       /* ===== การ์ดงาน/แจ้งเตือนหน้าหลัก (html.cards): แทนแถบ สอบ/ประกาศ/วันหยุด/เวลาชั่วคราว/แจ้งเตือน เดิม ===== */
       html:not(.cards) #homeCards { display: none !important; }
       html.cards #heroText, html.cards #examBanner, html.cards #noticeBanner, html.cards #holidayBanner, html.cards #periodBanner, html.cards #pushBanner { display: none !important; }
@@ -292,6 +292,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .pf-btn { padding: 0.45rem 1rem; border-radius: 10px; background: #0f172a; color: #fff; font-weight: 600; font-size: 0.8rem; text-align: center; cursor: pointer; } .pf-btn-g { background: #f1f5f9; color: #334155; } html.dark .pf-btn { background: #f1f5f9; color: #0f172a; } html.dark .pf-btn-g { background: rgba(255, 255, 255, 0.1); color: #e2e8f0; }
       .pf-l { display: block; font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 0.9rem; } .pf-l input, .pf-l textarea { display: block; width: 100%; margin-top: 0.3rem; padding: 0.6rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 1rem; font-weight: 500; color: #0f172a; background: #fff; } html.dark .pf-l input, html.dark .pf-l textarea { background: #0b1220; border-color: #243152; color: #f1f5f9; }
       .pf-colors { display: flex; gap: 0.6rem; margin-top: 0.4rem; } .pf-colors button { width: 2rem; height: 2rem; border-radius: 50%; border: 2px solid transparent; } .pf-colors button.on { border-color: #0f172a; box-shadow: 0 0 0 2px #fff inset; } html.dark .pf-colors button.on { border-color: #fff; }
+      .pf-presets { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem; margin-top: 0.4rem; } .pf-presets button { aspect-ratio: 1; border-radius: 50%; border: 2px solid transparent; background-size: cover; background-position: center; } .pf-presets button.on { border-color: #0f172a; box-shadow: 0 0 0 2px #fff inset; } html.dark .pf-presets button.on { border-color: #fff; }
+      .pf-note { font-size: 0.75rem; color: #64748b; margin: -0.4rem 0 0.9rem; line-height: 1.5; } .pf-err { font-size: 0.8rem; color: #be123c; margin: 0 0 0.6rem; } html.dark .pf-err { color: #fda4af; }
       .pf-save { width: 100%; padding: 0.75rem; border-radius: 12px; background: #0f172a; color: #fff; font-weight: 600; } html.dark .pf-save { background: #f1f5f9; color: #0f172a; }
       /* ติดต่อ: แถวเรียบ ไอคอนคอลัมน์เดียว คำอธิบายบรรทัดเดียว จุดสถานะเล็กๆ บอกว่าแชตแอดมินเปิดอยู่ */
       .ct-lead { font-size: 0.8rem; color: #64748b; margin: -0.25rem 0 0.75rem; } html.dark .ct-lead { color: #94a3b8; }
@@ -961,6 +963,48 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                 <button id="rtAnn" onclick="setView('room','ann')" class="on">ประกาศ/การบ้าน</button>
                 <button id="rtStudy" onclick="setView('room','study')" class="hidden">ชีท</button>
                 <button id="rtChat" onclick="setView('room','chat')" class="hidden">แชต</button>
+                <button id="rtOpen" onclick="setView('room','open')" class="hidden">ทั้งโรงเรียน</button>
+              </div>
+            </div>
+
+            <!-- โอเพ่นแชท: ห้องคุยรวมทุกห้อง (ต้องล็อกอินอีเมลโรงเรียน ผ่านกติกา/คำถามทบทวน/ชื่อเล่นก่อนเข้า) -->
+            <div id="openSection" class="v2-only">
+              <div class="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900">
+                <div class="flex items-center gap-2 border-b border-white/5 px-4 py-3">
+                  <div class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-700"><i data-lucide="globe" class="w-4 h-4 text-white"></i></div>
+                  <div><h3 class="text-sm font-medium text-white">โอเพ่นแชท ทั้งโรงเรียน</h3><p class="text-xs text-white/40">คุยกับเพื่อนทุกห้อง ใช้ชื่อเล่นเท่านั้น</p></div>
+                </div>
+                <div id="openNotice" class="hidden mx-4 mt-3 rounded-xl border border-amber-400/30 bg-amber-400/10 px-3 py-2 text-xs text-amber-200"></div>
+                <div id="openNeed" class="hidden space-y-2 p-4 text-sm text-white/70">
+                  <p class="font-medium text-white">ต้องเข้าด้วยอีเมลโรงเรียนก่อน</p>
+                  <p class="text-xs text-white/50">โอเพ่นแชทเปิดเฉพาะนักเรียนที่ล็อกอินด้วยเลขประจำตัวหรืออีเมล @thaboschool.ac.th เพื่อให้รู้ว่าเป็นนักเรียนจริง กดออกจากระบบ แล้วเข้าใหม่ด้วยอีเมลโรงเรียน</p>
+                </div>
+                <form id="openGate" class="chat-scroll hidden space-y-3 overflow-y-auto p-4" onsubmit="openJoin(event)">
+                  <p class="text-sm font-medium text-white">ก่อนเข้าโอเพ่นแชท อ่านกติกา 3 ข้อ</p>
+                  <ol class="list-decimal space-y-1 pl-4 text-xs text-white/60">
+                    <li>พูดสุภาพ ไม่ล้อเลียน ไม่ด่า ไม่แซะ ไม่ประจานใคร</li>
+                    <li>ไม่ส่งเบอร์ ไอดี ลิงก์ ชื่อจริง หรือเรื่องส่วนตัวของคนอื่น ไม่ขายของ ไม่ชวนไปคุยที่อื่น หรือชวนนัดเจอ</li>
+                    <li>ระบบตรวจข้อความทุกข้อความ ผิดกติกา 3 ครั้งใน 30 นาทีจะถูกระงับ 24 ชั่วโมง ผิดซ้ำจะนานขึ้นสูงสุด 7 วัน แอดมินเห็นเลขประจำตัวผู้ส่งทุกข้อความ แต่เพื่อนเห็นแค่ชื่อเล่น</li>
+                  </ol>
+                  <div id="openQuiz" class="space-y-3 text-xs text-white/70"></div>
+                  <label class="flex items-start gap-2 text-xs text-white/70"><input id="openAgree" type="checkbox" class="mt-0.5"> <span>ฉันอ่านกติกาแล้ว และยอมรับว่าผิดกติกาจะถูกระงับ</span></label>
+                  <div id="openNickRow" class="flex gap-2">
+                    <input id="openNick" maxlength="16" placeholder="ชื่อเล่น (2–16 ตัว ไม่ซ้ำทั้งโรงเรียน)" class="min-w-0 flex-1 rounded-xl border border-white/10 bg-zinc-800/50 px-4 py-2 text-sm text-white outline-none placeholder:text-white/30" />
+                  </div>
+                  <button id="openJoinBtn" type="submit" class="w-full rounded-xl bg-slate-700 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-slate-600">เข้าโอเพ่นแชท</button>
+                </form>
+                <div id="openBox" class="hidden">
+                  <div id="openList" class="chat-scroll h-72 sm:h-96 space-y-3 overflow-y-auto p-4"></div>
+                  <div class="border-t border-white/5 p-3">
+                    <form class="flex items-center gap-2 rounded-xl border border-white/10 bg-zinc-800/50 px-4 py-2 focus-within:border-white/20" onsubmit="openSend(event)">
+                      <input id="openInput" maxlength="300" autocomplete="off" placeholder="พิมพ์ข้อความ…" class="min-w-0 flex-1 bg-transparent text-sm text-white outline-none placeholder:text-white/30" />
+                      <button id="openSendBtn" type="submit" aria-label="ส่งข้อความ" class="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-indigo-600 text-white transition-colors hover:bg-indigo-500 disabled:opacity-40">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></svg>
+                      </button>
+                    </form>
+                    <p id="openHint" class="mt-2 px-1 text-[11px] text-white/40"></p>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -1096,7 +1140,10 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                 <div class="pf-photo"><div id="pfPrev" class="pf-av pf-av-lg"></div><div class="pf-photo-b"><label class="pf-btn">เลือกรูป<input id="pfFile" type="file" accept="image/*" hidden onchange="pickProfilePhoto(this)"></label><button class="pf-btn pf-btn-g" onclick="removeProfilePhoto()">ลบรูป</button></div></div>
                 <label class="pf-l">ชื่อเล่น<input id="pfInName" maxlength="20" placeholder="ชื่อเล่น"></label>
                 <label class="pf-l">คำอธิบายตัวเอง<textarea id="pfInBio" maxlength="80" rows="2" placeholder="สั้นๆ ไม่เกิน 80 ตัวอักษร"></textarea></label>
+                <div class="pf-l">อวตารสำเร็จรูป<div id="pfPresets" class="pf-presets"></div></div>
+                <p id="pfAvaNote" class="pf-note"></p>
                 <div class="pf-l">สีพื้นรูป<div id="pfColors" class="pf-colors"></div></div>
+                <p id="pfErr" class="pf-err hidden"></p>
                 <button class="pf-save" onclick="saveProfile()">บันทึก</button>
               </div>
             </div>
@@ -2506,7 +2553,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const own = it.own;
           const row = mk('div', 'chat-msg flex w-full ' + (own ? 'justify-end' : 'justify-start')); row.dataset.id = it.id;
           const wrap = mk('div', 'flex max-w-[85%] items-end gap-2' + (own ? ' flex-row-reverse' : ''));
-          if (!own) wrap.append(mk('div', 'flex h-8 w-8 shrink-0 items-center justify-center rounded-full ' + (it.admin ? 'bg-emerald-600' : 'bg-slate-600') + ' text-xs font-semibold text-white', it.admin ? 'A' : (Array.from(it.nick)[0] || '?')));
+          if (!own) { const av = mk('div', 'flex h-8 w-8 shrink-0 items-center justify-center rounded-full ' + (it.admin ? 'bg-emerald-600' : 'bg-slate-600') + ' text-xs font-semibold text-white', it.admin ? 'A' : ''); if (!it.admin) avaPaint(av, it.ava, it.nick, '#475569'); wrap.append(av); }
           const col = mk('div', 'min-w-0');
           const meta = mk('div', 'mb-0.5 flex items-center gap-1.5 px-1 text-[10px] text-white/40' + (own ? ' justify-end' : ''));
           if (!own) meta.append(mk('span', 'font-medium ' + (it.admin ? 'text-emerald-300' : 'text-white/70'), it.nick));
@@ -3142,7 +3189,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         if (!UI2 || v2Inited) return; v2Inited = true;
         const add = (id, cls) => { const e = document.getElementById(id); if (e) e.classList.add(cls); };
         ['topActions', 'noticeBanner', 'holidayBanner', 'periodBanner', 'offlineBar', 'pushBanner', 'homeCards', 'nowNextGrid', 'scheduleBlock', 'eventsSection'].forEach((i) => add(i, 'v-home'));
-        add('roomTabs', 'v-room'); add('annSection', 'v-room-ann'); add('studySection', 'v-room-study'); add('chatSection', 'v-room-chat'); add('menuV2', 'v-menu'); add('portfolioV2', 'v-portfolio');
+        add('roomTabs', 'v-room'); add('annSection', 'v-room-ann'); add('studySection', 'v-room-study'); add('chatSection', 'v-room-chat'); add('openSection', 'v-room-open'); add('menuV2', 'v-menu'); add('portfolioV2', 'v-portfolio');
         const hero = document.getElementById('heroText'); if (hero && hero.closest('section')) hero.closest('section').classList.add('v2-hero');
         const lbl = document.getElementById('navGradeLabel');
         if (lbl && lbl.parentElement) { lbl.parentElement.classList.remove('hidden', 'lg:flex', 'lg:ml-16', 'lg:justify-center', 'lg:space-x-10'); lbl.parentElement.classList.add('flex', 'items-center', 'gap-3', 'ml-auto', 'mr-3'); }
@@ -3159,18 +3206,21 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           room = room || de.dataset.room || 'ann';
           if (room === 'study' && document.getElementById('studySection').classList.contains('hidden')) room = 'ann';
           if (room === 'chat' && !fabAvail) room = 'ann';
+          if (room === 'open' && !openAvail) room = 'ann';
         }
         if (view === 'portfolio' && !PORTFOLIO_OPEN) view = 'home';   // ปิดแท็บพอร์ตไว้ก่อน (โค้ดยังอยู่ครบ) เปิดคืน: PORTFOLIO_OPEN = true แล้วลบ style="display:none" ที่ #navPortfolio
         if ((view === 'room' || view === 'portfolio') && document.body.classList.contains('teacher-mode')) view = 'home';   // ครูไม่มีแท็บห้องเรา (กดย้อนกลับจากประวัติของนักเรียนคนก่อน)
         const prevView = de.dataset.view;
         // อัปเดตแถบล่างและวัดตำแหน่งตัวชี้ก่อนสลับเนื้อหาทั้งหน้า (วัดตอนเลย์เอาต์ยังไม่เปลี่ยน = ไม่บังคับคำนวณหน้าใหม่ซ้ำ)
         ['Home:home', 'Social:social', 'Room:room', 'Portfolio:portfolio', 'Menu:menu'].forEach((x) => { const [n, v] = x.split(':'); const b = document.getElementById('nav' + n); b.classList.toggle('on', v === view); if (v === view) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
-        [['rtAnn', 'ann'], ['rtStudy', 'study'], ['rtChat', 'chat']].forEach(([id, r]) => { const b = document.getElementById(id), on = view === 'room' && room === r; b.classList.toggle('on', on); if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+        [['rtAnn', 'ann'], ['rtStudy', 'study'], ['rtChat', 'chat'], ['rtOpen', 'open']].forEach(([id, r]) => { const b = document.getElementById(id), on = view === 'room' && room === r; b.classList.toggle('on', on); if (on) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
         moveNavInd();
         window.scrollTo(0, 0); const md = document.getElementById('mainDashboard'); if (md) md.scrollTop = 0;   // พื้นที่เลื่อนจริงคือ #mainDashboard
         de.dataset.view = view; if (view === 'room') de.dataset.room = room;
         const wantChat = view === 'room' && room === 'chat';
         if (wantChat !== chatOpen) toggleChat(wantChat);
+        const wantOpen = view === 'room' && room === 'open';
+        if (wantOpen !== openOn) { if (wantOpen) openEnter(); else openStop(); }
         if (view === 'room' && room === 'study' && !studyOpen) toggleStudy(true);
         if (view === 'home') { updateTimeTracker(); renderSchedule(); }
         if (view === 'portfolio') portfolioEnter();
@@ -3228,16 +3278,51 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         document.getElementById('rtStudy').classList.toggle('hidden', !hasStudy);
         document.getElementById('rtChat').classList.toggle('hidden', !fabAvail);
         const de = document.documentElement;
-        if (de.dataset.view === 'room' && ((de.dataset.room === 'study' && !hasStudy) || (de.dataset.room === 'chat' && !fabAvail))) setView('room', 'ann', true);
+        if (de.dataset.view === 'room' && ((de.dataset.room === 'study' && !hasStudy) || (de.dataset.room === 'chat' && !fabAvail) || (de.dataset.room === 'open' && !openAvail))) setView('room', 'ann', true);
       }
       function openAdminChat() { setView('room', 'chat'); setTimeout(() => setChatChannel('admin'), 0); }
       // ===== โปรไฟล์ (เก็บในเครื่องนี้เท่านั้น: ชื่อเล่น/คำอธิบาย/รูป/สี) =====
       const PF_KEY = 'classkhab_profile', PF_COLORS = ['#0f172a', '#2563eb', '#059669', '#d97706', '#e11d48', '#7c3aed'];
-      let pfDraft = null;
+      let pfDraft = null, pfOrig = null;
       function readProfile() { try { return JSON.parse(localStorage.getItem(PF_KEY) || '{}') || {}; } catch (e) { return {}; } }
+      // อวตารสำเร็จรูป 36 แบบ = 6 สี x 6 รูปทรง (เลข 0-35 ตรงกับฝั่งเซิร์ฟเวอร์) วาดเป็น SVG ไม่ต้องโหลดไฟล์
+      const PF_SHAPES = [
+        '<circle cx="24" cy="24" r="11" fill="#fff"/>', '<path d="M24 11 37 24 24 37 11 24Z" fill="#fff"/>', '<path d="M24 12 37 35H11Z" fill="#fff"/>',
+        '<circle cx="24" cy="24" r="10" fill="none" stroke="#fff" stroke-width="5"/>', '<path d="M24 10 28.5 19.5 39 21 31.5 28.5 33.3 39 24 34 14.7 39 16.5 28.5 9 21 19.5 19.5Z" fill="#fff"/>',
+        '<path d="M20 11h8v9h9v8h-9v9h-8v-9h-9v-8h9Z" fill="#fff"/>',
+      ];
+      const presetUri = (n) => 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><rect width="48" height="48" fill="' + PF_COLORS[n % 6] + '"/>' + PF_SHAPES[Math.floor(n / 6) % 6] + '</svg>');
+      const AVA_URL = {};   // ลิงก์รูปถ่ายของเพื่อนหมดอายุ 1 ชม. และเปลี่ยนทุกครั้งที่โหลดรายการ จึงจำลิงก์แรกไว้ใช้ซ้ำ ไม่ให้เบราว์เซอร์โหลดรูปเดิมซ้ำทุกรอบ
+      // รูปของคนอื่นจากเซิร์ฟเวอร์: ava = { k:'p', n } อวตารสำเร็จรูป | { k:'u', u, key } รูปถ่าย | ว่าง = ตัวอักษรแรกของชื่อเล่น
+      function avaPaint(el, ava, nick, color) {
+        el.textContent = ''; el.style.backgroundImage = '';
+        if (ava && ava.k === 'p') el.style.backgroundImage = 'url("' + presetUri(ava.n) + '")';
+        else if (ava && ava.k === 'u') {
+          let c = AVA_URL[ava.key]; if (!c || Date.now() - c.t > 3000000) c = AVA_URL[ava.key] = { u: ava.u, t: Date.now() };
+          el.style.backgroundImage = 'url("' + c.u + '")';
+        } else { el.style.backgroundColor = color || PF_COLORS[0]; el.textContent = Array.from(nick || '')[0] || '?'; return; }
+        el.style.backgroundSize = 'cover'; el.style.backgroundPosition = 'center';
+      }
       function paintAvatar(el, p) {
         el.textContent = ''; el.style.backgroundImage = ''; el.style.backgroundColor = p.color || PF_COLORS[0];
-        if (p.img) el.style.backgroundImage = 'url(' + p.img + ')'; else el.textContent = (p.name || '').trim().charAt(0) || '?';
+        if (p.img) el.style.backgroundImage = 'url(' + p.img + ')';
+        else if (Number.isInteger(p.preset)) el.style.backgroundImage = 'url("' + presetUri(p.preset) + '")';
+        else { el.textContent = (p.name || '').trim().charAt(0) || '?'; return; }
+        el.style.backgroundSize = 'cover'; el.style.backgroundPosition = 'center';
+      }
+      const AVA_ERR = {
+        need_email_login: 'รูปที่เพื่อนเห็นต้องล็อกอินด้วยอีเมลโรงเรียนก่อน (ตอนนี้บันทึกไว้ในเครื่องนี้เท่านั้น)',
+        review_unavailable: 'ระบบตรวจรูปใช้ไม่ได้ชั่วคราว ลองใหม่ภายหลัง หรือเลือกอวตารสำเร็จรูปแทน',
+        ai_sexual: 'รูปนี้ไม่ผ่านการตรวจ (ไม่เหมาะสม) ลองรูปอื่น', ai_violent: 'รูปนี้ไม่ผ่านการตรวจ (ความรุนแรง) ลองรูปอื่น', ai_unsafe: 'รูปนี้ไม่ผ่านการตรวจ (สิ่งไม่เหมาะสม) ลองรูปอื่น',
+        ai_offensive: 'รูปนี้ไม่ผ่านการตรวจ (ไม่สุภาพ) ลองรูปอื่น', ai_private: 'ในรูปมีข้อมูลส่วนตัว เช่น เบอร์หรือไอดี ลองรูปอื่น', ai_other: 'รูปนี้ไม่เหมาะเป็นรูปโปรไฟล์ ลองรูปอื่น',
+        slow: 'เปลี่ยนรูปบ่อยเกินไป รอสักครู่แล้วลองใหม่', too_big: 'ไฟล์รูปใหญ่เกินไป ลองรูปอื่น', file: 'อ่านรูปนี้ไม่ได้ ลองรูปอื่น', net: 'เชื่อมต่อไม่ได้ ลองใหม่', auth: 'ต้องเข้าสู่ระบบห้องใหม่ก่อน',
+      };
+      async function avaCall(body) {
+        const token = getToken(); if (!token) return { ok: false, error: 'auth' };
+        try {
+          const res = await fetch(`${SUPABASE_URL}/functions/v1/avatar`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ ...body, token, sid: getSid() }) });
+          const j = await res.json().catch(() => ({})); if (res.status === 401) localStorage.removeItem('classkhab_token'); return { ...j, status: res.status };
+        } catch (e) { return { ok: false, error: 'net' }; }
       }
       function renderProfile() {
         const p = readProfile(), a = document.getElementById('pfAvatar'); if (!a) return;
@@ -3246,7 +3331,22 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         document.getElementById('pfBio').textContent = p.bio || '';
       }
       function openProfileEdit() {
-        pfDraft = { ...readProfile() };
+        pfDraft = { ...readProfile() }; pfOrig = { img: pfDraft.img || '', preset: Number.isInteger(pfDraft.preset) ? pfDraft.preset : null };
+        const err0 = document.getElementById('pfErr'); err0.classList.add('hidden');
+        const note = document.getElementById('pfAvaNote');
+        note.textContent = getSid() ? 'เพื่อนในห้องและเพื่อนทั้งโรงเรียนจะเห็นรูปนี้ที่ชื่อคุณ รูปถ่ายผ่านการตรวจโดย AI และแอดมินซ่อนได้ ไม่ควรใช้รูปที่มีคนอื่นหรือข้อมูลส่วนตัว' : 'ล็อกอินด้วยอีเมลโรงเรียนก่อน เพื่อนถึงจะเห็นรูปนี้ ตอนนี้เก็บไว้ในเครื่องนี้เท่านั้น';
+        const pbox = document.getElementById('pfPresets'); pbox.textContent = '';
+        for (let n = 0; n < 36; n++) {
+          const b = mk('button'); b.type = 'button'; b.style.backgroundImage = 'url("' + presetUri(n) + '")'; b.setAttribute('aria-label', 'อวตาร ' + (n + 1)); b.className = pfDraft.preset === n && !pfDraft.img ? 'on' : '';
+          b.onclick = () => { pfDraft.preset = n; pfDraft.img = ''; pfDraft.imgNew = false; [...pbox.children].forEach((x, i) => x.classList.toggle('on', i === n)); paintAvatar(document.getElementById('pfPrev'), { ...pfDraft, name: document.getElementById('pfInName').value }); };
+          pbox.append(b);
+        }
+        if (getSid() && !pfDraft.img && !Number.isInteger(pfDraft.preset)) avaCall({ action: 'mine' }).then((r) => {   // เครื่องใหม่: ดึงรูปที่เคยตั้งไว้มาแสดง
+          if (!r.ok || !r.ava || !pfDraft || pfDraft.img || Number.isInteger(pfDraft.preset)) return;
+          if (r.ava.k === 'p') { pfDraft.preset = r.ava.n; pfOrig.preset = r.ava.n; [...pbox.children].forEach((x, i) => x.classList.toggle('on', i === r.ava.n)); }
+          else { pfDraft.img = r.ava.u; pfOrig.img = r.ava.u; }
+          paintAvatar(document.getElementById('pfPrev'), { ...pfDraft, name: document.getElementById('pfInName').value });
+        });
         document.getElementById('pfInName').value = pfDraft.name || ''; document.getElementById('pfInBio').value = pfDraft.bio || '';
         const box = document.getElementById('pfColors'); box.textContent = '';
         PF_COLORS.forEach((c) => { const b = mk('button'); b.style.background = c; b.setAttribute('aria-label', 'สี ' + c); b.className = (pfDraft.color || PF_COLORS[0]) === c ? 'on' : ''; b.onclick = () => { pfDraft.color = c; [...box.children].forEach((x) => x.classList.toggle('on', x === b)); paintAvatar(document.getElementById('pfPrev'), { ...pfDraft, name: document.getElementById('pfInName').value }); }; box.append(b); });
@@ -3255,6 +3355,119 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         document.getElementById('pfSheet').classList.remove('hidden'); if (window.lucide) lucide.createIcons();
       }
       function closeProfileEdit() { document.getElementById('pfSheet').classList.add('hidden'); }
+      // ===== โอเพ่นแชท (ทั้งโรงเรียน) =====
+      var openAvail = false, openOn = false, openLast = 0, openIdle = 0, openBusy = false, openTimer = null, openNick = '';
+      const OPEN_QUIZ = [
+        { q: 'เพื่อนต่างห้องพิมพ์ผิดตลกๆ เราควรทำอย่างไร', o: ['ล้อให้คนทั้งโรงเรียนรู้', 'ปล่อยผ่าน หรือบอกดีๆ', 'แคปรูปไปประจาน'] },
+        { q: 'มีคนขอไอดีไลน์หรือเบอร์เรา เราควรทำอย่างไร', o: ['ไม่ให้ และบอกครูหรือแอดมินถ้าถูกตื๊อ', 'ให้เลย เพราะเป็นเพื่อน', 'ให้ แต่พิมพ์เป็นรูปแทน'] },
+        { q: 'ทำผิดกติกาซ้ำ 3 ครั้งใน 30 นาที จะเกิดอะไรขึ้น', o: ['ไม่มีอะไร', 'โดนเตือนเฉยๆ', 'ถูกระงับการใช้งานชั่วคราว'] },
+      ];
+      const OPEN_ERR = {
+        quiz: 'ตอบคำถามทบทวนไม่ถูก อ่านกติกาอีกครั้งแล้วลองใหม่', agree: 'ต้องกดยอมรับกติกาก่อน', banned: 'คุณถูกระงับการใช้งานโอเพ่นแชทชั่วคราว',
+        nick_taken: 'ชื่อนี้มีคนใช้แล้ว เลือกชื่ออื่น', nick_length: 'ชื่อต้องยาว 2–16 ตัวอักษร', nick_chars: 'ใช้ได้เฉพาะตัวอักษรไทย/อังกฤษ ตัวเลข และเว้นวรรค', nick_reserved: 'ชื่อนี้ใช้ไม่ได้ (คล้ายผู้ดูแล/ครู)', nick_word: 'ชื่อนี้มีคำที่ไม่อนุญาต',
+        filter_link: 'ห้ามส่งลิงก์', filter_contact: 'ห้ามส่งเบอร์โทร ไอดีไลน์ หรืออีเมล', filter_empty: 'พิมพ์ข้อความก่อนส่ง', filter_word: 'ข้อความมีคำที่ไม่อนุญาต',
+        ai_bullying: 'ข้อความนี้ถูกมองว่าล้อเลียนหรือไม่สุภาพ', ai_sexual: 'ข้อความนี้ไม่เหมาะสม', ai_private: 'ห้ามใส่ข้อมูลส่วนตัว (ชื่อจริง เบอร์ ไอดี ที่อยู่) ของตัวเองหรือคนอื่น', ai_other: 'ข้อความนี้ใช้ไม่ได้ในแชต (ขายของ ลิงก์ ชวนไปที่อื่น หรือชวนนัดเจอ)',
+        slow: 'ส่งเร็วเกินไป รอ 5 วินาทีแล้วส่งใหม่', rate: 'ส่งบ่อยเกินไป รอสักครู่', busy: 'ตอนนี้คนคุยเยอะมาก รอสักครู่แล้วลองใหม่',
+        review_unavailable: 'ระบบตรวจข้อความยังใช้ไม่ได้ชั่วคราว ลองใหม่ภายหลัง', join_needed: 'ต้องผ่านกติกาก่อนเข้า', auth: 'ต้องเข้าสู่ระบบห้องใหม่ก่อน', net: 'เชื่อมต่อไม่ได้ ลองใหม่',
+      };
+      async function openCall(body) {
+        const token = getToken(); if (!token) return { ok: false, error: 'auth' };
+        try {
+          const res = await fetch(`${SUPABASE_URL}/functions/v1/openchat`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ ...body, token, sid: getSid() }) });
+          const j = await res.json().catch(() => ({})); if (res.status === 401) localStorage.removeItem('classkhab_token'); return { ...j, status: res.status };
+        } catch (e) { return { ok: false, error: 'net' }; }
+      }
+      function openNotice(msg) { const n = document.getElementById('openNotice'); n.textContent = msg || ''; n.classList.toggle('hidden', !msg); }
+      function openShow(which) { ['openNeed', 'openGate', 'openBox'].forEach((id) => document.getElementById(id).classList.toggle('hidden', id !== which)); }
+      async function openPeek() {   // ตอนเข้าเว็บ: ถามว่าเปิดโอเพ่นแชทไหม (ปิด = ไม่แสดงแท็บ)
+        if (!UI2) return;
+        const r = await openCall({ action: 'peek' });
+        openAvail = !!(r.ok && r.enabled);
+        document.getElementById('rtOpen').classList.toggle('hidden', !openAvail);
+        updateRoomTabs();
+      }
+      function openGateBuild() {
+        const q = document.getElementById('openQuiz'); if (q.childElementCount) return;
+        OPEN_QUIZ.forEach((it, i) => {
+          const f = mk('div'); f.append(mk('p', 'mb-1 font-medium text-white/80', (i + 1) + '. ' + it.q));
+          it.o.forEach((txt, j) => { const l = mk('label', 'flex items-start gap-2 py-0.5'); const r = document.createElement('input'); r.type = 'radio'; r.name = 'oq' + i; r.value = String(j); r.className = 'mt-0.5'; l.append(r, mk('span', null, txt)); f.append(l); });
+          q.append(f);
+        });
+      }
+      async function openLoad(full) {
+        if (openBusy) return; openBusy = true;
+        try {
+          if (full) {
+            const p = await openCall({ action: 'peek' });
+            if (p.error === 'auth') { openNotice('ต้องเข้าสู่ระบบห้องใหม่หนึ่งครั้งก่อนใช้งาน'); openShow('openNeed'); return; }
+            if (!p.ok || !p.enabled) { openNotice('โอเพ่นแชทยังไม่เปิด'); openShow('openNeed'); return; }
+            if (p.need_email_login) { openNotice(''); openShow('openNeed'); return; }
+            openNotice(p.banned ? OPEN_ERR.banned : '');
+            if (!p.joined) { openGateBuild(); document.getElementById('openNickRow').classList.toggle('hidden', !!p.nick); openShow('openGate'); return; }
+          }
+          const r = await openCall({ action: 'list', after: full ? 0 : openLast });
+          if (!r.ok) { if (r.error === 'join_needed') { openLoad(true); return; } openNotice('โหลดแชตไม่สำเร็จ ลองใหม่อีกครั้ง'); return; }
+          openNotice(r.banned ? OPEN_ERR.banned : ''); openNick = r.nick; openShow('openBox');
+          const h = document.getElementById('openHint'); h.textContent = ''; h.append('คุณคือ ', mk('b', 'text-white/70', openNick), ' · ระบบตรวจทุกข้อความ ห้ามส่งเบอร์/ไอดี/ลิงก์ · ส่งได้ทุก 5 วินาที');
+          openRender(r.items, full);
+          if (r.last) openLast = r.last;
+          openIdle = r.items.length ? 0 : openIdle + 1;
+        } finally { openBusy = false; }
+      }
+      function openRender(items, full) {
+        const list = document.getElementById('openList');
+        const nearBottom = list.scrollHeight - list.scrollTop - list.clientHeight < 80;
+        if (full) list.textContent = '';
+        if (full && !items.length) { const hint = mk('p', 'text-xs text-white/40 text-center py-6', 'ยังไม่มีข้อความ ลองทักทายเพื่อนต่างห้องดู'); hint.dataset.empty = '1'; list.append(hint); }
+        else if (items.length) { const hint = list.querySelector('[data-empty]'); if (hint) hint.remove(); }
+        for (const it of items) {
+          if (list.querySelector(`[data-id="${it.id}"]`)) continue;
+          const own = it.own;
+          const row = mk('div', 'chat-msg flex w-full ' + (own ? 'justify-end' : 'justify-start')); row.dataset.id = it.id;
+          const wrap = mk('div', 'flex max-w-[85%] items-end gap-2' + (own ? ' flex-row-reverse' : ''));
+          if (!own) { const av = mk('div', 'flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-600 text-xs font-semibold text-white'); avaPaint(av, it.ava, it.nick, '#475569'); wrap.append(av); }
+          const col = mk('div', 'min-w-0');
+          const meta = mk('div', 'mb-0.5 flex items-center gap-1.5 px-1 text-[10px] text-white/40' + (own ? ' justify-end' : ''));
+          if (!own) meta.append(mk('span', 'font-medium text-white/70', it.nick));
+          meta.append(mk('span', null, new Date(it.created_at).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })));
+          if (own) {
+            const del = micon('button', 'px-1 text-white/30 hover:text-rose-400', 'trash-2'); del.title = 'ลบข้อความของฉัน';
+            del.onclick = async () => { await openCall({ action: 'delete', id: it.id }); row.remove(); }; meta.append(del);
+          } else if (!it.reported) {
+            const rep = micon('button', 'px-1 text-white/30 hover:text-rose-400', 'flag'); rep.title = 'รายงานข้อความนี้';
+            rep.onclick = async () => { if (!confirm('รายงานข้อความนี้ว่าไม่เหมาะสม?\nถ้ามีหลายคนรายงาน ข้อความจะถูกซ่อน')) return; const r = await openCall({ action: 'report', id: it.id }); alert(r.ok ? 'ส่งรายงานแล้ว ขอบคุณครับ' : 'รายงานไม่สำเร็จ'); if (r.ok) rep.remove(); };
+            meta.append(rep);
+          }
+          const bubble = mk('div', 'break-words whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed ' + (own ? 'rounded-tr-md bg-slate-600 text-white' : 'rounded-tl-md border border-white/10 bg-zinc-800/90 text-zinc-100'), it.body);
+          col.append(meta, bubble); wrap.append(col); row.append(wrap); list.append(row);
+        }
+        if (window.lucide) lucide.createIcons();
+        if (full || nearBottom) list.scrollTop = list.scrollHeight;
+      }
+      async function openJoin(e) {
+        e.preventDefault();
+        const btn = document.getElementById('openJoinBtn'); btn.disabled = true;
+        const quiz = OPEN_QUIZ.map((_, i) => { const c = document.querySelector('input[name="oq' + i + '"]:checked'); return c ? Number(c.value) : -1; });
+        const r = await openCall({ action: 'join', quiz, agree: document.getElementById('openAgree').checked, nick: document.getElementById('openNick').value });
+        btn.disabled = false;
+        if (r.ok) { openNotice(''); openLoad(true); } else openNotice(OPEN_ERR[r.error] || 'เข้าไม่สำเร็จ ลองใหม่');
+      }
+      async function openSend(e) {
+        e.preventDefault();
+        const inp = document.getElementById('openInput'), btn = document.getElementById('openSendBtn'), body = inp.value.trim(); if (!body) return;
+        btn.disabled = true;
+        const r = await openCall({ action: 'post', body });
+        btn.disabled = false;
+        if (r.ok) { inp.value = ''; openNotice(''); openIdle = 0; openLoad(false); return; }
+        if (r.error === 'banned') { const h = Number(r.hours) || 24; openNotice(r.auto ? 'ผิดกติกาซ้ำ ระบบระงับการใช้งานของคุณ ' + (h >= 24 ? Math.round(h / 24) + ' วัน' : h + ' ชั่วโมง') : OPEN_ERR.banned); return; }
+        if (r.error === 'care') { openNotice('ข้อความนี้ยังไม่ขึ้น แต่เราห่วงคุณ ถ้าไม่สบายใจ โทรสายด่วนสุขภาพจิต 1323 ได้ตลอด 24 ชั่วโมง หรือบอกครูที่ไว้ใจ'); return; }
+        let m = OPEN_ERR[r.error] || 'ส่งไม่สำเร็จ ลองใหม่';
+        if (typeof r.left === 'number') m += ' (เตือนครั้งที่ ' + (3 - r.left) + ' จาก 3 ถ้าครบจะถูกระงับอัตโนมัติ)';
+        openNotice(m);
+      }
+      function openSchedule() { clearTimeout(openTimer); if (!openOn) return; openTimer = setTimeout(async () => { if (!document.hidden && document.getElementById('openBox') && !document.getElementById('openBox').classList.contains('hidden')) await openLoad(false); openSchedule(); }, openIdle >= 5 ? 15000 : 6000); }
+      function openEnter() { openOn = true; openLast = 0; openIdle = 0; openLoad(true).then(openSchedule); }
+      function openStop() { openOn = false; clearTimeout(openTimer); openTimer = null; }
       // ---- ติดต่อ ----
       function openContact() {
         const b = document.getElementById('ctAdmin'), sub = document.getElementById('ctAdminSub');
@@ -3299,7 +3512,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       }
       // รูปโปรไฟล์: ของตัวเองใช้รูป/สีที่ตั้งในโปรไฟล์ (เก็บในเครื่อง) ของคนอื่นเห็นเป็นสีพื้นที่เขาเลือก + ตัวอักษรแรกของชื่อเล่น (รูปถ่ายไม่ได้ส่งขึ้นเซิร์ฟเวอร์)
       function soAvatar(el, it) {
-        if (it.own) paintAvatar(el, { ...readProfile(), name: it.nick }); else paintAvatar(el, { color: PF_COLORS[it.av] || PF_COLORS[0], name: it.nick });
+        if (it.own) paintAvatar(el, { ...readProfile(), name: it.nick }); else if (it.ava) avaPaint(el, it.ava, it.nick); else paintAvatar(el, { color: PF_COLORS[it.av] || PF_COLORS[0], name: it.nick });
         el.style.backgroundSize = 'cover'; el.style.backgroundPosition = 'center';
       }
       const SO_HEART = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>';
@@ -4325,17 +4538,29 @@ footer{border-top:1px solid var(--line);padding-top:24px;font-size:12px;color:va
         const file = inp.files && inp.files[0]; if (!file) return;
         const img = new Image(), url = URL.createObjectURL(file);
         img.onload = () => {
-          const c = document.createElement('canvas'), n = 160, m = Math.min(img.width, img.height); c.width = c.height = n;
+          const c = document.createElement('canvas'), n = 192, m = Math.min(img.width, img.height); c.width = c.height = n;
           c.getContext('2d').drawImage(img, (img.width - m) / 2, (img.height - m) / 2, m, m, 0, 0, n, n);
-          pfDraft.img = c.toDataURL('image/jpeg', 0.8); URL.revokeObjectURL(url); inp.value = '';
+          pfDraft.img = c.toDataURL('image/jpeg', 0.82); pfDraft.imgNew = true; URL.revokeObjectURL(url); inp.value = '';
+          [...document.getElementById('pfPresets').children].forEach((x) => x.classList.remove('on'));
           paintAvatar(document.getElementById('pfPrev'), { ...pfDraft, name: document.getElementById('pfInName').value });
         };
         img.onerror = () => { URL.revokeObjectURL(url); alert('เปิดรูปนี้ไม่ได้ ลองรูปอื่น'); };
         img.src = url;
       }
-      function removeProfilePhoto() { pfDraft.img = ''; paintAvatar(document.getElementById('pfPrev'), { ...pfDraft, name: document.getElementById('pfInName').value }); }
-      function saveProfile() {
-        const p = { name: document.getElementById('pfInName').value.trim().slice(0, 20), bio: document.getElementById('pfInBio').value.trim().slice(0, 80), color: pfDraft.color || PF_COLORS[0], img: pfDraft.img || '' };
+      function removeProfilePhoto() { pfDraft.img = ''; pfDraft.imgNew = false; paintAvatar(document.getElementById('pfPrev'), { ...pfDraft, name: document.getElementById('pfInName').value }); }
+      async function saveProfile() {
+        const p = { name: document.getElementById('pfInName').value.trim().slice(0, 20), bio: document.getElementById('pfInBio').value.trim().slice(0, 80), color: pfDraft.color || PF_COLORS[0], img: (pfDraft.img || '').startsWith('data:') ? pfDraft.img : '', preset: Number.isInteger(pfDraft.preset) ? pfDraft.preset : null };
+        // ส่งรูปให้เซิร์ฟเวอร์ (เพื่อนถึงจะเห็น) ก่อนบันทึกในเครื่อง ถ้ารูปไม่ผ่านการตรวจจะไม่ปิดหน้านี้
+        const btn = document.querySelector('#pfSheet .pf-save'), err = document.getElementById('pfErr'); err.classList.add('hidden');
+        if (getSid()) {
+          let r = null;
+          if (pfDraft.imgNew && pfDraft.img) r = await (async () => { btn.disabled = true; btn.textContent = 'กำลังตรวจรูป…'; return avaCall({ action: 'set_photo', file: { data: pfDraft.img.split(',')[1] } }); })();
+          else if (!pfDraft.img && p.preset !== null && (p.preset !== pfOrig.preset || pfOrig.img)) { btn.disabled = true; r = await avaCall({ action: 'set_preset', preset: p.preset }); }
+          else if (!pfDraft.img && p.preset === null && (pfOrig.img || pfOrig.preset !== null)) { btn.disabled = true; r = await avaCall({ action: 'remove' }); }
+          btn.disabled = false; btn.textContent = 'บันทึก';
+          if (r && !r.ok) { err.textContent = AVA_ERR[r.error] || 'บันทึกรูปไม่สำเร็จ ลองใหม่'; err.classList.remove('hidden'); return; }
+        }
+        pfDraft.imgNew = false;
         try { localStorage.setItem(PF_KEY, JSON.stringify(p)); } catch (e) { alert('บันทึกไม่ได้ (พื้นที่เก็บข้อมูลเต็ม ลองเอารูปออก)'); return; }
         closeProfileEdit(); renderProfile();
       }
@@ -4466,7 +4691,7 @@ footer{border-top:1px solid var(--line);padding-top:24px;font-size:12px;color:va
         updateOfflineBar();
         updateMenuV2();
         if (teacherMode) syncTeacherPush();
-        else { loadVerified(); loadAnnouncements(); chatPeek(); syncPush(); }
+        else { loadVerified(); loadAnnouncements(); chatPeek(); openPeek(); syncPush(); }
       }
 
       function selectDay(dayName) {
