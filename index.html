@@ -1125,9 +1125,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                 <div id="soSInfo" class="so-sinfo hidden" role="status" aria-live="polite"></div>
                 <div id="soStories" class="so-stories hidden" role="list" aria-label="โพสต์ของเพื่อนใน 24 ชั่วโมง"></div>
                 <div id="soStory" class="so-story hidden" role="dialog" aria-modal="true" aria-label="ดูโพสต์แบบสตอรี่"></div>
-                <div id="soStub" class="so-stub hidden"><button type="button" class="so-stubb" onclick="soCompOpen()"><span id="soStubAv" class="so-stub-av" aria-hidden="true"></span><span class="so-stubt">เขียนอะไรสักอย่างให้เพื่อนในห้อง…</span></button></div>
+                <div id="soStub" class="so-stub hidden"><button type="button" class="so-stubb" onclick="soCompOpen()"><span id="soStubAv" class="so-stub-av" aria-hidden="true"></span><span class="so-stubt">เขียนอะไรสักอย่างให้เพื่อนทั้งโรงเรียน…</span></button></div>
                 <button id="soReelBar" type="button" class="so-rb hidden" onclick="soReelsOpen()" aria-haspopup="dialog" aria-label="เปิด Reels คลิปจากเพื่อน"></button>
-                <div id="soList" role="feed" aria-label="โพสต์ของเพื่อนในห้อง" lang="th"></div>
+                <div id="soList" role="feed" aria-label="โพสต์ของเพื่อนทั้งโรงเรียน" lang="th"></div>
                 <div id="soEmpty" class="so-empty hidden">ยังไม่มีโพสต์ในห้องเลย เป็นคนแรกได้เลย</div>
                 <button id="soFab" type="button" class="so-fab hidden" aria-label="เขียนโพสต์ใหม่" onclick="soCompOpen()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
                 <div id="soComp" class="pf-sheet hidden" onclick="if(event.target===this)soCompClose()">
@@ -4022,7 +4022,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       }
       // ---- แท็บคลิป: กริดการ์ดแบบ Pinterest ของคลิป YouTube ที่เพื่อนแชร์ + ค้นหา (ไม่เก็บวิดีโอเอง ใช้ภาพปกและตัวเล่นของ YouTube) ----
       Object.assign(SO_ERR, {
-        clip_url: 'ลิงก์ต้องเป็นลิงก์ YouTube (youtube.com หรือ youtu.be) ตรวจลิงก์อีกครั้ง', clip_dup: 'ห้องเรามีคนแชร์คลิปนี้แล้ว', clip_missing: 'หาคลิปนี้ไม่เจอ หรือเป็นคลิปส่วนตัว/จำกัดอายุ ลองคลิปอื่น',
+        clip_url: 'ลิงก์ต้องเป็นลิงก์ YouTube (youtube.com หรือ youtu.be) ตรวจลิงก์อีกครั้ง', clip_dup: 'มีคนแชร์คลิปนี้แล้ว', clip_missing: 'หาคลิปนี้ไม่เจอ หรือเป็นคลิปส่วนตัว/จำกัดอายุ ลองคลิปอื่น',
       });
       let soTabNow = 'feed', soClips = [];
       const SO_YT = /^[A-Za-z0-9_-]{11}$/, SO_RATIOS = ['16 / 10', '1 / 1', '4 / 5'];
@@ -4032,7 +4032,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const b = document.getElementById('soReelBar'); b.textContent = '';
         const show = soOpenNow && (soClips.length > 0 || soCanPost); b.classList.toggle('hidden', !show); if (!show) return;
         const ic = mk('span', 'so-rb-i'); ic.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>';
-        const t = mk('span', 'so-rb-t'); t.append(mk('b', '', 'Reels'), mk('small', '', soClips.length ? soClips.length + ' คลิปจากเพื่อนในห้อง' : 'แชร์คลิปแรกของห้อง'));
+        const t = mk('span', 'so-rb-t'); t.append(mk('b', '', 'Reels'), mk('small', '', soClips.length ? soClips.length + ' คลิปจากเพื่อนทั้งโรงเรียน' : 'แชร์คลิปแรกได้เลย'));
         const th = mk('span', 'so-rb-th'); th.setAttribute('aria-hidden', 'true');
         soClips.filter((c) => SO_YT.test(c.yt)).slice(0, 3).forEach((c) => { const i = mk('img'); i.alt = ''; i.loading = 'lazy'; i.referrerPolicy = 'no-referrer'; i.src = 'https://i.ytimg.com/vi/' + c.yt + '/mqdefault.jpg'; i.onerror = () => i.remove(); th.appendChild(i); });
         b.append(ic, t, th);
@@ -4207,13 +4207,13 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       function soTeacherInit() {
         const sel = document.getElementById('soTeacherRoom'), rooms = soTeacherRooms();
         document.getElementById('soTeacherNote').classList.toggle('hidden', rooms.length > 0);
-        document.getElementById('soTeacherBar').classList.toggle('hidden', !rooms.length);
+        document.getElementById('soTeacherBar').classList.add('hidden');
         if (sel.dataset.built === rooms.join('|')) return;
         sel.textContent = ''; sel.dataset.built = rooms.join('|');
         const ph = mk('option', null, 'เลือกห้อง…'); ph.value = ''; sel.append(ph);
         for (const r of rooms) { const o = mk('option', null, r); o.value = r; sel.append(o); }
         let last = ''; try { last = localStorage.getItem('classkhab_so_troom') || ''; } catch (e) { /* ไม่เป็นไร */ }
-        soTeacherRoom = rooms.includes(last) ? last : (rooms.length === 1 ? rooms[0] : ''); sel.value = soTeacherRoom;
+        soTeacherRoom = rooms.includes(last) ? last : (rooms[0] || ''); sel.value = soTeacherRoom;
       }
       async function soTeacherPick(v) {
         soTeacherRoom = v; try { localStorage.setItem('classkhab_so_troom', v); } catch (e) { /* ไม่เป็นไร */ }
