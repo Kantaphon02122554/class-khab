@@ -654,7 +654,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         <div id="otpBox" class="hidden space-y-4">
           <div id="otpStep1" class="space-y-3">
             <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1">เลขประจำตัวนักเรียน หรืออีเมลโรงเรียน</label>
+              <label class="block text-xs font-semibold text-slate-600 mb-1">เลขประจำตัวนักเรียน หรืออีเมลโรงเรียน (ครูใช้อีเมลของครู)</label>
               <input type="text" id="otpEmail" inputmode="email" autocomplete="username" placeholder="เช่น 12345 หรือ 12345@thaboschool.ac.th" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900" onkeydown="if(event.key==='Enter'){event.preventDefault();otpSend();}" />
               <p class="text-[11px] text-slate-500 mt-1">ระบบจะส่งรหัส 6 หลักไปที่อีเมลโรงเรียนของคุณ และพาเข้าห้องของคุณอัตโนมัติ</p>
             </div>
@@ -3188,8 +3188,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         otpErr('');
         const raw = again ? otpEmail : document.getElementById('otpEmail').value.trim().toLowerCase();
         const m = raw.match(/^(\d{4,8})(?:@(.+))?$/);
-        if (!m || (m[2] && m[2] !== SCHOOL_DOMAIN)) { otpErr('ใส่เลขประจำตัว หรืออีเมลโรงเรียนให้ถูกต้อง (เช่น 12345@' + SCHOOL_DOMAIN + ')'); return; }
-        otpEmail = `${m[1]}@${SCHOOL_DOMAIN}`;
+        if (m && (!m[2] || m[2] === SCHOOL_DOMAIN)) otpEmail = `${m[1]}@${SCHOOL_DOMAIN}`;
+        else if (/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/.test(raw) && raw.length <= 80) otpEmail = raw;   // อีเมลครู (ระบบเทียบกับรายชื่อครูที่เซิร์ฟเวอร์ ไม่อยู่ในรายชื่อจะไม่มีอีเมลส่งไป)
+        else { otpErr('ใส่เลขประจำตัวหรืออีเมลโรงเรียนให้ถูกต้อง (เช่น 12345@' + SCHOOL_DOMAIN + ') หรืออีเมลของครู'); return; }
         const btn = document.getElementById('otpSendBtn'); btn.disabled = true; const old = btn.textContent; btn.textContent = 'กำลังส่ง…';
         try {
           const r = await otpCall('otp-request', { email: otpEmail });
@@ -3199,7 +3200,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             document.getElementById('otpCode').value = ''; document.getElementById('otpCode').focus(); otpCooldown(60);
           } else if (r.status === 429) otpErr('ขอรหัสบ่อยเกินไป รอสักครู่แล้วลองใหม่');
           else if (r.error === 'mail') otpErr('ส่งอีเมลไม่สำเร็จ ลองใหม่อีกครั้ง หรือเข้าด้วยรหัสห้องแทน');
-          else otpErr('ขอรหัสไม่สำเร็จ ตรวจเลขประจำตัวแล้วลองใหม่');
+          else otpErr('ขอรหัสไม่สำเร็จ ตรวจเลขประจำตัวหรืออีเมลแล้วลองใหม่');
         } catch (e) { otpErr('เชื่อมต่อเซิร์ฟเวอร์ไม่ได้ ลองใหม่อีกครั้ง'); }
         btn.disabled = false; btn.textContent = old;
       }
@@ -3211,7 +3212,13 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const btn = document.getElementById('otpVerifyBtn'); btn.disabled = true;
         try {
           const r = await otpCall('otp-verify', { email: otpEmail, code });
-          if (r.ok) {
+          if (r.ok && r.teacher) {
+            enterTeacher(r.teacher);
+            localStorage.setItem('classkhab_teacher', JSON.stringify(r.teacher));
+            localStorage.removeItem('classkhab_grade'); localStorage.removeItem('classkhab_token'); localStorage.removeItem('classkhab_student');
+            clearInterval(otpTimer); document.getElementById('otpStep2').classList.add('hidden'); document.getElementById('otpStep1').classList.remove('hidden');
+            showDashboard();
+          } else if (r.ok) {
             leaveTeacher();
             localStorage.setItem('classkhab_token', r.token);
             localStorage.setItem('classkhab_student', JSON.stringify({ id: r.student_id, sid: r.sid }));
@@ -4206,14 +4213,14 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       }
       function soTeacherInit() {
         const sel = document.getElementById('soTeacherRoom'), rooms = soTeacherRooms();
-        document.getElementById('soTeacherNote').classList.toggle('hidden', rooms.length > 0);
+        document.getElementById('soTeacherNote').classList.add('hidden');
         document.getElementById('soTeacherBar').classList.add('hidden');
         if (sel.dataset.built === rooms.join('|')) return;
         sel.textContent = ''; sel.dataset.built = rooms.join('|');
         const ph = mk('option', null, 'เลือกห้อง…'); ph.value = ''; sel.append(ph);
         for (const r of rooms) { const o = mk('option', null, r); o.value = r; sel.append(o); }
         let last = ''; try { last = localStorage.getItem('classkhab_so_troom') || ''; } catch (e) { /* ไม่เป็นไร */ }
-        soTeacherRoom = rooms.includes(last) ? last : (rooms[0] || ''); sel.value = soTeacherRoom;
+        soTeacherRoom = rooms.includes(last) ? last : (rooms[0] || 'ม.1/1'); sel.value = soTeacherRoom;   // ไม่มีตารางสอน = ห้องสำรอง (ตรงกับฝั่งเซิร์ฟเวอร์)
       }
       async function soTeacherPick(v) {
         soTeacherRoom = v; try { localStorage.setItem('classkhab_so_troom', v); } catch (e) { /* ไม่เป็นไร */ }
