@@ -305,6 +305,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .pf-l { display: block; font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 0.9rem; } .pf-l input, .pf-l textarea { display: block; width: 100%; margin-top: 0.3rem; padding: 0.6rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 1rem; font-weight: 500; color: #0f172a; background: #fff; } html.dark .pf-l input, html.dark .pf-l textarea { background: #0b1220; border-color: #243152; color: #f1f5f9; }
       .pf-l select { display: block; width: 100%; margin-top: 0.3rem; padding: 0.6rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 1rem; font-weight: 500; color: #0f172a; background: #fff; } html.dark .pf-l select { background: #0b1220; border-color: #243152; color: #f1f5f9; }
       .ap-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0; border-top: 1px solid rgba(100, 116, 139, 0.2); font-size: 0.8rem; font-weight: 500; } .ap-row span { flex: 1; min-width: 0; } .ap-row button { font-size: 0.75rem; color: #be123c; }
+      .ap-strip { border: 1px solid rgba(100, 116, 139, 0.25); border-radius: 0.9rem; padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; background: rgba(255,255,255,0.6); } .ap-strip .ap-h { display: flex; align-items: center; gap: 0.5rem; width: 100%; font-weight: 700; font-size: 0.85rem; text-align: left; } .ap-strip .ap-h i { width: 1rem; height: 1rem; } .ap-strip .ap-h small { margin-left: auto; font-weight: 600; color: #2563eb; } .ap-strip .ap-row { cursor: pointer; }
       .pf-colors { display: flex; gap: 0.6rem; margin-top: 0.4rem; } .pf-colors button { width: 2rem; height: 2rem; border-radius: 50%; border: 2px solid transparent; } .pf-colors button.on { border-color: #0f172a; box-shadow: 0 0 0 2px #fff inset; } html.dark .pf-colors button.on { border-color: #fff; }
       .pf-presets { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem; margin-top: 0.4rem; } .pf-presets button { aspect-ratio: 1; border-radius: 50%; border: 2px solid transparent; background-size: cover; background-position: center; } .pf-presets button.on { border-color: #0f172a; box-shadow: 0 0 0 2px #fff inset; } html.dark .pf-presets button.on { border-color: #fff; }
       .pf-note { font-size: 0.75rem; color: #64748b; margin: -0.4rem 0 0.9rem; line-height: 1.5; } .pf-err { font-size: 0.8rem; color: #be123c; margin: 0 0 0.6rem; } html.dark .pf-err { color: #fda4af; }
@@ -901,6 +902,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             <div id="offlineBar" class="pb pb-warn hidden"><span><i data-lucide="wifi-off" class="ic"></i> ออฟไลน์ — กำลังแสดงข้อมูลที่เคยโหลดไว้ อาจไม่ใช่ข้อมูลล่าสุด</span></div>
             <div id="pushBanner" class="pb pb-info hidden"></div>
 
+            <div class="ap-strip hidden"></div>
             <div id="homeCards" class="hidden space-y-2" aria-label="งานและแจ้งเตือนวันนี้"></div>
             <div id="nowNextGrid" class="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div class="md:col-span-2 bg-slate-900 text-white p-6 rounded-2xl shadow-md flex flex-col justify-between">
@@ -1115,6 +1117,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                   <span id="msgDot" class="so-mdot hidden"></span>
                 </button>
               </div>
+              <div class="ap-strip hidden"></div>
               <div id="soTeacherBar" class="so-tbar"><label for="soTeacherRoom">ห้องที่สอน</label><select id="soTeacherRoom" onchange="soTeacherPick(this.value)"></select></div>
               <p id="soTeacherNote" class="pt-note hidden">ไม่พบห้องในตารางสอนของคุณ ถ้าตารางสอนยังไม่ครบ แจ้งแอดมินให้เพิ่ม</p>
               <!-- กำแพงขอบคุณรายห้อง (โซเชียลรุ่นแรก) แสดงเมื่อแอดมินเปิดห้องนี้เท่านั้น ไม่งั้นแสดง "กำลังเตรียม" ด้านล่าง -->
@@ -1210,10 +1213,11 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             <div id="apptSheet" class="pf-sheet hidden" onclick="if(event.target===this)apptClose()">
               <div class="pf-panel" role="dialog" aria-label="นัดนักเรียน">
                 <div class="pf-ph"><b>นัดนักเรียน</b><button onclick="apptClose()" aria-label="ปิด"><i data-lucide="x"></i></button></div>
-                <label class="pf-l">นัดใคร<select id="apptKind" onchange="apptKindChange()"><option value="student">นักเรียนรายคน (ใส่เลขประจำตัว)</option><option value="room">ทั้งห้อง</option></select></label>
+                <label class="pf-l">นัดใคร<select id="apptKind" onchange="apptKindChange()"><option value="room">ทั้งห้อง</option><option value="student">นักเรียนรายคน (ใส่เลขประจำตัว)</option></select></label>
                 <label class="pf-l" id="apptStudentL">เลขประจำตัวนักเรียน<input id="apptStudent" inputmode="numeric" maxlength="8" autocomplete="off" placeholder="เช่น 12345"></label>
                 <label class="pf-l" id="apptRoomL" style="display:none">ห้อง<select id="apptRoom"></select></label>
                 <label class="pf-l">สถานที่ (ในโรงเรียน)<select id="apptPlace"></select></label>
+                <label class="pf-l">ระบุห้อง / จุดนัด (ไม่บังคับ)<input id="apptWhere" maxlength="30" autocomplete="off" placeholder="เช่น ห้อง 321 หรือ อาคาร 2 ชั้น 3"></label>
                 <label class="pf-l">วัน<input id="apptDate" type="date"></label>
                 <label class="pf-l">เวลา<input id="apptTime" type="time" value="12:30"></label>
                 <label class="pf-l">หมายเหตุ (ไม่บังคับ)<input id="apptNote" maxlength="80" autocomplete="off" placeholder="เช่น นำสมุดการบ้านมาด้วย"></label>
@@ -3778,6 +3782,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           for (const p of APPT_PLACES) { const o = mk('option', null, p); o.value = p; g('apptPlace').append(o); }
           for (const o of document.querySelectorAll('#loginClass option')) { if (o.value) { const c = mk('option', null, o.value); c.value = o.value; g('apptRoom').append(c); } }
         }
+        if (!g('apptSheet').dataset.init) { g('apptSheet').dataset.init = '1'; g('apptKind').value = 'room'; g('apptPlace').value = 'ห้องเรียน'; }
         g('apptDate').value = bkkToday(); g('apptDate').min = bkkToday();
         g('apptErr').classList.add('hidden'); g('apptSheet').classList.remove('hidden'); apptKindChange(); apptMineLoad(); if (window.lucide) lucide.createIcons();
       }
@@ -3788,10 +3793,10 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         err.classList.add('hidden');
         const date = g('apptDate').value, time = g('apptTime').value; if (!date || !time) return fail('เลือกวันและเวลา');
         btn.disabled = true;
-        const r = await apptCall({ action: 'create', kind: g('apptKind').value, student: g('apptStudent').value.trim(), room: g('apptRoom').value, place: g('apptPlace').value, at: new Date(`${date}T${time}:00+07:00`).toISOString(), note: g('apptNote').value });
+        const r = await apptCall({ action: 'create', kind: g('apptKind').value, student: g('apptStudent').value.trim(), room: g('apptRoom').value, place: g('apptPlace').value, where: g('apptWhere').value, at: new Date(`${date}T${time}:00+07:00`).toISOString(), note: g('apptNote').value });
         btn.disabled = false;
         if (!r.ok) return fail(APPT_ERR[r.error] || 'ส่งนัดไม่สำเร็จ ลองใหม่อีกครั้ง');
-        g('apptStudent').value = ''; g('apptNote').value = ''; apptMineLoad();
+        g('apptStudent').value = ''; g('apptNote').value = ''; g('apptWhere').value = ''; apptMineLoad(); apptStripLoad();
         err.textContent = 'ส่งนัดหมายแล้ว'; err.classList.remove('hidden');
       }
       async function apptMineLoad() {
@@ -3801,10 +3806,29 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         for (const a of r.items) {
           const row = mk('div', 'ap-row' + (a.cancelled ? ' opacity-50' : ''));
           row.append(mk('span', null, apptWhen(a.at) + ' · ' + (a.student_id ? 'เลข ' + a.student_id : 'ห้อง ' + a.class_id) + ' · ' + a.place + (a.cancelled ? ' · ยกเลิกแล้ว' : '')));
-          if (!a.cancelled) { const c = mk('button', null, 'ยกเลิก'); c.onclick = async () => { if (confirm('ยกเลิกนัดนี้?')) { await apptCall({ action: 'cancel', id: a.id }); apptMineLoad(); } }; row.append(c); }
+          if (!a.cancelled) { const c = mk('button', null, 'ยกเลิก'); c.onclick = async () => { if (confirm('ยกเลิกนัดนี้?')) { await apptCall({ action: 'cancel', id: a.id }); apptMineLoad(); apptStripLoad(); } }; row.append(c); }
           box.append(row);
         }
         if (!r.items.length) box.append(mk('p', 'pf-note', 'ยังไม่มีนัดหมาย'));
+      }
+      // แถบ "นัดนักเรียน" ของครู: อยู่หน้าตารางและหน้าโซเชียล แตะเพื่อเปิดฟอร์ม + เห็นนัดที่ใกล้ถึง 3 รายการ
+      window._myAppts = [];
+      function apptStripRender() {
+        const strips = document.querySelectorAll('.ap-strip'); if (!strips.length) return;
+        const now = Date.now(), list = (window._myAppts || []).filter((a) => !a.cancelled && Date.parse(a.at) > now - 2 * 3600000).slice(0, 3);
+        for (const box of strips) {
+          box.textContent = ''; if (!teacherMode) { box.classList.add('hidden'); continue; }
+          box.classList.remove('hidden');
+          const hd = mk('button', 'ap-h'); const ic = document.createElement('i'); ic.setAttribute('data-lucide', 'calendar-clock'); hd.append(ic, mk('span', null, 'นัดนักเรียน'), mk('small', null, list.length ? 'นัดใหม่' : 'สร้างนัด'));
+          hd.onclick = apptOpen; box.append(hd);
+          for (const a of list) { const row = mk('div', 'ap-row'); row.append(mk('span', null, apptWhen(a.at) + ' · ' + (a.student_id ? 'เลข ' + a.student_id : 'ห้อง ' + a.class_id) + ' · ' + a.place)); row.onclick = apptOpen; box.append(row); }
+        }
+        try { if (window.lucide) lucide.createIcons(); } catch (e) { /* ไอคอนไม่ขึ้นก็ใช้งานต่อได้ */ }
+      }
+      async function apptStripLoad() {
+        if (!teacherMode) return apptStripRender();
+        const r = await apptCall({ action: 'mine' }); if (r.ok) window._myAppts = r.items || [];
+        apptStripRender();
       }
       window._appts = [];
       async function loadAppts() {   // นักเรียน: ดึงนัดของห้อง + นัดที่ระบุตัวฉัน (เรียกตอนเปิดแอปครั้งเดียว)
@@ -5072,7 +5096,7 @@ footer{border-top:1px solid var(--line);padding-top:24px;font-size:12px;color:va
         updateOfflineBar();
         updateMenuV2();
         avaAutoSync();
-        if (teacherMode) { syncTeacherPush(); openPeek(); }
+        if (teacherMode) { syncTeacherPush(); openPeek(); apptStripLoad(); }
         else { loadVerified(); loadAnnouncements(); chatPeek(); openPeek(); syncPush(); loadAppts(); }
       }
 
