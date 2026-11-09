@@ -411,6 +411,28 @@
 
   // ======================= แท็บ "ห้อง" =======================
   const api = async (extra) => { const r = await call(store.get(), extra); if (r.status === 401) { signOut(); throw new Error('auth'); } return r; };
+  // ปลดระงับ: chat_bans ใช้ร่วมกันทั้งแชตห้องและโซเชียล (ต่อห้อง+เครื่อง) ส่วนแชตเปิดผูกกับเลขประจำตัว (hours=0 = ปลดแบน)
+  const activeBans = (bans) => (bans || []).filter((x) => Date.parse(x.until) > Date.now());
+  const unbanPoster = async (classId, poster, studentId) => {
+    await api({ action: 'chat_ban', class_id: classId, poster, hours: 0 });
+    if (/^\d{4,8}$/.test(studentId || '')) await api({ action: 'open_ban', student_id: studentId, hours: 0 });
+  };
+  const banList = (bans, label, classId, reload) => {
+    const act = activeBans(bans); if (!act.length) return null;
+    const box = mk('div', 'muted'); box.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:6px 0';
+    box.append(mk('span', null, label));
+    act.forEach((x) => {
+      const b = mk('button', null, `ปลดระงับ #${x.poster} (ถึง ${fmt(x.until)})`);
+      b.onclick = async () => { b.disabled = true; await unbanPoster(classId, x.poster); reload(); };
+      box.append(b);
+    });
+    if (act.length > 1) {
+      const all = mk('button', 'pri', 'ปลดระงับทั้งหมด');
+      all.onclick = async () => { if (!confirm(`ปลดระงับทุกคนในห้อง ${classId} (${act.length} คน)?`)) return; all.disabled = true; for (const x of act) await unbanPoster(classId, x.poster); reload(); };
+      box.append(all);
+    }
+    return box;
+  };
   const natural = (a, b) => a.class.localeCompare(b.class, 'th', { numeric: true });
   const DAYS = ['จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์'], KIND = { announce: 'ประกาศ', homework: 'การบ้าน', exam: 'สอบ/ทดสอบ' };
   let ROOMS = [];
@@ -527,13 +549,14 @@
         await api({ action: 'chat_toggle', class_id: d.class, enabled: !ch.enabled }); openRoom(id);
       };
       hd.append(ttl, tg); cc.append(hd);
-      if (ch.bans.length) cc.append(mk('div', 'muted', 'ระงับอยู่: ' + ch.bans.map((x) => `#${x.poster} (ถึง ${fmt(x.until)})`).join(', ')));
+      const chBans = banList(ch.bans, 'ระงับอยู่:', d.class, () => openRoom(id)); if (chBans) cc.append(chBans);
       if (!ch.messages.length) cc.append(mk('p', 'muted', 'ยังไม่มีข้อความ'));
       ch.messages.forEach((m) => {
         const p = mk('div', 'post'), top = mk('div', 'top');
         top.append(mk('b', null, `${m.nick}: ${m.body}`));
         const ban = mk('button', 'x', 'ระงับ'); ban.title = 'ระงับเครื่องนี้ 24 ชม.';
         ban.onclick = async () => { if (confirm(`ระงับผู้ส่ง #${m.poster} (${m.nick}) 24 ชั่วโมง?`)) { await api({ action: 'chat_ban', class_id: d.class, poster: m.poster, hours: 24 }); openRoom(id); } };
+        if (activeBans(ch.bans).some((x) => x.poster === m.poster)) { ban.textContent = 'ปลดระงับ'; ban.title = 'ปลดระงับผู้ส่งนี้ (แชต โซเชียล และแชตเปิดถ้ามีเลขประจำตัว)'; ban.onclick = async () => { await unbanPoster(d.class, m.poster, m.student_id); openRoom(id); }; }
         const del = mk('button', 'x', 'ลบ'); del.title = 'ลบข้อความนี้';
         del.onclick = async () => { await api({ action: 'chat_delete', id: m.id }); openRoom(id); };
         top.append(ban, del); p.append(top);
@@ -564,13 +587,14 @@
         smBox.textContent = r.body.ok ? r.body.summary + (r.body.count ? `\n\n(สรุปจาก ${r.body.count} รายการ เป็นคำแนะนำเท่านั้น ตรวจเองก่อนลบหรือระงับ)` : '') : (SM_ERR[r.body.error] || 'สรุปไม่สำเร็จ');
       };
       sc.append(sm, smBox);
-      if (s.bans.length) sc.append(mk('div', 'muted', 'ระงับอยู่ (ใช้ร่วมกับแชต): ' + s.bans.map((x) => `#${x.poster} (ถึง ${fmt(x.until)})`).join(', ')));
+      const soBans = banList(s.bans, 'ระงับอยู่ (ใช้ร่วมกับแชต):', d.class, () => openRoom(id)); if (soBans) sc.append(soBans);
       const flag = (n, sh, hid) => (sh ? ' · รายงานเรื่องความปลอดภัย (เร่งด่วน)' : '') + (n ? ` · ${n} รายงาน${n >= 3 || sh ? ' (ซ่อนจากนักเรียนแล้ว)' : ''}` : '') + (hid ? ' · ซ่อนโดยแอดมิน' : '');
       const who = (x) => `ผู้ส่ง ${x.student_id ? 'เลข ' + x.student_id : '#' + x.poster}`;
       const row = (label, text, x, ops) => {
         const p = mk('div', 'post'), top = mk('div', 'top'); top.append(mk('b', null, `${x.nick}: ${text}`));
         if (label) top.insertBefore(mk('span', 'kd', label), top.firstChild);
         const ban = mk('button', 'x', 'ระงับ'); ban.title = 'ระงับผู้ส่ง 24 ชม. (ใช้ร่วมกับแชต)'; ban.onclick = async () => { if (confirm(`ระงับผู้ส่ง #${x.poster} (${x.nick}) 24 ชั่วโมง?`)) { await api({ action: 'chat_ban', class_id: d.class, poster: x.poster, hours: 24 }); openRoom(id); } };
+        if (activeBans(s.bans).some((b2) => b2.poster === x.poster)) { ban.textContent = 'ปลดระงับ'; ban.title = 'ปลดระงับผู้ส่งนี้ (แชต โซเชียล และแชตเปิดถ้ามีเลขประจำตัว)'; ban.onclick = async () => { await unbanPoster(d.class, x.poster, x.student_id); openRoom(id); }; }
         top.append(ban); ops.forEach((o) => top.append(o)); p.append(top);
         p.append(mk('div', 'meta', `${fmt(x.created_at)} · ${who(x)}${flag(x.reports, x.selfharm, x.hidden)}`)); return p;
       };
