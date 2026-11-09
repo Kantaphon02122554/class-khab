@@ -149,6 +149,15 @@
       <div id="cmdOk" style="display:none;gap:8px;margin-top:8px"><button class="pri" onclick="cmdConfirm()">✓ ยืนยันบันทึก</button><button onclick="cmdCancel()">ยกเลิก</button></div>
     </div>
 
+    <div class="card" style="grid-column:1/-1"><h3>โอเพ่นแชท (ทุกห้องคุยรวมกัน) และรูปโปรไฟล์</h3>
+      <p class="sub" style="margin-bottom:8px">ต้องล็อกอินอีเมลโรงเรียน + ผ่านกติกา/ชื่อเล่นก่อนเข้า · ข้อความผ่าน Haiku ตรวจทุกข้อความ · ผิดกติกา 3 ครั้งใน 30 นาที ระงับ 24 ชม. ซ้ำเพิ่มเป็นสองเท่า สูงสุด 7 วัน</p>
+      <div id="openBox" class="muted">กำลังโหลด…</div>
+      <h3 style="margin-top:14px">ห้องแชตครู (เฉพาะครู)</h3>
+      <div id="tchatBox" class="muted">กำลังโหลด…</div>
+      <h3 style="margin-top:14px">รูปถ่ายโปรไฟล์ล่าสุด</h3>
+      <div id="avaBox" class="muted">กำลังโหลด…</div>
+    </div>
+
     <div class="card"><h3>เนื้อหา</h3>
       <div class="row"><span>ห้องในระบบ</span><b id="classes">—</b></div>
       <div class="row"><span>คาบเรียนทั้งหมด</span><b id="items">—</b></div>
@@ -289,7 +298,7 @@
     $('contentNote').textContent = (h.content.events_upcoming + h.content.holidays_upcoming === 0) ? 'ยังไม่มีกิจกรรม/วันหยุดในปฏิทิน (เพิ่มด้วย scripts/add-event.mjs และ add-holiday.mjs)' : '';
     $('stamp').textContent = 'อัปเดต ' + fmt(d.generatedAt).split(' ').slice(-1)[0] + ' น.';
     document.title = (red ? '🔴 ' : yel ? '🟡 ' : '🟢 ') + 'ClassKhab · แอดมิน';
-    loadStats();
+    loadStats(); loadOpen();
   }
 
   // ---------- กราฟผู้ใช้ต่อวัน (ดึงทุก 5 นาทีพอ ไม่ต้องทุกครั้งที่รีเฟรช) ----------
@@ -688,6 +697,67 @@
     finally { btn.disabled = false; btn.textContent = 'ตรวจจำนวนผู้รับ แล้วส่ง'; }
   }
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeChat(); });
+
+
+  // ---- โอเพ่นแชท + รูปโปรไฟล์ ----
+  async function loadOpen() {
+    const box = $('openBox'); if (!box) return;
+    try {
+      const r = await api({ action: 'open_room' }); if (!r.body.ok) { box.textContent = 'โหลดไม่สำเร็จ'; return; }
+      const s = r.body; box.textContent = '';
+      const hd = mk('div', 'top'); hd.style.cssText = 'align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px';
+      hd.append(mk('span', null, 'สถานะ: ' + (s.enabled ? 'เปิด' : 'ปิด') + ' · สมาชิก ' + s.members + ' คน · ถูกระงับอยู่ ' + s.bans.length + ' คน'));
+      const tg = mk('button', s.enabled ? null : 'pri', s.enabled ? 'ปิดโอเพ่นแชท' : 'เปิดโอเพ่นแชท');
+      tg.onclick = async () => { if (!s.enabled && !confirm('เปิดโอเพ่นแชทให้ทั้งโรงเรียน?')) return; await api({ action: 'open_toggle', enabled: !s.enabled }); loadOpen(); };
+      hd.append(tg); box.append(hd);
+      for (const m of s.messages) {
+        const row = mk('div', 'muted'); row.style.cssText = 'display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:4px 0;border-top:1px solid rgba(128,128,128,.2)';
+        row.append(mk('span', null, new Date(m.created_at).toLocaleString('th-TH', { hour12: false }).slice(0, 17) + ' · ' + m.nick + ' (เลข ' + m.student_id + ') ' + (m.reports ? '· รายงาน ' + m.reports + ' ' : '') + (m.hidden ? '· ซ่อน ' : '') + ': ' + m.body));
+        const del = mk('button', null, 'ลบ'); del.onclick = async () => { await api({ action: 'open_delete', id: m.id }); loadOpen(); };
+        const b1 = mk('button', null, 'ระงับ 24 ชม.'); b1.onclick = async () => { await api({ action: 'open_ban', student_id: m.student_id, hours: 24 }); loadOpen(); };
+        const b2 = mk('button', null, 'ระงับถาวร'); b2.onclick = async () => { if (confirm('ระงับเลข ' + m.student_id + ' จากโอเพ่นแชทถาวร (1 ปี)?')) { await api({ action: 'open_ban', student_id: m.student_id, hours: 8760 }); loadOpen(); } };
+        row.append(del, b1, b2); box.append(row);
+      }
+      if (!s.messages.length) box.append(mk('div', 'muted', 'ยังไม่มีข้อความ'));
+      for (const bn of s.bans) {
+        const row = mk('div', 'muted'); row.style.cssText = 'display:flex;gap:6px;align-items:center;margin-top:4px';
+        row.append(mk('span', null, 'ระงับ: เลข ' + bn.student_id + ' ถึง ' + new Date(bn.until).toLocaleString('th-TH', { hour12: false }).slice(0, 17)));
+        const un = mk('button', null, 'ปลด'); un.onclick = async () => { await api({ action: 'open_ban', student_id: bn.student_id, hours: 0 }); loadOpen(); };
+        row.append(un); box.append(row);
+      }
+    } catch (e) { if (e.message !== 'auth') box.textContent = 'เชื่อมต่อไม่ได้'; }
+    const tb = $('tchatBox');
+    if (tb) try {
+      const r = await api({ action: 'tchat_room' });
+      if (!r.body.ok) { tb.textContent = 'โหลดไม่สำเร็จ'; } else {
+        const s = r.body; tb.textContent = '';
+        const hd = mk('div', 'top'); hd.style.cssText = 'align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px';
+        hd.append(mk('span', null, 'สถานะ: ' + (s.enabled ? 'เปิด' : 'ปิด')));
+        const tg = mk('button', s.enabled ? null : 'pri', s.enabled ? 'ปิดห้องแชตครู' : 'เปิดห้องแชตครู');
+        tg.onclick = async () => { await api({ action: 'tchat_toggle', enabled: !s.enabled }); loadOpen(); };
+        hd.append(tg); tb.append(hd);
+        for (const m of s.messages) {
+          const row = mk('div', 'muted'); row.style.cssText = 'display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:4px 0;border-top:1px solid rgba(128,128,128,.2)';
+          row.append(mk('span', null, new Date(m.created_at).toLocaleString('th-TH', { hour12: false }).slice(0, 17) + ' · ' + m.nick + (m.reports ? ' · รายงาน ' + m.reports : '') + ': ' + m.body));
+          const del = mk('button', null, 'ลบ'); del.onclick = async () => { await api({ action: 'tchat_delete', id: m.id }); loadOpen(); };
+          row.append(del); tb.append(row);
+        }
+        if (!s.messages.length) tb.append(mk('div', 'muted', 'ยังไม่มีข้อความ'));
+      }
+    } catch (e) { if (e.message !== 'auth') tb.textContent = 'เชื่อมต่อไม่ได้'; }
+    const ab = $('avaBox'); if (!ab) return;
+    try {
+      const r = await api({ action: 'avatar_list' }); if (!r.body.ok) { ab.textContent = 'โหลดไม่สำเร็จ'; return; }
+      ab.textContent = ''; const wrap = mk('div'); wrap.style.cssText = 'display:flex;gap:10px;flex-wrap:wrap';
+      for (const it of r.body.items) {
+        const c = mk('div', 'muted'); c.style.cssText = 'text-align:center;font-size:11px;width:84px';
+        const im = document.createElement('img'); im.src = it.url || ''; im.width = 72; im.height = 72; im.style.cssText = 'border-radius:50%;object-fit:cover;display:block;margin:0 auto 4px;' + (it.hidden ? 'opacity:.3' : '');
+        const bt = mk('button', null, it.hidden ? 'แสดง' : 'ซ่อน'); bt.onclick = async () => { await api({ action: 'avatar_hide', student_id: it.student_id, hidden: !it.hidden }); loadOpen(); };
+        c.append(im, mk('div', null, 'เลข ' + it.student_id), bt); wrap.append(c);
+      }
+      ab.append(wrap); if (!r.body.items.length) ab.textContent = 'ยังไม่มีรูปถ่าย';
+    } catch (e) { if (e.message !== 'auth') ab.textContent = 'เชื่อมต่อไม่ได้'; }
+  }
 
   if (store.get()) { show(); refresh(); }
   setInterval(() => { if ($('auto').checked && !document.hidden) refresh(); }, 30000);
