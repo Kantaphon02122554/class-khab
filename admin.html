@@ -142,6 +142,10 @@
       <p class="sub">คำนวณจากวันที่เครื่องสมัครแจ้งเตือน (เครื่องที่ถูกลบออกเพราะหมดอายุจะไม่ถูกนับย้อนหลัง)</p>
     </div>
 
+    <div class="card" style="grid-column:1/-1"><div class="top" style="display:flex;align-items:center;gap:8px"><h3 style="flex:1;margin:0">คนที่ถูกระงับอยู่ (ทุกห้อง)</h3><button id="bansRef" onclick="loadBans()">รีเฟรช</button></div>
+      <div id="bansBody" style="margin-top:8px"><p class="muted">กำลังโหลด…</p></div>
+    </div>
+
     <div class="card" style="grid-column:1/-1"><h3>คำสั่งด่วน (ตั้งวันหยุด / กิจกรรม)</h3>
       <p class="sub" style="margin-bottom:8px">พิมพ์คำสั่งแล้วกด Enter ระบบจะแสดงตัวอย่างให้ยืนยันก่อนบันทึกเสมอ พิมพ์ <b>ช่วย</b> เพื่อดูคำสั่งทั้งหมด</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap"><input type="text" id="cmdIn" maxlength="200" autocomplete="off" placeholder="เช่น หยุด 10/12/2569 วันรัฐธรรมนูญ" style="flex:1;min-width:220px" onkeydown="if(event.key==='Enter'){event.preventDefault();cmdRun()}" /><button class="pri" onclick="cmdRun()">ตรวจคำสั่ง</button></div>
@@ -275,6 +279,7 @@
   }
 
   function render(d) {
+    if (!window._bansLoaded) { window._bansLoaded = 1; loadBans(); }   // โหลดรายชื่อคนถูกระงับครั้งแรกครั้งเดียว (ตัวเองมีปุ่มรีเฟรช ไม่ผูกกับรอบ 30 วิ)
     const h = d.health, red = d.alerts.filter((a) => a.level === 'red').length, yel = d.alerts.filter((a) => a.level === 'yellow').length;
     const hero = $('hero'); hero.className = 'hero ' + (red ? 'bad' : yel ? 'warn' : 'ok');
     $('heroDot').textContent = red ? '✕' : yel ? '!' : '✓';
@@ -433,6 +438,30 @@
     }
     return box;
   };
+  // การ์ด "คนที่ถูกระงับอยู่" ในภาพรวม: รวมทุกห้อง (แชตห้อง+โซเชียลใช้ chat_bans ร่วมกัน) และแชตเปิด (open_bans) ปลดได้จากตรงนี้เลย
+  async function loadBans() {
+    const box = $('bansBody'); if (!box) return; const btn = $('bansRef'); btn.disabled = true; box.textContent = 'กำลังโหลด…';
+    try {
+      const rm = await api({ action: 'rooms' }); if (!rm.body.ok) { box.textContent = 'โหลดรายชื่อห้องไม่สำเร็จ'; btn.disabled = false; return; }
+      const rooms = rm.body.rooms.slice().sort(natural), found = []; let i = 0;
+      const worker = async () => { while (i < rooms.length) { const c = rooms[i++].class; const r = await api({ action: 'chat_room', class_id: c }); if (!r.body.ok) continue;
+        const nick = new Map(r.body.messages.map((m) => [m.poster, m])); activeBans(r.body.bans).forEach((x) => { const m = nick.get(x.poster); found.push({ cls: c, poster: x.poster, until: x.until, nick: m && m.nick, sid: m && m.student_id }); }); } };
+      await Promise.all([worker(), worker(), worker(), worker()]);
+      const op = await api({ action: 'open_room' }); const openBans = op.body.ok ? activeBans(op.body.bans) : [];
+      box.textContent = '';
+      if (!found.length && !openBans.length) { box.append(mk('p', 'muted', 'ตอนนี้ไม่มีใครถูกระงับ')); btn.disabled = false; return; }
+      found.sort((a, b) => natural({ class: a.cls }, { class: b.cls }));
+      found.forEach((x) => {
+        const r = mk('div', 'row'); r.append(mk('span', null, `${x.cls} · ${x.nick || '#' + x.poster}${x.nick ? ' (#' + x.poster + ')' : ''} · ถึง ${fmt(x.until)}`));
+        const b = mk('button', null, 'ปลดระงับ'); b.onclick = async () => { b.disabled = true; await unbanPoster(x.cls, x.poster, x.sid); loadBans(); }; r.append(b); box.append(r);
+      });
+      openBans.forEach((x) => {
+        const r = mk('div', 'row'); r.append(mk('span', null, `แชตเปิด · เลข ${x.student_id} · ถึง ${fmt(x.until)}`));
+        const b = mk('button', null, 'ปลดระงับ'); b.onclick = async () => { b.disabled = true; await api({ action: 'open_ban', student_id: x.student_id, hours: 0 }); loadBans(); }; r.append(b); box.append(r);
+      });
+    } catch (e) { box.textContent = 'โหลดไม่สำเร็จ ลองใหม่'; }
+    btn.disabled = false;
+  }
   const natural = (a, b) => a.class.localeCompare(b.class, 'th', { numeric: true });
   const DAYS = ['จันทร์', 'อังคาร', 'พุธ', 'พฤหัสบดี', 'ศุกร์'], KIND = { announce: 'ประกาศ', homework: 'การบ้าน', exam: 'สอบ/ทดสอบ' };
   let ROOMS = [];
