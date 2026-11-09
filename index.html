@@ -35,7 +35,7 @@
       // ตั้งโหมดมืดก่อนวาดหน้า กันกะพริบ (จำค่าที่เลือกไว้ ไม่งั้นตามการตั้งค่าของเครื่อง)
       try {
         var _t = localStorage.getItem('classkhab_theme');
-        if (_t === 'dark' || (!_t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        if (_t === 'dark') {   // ค่าเริ่มต้นเป็นโหมดสว่าง ไม่ตามเครื่อง
           document.documentElement.classList.add('dark');
         }
       } catch (e) {}
