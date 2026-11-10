@@ -104,7 +104,7 @@
       .so-tbar { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem; } .so-tbar label { font-size: 0.8rem; font-weight: 600; color: #64748b; } .so-tbar select { flex: 1; padding: 0.5rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 12px; background: #fff; color: #0f172a; font-weight: 600; } html.dark .so-tbar select { background: #0b1220; border-color: #243152; color: #f1f5f9; }
       .so-tbadge { margin-left: 0.4rem; padding: 0 0.35rem; border-radius: 6px; font-size: 0.7rem; font-weight: 600; background: #d1fae5; color: #065f46; } html.dark .so-tbadge { background: rgba(5, 150, 105, 0.25); color: #6ee7b7; }
       .so-mh { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; } .so-mh h2 { font-size: 1.5rem; font-weight: 600; color: #0f172a; } html.dark .so-mh h2 { color: #f1f5f9; }
-      #msgBtn { position: relative; width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0f172a; background: transparent; } #msgBtn:hover { background: rgba(100, 116, 139, 0.12); } html.dark #msgBtn { color: #f1f5f9; } #msgBtn svg { width: 1.4rem; height: 1.4rem; }
+      #msgBtn { position: relative; width: 2.75rem; height: 2.75rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #1d4ed8; background: rgba(37, 99, 235, 0.1); } #msgBtn:hover { background: rgba(37, 99, 235, 0.18); } html.dark #msgBtn { color: #93c5fd; background: rgba(147, 197, 253, 0.12); } #msgBtn svg { width: 1.5rem; height: 1.5rem; }
       .so-mdot { position: absolute; top: 0.45rem; right: 0.45rem; width: 0.6rem; height: 0.6rem; border-radius: 50%; background: #e11d48; border: 2px solid #fff; } html.dark .so-mdot { border-color: #0b1220; }
       .msg-bar { display: flex; align-items: center; gap: 0.25rem; margin-bottom: 0.75rem; } .msg-bar button { width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #0f172a; } html.dark .msg-bar button { color: #f1f5f9; } .msg-bar button svg { width: 1.4rem; height: 1.4rem; } .msg-bar b { font-size: 1.15rem; font-weight: 600; color: #0f172a; } html.dark .msg-bar b { color: #f1f5f9; }
       .msg-row { display: flex; align-items: center; gap: 0.85rem; width: 100%; text-align: left; padding: 0.75rem 0.25rem; border-radius: 12px; } .msg-row:hover { background: rgba(100, 116, 139, 0.08); }
@@ -307,6 +307,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .ap-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0; border-top: 1px solid rgba(100, 116, 139, 0.2); font-size: 0.8rem; font-weight: 500; } .ap-row span { flex: 1; min-width: 0; } .ap-row button { font-size: 0.75rem; color: #be123c; }
       .ap-strip { border: 1px solid rgba(100, 116, 139, 0.25); border-radius: 0.9rem; padding: 0.6rem; margin: 1.25rem 0 1.25rem; background: rgba(255,255,255,0.6); } .ap-strip .ap-h { display: flex; align-items: center; gap: 0.5rem; width: 100%; font-weight: 700; font-size: 0.85rem; text-align: left; } .ap-strip .ap-h i { width: 1rem; height: 1rem; } .ap-strip .ap-h small { margin-left: auto; font-weight: 600; color: #2563eb; } .ap-strip .ap-row { cursor: pointer; } html.dark .ap-strip { background: rgba(17, 26, 46, 0.8); border-color: #243152; color: #e2e8f0; } html.dark .ap-strip .ap-h small { color: #7dd3fc; } .ap-links { display: flex; flex-wrap: wrap; gap: 0.4rem; padding-top: 0.5rem; margin-top: 0.3rem; border-top: 1px solid rgba(100, 116, 139, 0.2); } .ap-links a { font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 999px; background: rgba(100, 116, 139, 0.12); color: inherit; text-decoration: none; }
       .ap-hrow { display: flex; flex-wrap: wrap; gap: 0.5rem; } .ap-hrow .ap-h { flex: 1 1 40%; min-width: 0; min-height: 3rem; padding: 0.5rem 0.75rem; border-radius: 0.8rem; background: rgba(37, 99, 235, 0.08); font-size: 0.9rem; -webkit-tap-highlight-color: transparent; } .ap-hrow .ap-h span { white-space: nowrap; } .ap-hrow .ap-h:active { transform: scale(0.98); } .ap-hrow .ap-h:nth-child(3) { flex-basis: 100%; } html.dark .ap-hrow .ap-h { background: rgba(125, 211, 252, 0.1); } .ap-strip .ap-row { min-height: 2.5rem; padding: 0.5rem 0.25rem; } .ap-links a { padding: 0.4rem 0.8rem; font-size: 0.78rem; }
+      .tt-log { max-height: 42vh; overflow: auto; padding: 0.25rem 0; } .tt-b { padding: 0.5rem 0.75rem; border-radius: 0.9rem; margin: 0.35rem 0; font-size: 0.85rem; line-height: 1.5; white-space: pre-wrap; word-break: break-word; max-width: 92%; } .tt-u { background: #2563eb; color: #fff; margin-left: auto; } .tt-a { background: #f1f3f6; color: #1e293b; } html.dark .tt-a { background: #1a2540; color: #e2e8f0; } .tt-row { display: flex; gap: 0.5rem; align-items: flex-end; margin-top: 0.5rem; } .tt-row textarea { flex: 1; min-width: 0; border: 1px solid rgba(100, 116, 139, 0.35); border-radius: 0.8rem; padding: 0.5rem 0.7rem; font-size: 0.9rem; background: transparent; color: inherit; resize: none; } .tt-row button { background: #2563eb; color: #fff; font-weight: 700; font-size: 0.85rem; padding: 0.6rem 1rem; border-radius: 0.8rem; } .tt-row button:disabled { opacity: 0.5; }
       .sb-row { padding: 0.5rem 0; border-top: 1px solid rgba(100, 116, 139, 0.2); font-size: 0.8rem; } .sb-row b { font-weight: 700; } .sb-row .sb-s { color: #64748b; font-weight: 500; } .sb-row .sb-a { display: flex; gap: 0.5rem; margin-top: 0.3rem; } .sb-row button { font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.7rem; border-radius: 0.6rem; background: #2563eb; color: #fff; } .sb-row button.g { background: transparent; color: #be123c; border: 1px solid rgba(190, 18, 60, 0.4); }
       .pf-colors { display: flex; gap: 0.6rem; margin-top: 0.4rem; } .pf-colors button { width: 2rem; height: 2rem; border-radius: 50%; border: 2px solid transparent; } .pf-colors button.on { border-color: #0f172a; box-shadow: 0 0 0 2px #fff inset; } html.dark .pf-colors button.on { border-color: #fff; }
       .pf-presets { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem; margin-top: 0.4rem; } .pf-presets button { aspect-ratio: 1; border-radius: 50%; border: 2px solid transparent; background-size: cover; background-position: center; } .pf-presets button.on { border-color: #0f172a; box-shadow: 0 0 0 2px #fff inset; } html.dark .pf-presets button.on { border-color: #fff; }
@@ -1092,6 +1093,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
               <div class="pf-note"><span id="menuWho2">เพื่อนเห็นแค่ชื่อเล่น</span> · โปรไฟล์เก็บในเครื่องนี้เท่านั้น</div>
               <div class="v2-group">การใช้งาน</div>
               <div class="v2-list">
+                <button class="v2-item student-only" onclick="tutorOpen()"><i data-lucide="book-open"></i><span class="grow">เพื่อนติว (AI)</span><small>ถามเรื่องเรียน</small></button>
                 <button class="v2-item" onclick="toggleTheme()"><i data-lucide="moon"></i><span class="grow">โหมดมืด</span><span class="v2-switch"></span></button>
                 <button class="v2-item" onclick="teacherMode ? toggleTeacherPush() : togglePush()"><i data-lucide="bell"></i><span class="grow">แจ้งเตือนก่อนคาบ</span><small class="pushLabel">เปิดแจ้งเตือน</small></button>
                 
@@ -1116,7 +1118,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
               <div class="so-mh">
                 <h2>โซเชียล</h2>
                 <button id="msgBtn" type="button" class="hidden" onclick="setView('msg','inbox')" aria-label="ข้อความ (แชทห้อง โอเพ่นแชท คุยกับแอดมิน)">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7Z"/></svg>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
                   <span id="msgDot" class="so-mdot hidden"></span>
                 </button>
               </div>
@@ -1230,6 +1232,17 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                 <div class="pf-l" style="margin-top:1rem">นัดของฉัน<div id="apptMine"></div></div>
               </div>
             </div>
+            <!-- เพื่อนติว (AI): ถามเรื่องเรียน จำกัดต่อคนต่อวัน ไม่เก็บบทสนทนา -->
+            <div id="ttSheet" class="pf-sheet hidden" onclick="if(event.target===this)tutorClose()">
+              <div class="pf-panel" role="dialog" aria-label="เพื่อนติว">
+                <div class="pf-ph"><b>เพื่อนติว (AI)</b><button onclick="tutorClose()" aria-label="ปิด"><i data-lucide="x"></i></button></div>
+                <div style="display:flex;gap:0.5rem"><label class="pf-l" style="flex:1">วิชา<select id="ttSubject"></select></label><label class="pf-l" style="flex:1">เตรียมสอบ<select id="ttExam"></select></label></div>
+                <div id="ttLog" class="tt-log"></div>
+                <p id="ttErr" class="pf-err hidden"></p>
+                <div class="tt-row"><textarea id="ttInput" rows="2" maxlength="600" placeholder="ถามเรื่องเรียน เช่น อธิบายสมการกำลังสองให้หน่อย"></textarea><button id="ttSend" onclick="tutorSend()">ถาม</button></div>
+                <p class="pf-note" id="ttNote">AI อาจตอบผิด ตรวจกับครูหรือหนังสือเรียนเสมอ · แนวข้อสอบเป็นโจทย์ฝึกที่ AI แต่งใหม่ ไม่ใช่ข้อสอบจริง · อย่าใส่ชื่อจริงหรือข้อมูลส่วนตัว · ไม่เก็บบทสนทนา</p>
+              </div>
+            </div>
             <!-- แนวข้อสอบ/ชีทจากครู: โพสต์ลงคลังของห้อง (ข้อความ + ลิงก์) -->
             <div id="exSheet" class="pf-sheet hidden" onclick="if(event.target===this)exClose()">
               <div class="pf-panel" role="dialog" aria-label="แนวข้อสอบ">
@@ -1239,7 +1252,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                 <label class="pf-l">วิชา<select id="exSubject"></select></label>
                 <label class="pf-l">หัวข้อ<input id="exTitle" maxlength="80" autocomplete="off" placeholder="เช่น แนวข้อสอบกลางภาค บทที่ 1–3"></label>
                 <label class="pf-l">รายละเอียด (ไม่บังคับถ้ามีลิงก์)<textarea id="exBody" maxlength="1000" rows="3" placeholder="ขอบเขตเนื้อหา ตัวอย่างข้อสอบสั้นๆ"></textarea></label>
-                <label class="pf-l">ลิงก์ (Google Drive/Docs, YouTube, Canva, Notion, Quizlet, Wordwall)<input id="exLink" maxlength="300" autocomplete="off" placeholder="https://"></label>
+                <label class="pf-l">ลิงก์ (Google Drive/Docs, YouTube, Canva, Notion, Quizlet, Wordwall, สทศ./TCAS)<input id="exLink" maxlength="300" autocomplete="off" placeholder="https://"></label>
                 <p class="pf-note">โพสต์เข้าคลังของห้องที่เลือก นักเรียนห้องนั้นเห็นพร้อมป้าย "ครู" ใช้ลิงก์แทนการอัปโหลดไฟล์ ใช้เฉพาะเอกสารที่โรงเรียนอนุญาตให้แชร์ ผู้ดูแลเห็นว่าใครโพสต์</p>
                 <p id="exErr" class="pf-err hidden"></p>
                 <button id="exSend" class="pf-save" onclick="exSubmit()">โพสต์เข้าคลังห้อง</button>
@@ -1450,7 +1463,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                     <input id="studyTitle" maxlength="80" required placeholder="หัวข้อ เช่น สรุปบทที่ 3 แรงและการเคลื่อนที่" class="sm:col-span-2 bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800" />
                   </div>
                   <textarea id="studyText" maxlength="1000" rows="3" placeholder="เนื้อหาสรุปสั้นๆ (ไม่บังคับถ้าแนบลิงก์/ไฟล์)" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800"></textarea>
-                  <input id="studyLink" maxlength="300" placeholder="ลิงก์ (Google Drive/Docs, YouTube, Canva, Notion, Quizlet, Wordwall)" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800" />
+                  <input id="studyLink" maxlength="300" placeholder="ลิงก์ (Google Drive/Docs, YouTube, Canva, Notion, Quizlet, Wordwall, สทศ./TCAS)" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800" />
                   <div>
                     <label class="text-xs text-slate-500">แนบรูปหรือ PDF (ไม่บังคับ) รูปจะถูกย่อให้อัตโนมัติ · PDF ไม่เกิน 1.5 MB</label>
                     <input id="studyFile" type="file" accept="image/*,application/pdf" class="mt-1 block w-full text-xs text-slate-600" />
@@ -2826,7 +2839,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       let studyOpen = false, studyFilterSubject = '', studyFilterKind = '', studyItems = [];
       const STUDY_ERR = {
         filter_link: 'ห้ามใส่ลิงก์ในข้อความ ใส่ในช่อง "ลิงก์" แทน', filter_contact: 'ห้ามใส่เบอร์โทร ไอดีไลน์ หรืออีเมล', filter_word: 'ข้อความมีคำที่ไม่อนุญาต',
-        link_host: 'ลิงก์ต้องเป็น https และจากเว็บที่อนุญาต (Google Drive/Docs, YouTube, Canva, Notion, Quizlet, Wordwall)',
+        link_host: 'ลิงก์ต้องเป็น https และจากเว็บที่อนุญาต (Google Drive/Docs, YouTube, Canva, Notion, Quizlet, Wordwall, สทศ./TCAS)',
         subject: 'เลือกวิชาจากรายการ', title: 'ใส่หัวข้อก่อน', empty: 'ใส่เนื้อหา ลิงก์ หรือแนบไฟล์อย่างน้อยหนึ่งอย่าง',
         rate: 'โพสต์ถี่เกินไป (สูงสุด 3 ครั้งต่อชั่วโมง) รอสักครู่', busy: 'ห้องนี้เพิ่มชีทถี่มาก รอสักครู่', full: 'คลังของห้องมีไฟล์ครบจำนวนแล้ว ลบอันเก่าก่อน',
         too_big: 'ไฟล์ใหญ่เกินไป (รูปย่ออัตโนมัติ, PDF ไม่เกิน 1.5 MB)', file_type: 'รองรับเฉพาะรูปภาพและ PDF', banned: 'ผู้ดูแลหรือระบบระงับการใช้งานของคุณชั่วคราว', closed: 'ห้องนี้ยังไม่เปิดใช้งาน',
@@ -3886,6 +3899,40 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const r = await apptCall({ action: 'mine' }); if (r.ok) window._myAppts = r.items || [];
         subBoardLoad(true);
         apptStripRender();
+      }
+      // ===== เพื่อนติว (ฟีดแบ็กข้อ 17 ส่วนที่ 2): แชตบอท Haiku ถามเรื่องเรียน · ประวัติอยู่ในเครื่อง (ปิดหน้าต่างแล้วหาย) ส่งเฉพาะ 4 รอบล่าสุด =====
+      const TT_SUBJECTS = ['ทั่วไป', 'คณิตศาสตร์', 'วิทยาศาสตร์', 'ฟิสิกส์', 'เคมี', 'ชีววิทยา', 'ภาษาไทย', 'ภาษาอังกฤษ', 'สังคมศึกษา', 'ประวัติศาสตร์'];
+      const TT_EXAMS = [['', 'ไม่ระบุ'], ['A-Level', 'A-Level'], ['TGAT', 'TGAT'], ['TPAT', 'TPAT'], ['O-NET', 'O-NET'], ['สอบกลางภาค/ปลายภาค', 'กลางภาค/ปลายภาค']];
+      const TT_ERR = { login: 'ต้องเข้าสู่ระบบด้วยอีเมลโรงเรียนก่อน (โปรไฟล์ > ออกจากระบบ แล้วเข้าด้วยเลขประจำตัวหรืออีเมล)', limit: 'วันนี้ถามครบแล้ว พรุ่งนี้มาใหม่นะ', busy: 'วันนี้มีคนใช้เยอะมาก ลองใหม่พรุ่งนี้', budget: 'โควตา AI ของโรงเรียนเดือนนี้หมดแล้ว', off: 'ผู้ดูแลปิดเพื่อนติวชั่วคราว', unavailable: 'ตอนนี้ตอบไม่ได้ ลองใหม่ภายหลัง (ไม่นับสิทธิ์)', empty: 'พิมพ์คำถามก่อน', auth: 'ต้องเข้าสู่ระบบห้องใหม่ก่อน', filter_link: 'ห้ามใส่ลิงก์ในคำถาม', filter_contact: 'ห้ามใส่เบอร์โทร ไอดี หรืออีเมล', filter_word: 'คำถามมีคำที่ไม่อนุญาต', net: 'เชื่อมต่อไม่ได้ ลองใหม่อีกครั้ง' };
+      let ttHist = [], ttBusy = false;
+      async function tutorCall(body) {
+        const token = getToken(); if (!token) return { ok: false, error: 'auth' };
+        try {
+          const res = await fetch(`${SUPABASE_URL}/functions/v1/tutor`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ ...body, token, sid: getSid() }) });
+          const j = await res.json().catch(() => ({})); return { ...j, status: res.status };
+        } catch (e) { return { ok: false, error: 'net' }; }
+      }
+      function tutorClose() { document.getElementById('ttSheet').classList.add('hidden'); }
+      function ttNote(msg, ok) { const e = document.getElementById('ttErr'); e.textContent = msg || ''; e.classList.toggle('hidden', !msg); e.style.color = ok ? '#475569' : ''; }
+      function ttAdd(role, text) { const b = mk('div', 'tt-b ' + (role === 'u' ? 'tt-u' : 'tt-a')); b.textContent = text; const log = document.getElementById('ttLog'); log.append(b); log.scrollTop = log.scrollHeight; }
+      async function tutorOpen() {
+        const g = (id) => document.getElementById(id);
+        if (!g('ttSubject').childElementCount) { for (const s of TT_SUBJECTS) { const o = mk('option', null, s); o.value = s; g('ttSubject').append(o); } for (const [v, l] of TT_EXAMS) { const o = mk('option', null, l); o.value = v; g('ttExam').append(o); } }
+        g('ttSheet').classList.remove('hidden'); if (window.lucide) lucide.createIcons();
+        if (!g('ttLog').childElementCount) ttAdd('a', 'สวัสดี เป็นเพื่อนติวนะ ถามเรื่องเรียนหรือขอโจทย์ฝึกได้เลย ผมช่วยอธิบายเป็นขั้นตอน (วันนี้ถามได้จำกัดจำนวน)');
+        const q = await tutorCall({ action: 'quota' });
+        if (!q.ok) ttNote(TT_ERR[q.error] || 'โหลดไม่สำเร็จ'); else if (!q.enabled) ttNote(TT_ERR.off); else ttNote('วันนี้เหลือ ' + q.left + ' คำถาม', true);
+      }
+      async function tutorSend() {
+        if (ttBusy) return;
+        const g = (id) => document.getElementById(id), q = g('ttInput').value.trim();
+        if (q.length < 2) return ttNote(TT_ERR.empty);
+        ttBusy = true; g('ttSend').disabled = true; ttNote('กำลังคิด…', true); ttAdd('u', q); g('ttInput').value = '';
+        const r = await tutorCall({ action: 'ask', question: q, subject: g('ttSubject').value, exam: g('ttExam').value, history: ttHist.slice(-4) });
+        ttBusy = false; g('ttSend').disabled = false;
+        if (!r.ok) { ttNote(TT_ERR[r.error] || 'ถามไม่สำเร็จ ลองใหม่อีกครั้ง'); return; }
+        ttAdd('a', r.answer); ttHist.push({ r: 'u', t: q }, { r: 'a', t: r.answer }); ttHist = ttHist.slice(-4);
+        ttNote('วันนี้เหลือ ' + r.left + ' คำถาม', true);
       }
       // ===== แนวข้อสอบ/ชีทจากครู (ฟีดแบ็กข้อ 17 ส่วนที่ 1): โพสต์ลงคลังสรุป/ชีทของห้องที่เลือก =====
       const exCall = (body) => apptCall(body, 'study');

@@ -157,6 +157,9 @@
       <h3 style="margin-top:14px">นัดหมายของครู (ล่าสุด 80 รายการ)</h3>
       <p class="sub" style="margin-bottom:8px">ครูนัดนักเรียนรายคน/ทั้งห้อง ได้เฉพาะสถานที่ในโรงเรียน วันจันทร์–ศุกร์ 07:00–17:00 วันละไม่เกิน 20 นัด · แอดมินยกเลิกได้</p>
       <div id="apptBox" class="muted">กำลังโหลด…</div>
+      <h3 style="margin-top:14px">แชตบอท "เพื่อนติว" (AI)</h3>
+      <p class="sub" style="margin-bottom:8px">นักเรียนที่ล็อกอินอีเมลถามเรื่องเรียนได้ 4 ครั้ง/คน/วัน ระบบรวมไม่เกิน 300 ครั้ง/วัน และใช้ได้ไม่เกินครึ่งหนึ่งของงบ AI รายเดือน · ไม่เก็บเนื้อหาบทสนทนา</p>
+      <div id="tutorBox" class="muted">กำลังโหลด…</div>
       <h3 style="margin-top:14px">กระดานสอนแทน (ล่าสุด 80 รายการ)</h3>
       <p class="sub" style="margin-bottom:8px">ครูที่ไม่อยู่ประกาศคาบที่ต้องการคนสอนแทน ครูท่านอื่นกดรับ · ไม่เก็บเหตุผลการลา · แอดมินยกเลิกได้</p>
       <div id="subBox" class="muted">กำลังโหลด…</div>
@@ -741,6 +744,16 @@
         if (!r.body.items.length) pb.textContent = 'ยังไม่มีนัดหมาย';
       }
     } catch (e) { if (e.message !== 'auth') pb.textContent = 'เชื่อมต่อไม่ได้'; }
+    const tb2 = $('tutorBox');
+    if (tb2) try {
+      const r = await api({ action: 'tutor_stat' });
+      if (!r.body.ok) { tb2.textContent = 'โหลดไม่สำเร็จ'; } else {
+        const s = r.body; tb2.textContent = '';
+        tb2.append(mk('span', null, 'วันนี้ ' + s.today_questions + ' คำถาม จาก ' + s.today_students + ' คน · ใช้งบ AI เดือนนี้รวม $' + (s.month_micro_usd / 1e6).toFixed(3) + ' (ทุกฟีเจอร์) · สถานะ: ' + (s.enabled ? 'เปิด' : 'ปิด') + ' '));
+        const tg = mk('button', null, s.enabled ? 'ปิดแชตบอท' : 'เปิดแชตบอท'); tg.onclick = async () => { if (confirm(s.enabled ? 'ปิดแชตบอทตอนนี้เลย?' : 'เปิดแชตบอท?')) { await api({ action: 'tutor_toggle', enabled: !s.enabled }); loadOpen(); } };
+        tb2.append(tg);
+      }
+    } catch (e) { if (e.message !== 'auth') tb2.textContent = 'เชื่อมต่อไม่ได้'; }
     const sb = $('subBox');
     if (sb) try {
       const r = await api({ action: 'sub_list' });
