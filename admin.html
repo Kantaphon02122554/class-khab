@@ -157,6 +157,9 @@
       <h3 style="margin-top:14px">นัดหมายของครู (ล่าสุด 80 รายการ)</h3>
       <p class="sub" style="margin-bottom:8px">ครูนัดนักเรียนรายคน/ทั้งห้อง ได้เฉพาะสถานที่ในโรงเรียน วันจันทร์–ศุกร์ 07:00–17:00 วันละไม่เกิน 20 นัด · แอดมินยกเลิกได้</p>
       <div id="apptBox" class="muted">กำลังโหลด…</div>
+      <h3 style="margin-top:14px">กระดานสอนแทน (ล่าสุด 80 รายการ)</h3>
+      <p class="sub" style="margin-bottom:8px">ครูที่ไม่อยู่ประกาศคาบที่ต้องการคนสอนแทน ครูท่านอื่นกดรับ · ไม่เก็บเหตุผลการลา · แอดมินยกเลิกได้</p>
+      <div id="subBox" class="muted">กำลังโหลด…</div>
       <h3 style="margin-top:14px">รูปถ่ายโปรไฟล์ล่าสุด</h3>
       <div id="avaBox" class="muted">กำลังโหลด…</div>
     </div>
@@ -738,6 +741,20 @@
         if (!r.body.items.length) pb.textContent = 'ยังไม่มีนัดหมาย';
       }
     } catch (e) { if (e.message !== 'auth') pb.textContent = 'เชื่อมต่อไม่ได้'; }
+    const sb = $('subBox');
+    if (sb) try {
+      const r = await api({ action: 'sub_list' });
+      if (!r.body.ok) { sb.textContent = 'โหลดไม่สำเร็จ'; } else {
+        sb.textContent = '';
+        for (const a of r.body.items) {
+          const row = mk('div', 'muted'); row.style.cssText = 'display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:4px 0;border-top:1px solid rgba(128,128,128,.2)' + (a.cancelled ? ';opacity:.5' : '');
+          row.append(mk('span', null, a.day + ' คาบ ' + a.period + ' · ' + a.class_id + (a.subject ? ' · ' + a.subject : '') + ' · ขอโดย ' + a.requester_name + ' (รหัส ' + a.requester_id + ') · ' + (a.taker_name ? 'รับโดย ' + a.taker_name + ' (รหัส ' + a.taker_id + ')' : 'ยังไม่มีคนรับ') + (a.note ? ' · ' + a.note : '') + (a.cancelled ? ' · ยกเลิกแล้ว' : '')));
+          if (!a.cancelled) { const cn = mk('button', null, 'ยกเลิก'); cn.onclick = async () => { if (confirm('ยกเลิกรายการสอนแทนนี้?')) { await api({ action: 'sub_cancel', id: a.id }); loadOpen(); } }; row.append(cn); }
+          sb.append(row);
+        }
+        if (!r.body.items.length) sb.textContent = 'ยังไม่มีรายการสอนแทน';
+      }
+    } catch (e) { if (e.message !== 'auth') sb.textContent = 'เชื่อมต่อไม่ได้'; }
     const ab = $('avaBox'); if (!ab) return;
     try {
       const r = await api({ action: 'avatar_list' }); if (!r.body.ok) { ab.textContent = 'โหลดไม่สำเร็จ'; return; }

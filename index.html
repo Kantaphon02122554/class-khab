@@ -306,6 +306,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .pf-l select { display: block; width: 100%; margin-top: 0.3rem; padding: 0.6rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 1rem; font-weight: 500; color: #0f172a; background: #fff; } html.dark .pf-l select { background: #0b1220; border-color: #243152; color: #f1f5f9; }
       .ap-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0; border-top: 1px solid rgba(100, 116, 139, 0.2); font-size: 0.8rem; font-weight: 500; } .ap-row span { flex: 1; min-width: 0; } .ap-row button { font-size: 0.75rem; color: #be123c; }
       .ap-strip { border: 1px solid rgba(100, 116, 139, 0.25); border-radius: 0.9rem; padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; background: rgba(255,255,255,0.6); } .ap-strip .ap-h { display: flex; align-items: center; gap: 0.5rem; width: 100%; font-weight: 700; font-size: 0.85rem; text-align: left; } .ap-strip .ap-h i { width: 1rem; height: 1rem; } .ap-strip .ap-h small { margin-left: auto; font-weight: 600; color: #2563eb; } .ap-strip .ap-row { cursor: pointer; }
+      .ap-hrow { display: flex; gap: 0.5rem; } .ap-hrow .ap-h { flex: 1; min-width: 0; } .ap-hrow .ap-h + .ap-h { border-left: 1px solid rgba(100, 116, 139, 0.25); padding-left: 0.5rem; }
+      .sb-row { padding: 0.5rem 0; border-top: 1px solid rgba(100, 116, 139, 0.2); font-size: 0.8rem; } .sb-row b { font-weight: 700; } .sb-row .sb-s { color: #64748b; font-weight: 500; } .sb-row .sb-a { display: flex; gap: 0.5rem; margin-top: 0.3rem; } .sb-row button { font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.7rem; border-radius: 0.6rem; background: #2563eb; color: #fff; } .sb-row button.g { background: transparent; color: #be123c; border: 1px solid rgba(190, 18, 60, 0.4); }
       .pf-colors { display: flex; gap: 0.6rem; margin-top: 0.4rem; } .pf-colors button { width: 2rem; height: 2rem; border-radius: 50%; border: 2px solid transparent; } .pf-colors button.on { border-color: #0f172a; box-shadow: 0 0 0 2px #fff inset; } html.dark .pf-colors button.on { border-color: #fff; }
       .pf-presets { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem; margin-top: 0.4rem; } .pf-presets button { aspect-ratio: 1; border-radius: 50%; border: 2px solid transparent; background-size: cover; background-position: center; } .pf-presets button.on { border-color: #0f172a; box-shadow: 0 0 0 2px #fff inset; } html.dark .pf-presets button.on { border-color: #fff; }
       .pf-note { font-size: 0.75rem; color: #64748b; margin: -0.4rem 0 0.9rem; line-height: 1.5; } .pf-err { font-size: 0.8rem; color: #be123c; margin: 0 0 0.6rem; } html.dark .pf-err { color: #fda4af; }
@@ -1225,6 +1227,22 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                 <p id="apptErr" class="pf-err hidden"></p>
                 <button id="apptSend" class="pf-save" onclick="apptSubmit()">ส่งนัดหมาย</button>
                 <div class="pf-l" style="margin-top:1rem">นัดของฉัน<div id="apptMine"></div></div>
+              </div>
+            </div>
+            <!-- กระดานสอนแทน (ครู): ขอคนสอนแทน / รับสอนแทน -->
+            <div id="subSheet" class="pf-sheet hidden" onclick="if(event.target===this)subClose()">
+              <div class="pf-panel" role="dialog" aria-label="สอนแทน">
+                <div class="pf-ph"><b>กระดานสอนแทน</b><button onclick="subClose()" aria-label="ปิด"><i data-lucide="x"></i></button></div>
+                <div class="pf-l">รอคนสอนแทน<div id="subBoard"></div></div>
+                <b style="display:block;margin-top:1rem;font-size:.85rem">ขอคนสอนแทน</b>
+                <label class="pf-l">ห้อง<select id="subRoom"></select></label>
+                <label class="pf-l">วัน<input id="subDay" type="date"></label>
+                <label class="pf-l">คาบ<select id="subPeriod"></select></label>
+                <label class="pf-l">วิชา (ไม่บังคับ)<input id="subSubject" maxlength="30" autocomplete="off" placeholder="เช่น คณิตศาสตร์"></label>
+                <label class="pf-l">หมายเหตุ (ไม่บังคับ)<input id="subNote" maxlength="80" autocomplete="off" placeholder="เช่น งานที่ฝากไว้ให้นักเรียน"></label>
+                <p class="pf-note">ขอได้เฉพาะวันจันทร์–ศุกร์ ภายใน 14 วัน ไม่ต้องบอกเหตุผลการลา ใบลาทางการทำที่ระบบลาของโรงเรียนตามปกติ ครูที่รับจะถูกบันทึกชื่อให้แอดมินเห็น</p>
+                <p id="subErr" class="pf-err hidden"></p>
+                <button id="subSend" class="pf-save" onclick="subSubmit()">ขอคนสอนแทน</button>
               </div>
             </div>
             <!-- แก้ไขโปรไฟล์ -->
@@ -3768,10 +3786,10 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         rate: 'วันนี้นัดครบ 20 รายการแล้ว', filter_link: 'หมายเหตุห้ามมีลิงก์', filter_contact: 'หมายเหตุห้ามมีเบอร์ ไอดี หรืออีเมล', filter_word: 'หมายเหตุมีคำที่ไม่อนุญาต', net: 'เชื่อมต่อไม่ได้ ลองใหม่อีกครั้ง',
       };
       function apptWhen(iso) { return new Date(iso).toLocaleString('th-TH', { timeZone: 'Asia/Bangkok', weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }); }
-      async function apptCall(body) {
+      async function apptCall(body, fn = 'appointments') {
         const tt = teacherToken(); if (!tt) return { ok: false, error: 'auth' };
         try {
-          const res = await fetch(`${SUPABASE_URL}/functions/v1/appointments`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ ...body, ttoken: tt, tname: ((readProfile().name || '').trim().slice(0, 20) || undefined) }) });
+          const res = await fetch(`${SUPABASE_URL}/functions/v1/${fn}`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ ...body, ttoken: tt, tname: ((readProfile().name || '').trim().slice(0, 20) || undefined) }) });
           const j = await res.json().catch(() => ({})); return { ...j, status: res.status };
         } catch (e) { return { ok: false, error: 'net' }; }
       }
@@ -3819,8 +3837,12 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         for (const box of strips) {
           box.textContent = ''; if (!teacherMode) { box.classList.add('hidden'); continue; }
           box.classList.remove('hidden');
-          const hd = mk('button', 'ap-h'); const ic = document.createElement('i'); ic.setAttribute('data-lucide', 'calendar-clock'); hd.append(ic, mk('span', null, 'นัดนักเรียน'), mk('small', null, list.length ? 'นัดใหม่' : 'สร้างนัด'));
-          hd.onclick = apptOpen; box.append(hd);
+          const hd = mk('div', 'ap-hrow');
+          const b1 = mk('button', 'ap-h'); const ic = document.createElement('i'); ic.setAttribute('data-lucide', 'calendar-clock'); b1.append(ic, mk('span', null, 'นัดนักเรียน'), mk('small', null, list.length ? 'นัดใหม่' : 'สร้างนัด')); b1.onclick = apptOpen;
+          const openN = (window._subBoard || []).filter((x) => !x.taker && !x.mine).length;
+          const b2 = mk('button', 'ap-h'); const ic2 = document.createElement('i'); ic2.setAttribute('data-lucide', 'users'); b2.append(ic2, mk('span', null, 'สอนแทน'), mk('small', null, openN ? 'รอรับ ' + openN : 'ขอ/รับ')); b2.onclick = subOpen;
+          hd.append(b1, b2);
+          box.append(hd);
           for (const a of list) { const row = mk('div', 'ap-row'); row.append(mk('span', null, apptWhen(a.at) + ' · ' + (a.student_id ? 'เลข ' + a.student_id : 'ห้อง ' + a.class_id) + ' · ' + a.place)); row.onclick = apptOpen; box.append(row); }
         }
         try { if (window.lucide) lucide.createIcons(); } catch (e) { /* ไอคอนไม่ขึ้นก็ใช้งานต่อได้ */ }
@@ -3828,7 +3850,66 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       async function apptStripLoad() {
         if (!teacherMode) return apptStripRender();
         const r = await apptCall({ action: 'mine' }); if (r.ok) window._myAppts = r.items || [];
+        subBoardLoad(true);
         apptStripRender();
+      }
+      // ===== กระดานสอนแทน (ครู) =====
+      const SUB_ERR = {
+        auth: 'ออกจากระบบแล้วเข้าใหม่ด้วยอีเมลหรือรหัสครู แล้วลองอีกครั้ง', day: 'เลือกวันจันทร์–ศุกร์ ตั้งแต่วันนี้ถึง 14 วันข้างหน้า', period: 'คาบนั้นจบไปแล้วหรือไม่ถูกต้อง', room: 'เลือกห้องจากรายการ', dup: 'ห้องนี้คาบนี้มีคนขอไว้แล้ว',
+        rate: 'วันนี้ทำรายการครบจำนวนที่กำหนดแล้ว', taken: 'มีครูท่านอื่นรับไปแล้ว', gone: 'รายการนี้ถูกยกเลิกแล้ว', own: 'รับคำขอของตัวเองไม่ได้', busy: 'คาบนี้คุณมีสอนหรือรับสอนแทนไว้แล้ว',
+        filter_link: 'ห้ามมีลิงก์', filter_contact: 'ห้ามมีเบอร์ ไอดี หรืออีเมล', filter_word: 'มีคำที่ไม่อนุญาต', net: 'เชื่อมต่อไม่ได้ ลองใหม่อีกครั้ง',
+      };
+      window._subBoard = [];
+      const subCall = (body) => apptCall(body, 'substitutes');
+      function subDayLabel(d) { return new Date(d + 'T00:00:00Z').toLocaleDateString('th-TH', { timeZone: 'UTC', weekday: 'short', day: 'numeric', month: 'short' }); }
+      function subClose() { document.getElementById('subSheet').classList.add('hidden'); }
+      function subOpen() {
+        const g = (id) => document.getElementById(id);
+        if (!g('subPeriod').childElementCount) {
+          for (const p of periods) { const o = mk('option', null, 'คาบ ' + p.p + ' (' + p.time + ')'); o.value = p.p; g('subPeriod').append(o); }
+          for (const o of document.querySelectorAll('#loginClass option')) { if (o.value) { const c = mk('option', null, o.value); c.value = o.value; g('subRoom').append(c); } }
+        }
+        const t = bkkToday(); g('subDay').value = t; g('subDay').min = t; g('subDay').max = new Date(Date.parse(t + 'T00:00:00Z') + 14 * 86400000).toISOString().slice(0, 10);
+        g('subErr').classList.add('hidden'); g('subSheet').classList.remove('hidden'); subBoardLoad(); if (window.lucide) lucide.createIcons();
+      }
+      async function subBoardLoad(quiet) {
+        const r = await subCall({ action: 'board' });
+        if (r.ok) window._subBoard = r.items || [];
+        apptStripRender();
+        const box = document.getElementById('subBoard'); if (!box || quiet) return;
+        box.textContent = '';
+        if (!r.ok) { box.append(mk('p', 'pf-note', 'โหลดกระดานไม่สำเร็จ')); return; }
+        const act = async (body) => { const x = await subCall(body); if (!x.ok) { const e = document.getElementById('subErr'); e.textContent = SUB_ERR[x.error] || 'ทำรายการไม่สำเร็จ ลองใหม่อีกครั้ง'; e.classList.remove('hidden'); } else document.getElementById('subErr').classList.add('hidden'); subBoardLoad(); };
+        for (const s of r.items) {
+          const row = mk('div', 'sb-row');
+          const head = mk('div'); head.append(mk('b', null, subDayLabel(s.day) + ' · คาบ ' + s.period + ' · ' + s.room), mk('span', 'sb-s', (s.subject ? ' · ' + s.subject : '') + ' · ' + (s.mine ? 'ของฉัน' : s.requester + ' ขอ'))); row.append(head);
+          if (s.note) row.append(mk('div', 'sb-s', s.note));
+          const a = mk('div', 'sb-a');
+          if (s.mine) { a.append(mk('span', 'sb-s', s.taker ? 'รับโดย ' + s.taker : 'ยังไม่มีคนรับ')); const c = mk('button', 'g', 'ยกเลิกคำขอ'); c.onclick = () => { if (confirm('ยกเลิกคำขอนี้?')) act({ action: 'cancel', id: s.id }); }; a.append(c); }
+          else if (s.takenByMe) { a.append(mk('span', 'sb-s', 'คุณรับสอนแทน')); const c = mk('button', 'g', 'คืนคาบ'); c.onclick = () => { if (confirm('คืนคาบนี้?')) act({ action: 'release', id: s.id }); }; a.append(c); }
+          else if (s.taker) a.append(mk('span', 'sb-s', 'รับโดย ' + s.taker + ' แล้ว'));
+          else { const c = mk('button', null, 'รับสอนแทน'); c.onclick = () => { if (confirm('รับสอนแทน ' + s.room + ' คาบ ' + s.period + ' ' + subDayLabel(s.day) + ' ?')) act({ action: 'take', id: s.id }); }; a.append(c); }
+          row.append(a); box.append(row);
+        }
+        if (!r.items.length) box.append(mk('p', 'pf-note', 'ยังไม่มีคำขอสอนแทน'));
+      }
+      async function subSubmit() {
+        const g = (id) => document.getElementById(id), err = g('subErr'), btn = g('subSend');
+        err.classList.add('hidden'); btn.disabled = true;
+        const r = await subCall({ action: 'create', room: g('subRoom').value, day: g('subDay').value, period: Number(g('subPeriod').value), subject: g('subSubject').value, note: g('subNote').value });
+        btn.disabled = false;
+        if (!r.ok) { err.textContent = SUB_ERR[r.error] || 'ส่งคำขอไม่สำเร็จ ลองใหม่อีกครั้ง'; err.classList.remove('hidden'); return; }
+        g('subSubject').value = ''; g('subNote').value = ''; err.textContent = 'ส่งคำขอแล้ว ครูท่านอื่นจะเห็นในกระดาน'; err.classList.remove('hidden'); subBoardLoad();
+      }
+      // นักเรียน: คาบสอนแทนของห้อง (วันนี้–พรุ่งนี้ขึ้นเป็นการ์ด) เรียกตอนเปิดแอปครั้งเดียว
+      window._subs = [];
+      async function loadSubs() {
+        const token = getToken(); if (!token || teacherMode || !SUPABASE_URL) return;
+        try {
+          const res = await fetch(`${SUPABASE_URL}/functions/v1/substitutes`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ action: 'list', token }) });
+          const j = await res.json().catch(() => ({}));
+          if (res.ok && j.ok) { window._subs = j.items || []; renderHomeCards(); }
+        } catch (e) { /* ไม่มีการ์ดสอนแทนก็ใช้งานต่อได้ */ }
       }
       window._appts = [];
       async function loadAppts() {   // นักเรียน: ดึงนัดของห้อง + นัดที่ระบุตัวฉัน (เรียกตอนเปิดแอปครั้งเดียว)
@@ -5004,6 +5085,9 @@ footer{border-top:1px solid var(--line);padding-top:24px;font-size:12px;color:va
         // 2.5) ครูนัด: นัดที่ใกล้ที่สุดที่ยังไม่ผ่านเกิน 2 ชม. (ระบุตัวนักเรียนหรือทั้งห้อง) ปิดได้รายวัน
         const apNow = s.nowMs || Date.now(), ap = (s.appts || []).filter((a) => Date.parse(a.at) > apNow - 2 * 3600000).sort((p, q) => p.at.localeCompare(q.at));
         if (ap.length) cards.push({ key: 'appt:' + ap[0].id, prio: 2, tone: 'warn', icon: 'calendar-clock', title: ap[0].teacher + ' นัด' + (ap[0].mine ? 'คุณ' : 'ห้องเรา') + (ap.length > 1 ? ' (+' + (ap.length - 1) + ' นัด)' : ''), text: ap[0].place + ' · ' + (s.apptWhen ? s.apptWhen(ap[0].at) : ap[0].at) + (ap[0].note ? ' · ' + ap[0].note : ''), dismiss: 'day' });
+        // 2.6) ครูสอนแทน: คาบของห้องที่วันนี้–พรุ่งนี้ มีครูรับสอนแทนแล้ว หรือยังหาคนไม่ได้ (เอาที่ใกล้สุดใบเดียว) ปิดได้รายวัน
+        const sbs = (s.subs || []).filter((x) => { const d = cardDayDiff(today, x.day); return d >= 0 && d <= 1; }).sort((p, q) => (p.day + String(p.period).padStart(2, '0')).localeCompare(q.day + String(q.period).padStart(2, '0')));
+        if (sbs.length) { const x = sbs[0]; cards.push({ key: 'sub:' + x.id, prio: 2, tone: 'warn', icon: 'user-check', title: x.teacher ? x.teacher + ' สอนแทน คาบ ' + x.period : 'คาบ ' + x.period + ' ยังไม่มีครูสอน กำลังหาคนสอนแทน', text: when(cardDayDiff(today, x.day)) + (x.subject ? ' · ' + x.subject : '') + (sbs.length > 1 ? ' (+' + (sbs.length - 1) + ' คาบ)' : ''), dismiss: 'day' }); }
         // 3) สอบใกล้ถึง (ภายใน 7 วัน เอาที่ใกล้สุดใบเดียว)
         const ex = [...(s.exams || []).map((e) => ({ title: e.title, date: e.date })), ...ann.filter((x) => x.kind === 'exam' && x.due_date && !done.has(x.id)).map((x) => ({ title: x.title, date: x.due_date }))]
           .map((e) => ({ e, d: cardDayDiff(today, e.date) })).filter((o) => o.d >= 0 && o.d <= 7).sort((a, b) => a.d - b.d);
@@ -5034,7 +5118,7 @@ footer{border-top:1px solid var(--line);padding-top:24px;font-size:12px;color:va
         const all = buildCards({
           today, nowMs: Date.now(), isSchoolDay: wd >= 1 && wd <= 5, holiday: todayHoliday, thDate,
           periodRow: pr ? { name: pr.name, first: (periods[0].time || '').split('-')[0] } : null,
-          ann: window._annItems || [], done: getDone(), exams: examSrc.ev || [], notice, events: window._events || [], nudge: window._pushNudge || null, dismissed: readCardState(), appts: window._appts || [], apptWhen,
+          ann: window._annItems || [], done: getDone(), exams: examSrc.ev || [], notice, events: window._events || [], nudge: window._pushNudge || null, dismissed: readCardState(), appts: window._appts || [], apptWhen, subs: window._subs || [],
         });
         box.textContent = '';
         if (!all.length) { box.classList.add('hidden'); return; }
@@ -5097,7 +5181,7 @@ footer{border-top:1px solid var(--line);padding-top:24px;font-size:12px;color:va
         updateMenuV2();
         avaAutoSync();
         if (teacherMode) { syncTeacherPush(); openPeek(); apptStripLoad(); }
-        else { loadVerified(); loadAnnouncements(); chatPeek(); openPeek(); syncPush(); loadAppts(); }
+        else { loadVerified(); loadAnnouncements(); chatPeek(); openPeek(); syncPush(); loadAppts(); loadSubs(); }
       }
 
       function selectDay(dayName) {
