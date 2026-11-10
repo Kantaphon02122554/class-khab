@@ -305,7 +305,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .pf-l { display: block; font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: 0.9rem; } .pf-l input, .pf-l textarea { display: block; width: 100%; margin-top: 0.3rem; padding: 0.6rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 1rem; font-weight: 500; color: #0f172a; background: #fff; } html.dark .pf-l input, html.dark .pf-l textarea { background: #0b1220; border-color: #243152; color: #f1f5f9; }
       .pf-l select { display: block; width: 100%; margin-top: 0.3rem; padding: 0.6rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 1rem; font-weight: 500; color: #0f172a; background: #fff; } html.dark .pf-l select { background: #0b1220; border-color: #243152; color: #f1f5f9; }
       .ap-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0; border-top: 1px solid rgba(100, 116, 139, 0.2); font-size: 0.8rem; font-weight: 500; } .ap-row span { flex: 1; min-width: 0; } .ap-row button { font-size: 0.75rem; color: #be123c; }
-      .ap-strip { border: 1px solid rgba(100, 116, 139, 0.25); border-radius: 0.9rem; padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; background: rgba(255,255,255,0.6); } .ap-strip .ap-h { display: flex; align-items: center; gap: 0.5rem; width: 100%; font-weight: 700; font-size: 0.85rem; text-align: left; } .ap-strip .ap-h i { width: 1rem; height: 1rem; } .ap-strip .ap-h small { margin-left: auto; font-weight: 600; color: #2563eb; } .ap-strip .ap-row { cursor: pointer; }
+      .ap-strip { border: 1px solid rgba(100, 116, 139, 0.25); border-radius: 0.9rem; padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; background: rgba(255,255,255,0.6); } .ap-strip .ap-h { display: flex; align-items: center; gap: 0.5rem; width: 100%; font-weight: 700; font-size: 0.85rem; text-align: left; } .ap-strip .ap-h i { width: 1rem; height: 1rem; } .ap-strip .ap-h small { margin-left: auto; font-weight: 600; color: #2563eb; } .ap-strip .ap-row { cursor: pointer; } html.dark .ap-strip { background: rgba(17, 26, 46, 0.8); border-color: #243152; color: #e2e8f0; } html.dark .ap-strip .ap-h small { color: #7dd3fc; } .ap-links { display: flex; flex-wrap: wrap; gap: 0.4rem; padding-top: 0.5rem; margin-top: 0.3rem; border-top: 1px solid rgba(100, 116, 139, 0.2); } .ap-links a { font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 999px; background: rgba(100, 116, 139, 0.12); color: inherit; text-decoration: none; }
       .ap-hrow { display: flex; gap: 0.5rem; } .ap-hrow .ap-h { flex: 1; min-width: 0; } .ap-hrow .ap-h + .ap-h { border-left: 1px solid rgba(100, 116, 139, 0.25); padding-left: 0.5rem; }
       .sb-row { padding: 0.5rem 0; border-top: 1px solid rgba(100, 116, 139, 0.2); font-size: 0.8rem; } .sb-row b { font-weight: 700; } .sb-row .sb-s { color: #64748b; font-weight: 500; } .sb-row .sb-a { display: flex; gap: 0.5rem; margin-top: 0.3rem; } .sb-row button { font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.7rem; border-radius: 0.6rem; background: #2563eb; color: #fff; } .sb-row button.g { background: transparent; color: #be123c; border: 1px solid rgba(190, 18, 60, 0.4); }
       .pf-colors { display: flex; gap: 0.6rem; margin-top: 0.4rem; } .pf-colors button { width: 2rem; height: 2rem; border-radius: 50%; border: 2px solid transparent; } .pf-colors button.on { border-color: #0f172a; box-shadow: 0 0 0 2px #fff inset; } html.dark .pf-colors button.on { border-color: #fff; }
@@ -904,7 +904,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             <div id="offlineBar" class="pb pb-warn hidden"><span><i data-lucide="wifi-off" class="ic"></i> ออฟไลน์ — กำลังแสดงข้อมูลที่เคยโหลดไว้ อาจไม่ใช่ข้อมูลล่าสุด</span></div>
             <div id="pushBanner" class="pb pb-info hidden"></div>
 
-            <div class="ap-strip hidden"></div>
+            <div class="ap-strip hidden" data-home="1"></div>
             <div id="homeCards" class="hidden space-y-2" aria-label="งานและแจ้งเตือนวันนี้"></div>
             <div id="nowNextGrid" class="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div class="md:col-span-2 bg-slate-900 text-white p-6 rounded-2xl shadow-md flex flex-col justify-between">
@@ -3830,6 +3830,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         if (!r.items.length) box.append(mk('p', 'pf-note', 'ยังไม่มีนัดหมาย'));
       }
       // แถบ "นัดนักเรียน" ของครู: อยู่หน้าตารางและหน้าโซเชียล แตะเพื่อเปิดฟอร์ม + เห็นนัดที่ใกล้ถึง 3 รายการ
+      const SCHOOL_LINKS = [['SGS (ครู)', 'https://sgs.bopp-obec.info/sgs/Security/SignIn.aspx'], ['ระบบลา', 'https://thabo-school.we-easy.com/admin/leave'], ['ส่งแผนการสอน', 'https://lessonplan-app.vercel.app/'], ['บริการออนไลน์ครู', 'https://www.thaboschool.ac.th/%E0%B8%9A%E0%B8%A3%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%AD%E0%B8%AD%E0%B8%99%E0%B9%84%E0%B8%A5%E0%B8%99%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%9A%E0%B8%84%E0%B8%A3']];
       window._myAppts = [];
       function apptStripRender() {
         const strips = document.querySelectorAll('.ap-strip'); if (!strips.length) return;
@@ -3844,6 +3845,16 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           hd.append(b1, b2);
           box.append(hd);
           for (const a of list) { const row = mk('div', 'ap-row'); row.append(mk('span', null, apptWhen(a.at) + ' · ' + (a.student_id ? 'เลข ' + a.student_id : 'ห้อง ' + a.class_id) + ' · ' + a.place)); row.onclick = apptOpen; box.append(row); }
+          // สอนแทนที่เกี่ยวกับฉัน: ที่ฉันรับสอนแทน และคำขอของฉัน (วันนี้–พรุ่งนี้)
+          const t0 = bkkToday(), t1 = new Date(Date.parse(t0 + 'T00:00:00Z') + 86400000).toISOString().slice(0, 10);
+          for (const s of (window._subBoard || []).filter((x) => (x.takenByMe || x.mine) && x.day >= t0 && x.day <= t1).slice(0, 3)) {
+            const row = mk('div', 'ap-row'); row.append(mk('span', null, (s.takenByMe ? 'คุณสอนแทน ' : 'คำขอสอนแทน ') + (s.day === t0 ? 'วันนี้' : 'พรุ่งนี้') + ' คาบ ' + s.period + ' · ' + s.room + (s.mine ? ' · ' + (s.taker ? 'รับโดย ' + s.taker : 'ยังไม่มีคนรับ') : ''))); row.onclick = subOpen; box.append(row);
+          }
+          if (box.dataset.home) {   // ทางลัดไประบบของโรงเรียน (เปิดแท็บใหม่ ต้องล็อกอินที่ระบบนั้นเอง)
+            const lk = mk('div', 'ap-links');
+            for (const [name, url] of SCHOOL_LINKS) { const a = mk('a', null, name); a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer'; lk.append(a); }
+            box.append(lk);
+          }
         }
         try { if (window.lucide) lucide.createIcons(); } catch (e) { /* ไอคอนไม่ขึ้นก็ใช้งานต่อได้ */ }
       }
