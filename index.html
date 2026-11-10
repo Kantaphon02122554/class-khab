@@ -306,7 +306,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .pf-l select { display: block; width: 100%; margin-top: 0.3rem; padding: 0.6rem 0.75rem; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 1rem; font-weight: 500; color: #0f172a; background: #fff; } html.dark .pf-l select { background: #0b1220; border-color: #243152; color: #f1f5f9; }
       .ap-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0; border-top: 1px solid rgba(100, 116, 139, 0.2); font-size: 0.8rem; font-weight: 500; } .ap-row span { flex: 1; min-width: 0; } .ap-row button { font-size: 0.75rem; color: #be123c; }
       .ap-strip { border: 1px solid rgba(100, 116, 139, 0.25); border-radius: 0.9rem; padding: 0.5rem 0.75rem; margin-bottom: 0.5rem; background: rgba(255,255,255,0.6); } .ap-strip .ap-h { display: flex; align-items: center; gap: 0.5rem; width: 100%; font-weight: 700; font-size: 0.85rem; text-align: left; } .ap-strip .ap-h i { width: 1rem; height: 1rem; } .ap-strip .ap-h small { margin-left: auto; font-weight: 600; color: #2563eb; } .ap-strip .ap-row { cursor: pointer; } html.dark .ap-strip { background: rgba(17, 26, 46, 0.8); border-color: #243152; color: #e2e8f0; } html.dark .ap-strip .ap-h small { color: #7dd3fc; } .ap-links { display: flex; flex-wrap: wrap; gap: 0.4rem; padding-top: 0.5rem; margin-top: 0.3rem; border-top: 1px solid rgba(100, 116, 139, 0.2); } .ap-links a { font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 999px; background: rgba(100, 116, 139, 0.12); color: inherit; text-decoration: none; }
-      .ap-hrow { display: flex; gap: 0.5rem; } .ap-hrow .ap-h { flex: 1; min-width: 0; } .ap-hrow .ap-h + .ap-h { border-left: 1px solid rgba(100, 116, 139, 0.25); padding-left: 0.5rem; }
+      .ap-hrow { display: flex; flex-wrap: wrap; gap: 0.5rem; } .ap-hrow .ap-h { flex: 1 1 40%; min-width: 0; } .ap-hrow .ap-h:nth-child(3) { flex-basis: 100%; border-top: 1px solid rgba(100, 116, 139, 0.2); padding-top: 0.4rem; } .ap-hrow .ap-h:nth-child(2) { border-left: 1px solid rgba(100, 116, 139, 0.25); padding-left: 0.5rem; }
       .sb-row { padding: 0.5rem 0; border-top: 1px solid rgba(100, 116, 139, 0.2); font-size: 0.8rem; } .sb-row b { font-weight: 700; } .sb-row .sb-s { color: #64748b; font-weight: 500; } .sb-row .sb-a { display: flex; gap: 0.5rem; margin-top: 0.3rem; } .sb-row button { font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.7rem; border-radius: 0.6rem; background: #2563eb; color: #fff; } .sb-row button.g { background: transparent; color: #be123c; border: 1px solid rgba(190, 18, 60, 0.4); }
       .pf-colors { display: flex; gap: 0.6rem; margin-top: 0.4rem; } .pf-colors button { width: 2rem; height: 2rem; border-radius: 50%; border: 2px solid transparent; } .pf-colors button.on { border-color: #0f172a; box-shadow: 0 0 0 2px #fff inset; } html.dark .pf-colors button.on { border-color: #fff; }
       .pf-presets { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem; margin-top: 0.4rem; } .pf-presets button { aspect-ratio: 1; border-radius: 50%; border: 2px solid transparent; background-size: cover; background-position: center; } .pf-presets button.on { border-color: #0f172a; box-shadow: 0 0 0 2px #fff inset; } html.dark .pf-presets button.on { border-color: #fff; }
@@ -1229,6 +1229,22 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                 <div class="pf-l" style="margin-top:1rem">นัดของฉัน<div id="apptMine"></div></div>
               </div>
             </div>
+            <!-- แนวข้อสอบ/ชีทจากครู: โพสต์ลงคลังของห้อง (ข้อความ + ลิงก์) -->
+            <div id="exSheet" class="pf-sheet hidden" onclick="if(event.target===this)exClose()">
+              <div class="pf-panel" role="dialog" aria-label="แนวข้อสอบ">
+                <div class="pf-ph"><b>แนวข้อสอบ / ชีทให้นักเรียน</b><button onclick="exClose()" aria-label="ปิด"><i data-lucide="x"></i></button></div>
+                <label class="pf-l">ห้อง<select id="exRoom" onchange="exLoad()"></select></label>
+                <label class="pf-l">ประเภท<select id="exKind"><option value="exam">แนวข้อสอบ</option><option value="sheet">ชีทสรุป</option></select></label>
+                <label class="pf-l">วิชา<select id="exSubject"></select></label>
+                <label class="pf-l">หัวข้อ<input id="exTitle" maxlength="80" autocomplete="off" placeholder="เช่น แนวข้อสอบกลางภาค บทที่ 1–3"></label>
+                <label class="pf-l">รายละเอียด (ไม่บังคับถ้ามีลิงก์)<textarea id="exBody" maxlength="1000" rows="3" placeholder="ขอบเขตเนื้อหา ตัวอย่างข้อสอบสั้นๆ"></textarea></label>
+                <label class="pf-l">ลิงก์ (Google Drive/Docs, YouTube, Canva, Notion, Quizlet, Wordwall)<input id="exLink" maxlength="300" autocomplete="off" placeholder="https://"></label>
+                <p class="pf-note">โพสต์เข้าคลังของห้องที่เลือก นักเรียนห้องนั้นเห็นพร้อมป้าย "ครู" ใช้ลิงก์แทนการอัปโหลดไฟล์ ใช้เฉพาะเอกสารที่โรงเรียนอนุญาตให้แชร์ ผู้ดูแลเห็นว่าใครโพสต์</p>
+                <p id="exErr" class="pf-err hidden"></p>
+                <button id="exSend" class="pf-save" onclick="exSubmit()">โพสต์เข้าคลังห้อง</button>
+                <div class="pf-l" style="margin-top:1rem">โพสต์ล่าสุดของห้องนี้<div id="exList"></div></div>
+              </div>
+            </div>
             <!-- กระดานสอนแทน (ครู): ขอคนสอนแทน / รับสอนแทน -->
             <div id="subSheet" class="pf-sheet hidden" onclick="if(event.target===this)subClose()">
               <div class="pf-panel" role="dialog" aria-label="สอนแทน">
@@ -1427,6 +1443,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
               <div id="studyBody" class="hidden space-y-3">
                 <div id="studyNotice" class="pb pb-warn hidden"></div>
                 <form id="studyForm" class="hidden bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-3" onsubmit="postStudy(event)">
+                  <select id="studyKind" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-800"><option value="sheet">ชีทสรุป</option><option value="exam">แนวข้อสอบ</option></select>
                   <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <select id="studySubject" class="bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-800"></select>
                     <input id="studyTitle" maxlength="80" required placeholder="หัวข้อ เช่น สรุปบทที่ 3 แรงและการเคลื่อนที่" class="sm:col-span-2 bg-white border border-slate-200 rounded-xl px-3 py-2 text-sm text-slate-800" />
@@ -2805,7 +2822,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         else chatNotice(harshMsg(r, CHAT_ERR.filter_word) || CHAT_ERR[r.error] || 'ส่งไม่สำเร็จ ลองใหม่อีกครั้ง');
       }
       // --- คลังสรุป/ชีทรายห้อง: ใครในห้องก็เพิ่มได้ (ข้อความ/ลิงก์ที่อนุญาต/รูป/PDF) เห็นเฉพาะในห้อง; ขึ้นเมื่อห้องเปิดแชต ---
-      let studyOpen = false, studyFilterSubject = '', studyItems = [];
+      let studyOpen = false, studyFilterSubject = '', studyFilterKind = '', studyItems = [];
       const STUDY_ERR = {
         filter_link: 'ห้ามใส่ลิงก์ในข้อความ ใส่ในช่อง "ลิงก์" แทน', filter_contact: 'ห้ามใส่เบอร์โทร ไอดีไลน์ หรืออีเมล', filter_word: 'ข้อความมีคำที่ไม่อนุญาต',
         link_host: 'ลิงก์ต้องเป็น https และจากเว็บที่อนุญาต (Google Drive/Docs, YouTube, Canva, Notion, Quizlet, Wordwall)',
@@ -2864,13 +2881,17 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const b = mk('button', 'text-xs font-semibold px-3 py-1 rounded-full ' + (on ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'), label);
           b.onclick = () => { studyFilterSubject = val; renderStudy(); }; return b;
         };
-        if (subs.length > 1) { chips.append(mkChip('ทั้งหมด', '')); subs.forEach((s) => chips.append(mkChip(s, s))); }
-        const items = studyItems.filter((x) => !studyFilterSubject || x.subject === studyFilterSubject);
+        const mkKind = (label, val) => { const on = studyFilterKind === val; const b = mk('button', 'text-xs font-semibold px-3 py-1 rounded-full ' + (on ? 'bg-rose-600 text-white' : 'bg-rose-50 text-rose-700'), label); b.onclick = () => { studyFilterKind = val; renderStudy(); }; return b; };
+        if (studyItems.some((x) => x.kind === 'exam')) { chips.append(mkKind('ทั้งหมด', ''), mkKind('ชีทสรุป', 'sheet'), mkKind('แนวข้อสอบ', 'exam')); }
+        if (subs.length > 1) { chips.append(mkChip('ทุกวิชา', '')); subs.forEach((s) => chips.append(mkChip(s, s))); }
+        const items = studyItems.filter((x) => (!studyFilterSubject || x.subject === studyFilterSubject) && (!studyFilterKind || x.kind === studyFilterKind));
         if (!items.length) { list.append(mk('p', 'text-sm text-slate-500', 'ยังไม่มีชีทในคลังนี้ กด "+ เพิ่มชีท" เพื่อแชร์สรุปให้เพื่อน')); return; }
         for (const it of items) {
           const card = mk('div', 'bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-3');
           const head = mk('div', 'flex items-center gap-2 flex-wrap');
+          if (it.kind === 'exam') head.append(mk('span', 'tag tag-exam', 'แนวข้อสอบ'));
           head.append(mk('span', 'tag tag-announce', it.subject), mk('span', 'text-sm font-semibold text-slate-800 flex-1 min-w-0 break-words', it.title));
+          if (it.teacher) head.append(mk('span', 'tag tag-event', 'ครู'));
           if (it.own) {
             const del = micon('button', 'text-xs text-slate-400 hover:text-rose-600 px-1', 'trash-2'); del.title = 'ลบชีทของฉัน';
             del.onclick = async () => { if (confirm('ลบชีทนี้?')) { await studyCall({ action: 'delete', id: it.id }); loadStudy(); } };
@@ -2930,7 +2951,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           }
           const r = await studyCall({
             action: 'post', subject: document.getElementById('studySubject').value, title: document.getElementById('studyTitle').value,
-            body: document.getElementById('studyText').value, link: document.getElementById('studyLink').value, file,
+            body: document.getElementById('studyText').value, link: document.getElementById('studyLink').value, file, kind: document.getElementById('studyKind').value,
           });
           if (r.ok) { document.getElementById('studyForm').reset(); toggleStudyForm(false); studyNotice(''); loadStudy(); }
           else studyNotice(harshMsg(r, STUDY_ERR.filter_word) || STUDY_ERR[r.error] || (r.error === 'auth' ? 'ต้องเข้าสู่ระบบห้องใหม่ก่อน' : 'เพิ่มไม่สำเร็จ ลองใหม่อีกครั้ง'));
@@ -3842,7 +3863,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const b1 = mk('button', 'ap-h'); const ic = document.createElement('i'); ic.setAttribute('data-lucide', 'calendar-clock'); b1.append(ic, mk('span', null, 'นัดนักเรียน'), mk('small', null, list.length ? 'นัดใหม่' : 'สร้างนัด')); b1.onclick = apptOpen;
           const openN = (window._subBoard || []).filter((x) => !x.taker && !x.mine).length;
           const b2 = mk('button', 'ap-h'); const ic2 = document.createElement('i'); ic2.setAttribute('data-lucide', 'users'); b2.append(ic2, mk('span', null, 'สอนแทน'), mk('small', null, openN ? 'รอรับ ' + openN : 'ขอ/รับ')); b2.onclick = subOpen;
-          hd.append(b1, b2);
+          const b3 = mk('button', 'ap-h'); const ic3 = document.createElement('i'); ic3.setAttribute('data-lucide', 'book-open-check'); b3.append(ic3, mk('span', null, 'แนวข้อสอบ / ชีทให้นักเรียน'), mk('small', null, 'โพสต์')); b3.onclick = exOpen;
+          hd.append(b1, b2, b3);
           box.append(hd);
           for (const a of list) { const row = mk('div', 'ap-row'); row.append(mk('span', null, apptWhen(a.at) + ' · ' + (a.student_id ? 'เลข ' + a.student_id : 'ห้อง ' + a.class_id) + ' · ' + a.place)); row.onclick = apptOpen; box.append(row); }
           // สอนแทนที่เกี่ยวกับฉัน: ที่ฉันรับสอนแทน และคำขอของฉัน (วันนี้–พรุ่งนี้)
@@ -3863,6 +3885,36 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const r = await apptCall({ action: 'mine' }); if (r.ok) window._myAppts = r.items || [];
         subBoardLoad(true);
         apptStripRender();
+      }
+      // ===== แนวข้อสอบ/ชีทจากครู (ฟีดแบ็กข้อ 17 ส่วนที่ 1): โพสต์ลงคลังสรุป/ชีทของห้องที่เลือก =====
+      const exCall = (body) => apptCall(body, 'study');
+      function exClose() { document.getElementById('exSheet').classList.add('hidden'); }
+      function exOpen() {
+        const g = (id) => document.getElementById(id);
+        if (!g('exRoom').childElementCount) { for (const o of document.querySelectorAll('#loginClass option')) { if (o.value) { const c = mk('option', null, o.value); c.value = o.value; g('exRoom').append(c); } } }
+        g('exErr').classList.add('hidden'); g('exSheet').classList.remove('hidden'); exLoad(); if (window.lucide) lucide.createIcons();
+      }
+      async function exLoad() {
+        const g = (id) => document.getElementById(id), box = g('exList'), sel = g('exSubject');
+        box.textContent = ''; sel.textContent = '';
+        const r = await exCall({ action: 'list', room: g('exRoom').value });
+        if (!r.ok || !r.enabled) { box.append(mk('p', 'pf-note', r.ok ? 'ห้องนี้ยังไม่เปิดใช้คลังสรุป/ชีท ผู้ดูแลต้องเปิดห้องก่อน' : 'โหลดไม่สำเร็จ ลองใหม่อีกครั้ง')); return; }
+        for (const s of r.subjects || []) { const o = mk('option', null, s); o.value = s; sel.append(o); }
+        for (const it of (r.items || []).slice(0, 8)) {
+          const row = mk('div', 'ap-row'); row.append(mk('span', null, (it.kind === 'exam' ? '[แนวข้อสอบ] ' : '') + it.subject + ' · ' + it.title + ' · ' + it.nick));
+          if (it.own) { const d = mk('button', null, 'ลบ'); d.onclick = async () => { if (confirm('ลบโพสต์นี้?')) { await exCall({ action: 'delete', room: g('exRoom').value, id: it.id }); exLoad(); } }; row.append(d); }
+          box.append(row);
+        }
+        if (!(r.items || []).length) box.append(mk('p', 'pf-note', 'ยังไม่มีโพสต์ในคลังห้องนี้'));
+      }
+      async function exSubmit() {
+        const g = (id) => document.getElementById(id), err = g('exErr'), btn = g('exSend');
+        const fail = (m) => { err.textContent = m; err.classList.remove('hidden'); };
+        err.classList.add('hidden'); btn.disabled = true;
+        const r = await exCall({ action: 'post', room: g('exRoom').value, kind: g('exKind').value, subject: g('exSubject').value, title: g('exTitle').value, body: g('exBody').value, link: g('exLink').value });
+        btn.disabled = false;
+        if (!r.ok) return fail((r.error === 'room' ? 'เลือกห้องจากรายการ' : r.error === 'closed' ? 'ห้องนี้ยังไม่เปิดใช้คลังสรุป/ชีท' : r.error === 'auth' ? 'ออกจากระบบแล้วเข้าใหม่ด้วยอีเมลหรือรหัสครู แล้วลองอีกครั้ง' : (STUDY_ERR[r.error] || 'โพสต์ไม่สำเร็จ ลองใหม่อีกครั้ง')));
+        g('exTitle').value = ''; g('exBody').value = ''; g('exLink').value = ''; err.textContent = 'โพสต์แล้ว นักเรียนห้องนี้เห็นในคลังสรุป/ชีท'; err.classList.remove('hidden'); exLoad();
       }
       // ===== กระดานสอนแทน (ครู) =====
       const SUB_ERR = {
