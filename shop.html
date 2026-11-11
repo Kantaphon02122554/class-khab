@@ -64,7 +64,7 @@
   const $ = (id) => document.getElementById(id);
   const el = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
   const ST = { new: 'รอทำ', done: 'เสร็จแล้ว', rejected: 'รับไม่ได้', cancelled: 'นักเรียนยกเลิก' };
-  let code = '', data = null, timer = null;
+  let code = '', data = null, timer = null, menuDirty = false;
   try { code = sessionStorage.getItem('fshop') || ''; } catch (e) {}
 
   async function call(body) {
@@ -106,19 +106,24 @@
       }
       box.append(c);
     }
-    const menu = $('menu'); menu.replaceChildren();
+    const menu = $('menu'); if (menuDirty) return renderSettings(d);   // ร้านกำลังแก้เมนูอยู่: ไม่ล้างค่าที่พิมพ์ค้างตอนรีเฟรชอัตโนมัติ
+    menu.replaceChildren();
     for (const it of d.menu) {
       const r = el('div', 'menu-row'), n = el('input'), p = el('input'), on = el('input');
       n.value = it.name; n.maxLength = 30; p.type = 'number'; p.min = 1; p.max = 200; p.value = it.price; on.type = 'checkbox'; on.checked = it.on; on.style.width = '1.4rem';
       r.dataset.id = it.id; r.append(n, p, on); menu.append(r);
     }
-    const add = el('button', 'ghost', '+ เพิ่มเมนู'); add.onclick = () => { const r = el('div', 'menu-row'), n = el('input'), p = el('input'), on = el('input'); n.maxLength = 30; p.type = 'number'; p.value = 25; on.type = 'checkbox'; on.checked = true; on.style.width = '1.4rem'; r.dataset.id = 'm' + Math.random().toString(36).slice(2, 8); r.append(n, p, on); menu.insertBefore(r, add); }; menu.append(add);
+    const add = el('button', 'ghost', '+ เพิ่มเมนู'); add.onclick = () => { const r = el('div', 'menu-row'), n = el('input'), p = el('input'), on = el('input'); n.maxLength = 30; p.type = 'number'; p.value = 25; on.type = 'checkbox'; on.checked = true; on.style.width = '1.4rem'; r.dataset.id = 'm' + Math.random().toString(36).slice(2, 8); r.append(n, p, on); menu.insertBefore(r, add); menuDirty = true; }; menu.append(add);
+    renderSettings(d);
+  }
+  function renderSettings(d) {
     if (document.activeElement !== $('cutoff')) $('cutoff').value = d.cutoff;
     if (document.activeElement !== $('perSlot')) $('perSlot').value = d.per_slot;
     for (const [id, v] of [['maxQ', d.max_queue], ['closeB', d.close_before], ['minDish', d.min_per_dish]]) if (document.activeElement !== $(id)) $(id).value = v;
     if (document.activeElement !== $('mode')) $('mode').value = d.mode; if (document.activeElement !== $('trial')) $('trial').checked = !!d.trial;
   }
   async function act(p) { const r = await call({ action: 'set', ...p }); if (!r.ok) $('err').textContent = 'ทำรายการไม่ได้ ลองรีเฟรช'; await load(false); }
+  $('menu').addEventListener('input', () => { menuDirty = true; });
   $('goBtn').onclick = () => { code = $('code').value.trim(); if (!code) return; try { sessionStorage.setItem('fshop', code); } catch (e) {} $('loginErr').textContent = ''; load(true); };
   $('code').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('goBtn').click(); });
   $('refresh').onclick = () => load(false);
@@ -126,7 +131,7 @@
   $('saveMenu').onclick = async () => {
     const items = [...$('menu').querySelectorAll('.menu-row')].map((r) => { const i = r.querySelectorAll('input'); return { id: r.dataset.id, name: i[0].value, price: Number(i[1].value), on: i[2].checked }; }).filter((x) => x.name.trim());
     const r = await call({ action: 'menu', items, cutoff: $('cutoff').value, per_slot: Number($('perSlot').value), mode: $('mode').value, max_queue: Number($('maxQ').value), close_before: Number($('closeB').value), min_per_dish: Number($('minDish').value), trial: $('trial').checked });
-    $('err').textContent = r.ok ? '' : 'บันทึกไม่สำเร็จ (ตรวจชื่อและราคา 1–200 บาท)'; await load(false);
+    $('err').textContent = r.ok ? '' : 'บันทึกไม่สำเร็จ (ตรวจชื่อและราคา 1–200 บาท)'; if (r.ok) menuDirty = false; await load(false);
   };
   if (code) load(true);
 </script>

@@ -1247,7 +1247,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                 </div>
                 <p id="foErr" class="pf-err hidden"></p>
                 <div class="pf-l" style="margin-top:0.75rem">ออเดอร์วันนี้ของคุณ</div><div id="foMine"></div>
-                <div id="foPay" class="hidden" style="text-align:center;margin-top:0.5rem"><img id="foQr" src="food-qr.png" alt="QR จ่ายเงินร้าน" style="max-width:12rem;margin:0 auto" onerror="document.getElementById('foPay').remove()"><p class="pf-note">สแกนจ่ายร้านโดยตรง (แอปไม่เก็บเงิน) แล้วกด "ฉันจ่ายแล้ว" ที่ออเดอร์ ร้านจะเห็นออเดอร์หลังกดเท่านั้น · ต้องกดภายใน 15 นาทีหลังจอง ไม่งั้นคิวถูกคืน</p></div>
+                <div id="foPay" class="hidden" style="text-align:center;margin-top:0.5rem"><img id="foQr" alt="QR จ่ายเงินร้าน" style="max-width:12rem;margin:0 auto" onerror="this.replaceWith(Object.assign(document.createElement('b'),{textContent:'ยังไม่มี QR ในแอป: ขอ QR จ่ายเงินจากร้านโดยตรง'}))"><p class="pf-note">สแกนจ่ายร้านโดยตรง (แอปไม่เก็บเงิน) แล้วกด "ฉันจ่ายแล้ว" ที่ออเดอร์ ร้านจะเห็นออเดอร์หลังกดเท่านั้น · ต้องกดภายใน 15 นาทีหลังจอง ไม่งั้นคิวถูกคืน</p></div>
                 <p class="pf-note">แอปแค่จองคิว ไม่รับเงิน · จ่ายแล้วยกเลิกเองไม่ได้ ต้องคุยกับร้าน · แจ้งเตือนเมื่อร้านทำเสร็จจะมาถึงเฉพาะเครื่องที่ล็อกอินอีเมลและเปิดแจ้งเตือนไว้ · ไม่มาตามเวลา ร้านอาจเก็บอาหารไว้ให้ไม่ได้</p>
               </div>
             </div>
@@ -3941,17 +3941,17 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       }
       function foodClose() { document.getElementById('foSheet').classList.add('hidden'); }
       function foNote(msg) { const e = document.getElementById('foErr'); e.textContent = msg || ''; e.classList.toggle('hidden', !msg); }
-      async function foodOpen() { document.getElementById('foSheet').classList.remove('hidden'); if (window.lucide) lucide.createIcons(); foSel = { item: null, slot: null }; foNote(''); await foodLoad(); }
+      async function foodOpen() { document.getElementById('foSheet').classList.remove('hidden'); if (window.lucide) lucide.createIcons(); { const q = document.getElementById('foQr'); if (q && !q.getAttribute('src')) q.src = 'food-qr.png'; } foSel = { item: null, slot: null }; foNote(''); await foodLoad(); }
       async function foodLoad() {
         const g = (id) => document.getElementById(id), r = await foodCall({ action: 'info' });
         if (!r.ok) { g('foInfo').textContent = ''; g('foForm').classList.add('hidden'); foNote(FO_ERR[r.error] || 'โหลดไม่สำเร็จ'); return; }
-        foData = r; foNote('');
+        foData = r;
         const can = r.enabled && r.open;
         g('foInfo').textContent = foInfoText(r);
         g('foForm').classList.toggle('hidden', !can);
         const walk = r.mode === 'walkup'; g('foSlotLbl').classList.toggle('hidden', walk); g('foSlots').classList.toggle('hidden', walk);
         const items = g('foItems'); items.replaceChildren();
-        for (const it of r.items) { const b = mk('button', 'fo-opt' + (foSel.item === it.id ? ' on' : '')); b.type = 'button'; b.append(mk('span', null, it.name), mk('span', null, it.price + ' บาท')); b.onclick = () => { foSel.item = it.id; foodLoad(); }; items.append(b); }
+        for (const it of r.items) { const b = mk('button', 'fo-opt' + (foSel.item === it.id ? ' on' : '')); b.type = 'button'; b.append(mk('span', null, it.name), mk('span', null, it.price + ' บาท')); b.onclick = () => { foSel.item = it.id; items.querySelectorAll('.fo-opt').forEach((x) => x.classList.toggle('on', x === b)); foodRender(); }; items.append(b); }
         const sl = g('foSlots'); sl.replaceChildren();
         for (const s of r.slots) { const b = mk('button', 'fo-opt' + (foSel.slot === s.t ? ' on' : '')); b.type = 'button'; b.disabled = s.left < 1; b.dataset.t = s.t; b.append(document.createTextNode(s.t)); b.append(mk('small', null, s.left < 1 ? 'เต็ม' : 'เหลือ ' + s.left)); b.onclick = () => { foSel.slot = s.t; foodRender(); }; sl.append(b); }
         foodRender();
@@ -3975,8 +3975,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         if (!r.ok) { foNote(FO_ERR[r.error] || 'จองไม่สำเร็จ ลองใหม่อีกครั้ง'); } else { foSel = { item: null, slot: null }; document.getElementById('foNoteIn').value = ''; await foodLoad(); foNote('จองแล้ว: สแกน QR จ่าย แล้วกด "ฉันจ่ายแล้ว" ภายใน 15 นาที ร้านถึงจะได้ออเดอร์'); return; }
         await foodLoad();
       }
-      async function foodClaim(id) { const r = await foodCall({ action: 'claim', id }); if (!r.ok) foNote(FO_ERR[r.error] || 'ทำรายการไม่ได้ (คิวอาจถูกคืนแล้ว จองใหม่ได้)'); await foodLoad(); }
-      async function foodCancel(id) { const r = await foodCall({ action: 'cancel', id }); if (!r.ok) foNote(FO_ERR[r.error] || 'ยกเลิกไม่สำเร็จ'); await foodLoad(); }
+      async function foodClaim(id) { const r = await foodCall({ action: 'claim', id }); if (!r.ok) foNote(FO_ERR[r.error] || 'ทำรายการไม่ได้ (คิวอาจถูกคืนแล้ว จองใหม่ได้)'); else foNote(''); await foodLoad(); }
+      async function foodCancel(id) { const r = await foodCall({ action: 'cancel', id }); if (!r.ok) foNote(FO_ERR[r.error] || 'ยกเลิกไม่สำเร็จ'); else foNote(''); await foodLoad(); }
       // ===== เพื่อนติว (ฟีดแบ็กข้อ 17 ส่วนที่ 2): แชตบอท Haiku ถามเรื่องเรียน · ประวัติอยู่ในเครื่อง (ปิดหน้าต่างแล้วหาย) ส่งเฉพาะ 4 รอบล่าสุด =====
       const TT_SUBJECTS = ['ทั่วไป', 'คณิตศาสตร์', 'วิทยาศาสตร์', 'ฟิสิกส์', 'เคมี', 'ชีววิทยา', 'ภาษาไทย', 'ภาษาอังกฤษ', 'สังคมศึกษา', 'ประวัติศาสตร์'];
       const TT_EXAMS = [['', 'ไม่ระบุ'], ['A-Level', 'A-Level'], ['TGAT', 'TGAT'], ['TPAT', 'TPAT'], ['O-NET', 'O-NET'], ['สอบกลางภาค/ปลายภาค', 'กลางภาค/ปลายภาค']];
