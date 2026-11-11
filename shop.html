@@ -19,7 +19,8 @@
   .tag.done { background: #dcfce7; color: #166534; } .tag.rejected, .tag.cancelled { background: #fee2e2; color: #991b1b; }
   .slot { margin-top: 1rem; font-weight: 700; } .sum { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 0.5rem 0; } .sum span { background: var(--card); border: 1px solid var(--bd); border-radius: 0.6rem; padding: 0.3rem 0.6rem; font-size: 0.85rem; }
   .err { color: var(--er); font-size: 0.9rem; min-height: 1.2rem; } .hidden { display: none; }
-  .menu-row { display: grid; grid-template-columns: 1fr 5rem auto; gap: 0.4rem; margin: 0.4rem 0; align-items: center; }
+  .menu-row { display: grid; grid-template-columns: 1fr 4rem 4rem 2.2rem 2.8rem; gap: 0.4rem; margin: 0.4rem 0; align-items: center; } .menu-head { color: var(--mu); font-size: 0.75rem; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 0.5rem; } .stat b { display: block; font-size: 1.4rem; } .stat span { color: var(--mu); font-size: 0.8rem; } table { width: 100%; border-collapse: collapse; font-size: 0.85rem; } td, th { padding: 0.3rem 0.4rem; border-bottom: 1px solid var(--bd); text-align: right; } td:first-child, th:first-child { text-align: left; }
 </style>
 </head>
 <body>
@@ -42,6 +43,14 @@
     <p id="err" class="err"></p>
     <div id="orders"></div>
 
+    <h2>สถิติออเดอร์ที่วิ่งผ่านแอป</h2>
+    <div class="card">
+      <div id="stats" class="stats"></div>
+      <table id="statDays" style="margin-top:0.75rem"></table>
+      <div id="fee" class="mu" style="margin-top:0.75rem"></div>
+      <p class="mu" id="statNote">นับเฉพาะออเดอร์ที่นักเรียนกดจ่ายแล้วและไม่ถูกยกเลิก/ปฏิเสธ เก็บย้อนหลัง 90 วัน</p>
+    </div>
+
     <h2>เมนูและราคา</h2>
     <div class="card">
       <div id="menu"></div>
@@ -56,7 +65,7 @@
         <button id="saveMenu">บันทึก</button>
       </div>
     </div>
-    <p class="mu">ม.1–3 รับ 11:15–11:55 · ม.4–6 รับ 12:10–12:50 (ตามพักกลางวัน) · หน้านี้เห็นแค่ห้อง เลขท้าย 3 ตัวของเลขประจำตัว และเลขคิว</p>
+    <p class="mu">ม.1–3 รับ 11:15–11:55 · ม.4–6 รับ 12:10–12:50 (ตามพักกลางวัน) · หน้านี้ไม่แสดงชื่อ ห้อง หรือเลขประจำตัวนักเรียน ให้นักเรียนบอกเลขคิว (#) ตอนรับอาหาร · ช่อง "สูงสุด" ว่างไว้ = ราคาตายตัว ถ้าใส่ นักเรียนเลือกราคาจานเองทีละ 5 บาทตั้งแต่ราคาเริ่มต้นถึงสูงสุด (เช่น 20 ถึง 35) · ถ้าติ๊ก "ตามสั่ง" ด้วย นักเรียนพิมพ์ราคาเองเป็นจำนวนเต็มใดก็ได้ในช่วงนั้น (สูงสุด 500) ราคาตามสั่งสวิงมาก ให้ตรวจยอดเงินเข้าตรงกับยอดในออเดอร์ก่อนกดเสร็จ</p>
   </section>
 </main>
 <script>
@@ -79,6 +88,7 @@
       if (r.error === 'auth') { code = ''; try { sessionStorage.removeItem('fshop'); } catch (e) {} $('app').classList.add('hidden'); $('login').classList.remove('hidden'); if (first) $('loginErr').textContent = 'รหัสไม่ถูกต้อง'; clearInterval(timer); return; }
       $('err').textContent = 'เชื่อมต่อไม่ได้ ลองรีเฟรช'; return;
     }
+    if (first) loadStats();
     $('err').textContent = ''; data = r; $('login').classList.add('hidden'); $('app').classList.remove('hidden'); render();
     if (!timer) timer = setInterval(() => load(false), 20000);
   }
@@ -98,7 +108,7 @@
       if (o.slot !== last) { last = o.slot; box.append(el('div', 'slot', o.slot === 'now' ? 'คิวสั่งตอนพัก (เรียงตามลำดับที่จ่ายเงิน ทำจากบนลงล่าง)' : 'รับ ' + o.slot)); }
       const c = el('div', 'card row'), info = el('div', 'grow');
       info.append(el('b', null, '#' + (o.id % 1000) + ' ' + o.item + (o.qty > 1 ? ' x' + o.qty : '') + ' · ' + o.total + ' บาท'));
-      const m = el('div', 'mu', o.room + ' · เลขประจำตัว ' + o.who + ' · '); m.append(el('span', 'tag ' + o.status, ST[o.status])); if (o.paid) m.append(document.createTextNode(' · ยืนยันยอดแล้ว'));
+      const m = el('div', 'mu', ''); m.append(el('span', 'tag ' + o.status, ST[o.status])); if (o.paid) m.append(document.createTextNode(' · ยืนยันยอดแล้ว'));
       info.append(m); if (o.note) info.append(el('div', null, 'ระบุ: ' + o.note)); c.append(info);
       if (o.status === 'new' || o.status === 'done') {
         if (o.status === 'new') { const b = el('button', 'ok', 'เสร็จแล้ว'); b.onclick = () => act({ id: o.id, status: 'done' }); c.append(b); const r = el('button', 'er', 'รับไม่ได้'); r.onclick = () => { if (confirm('ปฏิเสธออเดอร์นี้? นักเรียนจะได้รับแจ้ง')) act({ id: o.id, status: 'rejected' }); }; c.append(r); }
@@ -107,13 +117,15 @@
       box.append(c);
     }
     const menu = $('menu'); if (menuDirty) return renderSettings(d);   // ร้านกำลังแก้เมนูอยู่: ไม่ล้างค่าที่พิมพ์ค้างตอนรีเฟรชอัตโนมัติ
-    menu.replaceChildren();
+    menu.replaceChildren(); { const hd = el('div', 'menu-row menu-head'); for (const t of ['ชื่อเมนู', 'ราคา', 'สูงสุด', 'เปิด', 'ตามสั่ง']) hd.append(el('span', null, t)); menu.append(hd); }
     for (const it of d.menu) {
       const r = el('div', 'menu-row'), n = el('input'), p = el('input'), on = el('input');
-      n.value = it.name; n.maxLength = 30; p.type = 'number'; p.min = 1; p.max = 200; p.value = it.price; on.type = 'checkbox'; on.checked = it.on; on.style.width = '1.4rem';
-      r.dataset.id = it.id; r.append(n, p, on); menu.append(r);
+      const cu = el('input'); cu.type = 'checkbox'; cu.checked = !!it.custom; cu.style.width = '1.4rem'; cu.title = 'ตามสั่ง: นักเรียนเขียนเมนูเอง';
+      n.value = it.name; n.maxLength = 30; p.type = 'number'; p.min = 1; p.max = 200; p.value = it.price; on.type = 'checkbox'; on.checked = it.on; on.style.width = '1.4rem'; on.title = 'เปิดขาย';
+      const mx = el('input'); mx.type = 'number'; mx.min = 1; mx.max = 500; mx.placeholder = '-'; mx.value = it.max || ''; mx.title = 'ราคาสูงสุดที่นักเรียนเลือกได้ (ว่าง = ราคาตายตัว)';
+      r.dataset.id = it.id; r.append(n, p, mx, on, cu); menu.append(r);
     }
-    const add = el('button', 'ghost', '+ เพิ่มเมนู'); add.onclick = () => { const r = el('div', 'menu-row'), n = el('input'), p = el('input'), on = el('input'); n.maxLength = 30; p.type = 'number'; p.value = 25; on.type = 'checkbox'; on.checked = true; on.style.width = '1.4rem'; r.dataset.id = 'm' + Math.random().toString(36).slice(2, 8); r.append(n, p, on); menu.insertBefore(r, add); menuDirty = true; }; menu.append(add);
+    const add = el('button', 'ghost', '+ เพิ่มเมนู'); add.onclick = () => { const r = el('div', 'menu-row'), n = el('input'), p = el('input'), on = el('input'), cu = el('input'), mx = el('input'); mx.type = 'number'; mx.placeholder = '-'; n.maxLength = 30; p.type = 'number'; p.value = 25; on.type = 'checkbox'; on.checked = true; on.style.width = '1.4rem'; cu.type = 'checkbox'; cu.style.width = '1.4rem'; r.dataset.id = 'm' + Math.random().toString(36).slice(2, 8); r.append(n, p, mx, on, cu); menu.insertBefore(r, add); menuDirty = true; }; menu.append(add);
     renderSettings(d);
   }
   function renderSettings(d) {
@@ -122,14 +134,27 @@
     for (const [id, v] of [['maxQ', d.max_queue], ['closeB', d.close_before], ['minDish', d.min_per_dish]]) if (document.activeElement !== $(id)) $(id).value = v;
     if (document.activeElement !== $('mode')) $('mode').value = d.mode; if (document.activeElement !== $('trial')) $('trial').checked = !!d.trial;
   }
-  async function act(p) { const r = await call({ action: 'set', ...p }); if (!r.ok) $('err').textContent = 'ทำรายการไม่ได้ ลองรีเฟรช'; await load(false); }
+  async function loadStats() {
+    const r = await call({ action: 'stats' });
+    if (!r.ok) return;
+    const box = $('stats'); box.replaceChildren();
+    for (const [t, v] of [['วันนี้', r.today], ['7 วันล่าสุด', r.week], ['30 วันล่าสุด', r.month], ['ทั้งหมด (90 วัน)', r.all]]) {
+      const c = el('div', 'stat'); c.append(el('span', null, t), el('b', null, v.orders + ' ออเดอร์'), el('span', null, v.dishes + ' จาน · ' + v.amount + ' บาท')); box.append(c);
+    }
+    if (r.fee) { const f = r.fee, fmt = (x) => x.dishes + ' จาน = ' + x.amount + ' บาท'; $('fee').textContent = 'ค่าบริการแอป จานละ ' + f.rate + ' บาท · เดือนนี้ (' + f.this_month.month + '): ' + fmt(f.this_month) + ' · เดือนที่แล้ว (' + f.last_month.month + '): ' + fmt(f.last_month) + ' · จ่ายเป็นรายเดือน'; }
+    const tb = $('statDays'); tb.replaceChildren();
+    const hr = el('tr'); for (const t of ['วันที่', 'ออเดอร์', 'จาน', 'บาท']) hr.append(el('th', null, t)); tb.append(hr);
+    for (const d of r.days.slice(0, 14)) { const tr = el('tr'); for (const t of [d.day, d.orders, d.dishes, d.amount]) tr.append(el('td', null, String(t))); tb.append(tr); }
+    if (!r.days.length) { const tr = el('tr'), td = el('td', null, 'ยังไม่มีข้อมูล'); td.colSpan = 4; tr.append(td); tb.append(tr); }
+  }
+  async function act(p) { const r = await call({ action: 'set', ...p }); if (!r.ok) $('err').textContent = 'ทำรายการไม่ได้ ลองรีเฟรช'; await load(false); loadStats(); }
   $('menu').addEventListener('input', () => { menuDirty = true; });
   $('goBtn').onclick = () => { code = $('code').value.trim(); if (!code) return; try { sessionStorage.setItem('fshop', code); } catch (e) {} $('loginErr').textContent = ''; load(true); };
   $('code').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('goBtn').click(); });
-  $('refresh').onclick = () => load(false);
+  $('refresh').onclick = () => { load(false); loadStats(); };
   $('toggle').onclick = async () => { await call({ action: 'menu', enabled: !data.enabled }); await load(false); };
   $('saveMenu').onclick = async () => {
-    const items = [...$('menu').querySelectorAll('.menu-row')].map((r) => { const i = r.querySelectorAll('input'); return { id: r.dataset.id, name: i[0].value, price: Number(i[1].value), on: i[2].checked }; }).filter((x) => x.name.trim());
+    const items = [...$('menu').querySelectorAll('.menu-row:not(.menu-head)')].map((r) => { const i = r.querySelectorAll('input'); return { id: r.dataset.id, name: i[0].value, price: Number(i[1].value), max: i[2].value === '' ? null : Number(i[2].value), on: i[3].checked, custom: i[4].checked }; }).filter((x) => x.name.trim());
     const r = await call({ action: 'menu', items, cutoff: $('cutoff').value, per_slot: Number($('perSlot').value), mode: $('mode').value, max_queue: Number($('maxQ').value), close_before: Number($('closeB').value), min_per_dish: Number($('minDish').value), trial: $('trial').checked });
     $('err').textContent = r.ok ? '' : 'บันทึกไม่สำเร็จ (ตรวจชื่อและราคา 1–200 บาท)'; if (r.ok) menuDirty = false; await load(false);
   };

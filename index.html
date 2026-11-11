@@ -1240,16 +1240,17 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                 <div class="pf-ph"><b>สั่งอาหาร · ร้าน ก.ไก่ ข.ไข่</b><button onclick="foodClose()" aria-label="ปิด"><i data-lucide="x"></i></button></div>
                 <p id="foInfo" class="pf-note"></p>
                 <div id="foForm">
-                  <div class="pf-l">เมนู</div><div id="foItems"></div>
+                  <div class="pf-l">เมนู · ราคาสั่งผ่านแอป (ไม่ต้องต่อคิว)</div><p class="pf-note" style="margin:0 0 0.25rem">ราคาในแอปอาจสูงกว่าซื้อหน้าร้านเล็กน้อย ร้านเป็นผู้ตั้งราคา</p><div id="foItems"></div>
+                  <label id="foPriceWrap" class="pf-l hidden"><span id="foPriceLbl">เลือกราคาจานที่ต้องการ (บาท)</span><select id="foPrice"></select><input id="foPriceNum" type="number" inputmode="numeric" step="1" class="hidden" style="width:100%;padding:0.55rem;border:1px solid rgba(100,116,139,.35);border-radius:.7rem;background:transparent;color:inherit"></label>
                   <label class="pf-l">จำนวน (จาน)<select id="foQty"><option>1</option><option>2</option><option>3</option></select></label>
                   <div id="foSlotLbl" class="pf-l">เวลารับ (ตามพักกลางวันของชั้นคุณ)</div><div id="foSlots" class="fo-slots"></div>
-                  <label class="pf-l">ระบุเพิ่มเอง (ไม่บังคับ เช่น ไม่ใส่ผัก ไข่สุกมาก)<input id="foNoteIn" maxlength="40" placeholder="เช่น ไม่ใส่ซอส" style="width:100%;padding:0.55rem;border:1px solid rgba(100,116,139,.35);border-radius:.7rem;background:transparent;color:inherit"></label><p id="foTotal" class="pf-note"></p>
+                  <label class="pf-l"><span id="foNoteLbl">ระบุเพิ่มเอง (ไม่บังคับ เช่น ไม่ใส่ผัก ไข่สุกมาก)</span><input id="foNoteIn" maxlength="40" placeholder="เช่น ไม่ใส่ซอส" style="width:100%;padding:0.55rem;border:1px solid rgba(100,116,139,.35);border-radius:.7rem;background:transparent;color:inherit"></label><p id="foTotal" class="pf-note"></p>
                   <button id="foGo" class="fo-act" onclick="foodBook()">จอง</button>
                 </div>
                 <p id="foErr" class="pf-err hidden"></p>
                 <div class="pf-l" style="margin-top:0.75rem">ออเดอร์วันนี้ของคุณ</div><div id="foMine"></div>
                 <div id="foPay" class="hidden" style="text-align:center;margin-top:0.5rem"><img id="foQr" alt="QR จ่ายเงินร้าน" style="max-width:12rem;margin:0 auto" onerror="this.replaceWith(Object.assign(document.createElement('b'),{textContent:'ยังไม่มี QR ในแอป: ขอ QR จ่ายเงินจากร้านโดยตรง'}))"><p class="pf-note">สแกนจ่ายร้านโดยตรง (แอปไม่เก็บเงิน) แล้วกด "ฉันจ่ายแล้ว" ที่ออเดอร์ ร้านจะเห็นออเดอร์หลังกดเท่านั้น · ต้องกดภายใน 15 นาทีหลังจอง ไม่งั้นคิวถูกคืน</p></div>
-                <p class="pf-note">แอปแค่จองคิว ไม่รับเงิน · จ่ายแล้วยกเลิกเองไม่ได้ ต้องคุยกับร้าน · แจ้งเตือนเมื่อร้านทำเสร็จจะมาถึงเฉพาะเครื่องที่ล็อกอินอีเมลและเปิดแจ้งเตือนไว้ · ไม่มาตามเวลา ร้านอาจเก็บอาหารไว้ให้ไม่ได้</p>
+                <p class="pf-note">ตอนรับอาหารให้บอกเลขคิว (#) กับร้าน ร้านไม่เห็นชื่อหรือห้องของคุณ · แอปแค่จองคิว ไม่รับเงิน · จ่ายแล้วยกเลิกเองไม่ได้ ต้องคุยกับร้าน · แจ้งเตือนเมื่อร้านทำเสร็จจะมาถึงเฉพาะเครื่องที่ล็อกอินอีเมลและเปิดแจ้งเตือนไว้ · ไม่มาตามเวลา ร้านอาจเก็บอาหารไว้ให้ไม่ได้</p>
               </div>
             </div>
             <!-- เพื่อนติว (AI): ถามเรื่องเรียน จำกัดต่อคนต่อวัน ไม่เก็บบทสนทนา -->
@@ -3880,13 +3881,13 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const box = document.getElementById('apptMine'); box.textContent = '';
         const r = await apptCall({ action: 'mine' });
         if (!r.ok) { box.append(mk('p', 'pf-note', 'โหลดรายการไม่สำเร็จ')); return; }
-        for (const a of r.items) {
+        for (const a of (r.items || [])) {
           const row = mk('div', 'ap-row' + (a.cancelled ? ' opacity-50' : ''));
           row.append(mk('span', null, apptWhen(a.at) + ' · ' + (a.student_id ? 'เลข ' + a.student_id : 'ห้อง ' + a.class_id) + ' · ' + a.place + (a.cancelled ? ' · ยกเลิกแล้ว' : '')));
           if (!a.cancelled) { const c = mk('button', null, 'ยกเลิก'); c.onclick = async () => { if (confirm('ยกเลิกนัดนี้?')) { await apptCall({ action: 'cancel', id: a.id }); apptMineLoad(); apptStripLoad(); } }; row.append(c); }
           box.append(row);
         }
-        if (!r.items.length) box.append(mk('p', 'pf-note', 'ยังไม่มีนัดหมาย'));
+        if (!(r.items || []).length) box.append(mk('p', 'pf-note', 'ยังไม่มีนัดหมาย'));
       }
       // แถบ "นัดนักเรียน" ของครู: อยู่หน้าตารางและหน้าโซเชียล แตะเพื่อเปิดฟอร์ม + เห็นนัดที่ใกล้ถึง 3 รายการ
       const SCHOOL_LINKS = [['SGS (ครู)', 'https://sgs.bopp-obec.info/sgs/Security/SignIn.aspx'], ['ระบบลา', 'https://thabo-school.we-easy.com/admin/leave'], ['ส่งแผนการสอน', 'https://lessonplan-app.vercel.app/'], ['บริการออนไลน์ครู', 'https://www.thaboschool.ac.th/%E0%B8%9A%E0%B8%A3%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%AD%E0%B8%AD%E0%B8%99%E0%B9%84%E0%B8%A5%E0%B8%99%E0%B8%AA%E0%B8%B3%E0%B8%AB%E0%B8%A3%E0%B8%9A%E0%B8%84%E0%B8%A3']];
@@ -3925,7 +3926,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         apptStripRender();
       }
       // ===== จองไข่ข้น (ร้าน ก.ไก่ ข.ไข่) · จองคิวรับเท่านั้น ไม่แตะเงิน =====
-      const FO_ERR = { login: 'ต้องเข้าสู่ระบบด้วยอีเมลโรงเรียนก่อน (โปรไฟล์ > ออกจากระบบ แล้วเข้าด้วยเลขประจำตัวหรืออีเมล)', closed: 'วันนี้ร้านไม่เปิดรับจอง (เสาร์-อาทิตย์)', cutoff: 'ปิดรับจองของวันนี้แล้ว', off: 'ร้านปิดรับจองชั่วคราว', limit: 'จองได้ไม่เกิน 2 ออเดอร์ต่อวัน', full: 'คิวเต็มตอนนี้ ลองใหม่อีกสักพัก (หรือเลือกช่วงอื่นถ้าเป็นโหมดจอง)', window: 'ตอนนี้ไม่ใช่ช่วงสั่ง (สั่งได้ช่วงพักกลางวันของชั้นคุณ)', bad: 'ข้อมูลไม่ถูกต้อง ลองเลือกใหม่', auth: 'ต้องเข้าสู่ระบบห้องใหม่ก่อน', net: 'เชื่อมต่อไม่ได้ ลองใหม่อีกครั้ง', gone: 'ทำรายการไม่ได้แล้ว', filter_link: 'ห้ามใส่ลิงก์', filter_contact: 'ห้ามใส่เบอร์โทรหรืออีเมล', filter_word: 'มีคำที่ไม่อนุญาต' };
+      const FO_ERR = { login: 'ต้องเข้าสู่ระบบด้วยอีเมลโรงเรียนก่อน (โปรไฟล์ > ออกจากระบบ แล้วเข้าด้วยเลขประจำตัวหรืออีเมล)', closed: 'วันนี้ร้านไม่เปิดรับจอง (เสาร์-อาทิตย์)', cutoff: 'ปิดรับจองของวันนี้แล้ว', off: 'ร้านปิดรับจองชั่วคราว', limit: 'จองได้ไม่เกิน 2 ออเดอร์ต่อวัน', full: 'คิวเต็มตอนนี้ ลองใหม่อีกสักพัก (หรือเลือกช่วงอื่นถ้าเป็นโหมดจอง)', window: 'ตอนนี้ไม่ใช่ช่วงสั่ง (สั่งได้ช่วงพักกลางวันของชั้นคุณ)', bad: 'ข้อมูลไม่ถูกต้อง ลองเลือกใหม่', auth: 'ต้องเข้าสู่ระบบห้องใหม่ก่อน', net: 'เชื่อมต่อไม่ได้ ลองใหม่อีกครั้ง', gone: 'ทำรายการไม่ได้แล้ว', custom: 'ตามสั่ง: เขียนเมนูที่ต้องการก่อน', filter_link: 'ห้ามใส่ลิงก์', filter_contact: 'ห้ามใส่เบอร์โทรหรืออีเมล', filter_word: 'มีคำที่ไม่อนุญาต' };
       const FO_ST = { new: 'รอร้านทำ (จ่ายแล้ว)', done: 'เสร็จแล้ว มารับได้', rejected: 'ร้านรับไม่ได้', cancelled: 'ยกเลิกแล้ว' };
       let foSel = { item: null, slot: null }, foData = null, foBusy = false;
       async function foodCall(body) {
@@ -3954,8 +3955,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         g('foInfo').textContent = foInfoText(r);
         g('foForm').classList.toggle('hidden', !can);
         const walk = r.mode === 'walkup'; g('foSlotLbl').classList.toggle('hidden', walk); g('foSlots').classList.toggle('hidden', walk);
+        if (!foSel.item) { const d = r.items.find((i) => i.custom); if (d) foSel.item = d.id; }   // ค่าเริ่มต้น: เลือก "ตามสั่ง" ไว้ให้
         const items = g('foItems'); items.replaceChildren();
-        for (const it of r.items) { const b = mk('button', 'fo-opt' + (foSel.item === it.id ? ' on' : '')); b.type = 'button'; b.append(mk('span', null, it.name), mk('span', null, it.price + ' บาท')); b.onclick = () => { foSel.item = it.id; items.querySelectorAll('.fo-opt').forEach((x) => x.classList.toggle('on', x === b)); foodRender(); }; items.append(b); }
+        for (const it of r.items) { const b = mk('button', 'fo-opt' + (foSel.item === it.id ? ' on' : '')); b.type = 'button'; b.append(mk('span', null, it.name), mk('span', null, it.max > it.price ? it.price + '–' + it.max + ' บาท' + (it.custom ? ' (พิมพ์ราคาเอง)' : '') : it.price + ' บาท')); b.onclick = () => { foSel.item = it.id; items.querySelectorAll('.fo-opt').forEach((x) => x.classList.toggle('on', x === b)); foodRender(); }; items.append(b); }
         const sl = g('foSlots'); sl.replaceChildren();
         for (const s of r.slots) { const b = mk('button', 'fo-opt' + (foSel.slot === s.t ? ' on' : '')); b.type = 'button'; b.disabled = s.left < 1; b.dataset.t = s.t; b.append(document.createTextNode(s.t)); b.append(mk('small', null, s.left < 1 ? 'เต็ม' : 'เหลือ ' + s.left)); b.onclick = () => { foSel.slot = s.t; foodRender(); }; sl.append(b); }
         foodRender();
@@ -3968,13 +3970,27 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         const g = (id) => document.getElementById(id); if (!foData) return;
         document.querySelectorAll('#foSlots .fo-opt').forEach((b) => b.classList.toggle('on', b.dataset.t === foSel.slot));
         const it = foData.items.find((i) => i.id === foSel.item), q = Number(g('foQty').value) || 1;
-        g('foTotal').textContent = it ? `รวม ${it.price * q} บาท (จ่ายร้านโดยตรง)` : 'เลือกเมนูและเวลารับ';
-        g('foGo').disabled = foBusy || !it || (foData.mode !== 'walkup' && !foSel.slot);
+        const flex = !!(it && it.max > it.price), pw = g('foPriceWrap'), ps = g('foPrice');
+        pw.classList.toggle('hidden', !flex);
+        const free = flex && !!it.custom, num = g('foPriceNum');
+        ps.classList.toggle('hidden', free); num.classList.toggle('hidden', !free);
+        g('foPriceLbl').textContent = free ? `พิมพ์ราคาที่ต้องการ (${it.price}–${it.max} บาท)` : 'เลือกราคาจานที่ต้องการ (บาท)';
+        if (free && num.dataset.item !== it.id) { num.min = it.price; num.max = it.max; num.value = it.price; num.dataset.item = it.id; }
+        if (flex && !free && ps.dataset.item !== it.id) { ps.replaceChildren(); for (let v = it.price; v <= it.max; v += 5) { const o = mk('option', null, v + ' บาท'); o.value = v; ps.append(o); } ps.dataset.item = it.id; }
+        if (!flex) { delete ps.dataset.item; delete num.dataset.item; }
+        const unit = flex ? (free ? Number(num.value) || 0 : Number(ps.value) || it.price) : it ? it.price : 0;
+        foSel.flex = flex; foSel.price = unit;
+        const priceBad = free && (!Number.isInteger(unit) || unit < it.price || unit > it.max);
+        g('foTotal').textContent = it ? `รวม ${unit * q} บาท (จ่ายร้านโดยตรง)` : 'เลือกเมนูและเวลารับ';
+        const cu = !!(it && it.custom), ni = g('foNoteIn'); ni.maxLength = cu ? 80 : 40; g('foNoteLbl').textContent = cu ? 'ตามสั่ง: เขียนเมนูที่ต้องการ (จำเป็น) ร้านอาจปฏิเสธและคืนเงินถ้าทำไม่ได้หรือราคาไม่ตรง' : 'ระบุเพิ่มเอง (ไม่บังคับ เช่น ไม่ใส่ผัก ไข่สุกมาก)';
+        g('foGo').disabled = foBusy || !it || (foData.mode !== 'walkup' && !foSel.slot) || (cu && ni.value.trim().length < 2) || priceBad;
       }
-      document.addEventListener('change', (e) => { if (e.target && e.target.id === 'foQty') foodRender(); });
+      document.addEventListener('change', (e) => { if (e.target && (e.target.id === 'foQty' || e.target.id === 'foPrice')) foodRender(); });
+      document.addEventListener('input', (e) => { if (e.target && e.target.id === 'foPriceNum') foodRender(); });
+      document.addEventListener('input', (e) => { if (e.target && e.target.id === 'foNoteIn') foodRender(); });
       async function foodBook() {
         if (foBusy) return; foBusy = true; foodRender(); foNote('');
-        const r = await foodCall({ action: 'order', item: foSel.item, qty: Number(document.getElementById('foQty').value) || 1, slot: foSel.slot, note: document.getElementById('foNoteIn').value });
+        const r = await foodCall({ action: 'order', item: foSel.item, qty: Number(document.getElementById('foQty').value) || 1, slot: foSel.slot, note: document.getElementById('foNoteIn').value, price: foSel.flex ? foSel.price : undefined });
         foBusy = false;
         if (!r.ok) { foNote(FO_ERR[r.error] || 'จองไม่สำเร็จ ลองใหม่อีกครั้ง'); } else { foSel = { item: null, slot: null }; document.getElementById('foNoteIn').value = ''; await foodLoad(); foNote('จองแล้ว: สแกน QR จ่าย แล้วกด "ฉันจ่ายแล้ว" ภายใน 15 นาที ร้านถึงจะได้ออเดอร์'); return; }
         await foodLoad();
@@ -4011,7 +4027,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         ttBusy = true; g('ttSend').disabled = true; ttNote('กำลังคิด…', true); ttAdd('u', q); g('ttInput').value = '';
         const r = await tutorCall({ action: 'ask', question: q, subject: g('ttSubject').value, exam: g('ttExam').value, history: ttHist.slice(-4) });
         ttBusy = false; g('ttSend').disabled = false;
-        if (!r.ok) { ttNote(TT_ERR[r.error] || 'ถามไม่สำเร็จ ลองใหม่อีกครั้ง'); return; }
+        if (!r.ok) { g('ttInput').value = q; ttNote(TT_ERR[r.error] || 'ถามไม่สำเร็จ ลองใหม่อีกครั้ง'); return; }   // คืนคำถามเข้าช่องให้กดส่งใหม่ได้
         ttAdd('a', r.answer); ttHist.push({ r: 'u', t: q }, { r: 'a', t: r.answer }); ttHist = ttHist.slice(-4);
         ttNote('วันนี้เหลือ ' + r.left + ' คำถาม', true);
       }
@@ -4072,7 +4088,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         box.textContent = '';
         if (!r.ok) { box.append(mk('p', 'pf-note', 'โหลดกระดานไม่สำเร็จ')); return; }
         const act = async (body) => { const x = await subCall(body); if (!x.ok) { const e = document.getElementById('subErr'); e.textContent = SUB_ERR[x.error] || 'ทำรายการไม่สำเร็จ ลองใหม่อีกครั้ง'; e.classList.remove('hidden'); } else document.getElementById('subErr').classList.add('hidden'); subBoardLoad(); };
-        for (const s of r.items) {
+        for (const s of (r.items || [])) {
           const row = mk('div', 'sb-row');
           const head = mk('div'); head.append(mk('b', null, subDayLabel(s.day) + ' · คาบ ' + s.period + ' · ' + s.room), mk('span', 'sb-s', (s.subject ? ' · ' + s.subject : '') + ' · ' + (s.mine ? 'ของฉัน' : s.requester + ' ขอ'))); row.append(head);
           if (s.note) row.append(mk('div', 'sb-s', s.note));
@@ -4083,7 +4099,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           else { const c = mk('button', null, 'รับสอนแทน'); c.onclick = () => { if (confirm('รับสอนแทน ' + s.room + ' คาบ ' + s.period + ' ' + subDayLabel(s.day) + ' ?')) act({ action: 'take', id: s.id }); }; a.append(c); }
           row.append(a); box.append(row);
         }
-        if (!r.items.length) box.append(mk('p', 'pf-note', 'ยังไม่มีคำขอสอนแทน'));
+        if (!(r.items || []).length) box.append(mk('p', 'pf-note', 'ยังไม่มีคำขอสอนแทน'));
       }
       async function subSubmit() {
         const g = (id) => document.getElementById(id), err = g('subErr'), btn = g('subSend');

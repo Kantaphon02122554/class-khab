@@ -45,6 +45,16 @@
   .chips { display: flex; flex-wrap: wrap; gap: 6px; } .chip { background: var(--chip); border-radius: 99px; padding: 3px 11px; font-size: 13px; } .chip b { margin-left: 6px; color: var(--chip-b); }
   .muted { color: var(--t3); font-size: 13px; }
 
+  /* ตัวเลขสรุปด้านบน + เมนูลัด + กล่องพับได้ */
+  .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 14px; }
+  .tile { text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; color: var(--t1); }
+  .tile b { display: block; font-size: 24px; font-weight: 600; line-height: 1.15; } .tile span { color: var(--t2); font-size: 12px; } .tile:hover { border-color: #3b82f6; filter: none; }
+  .jump { position: sticky; top: 0; z-index: 20; display: flex; gap: 6px; overflow-x: auto; padding: 8px 0; margin-bottom: 10px; background: var(--bg); }
+  .jump button { flex: none; background: transparent; color: var(--t2); border: 1px solid var(--line); padding: 5px 12px; font-size: 12px; }
+  .card, details.fold { scroll-margin-top: 56px; }
+  details.fold { padding: 0; } details.fold > summary { cursor: pointer; list-style: none; padding: 14px 18px; font-size: 14px; font-weight: 600; color: var(--t2); display: flex; align-items: center; gap: 10px; }
+  details.fold > summary::-webkit-details-marker { display: none; } details.fold > summary::before { content: '▸'; color: var(--t3); } details.fold[open] > summary::before { content: '▾'; }
+  details.fold > *:not(summary) { margin: 0 18px 14px; } .bd { margin-left: auto; font-weight: 400; color: var(--chip-b); font-size: 12px; text-align: right; }
   /* แท็บ + รายห้อง */
   .tabs { display: flex; gap: 6px; margin-bottom: 14px; } .tabs button { background: transparent; color: var(--t2); border: 1px solid var(--line); } .tabs button.on { background: #2563eb; color: #fff; border-color: #2563eb; }
   .rooms { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
@@ -108,9 +118,20 @@
   <div id="viewOverview">
   <div class="hero" id="hero"><div class="dot" id="heroDot">…</div><div><h2 id="heroT">กำลังตรวจ…</h2><p id="heroP"></p></div></div>
   <div class="alerts" id="alerts"></div>
+  <div class="tiles" id="tiles">
+    <button class="tile" onclick="jumpTo('sec-push')"><b id="ts-push">—</b><span>เครื่องที่เปิดแจ้งเตือน</span></button>
+    <button class="tile" onclick="jumpTo('sec-visits')"><b id="ts-visit">—</b><span>เปิดเว็บวันนี้ (เครื่อง)</span></button>
+    <button class="tile" onclick="jumpTo('sec-food')"><b id="ts-food">—</b><span>ออเดอร์อาหารวันนี้</span></button>
+    <button class="tile" onclick="jumpTo('sec-tutor')"><b id="ts-tutor">—</b><span>คำถามเพื่อนติววันนี้</span></button>
+    <button class="tile" onclick="jumpTo('sec-appt')"><b id="ts-appt">—</b><span>นัดครูที่ยังไม่ถึง</span></button>
+    <button class="tile" onclick="jumpTo('sec-sub')"><b id="ts-sub">—</b><span>คำขอสอนแทนที่รอคนรับ</span></button>
+  </div>
+  <nav class="jump" id="jump" aria-label="ไปยังส่วนต่างๆ">
+    <button onclick="jumpTo('sec-status')">สถานะระบบ</button><button onclick="jumpTo('sec-push')">ผู้ใช้</button><button onclick="jumpTo('sec-visits')">กราฟ</button><button onclick="jumpTo('sec-cmd')">คำสั่งด่วน</button><button onclick="jumpTo('sec-open')">โอเพ่นแชท</button><button onclick="jumpTo('sec-tchat')">แชตครู</button><button onclick="jumpTo('sec-appt')">นัดหมาย</button><button onclick="jumpTo('sec-tutor')">เพื่อนติว</button><button onclick="jumpTo('sec-food')">สั่งอาหาร</button><button onclick="jumpTo('sec-sub')">สอนแทน</button><button onclick="jumpTo('sec-ava')">รูปโปรไฟล์</button><button onclick="jumpTo('sec-content')">เนื้อหา</button>
+  </nav>
 
   <div class="grid">
-    <div class="card"><h3>เช็กสดทุกส่วน</h3><div id="checks"></div></div>
+    <div class="card" id="sec-status"><h3>เช็กสดทุกส่วน</h3><div id="checks"></div></div>
 
     <div class="card"><h3>ตัวส่งแจ้งเตือน (cron ทุกนาที)</h3>
       <div class="row"><span>รันล่าสุด</span><b id="cLast">—</b></div>
@@ -123,13 +144,13 @@
       <div class="bars" id="bars" style="margin-bottom:22px"></div>
     </div>
 
-    <div class="card"><h3>ผู้ใช้แจ้งเตือน</h3>
+    <div class="card" id="sec-push"><h3>ผู้ใช้แจ้งเตือน</h3>
       <div class="big" id="pushTotal">—</div><div class="sub">เครื่องที่เปิดแจ้งเตือน (Web Push) · เพิ่มใหม่ 24 ชม.: <b id="pushNew">—</b></div>
       <div class="chips" id="byClass" style="margin-top:12px"></div>
       <div class="row" style="margin-top:12px"><span>ผู้ใช้บอตไลน์ (จำห้อง)</span><b id="lineUsers">—</b></div>
     </div>
 
-    <div class="card" style="grid-column:1/-1"><h3>ผู้ใช้ต่อวัน — เครื่องที่เปิดเว็บ (30 วันล่าสุด)</h3>
+    <div class="card" id="sec-visits" style="grid-column:1/-1"><h3>ผู้ใช้ต่อวัน — เครื่องที่เปิดเว็บ (30 วันล่าสุด)</h3>
       <div class="stats" id="vStats"></div>
       <div class="chart" id="vChart"></div>
       <p class="sub" id="vNote">ส้ม = เครื่องที่เข้าโหมดครู · นับ 1 ครั้งต่อเครื่องต่อวัน (เครื่องที่ล้างข้อมูลเบราว์เซอร์จะถูกนับเป็นเครื่องใหม่)</p>
@@ -142,35 +163,43 @@
       <p class="sub">คำนวณจากวันที่เครื่องสมัครแจ้งเตือน (เครื่องที่ถูกลบออกเพราะหมดอายุจะไม่ถูกนับย้อนหลัง)</p>
     </div>
 
-    <div class="card" style="grid-column:1/-1"><h3>คำสั่งด่วน (ตั้งวันหยุด / กิจกรรม)</h3>
+    <div class="card" id="sec-cmd" style="grid-column:1/-1"><h3>คำสั่งด่วน (ตั้งวันหยุด / กิจกรรม)</h3>
       <p class="sub" style="margin-bottom:8px">พิมพ์คำสั่งแล้วกด Enter ระบบจะแสดงตัวอย่างให้ยืนยันก่อนบันทึกเสมอ พิมพ์ <b>ช่วย</b> เพื่อดูคำสั่งทั้งหมด</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap"><input type="text" id="cmdIn" maxlength="200" autocomplete="off" placeholder="เช่น หยุด 10/12/2569 วันรัฐธรรมนูญ" style="flex:1;min-width:220px" onkeydown="if(event.key==='Enter'){event.preventDefault();cmdRun()}" /><button class="pri" onclick="cmdRun()">ตรวจคำสั่ง</button></div>
       <pre id="cmdOut" class="muted" style="white-space:pre-wrap;margin:10px 0 0;font:inherit;display:none"></pre>
       <div id="cmdOk" style="display:none;gap:8px;margin-top:8px"><button class="pri" onclick="cmdConfirm()">✓ ยืนยันบันทึก</button><button onclick="cmdCancel()">ยกเลิก</button></div>
     </div>
 
-    <div class="card" style="grid-column:1/-1"><h3>โอเพ่นแชท (ทุกห้องคุยรวมกัน) และรูปโปรไฟล์</h3>
-      <p class="sub" style="margin-bottom:8px">ต้องล็อกอินอีเมลโรงเรียน + ผ่านกติกา/ชื่อเล่นก่อนเข้า · ข้อความผ่าน Haiku ตรวจทุกข้อความ · ผิดกติกา 3 ครั้งใน 30 นาที ระงับ 24 ชม. ซ้ำเพิ่มเป็นสองเท่า สูงสุด 7 วัน</p>
-      <div id="openBox" class="muted">กำลังโหลด…</div>
-      <h3 style="margin-top:14px">ห้องแชตครู (เฉพาะครู)</h3>
-      <div id="tchatBox" class="muted">กำลังโหลด…</div>
-      <h3 style="margin-top:14px">นัดหมายของครู (ล่าสุด 80 รายการ)</h3>
-      <p class="sub" style="margin-bottom:8px">ครูนัดนักเรียนรายคน/ทั้งห้อง ได้เฉพาะสถานที่ในโรงเรียน วันจันทร์–ศุกร์ 07:00–17:00 วันละไม่เกิน 20 นัด · แอดมินยกเลิกได้</p>
-      <div id="apptBox" class="muted">กำลังโหลด…</div>
-      <h3 style="margin-top:14px">แชตบอท "เพื่อนติว" (AI)</h3>
-      <p class="sub" style="margin-bottom:8px">นักเรียนที่ล็อกอินอีเมลถามเรื่องเรียนได้ 4 ครั้ง/คน/วัน ระบบรวมไม่เกิน 300 ครั้ง/วัน และใช้ได้ไม่เกินครึ่งหนึ่งของงบ AI รายเดือน · ไม่เก็บเนื้อหาบทสนทนา</p>
-      <div id="tutorBox" class="muted">กำลังโหลด…</div>
-      <h3 style="margin-top:14px">จองไข่ข้น (ร้าน ก.ไก่ ข.ไข่)</h3>
-      <p class="sub" style="margin-bottom:8px">นักเรียนจองคิวรับตามพักกลางวัน แอปไม่แตะเงิน ร้านดูรายการที่ shop.html ด้วยรหัสร้าน · ปุ่มนี้ปิดรับจองฉุกเฉิน</p>
-      <div id="foodBox" class="muted">กำลังโหลด…</div>
-      <h3 style="margin-top:14px">กระดานสอนแทน (ล่าสุด 80 รายการ)</h3>
-      <p class="sub" style="margin-bottom:8px">ครูที่ไม่อยู่ประกาศคาบที่ต้องการคนสอนแทน ครูท่านอื่นกดรับ · ไม่เก็บเหตุผลการลา · แอดมินยกเลิกได้</p>
-      <div id="subBox" class="muted">กำลังโหลด…</div>
-      <h3 style="margin-top:14px">รูปถ่ายโปรไฟล์ล่าสุด</h3>
-      <div id="avaBox" class="muted">กำลังโหลด…</div>
+    <div style="grid-column:1/-1;display:grid;gap:10px">
+      <details class="card fold" id="sec-open"><summary>โอเพ่นแชท (ทุกห้องคุยรวมกัน)<span class="bd" id="bd-open"></span></summary>
+        <p class="sub">ต้องล็อกอินอีเมลโรงเรียน + ผ่านกติกา/ชื่อเล่นก่อนเข้า · ข้อความผ่าน Haiku ตรวจทุกข้อความ · ผิดกติกา 3 ครั้งใน 30 นาที ระงับ 24 ชม. ซ้ำเพิ่มเป็นสองเท่า สูงสุด 7 วัน</p>
+        <div id="openBox" class="muted">กำลังโหลด…</div>
+      </details>
+      <details class="card fold" id="sec-tchat"><summary>ห้องแชตครู (เฉพาะครู)<span class="bd" id="bd-tchat"></span></summary>
+        <div id="tchatBox" class="muted">กำลังโหลด…</div>
+      </details>
+      <details class="card fold" id="sec-appt"><summary>นัดหมายของครู (ล่าสุด 80 รายการ)<span class="bd" id="bd-appt"></span></summary>
+        <p class="sub">ครูนัดนักเรียนรายคน/ทั้งห้อง ได้เฉพาะสถานที่ในโรงเรียน วันจันทร์–ศุกร์ 07:00–17:00 วันละไม่เกิน 20 นัด · แอดมินยกเลิกได้</p>
+        <div id="apptBox" class="muted">กำลังโหลด…</div>
+      </details>
+      <details class="card fold" id="sec-tutor"><summary>แชตบอท "เพื่อนติว" (AI)<span class="bd" id="bd-tutor"></span></summary>
+        <p class="sub">นักเรียนที่ล็อกอินอีเมลถามเรื่องเรียนได้ 4 ครั้ง/คน/วัน ระบบรวมไม่เกิน 300 ครั้ง/วัน และใช้ได้ไม่เกินครึ่งหนึ่งของงบ AI รายเดือน · ไม่เก็บเนื้อหาบทสนทนา</p>
+        <div id="tutorBox" class="muted">กำลังโหลด…</div>
+      </details>
+      <details class="card fold" id="sec-food"><summary>จองไข่ข้น (ร้าน ก.ไก่ ข.ไข่)<span class="bd" id="bd-food"></span></summary>
+        <p class="sub">นักเรียนจองคิวรับตามพักกลางวัน แอปไม่แตะเงิน ร้านดูรายการที่ shop.html ด้วยรหัสร้าน · ปุ่มนี้ปิดรับจองฉุกเฉิน</p>
+        <div id="foodBox" class="muted">กำลังโหลด…</div>
+      </details>
+      <details class="card fold" id="sec-sub"><summary>กระดานสอนแทน (ล่าสุด 80 รายการ)<span class="bd" id="bd-sub"></span></summary>
+        <p class="sub">ครูที่ไม่อยู่ประกาศคาบที่ต้องการคนสอนแทน ครูท่านอื่นกดรับ · ไม่เก็บเหตุผลการลา · แอดมินยกเลิกได้</p>
+        <div id="subBox" class="muted">กำลังโหลด…</div>
+      </details>
+      <details class="card fold" id="sec-ava"><summary>รูปถ่ายโปรไฟล์ล่าสุด<span class="bd" id="bd-ava"></span></summary>
+        <div id="avaBox" class="muted">กำลังโหลด…</div>
+      </details>
     </div>
 
-    <div class="card"><h3>เนื้อหา</h3>
+    <div class="card" id="sec-content"><h3>เนื้อหา</h3>
       <div class="row"><span>ห้องในระบบ</span><b id="classes">—</b></div>
       <div class="row"><span>คาบเรียนทั้งหมด</span><b id="items">—</b></div>
       <div class="row"><span>ประกาศ/การบ้าน 7 วัน</span><b id="ann">—</b></div>
@@ -214,6 +243,14 @@
   const SUPABASE_URL = 'https://apolfnkholadtprbyehh.supabase.co';
   const ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwb2xmbmtob2xhZHRwcmJ5ZWhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzODA4MzQsImV4cCI6MjEwODk1NjgzNH0.v1dzcZmhtQheVCtecQnWfnihSVEkRt9iIyiJjz-XpxM';
   const $ = (id) => document.getElementById(id);
+  // ตัวเลขสรุปด้านบน / ป้ายในหัวกล่อง / เมนูลัด (กล่องที่พับไว้จำสถานะในเครื่องนี้)
+  const setTile = (k, v) => { const e = document.getElementById('ts-' + k); if (e) e.textContent = v; };
+  const setBd = (k, t) => { const e = document.getElementById('bd-' + k); if (e) e.textContent = t; };
+  function jumpTo(id) { const e = document.getElementById(id); if (!e) return; if (e.tagName === 'DETAILS') e.open = true; e.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  document.querySelectorAll('details.fold').forEach((d) => {
+    try { if (localStorage.getItem('adm_fold_' + d.id) === '1') d.open = true; } catch (e) { /* ไม่มี localStorage */ }
+    d.addEventListener('toggle', () => { try { localStorage.setItem('adm_fold_' + d.id, d.open ? '1' : '0'); } catch (e) { /* ข้าม */ } });
+  });
   const store = { get: () => { try { return sessionStorage.getItem('ck_admin') || localStorage.getItem('ck_admin'); } catch (e) { return null; } },
     set: (v, keep) => { try { sessionStorage.setItem('ck_admin', v); if (keep) localStorage.setItem('ck_admin', v); } catch (e) {} },
     clear: () => { try { sessionStorage.removeItem('ck_admin'); localStorage.removeItem('ck_admin'); } catch (e) {} } };
@@ -303,7 +340,7 @@
     const days = []; for (let i = 6; i >= 0; i--) { const dt = new Date(Date.now() - i * 86400000); days.push(new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Bangkok' }).format(dt)); }
     days.forEach((day) => { const n = (h.notify.by_day.find((x) => x.day === day) || {}).n || 0; const b = mk('div'); b.style.height = Math.max(3, (n / max) * 100) + '%'; b.title = `${day}: ${n}`; b.append(mk('span', null, `${Number(day.slice(8))}`)); bars.append(b); });
 
-    $('pushTotal').textContent = h.push.total; $('pushNew').textContent = h.push.new_24h;
+    $('pushTotal').textContent = h.push.total; $('pushNew').textContent = h.push.new_24h; setTile('push', h.push.total);
     const bc = $('byClass'); bc.textContent = ''; if (!h.push.by_class.length) bc.append(mk('span', 'muted', 'ยังไม่มี')); h.push.by_class.forEach((x) => { const c = mk('span', 'chip', x.class); c.append(mk('b', null, x.n)); bc.append(c); });
     $('lineUsers').textContent = h.line_users;
     $('classes').textContent = h.content.classes; $('items').textContent = h.content.items; $('ann').textContent = h.content.announcements_7d; $('ev').textContent = h.content.events_upcoming; $('hol').textContent = h.content.holidays_upcoming;
@@ -333,7 +370,7 @@
       const s = r.body.stats, visits = s.visits, days = visits.map((v) => v.day);
       drawChart(vChart, days, visits.map((v) => ({ n: v.n, sub: v.teachers, tip: `: ${v.n} เครื่อง${v.teachers ? `  (ครู ${v.teachers})` : ''}` })));
       const n = visits.map((v) => v.n), last7 = n.slice(-7), avg7 = Math.round(last7.reduce((a, b) => a + b, 0) / Math.max(1, last7.length));
-      statBox(vStats, [['วันนี้', n[n.length - 1] || 0], ['เมื่อวาน', n[n.length - 2] || 0], ['เฉลี่ย 7 วัน', avg7], ['สูงสุดใน 30 วัน', Math.max(0, ...n)]]);
+      setTile('visit', n[n.length - 1] || 0); statBox(vStats, [['วันนี้', n[n.length - 1] || 0], ['เมื่อวาน', n[n.length - 2] || 0], ['เฉลี่ย 7 วัน', avg7], ['สูงสุดใน 30 วัน', Math.max(0, ...n)]]);
       vNote.textContent = (s.first_visit_day ? `เริ่มเก็บสถิติตั้งแต่ ${s.first_visit_day} · ` : 'ยังไม่มีข้อมูล (เริ่มนับเมื่อมีคนเปิดเว็บเวอร์ชันใหม่) · ') + 'ส้ม = เครื่องที่เข้าโหมดครู · นับ 1 ครั้งต่อเครื่องต่อวัน (ล้างข้อมูลเบราว์เซอร์จะถูกนับเป็นเครื่องใหม่)';
       const vc = vClass; vc.textContent = ''; if (s.today_by_class.length) vc.append(mk('span', 'muted', 'วันนี้แยกตามห้อง:')); s.today_by_class.forEach((x) => { const c = mk('span', 'chip', x.class); c.append(mk('b', null, x.n)); vc.append(c); });
       // เครื่องแจ้งเตือนสะสม = ยอดตอนนี้ ลบด้วยที่เพิ่มหลังวันนั้น
@@ -691,8 +728,8 @@
   async function loadOpen() {
     const box = $('openBox'); if (!box) return;
     try {
-      const r = await api({ action: 'open_room' }); if (!r.body.ok) { box.textContent = 'โหลดไม่สำเร็จ'; return; }
-      const s = r.body; box.textContent = '';
+      const r = await api({ action: 'open_room' }); if (!r.body.ok) { box.textContent = 'โหลดไม่สำเร็จ'; throw new Error('skip'); }   // ไม่ return: กล่องอื่นด้านล่างต้องโหลดต่อ
+      const s = r.body; box.textContent = ''; setBd('open', (s.enabled ? 'เปิด' : 'ปิด') + ' · สมาชิก ' + s.members + ' คน');
       const hd = mk('div', 'top'); hd.style.cssText = 'align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px';
       hd.append(mk('span', null, 'สถานะ: ' + (s.enabled ? 'เปิด' : 'ปิด') + ' · สมาชิก ' + s.members + ' คน · ถูกระงับอยู่ ' + s.bans.length + ' คน'));
       const tg = mk('button', s.enabled ? null : 'pri', s.enabled ? 'ปิดโอเพ่นแชท' : 'เปิดโอเพ่นแชท');
@@ -713,7 +750,7 @@
         const un = mk('button', null, 'ปลด'); un.onclick = async () => { await api({ action: 'open_ban', student_id: bn.student_id, hours: 0 }); loadOpen(); };
         row.append(un); box.append(row);
       }
-    } catch (e) { if (e.message !== 'auth') box.textContent = 'เชื่อมต่อไม่ได้'; }
+    } catch (e) { if (e.message !== 'auth' && e.message !== 'skip') box.textContent = 'เชื่อมต่อไม่ได้'; }
     const tb = $('tchatBox');
     if (tb) try {
       const r = await api({ action: 'tchat_room' });
@@ -745,13 +782,14 @@
           pb.append(row);
         }
         if (!r.body.items.length) pb.textContent = 'ยังไม่มีนัดหมาย';
+        { const up = r.body.items.filter((a) => !a.cancelled && Date.parse(a.at) > Date.now()).length; setTile('appt', up); setBd('appt', 'ที่ยังไม่ถึง ' + up + ' · ทั้งหมด ' + r.body.items.length); }
       }
     } catch (e) { if (e.message !== 'auth') pb.textContent = 'เชื่อมต่อไม่ได้'; }
     const tb2 = $('tutorBox');
     if (tb2) try {
       const r = await api({ action: 'tutor_stat' });
       if (!r.body.ok) { tb2.textContent = 'โหลดไม่สำเร็จ'; } else {
-        const s = r.body; tb2.textContent = '';
+        const s = r.body; tb2.textContent = ''; setTile('tutor', s.today_questions); setBd('tutor', 'วันนี้ ' + s.today_questions + ' คำถาม · ' + (s.enabled ? 'เปิด' : 'ปิด'));
         tb2.append(mk('span', null, 'วันนี้ ' + s.today_questions + ' คำถาม จาก ' + s.today_students + ' คน · ใช้งบ AI เดือนนี้รวม $' + (s.month_micro_usd / 1e6).toFixed(3) + ' (ทุกฟีเจอร์) · สถานะ: ' + (s.enabled ? 'เปิด' : 'ปิด') + ' '));
         const tg = mk('button', null, s.enabled ? 'ปิดแชตบอท' : 'เปิดแชตบอท'); tg.onclick = async () => { if (confirm(s.enabled ? 'ปิดแชตบอทตอนนี้เลย?' : 'เปิดแชตบอท?')) { await api({ action: 'tutor_toggle', enabled: !s.enabled }); loadOpen(); } };
         tb2.append(tg);
@@ -761,7 +799,7 @@
     if (fb) try {
       const r = await api({ action: 'food_stat' });
       if (!r.body.ok) { fb.textContent = 'โหลดไม่สำเร็จ'; } else {
-        const s = r.body; fb.textContent = '';
+        const s = r.body; fb.textContent = ''; setTile('food', s.today_orders + ' (' + s.today_dishes + ' จาน)'); setBd('food', 'วันนี้ ' + s.today_orders + ' ออเดอร์ · ' + (s.enabled ? 'เปิดรับ' : 'ปิดรับ'));
         fb.append(mk('span', null, 'วันนี้ ' + s.today_orders + ' ออเดอร์ (' + s.today_dishes + ' จาน) · ปิดรับจอง ' + s.cutoff + ' · สถานะ: ' + (s.enabled ? 'เปิด' : 'ปิด') + ' '));
         const tg = mk('button', null, s.enabled ? 'ปิดรับจอง' : 'เปิดรับจอง'); tg.onclick = async () => { if (confirm(s.enabled ? 'ปิดรับจองไข่ข้นตอนนี้เลย?' : 'เปิดรับจอง?')) { await api({ action: 'food_toggle', enabled: !s.enabled }); loadOpen(); } };
         fb.append(tg);
@@ -772,6 +810,7 @@
       const r = await api({ action: 'sub_list' });
       if (!r.body.ok) { sb.textContent = 'โหลดไม่สำเร็จ'; } else {
         sb.textContent = '';
+        { const td = new Date(Date.now() + 7 * 3600000).toISOString().slice(0, 10), wait = r.body.items.filter((a) => !a.cancelled && !a.taker_id && a.day >= td).length; setTile('sub', wait); setBd('sub', 'รอคนรับ ' + wait + ' · ทั้งหมด ' + r.body.items.length); }
         for (const a of r.body.items) {
           const row = mk('div', 'muted'); row.style.cssText = 'display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:4px 0;border-top:1px solid rgba(128,128,128,.2)' + (a.cancelled ? ';opacity:.5' : '');
           row.append(mk('span', null, a.day + ' คาบ ' + a.period + ' · ' + a.class_id + (a.subject ? ' · ' + a.subject : '') + ' · ขอโดย ' + a.requester_name + ' (รหัส ' + a.requester_id + ') · ' + (a.taker_name ? 'รับโดย ' + a.taker_name + ' (รหัส ' + a.taker_id + ')' : 'ยังไม่มีคนรับ') + (a.note ? ' · ' + a.note : '') + (a.cancelled ? ' · ยกเลิกแล้ว' : '')));
