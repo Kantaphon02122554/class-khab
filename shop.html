@@ -47,7 +47,6 @@
     <div class="card">
       <div id="stats" class="stats"></div>
       <table id="statDays" style="margin-top:0.75rem"></table>
-      <div id="fee" class="mu" style="margin-top:0.75rem"></div>
       <p class="mu" id="statNote">นับเฉพาะออเดอร์ที่นักเรียนกดจ่ายแล้วและไม่ถูกยกเลิก/ปฏิเสธ เก็บย้อนหลัง 90 วัน</p>
     </div>
 
@@ -141,7 +140,6 @@
     for (const [t, v] of [['วันนี้', r.today], ['7 วันล่าสุด', r.week], ['30 วันล่าสุด', r.month], ['ทั้งหมด (90 วัน)', r.all]]) {
       const c = el('div', 'stat'); c.append(el('span', null, t), el('b', null, v.orders + ' ออเดอร์'), el('span', null, v.dishes + ' จาน · ' + v.amount + ' บาท')); box.append(c);
     }
-    if (r.fee) { const f = r.fee, fmt = (x) => x.dishes + ' จาน = ' + x.amount + ' บาท'; $('fee').textContent = 'ค่าบริการแอป จานละ ' + f.rate + ' บาท · เดือนนี้ (' + f.this_month.month + '): ' + fmt(f.this_month) + ' · เดือนที่แล้ว (' + f.last_month.month + '): ' + fmt(f.last_month) + ' · จ่ายเป็นรายเดือน'; }
     const tb = $('statDays'); tb.replaceChildren();
     const hr = el('tr'); for (const t of ['วันที่', 'ออเดอร์', 'จาน', 'บาท']) hr.append(el('th', null, t)); tb.append(hr);
     for (const d of r.days.slice(0, 14)) { const tr = el('tr'); for (const t of [d.day, d.orders, d.dishes, d.amount]) tr.append(el('td', null, String(t))); tb.append(tr); }
