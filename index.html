@@ -1094,7 +1094,6 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
               <div class="pf-note"><span id="menuWho2">เพื่อนเห็นแค่ชื่อเล่น</span> · โปรไฟล์เก็บในเครื่องนี้เท่านั้น</div>
               <div class="v2-group">การใช้งาน</div>
               <div class="v2-list">
-                <button class="v2-item student-only" onclick="foodOpen()"><i data-lucide="utensils"></i><span class="grow">จองไข่ข้น</span><small>ร้าน ก.ไก่ ข.ไข่</small></button>
                 <button class="v2-item student-only" onclick="tutorOpen()"><i data-lucide="book-open"></i><span class="grow">เพื่อนติว (AI)</span><small>ถามเรื่องเรียน</small></button>
                 <button class="v2-item" onclick="toggleTheme()"><i data-lucide="moon"></i><span class="grow">โหมดมืด</span><span class="v2-switch"></span></button>
                 <button class="v2-item" onclick="teacherMode ? toggleTeacherPush() : togglePush()"><i data-lucide="bell"></i><span class="grow">แจ้งเตือนก่อนคาบ</span><small class="pushLabel">เปิดแจ้งเตือน</small></button>
@@ -1236,8 +1235,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
             </div>
             <!-- จองไข่ข้นร้าน ก.ไก่ ข.ไข่: จองคิวรับตามพักกลางวันของชั้น จ่ายร้านโดยตรง (แอปไม่แตะเงิน) -->
             <div id="foSheet" class="pf-sheet hidden" onclick="if(event.target===this)foodClose()">
-              <div class="pf-panel" role="dialog" aria-label="จองไข่ข้น">
-                <div class="pf-ph"><b>จองไข่ข้น · ร้าน ก.ไก่ ข.ไข่</b><button onclick="foodClose()" aria-label="ปิด"><i data-lucide="x"></i></button></div>
+              <div class="pf-panel" role="dialog" aria-label="สั่งอาหาร">
+                <div class="pf-ph"><b>สั่งอาหาร · ร้าน ก.ไก่ ข.ไข่</b><button onclick="foodClose()" aria-label="ปิด"><i data-lucide="x"></i></button></div>
                 <p id="foInfo" class="pf-note"></p>
                 <div id="foForm">
                   <div class="pf-l">เมนู</div><div id="foItems"></div>
@@ -1555,6 +1554,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         <button id="navHome" class="on" aria-current="page" onclick="setView('home')"><i data-lucide="calendar-days"></i><span>ตาราง</span></button>
         <button id="navSocial" onclick="setView('social')"><i data-lucide="sparkles"></i><span>โซเชียล</span></button>
         <button id="navRoom" onclick="setView('room')"><i data-lucide="users"></i><span>ห้องเรา</span><span id="navRoomDot" class="hidden absolute top-1 left-1/2 ml-2 w-2 h-2 rounded-full bg-rose-500"></span></button>
+        <button id="navFood" class="student-only" onclick="foodOpen()"><i data-lucide="utensils"></i><span>สั่งอาหาร</span></button>
         <button id="navPortfolio" style="display:none" onclick="setView('portfolio')"><i data-lucide="file-pen-line"></i><span>พอร์ต</span></button>
         <button id="navMenu" onclick="setView('menu')"><i data-lucide="menu"></i><span>โปรไฟล์</span></button>
       </nav>
