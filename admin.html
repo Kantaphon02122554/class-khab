@@ -127,7 +127,7 @@
     <button class="tile" onclick="jumpTo('sec-sub')"><b id="ts-sub">—</b><span>คำขอสอนแทนที่รอคนรับ</span></button>
   </div>
   <nav class="jump" id="jump" aria-label="ไปยังส่วนต่างๆ">
-    <button onclick="jumpTo('sec-status')">สถานะระบบ</button><button onclick="jumpTo('sec-push')">ผู้ใช้</button><button onclick="jumpTo('sec-visits')">กราฟ</button><button onclick="jumpTo('sec-cmd')">คำสั่งด่วน</button><button onclick="jumpTo('sec-open')">โอเพ่นแชท</button><button onclick="jumpTo('sec-tchat')">แชตครู</button><button onclick="jumpTo('sec-appt')">นัดหมาย</button><button onclick="jumpTo('sec-tutor')">เพื่อนติว</button><button onclick="jumpTo('sec-food')">สั่งอาหาร</button><button onclick="jumpTo('sec-sub')">สอนแทน</button><button onclick="jumpTo('sec-ava')">รูปโปรไฟล์</button><button onclick="jumpTo('sec-content')">เนื้อหา</button>
+    <button onclick="jumpTo('sec-status')">สถานะระบบ</button><button onclick="jumpTo('sec-push')">ผู้ใช้</button><button onclick="jumpTo('sec-visits')">กราฟ</button><button onclick="jumpTo('sec-cmd')">คำสั่งด่วน</button><button onclick="jumpTo('sec-open')">โอเพ่นแชท</button><button onclick="jumpTo('sec-tchat')">แชตครู</button><button onclick="jumpTo('sec-appt')">นัดหมาย</button><button onclick="jumpTo('sec-tutor')">เพื่อนติว</button><button onclick="jumpTo('sec-food')">สั่งอาหาร</button><button onclick="jumpTo('sec-sub')">สอนแทน</button><button onclick="jumpTo('sec-quiz')">ควิซ</button><button onclick="jumpTo('sec-ava')">รูปโปรไฟล์</button><button onclick="jumpTo('sec-content')">เนื้อหา</button>
   </nav>
 
   <div class="grid">
@@ -193,6 +193,10 @@
       <details class="card fold" id="sec-sub"><summary>กระดานสอนแทน (ล่าสุด 80 รายการ)<span class="bd" id="bd-sub"></span></summary>
         <p class="sub">ครูที่ไม่อยู่ประกาศคาบที่ต้องการคนสอนแทน ครูท่านอื่นกดรับ · ไม่เก็บเหตุผลการลา · แอดมินยกเลิกได้</p>
         <div id="subBox" class="muted">กำลังโหลด…</div>
+      </details>
+      <details class="card fold" id="sec-quiz"><summary>ควิซจากครู (ล่าสุด 60 รายการ)<span class="bd" id="bd-quiz"></span></summary>
+        <p class="sub">ครูสร้างควิซปรนัยให้ห้องที่เลือก นักเรียนเล่นจับเวลา · แอดมินปิดควิซที่ไม่เหมาะสมได้</p>
+        <div id="quizBox" class="muted">กำลังโหลด…</div>
       </details>
       <details class="card fold" id="sec-ava"><summary>รูปถ่ายโปรไฟล์ล่าสุด<span class="bd" id="bd-ava"></span></summary>
         <div id="avaBox" class="muted">กำลังโหลด…</div>
@@ -805,6 +809,19 @@
         fb.append(tg);
       }
     } catch (e) { if (e.message !== 'auth') fb.textContent = 'เชื่อมต่อไม่ได้'; }
+    const qb = $('quizBox');
+    if (qb) try {
+      const r = await api({ action: 'quiz_list' });
+      if (!r.body.ok) { qb.textContent = 'โหลดไม่สำเร็จ'; } else {
+        qb.textContent = ''; const its = r.body.items; setBd('quiz', 'เปิดอยู่ ' + its.filter((x) => !x.closed).length + ' · ทั้งหมด ' + its.length);
+        for (const x of its) {
+          const row = mk('div', 'muted'); row.style.cssText = 'display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:4px 0;border-top:1px solid rgba(128,128,128,.2)' + (x.closed ? ';opacity:.5' : '');
+          row.append(mk('span', null, '#' + x.id + ' ' + x.title + ' · ' + x.teacher_name + ' (รหัส ' + x.teacher_id + ') · ห้อง ' + x.classes.slice(0, 6).join(', ') + (x.classes.length > 6 ? ' +' + (x.classes.length - 6) : '') + ' · เล่น ' + x.players + ' คน' + (x.closed ? ' · ปิดแล้ว' : '')));
+          const cb = mk('button', null, x.closed ? 'เปิด' : 'ปิด'); cb.onclick = async () => { if (confirm((x.closed ? 'เปิด' : 'ปิด') + 'ควิซนี้?')) { await api({ action: 'quiz_close', id: x.id, closed: !x.closed }); loadOpen(); } }; row.append(cb); qb.append(row);
+        }
+        if (!its.length) qb.textContent = 'ยังไม่มีควิซ';
+      }
+    } catch (e) { if (e.message !== 'auth') qb.textContent = 'เชื่อมต่อไม่ได้'; }
     const sb = $('subBox');
     if (sb) try {
       const r = await api({ action: 'sub_list' });
