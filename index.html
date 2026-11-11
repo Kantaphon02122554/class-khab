@@ -584,6 +584,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         html.ui2 #homeCards:not(.hidden) { grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); }
       }
 
+      #navV2 #navFood { display: none; } html.food-on #navV2 #navFood { display: flex; }
       body.teacher-mode #navRoom, body.teacher-mode #navPortfolio, body.teacher-mode .student-only { display: none !important; }
       .v2-tabs { display: flex; border-bottom: 1px solid #e2e8f0; } html.dark .v2-tabs { border-bottom-color: #243152; }
       .v2-tabs button { flex: 1; padding: 0.7rem 0.25rem; font-weight: 600; font-size: 0.9rem; color: #64748b; border-bottom: 2px solid transparent; }
@@ -3510,6 +3511,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       // ---- การเคลื่อนไหวตอนสลับแท็บ ----
       const VIEW_ORDER = ['home', 'social', 'msg', 'room', 'portfolio', 'menu'];
       const PORTFOLIO_OPEN = false;
+      // ระบบสั่งอาหาร (ร้าน ก.ไก่ ข.ไข่): ปิดปุ่มจากหน้าเว็บไว้ก่อน (โค้ดและหลังบ้านยังอยู่ครบ) เปิดคืน: FOOD_OPEN = true
+      const FOOD_OPEN = false;
+      if (FOOD_OPEN) document.documentElement.classList.add('food-on');
       // ใช้ Web Animations API: ไม่ต้องบังคับคำนวณหน้าใหม่เพื่อเริ่มซ้ำ และจบแล้วไม่ทิ้ง transform ค้างบน #dashCard
       // (ถ้าค้าง แผงที่ position:fixed ข้างใน เช่น หน้าแก้โปรไฟล์ จะถูกขังในการ์ด)
       function playViewIn(dir) {
