@@ -46,8 +46,13 @@
     <div class="card">
       <div id="menu"></div>
       <div class="row" style="margin-top:0.6rem">
-        <label class="mu">ปิดรับจองเวลา <input id="cutoff" type="time" style="width:auto"></label>
+        <label class="mu">โหมด <select id="mode"><option value="preorder">จองล่วงหน้า (เลือกเวลารับ)</option><option value="walkup">สั่งตอนพักกลางวัน (ไม่เลือกเวลา)</option></select></label>
+        <label class="mu">ปิดรับจองเวลา (โหมดจอง) <input id="cutoff" type="time" style="width:auto"></label>
         <label class="mu">จานต่อช่วง 10 นาที <input id="perSlot" type="number" min="1" max="30" style="width:5rem"></label>
+        <label class="mu">คิวสูงสุดตอนพัก (จาน/ระดับ) <input id="maxQ" type="number" min="1" max="40" style="width:5rem"></label>
+        <label class="mu">ปิดรับก่อนพักจบ (นาที) <input id="closeB" type="number" min="0" max="60" style="width:5rem"></label>
+        <label class="mu">นาทีต่อจาน <input id="minDish" type="number" min="1" max="15" style="width:5rem"></label>
+        <label class="mu"><input id="trial" type="checkbox" style="width:auto"> โหมดทดสอบ (เปิดรับทั้งวัน)</label>
         <button id="saveMenu">บันทึก</button>
       </div>
     </div>
@@ -79,7 +84,7 @@
   }
   function render() {
     const d = data;
-    $('status').textContent = !d.enabled ? 'ปิดรับจองอยู่' : d.open ? 'เปิดรับจอง (ก่อน ' + d.cutoff + ')' : 'ปิดรับจองแล้ววันนี้';
+    $('status').textContent = !d.enabled ? 'ปิดรับอยู่' : d.mode === 'walkup' ? 'เปิดโหมดสั่งตอนพัก' + (d.trial ? ' (ทดสอบ: เปิดทั้งวัน)' : ' (ม.ต้น 11:15–12:05 · ม.ปลาย 12:10–13:00)') : d.open ? 'เปิดรับจอง (ก่อน ' + d.cutoff + ')' : 'ปิดรับจองแล้ววันนี้';
     $('sub').textContent = 'วันที่ ' + d.day;
     $('toggle').textContent = d.enabled ? 'ปิดรับจอง' : 'เปิดรับจอง';
     const live = d.orders.filter((o) => o.status === 'new' || o.status === 'done');
@@ -90,7 +95,7 @@
     if (!d.orders.length) box.append(el('p', 'mu', 'ยังไม่มีออเดอร์ที่ชำระแล้ว (เห็นเฉพาะออเดอร์ที่นักเรียนกดว่าจ่ายแล้ว ตรวจยอดเข้าบัญชีแล้วกด "ยอดเข้าแล้ว")'));
     let last = '';
     for (const o of d.orders) {
-      if (o.slot !== last) { last = o.slot; box.append(el('div', 'slot', 'รับ ' + o.slot)); }
+      if (o.slot !== last) { last = o.slot; box.append(el('div', 'slot', o.slot === 'now' ? 'คิวสั่งตอนพัก (เรียงตามลำดับที่จ่ายเงิน ทำจากบนลงล่าง)' : 'รับ ' + o.slot)); }
       const c = el('div', 'card row'), info = el('div', 'grow');
       info.append(el('b', null, '#' + (o.id % 1000) + ' ' + o.item + (o.qty > 1 ? ' x' + o.qty : '') + ' · ' + o.total + ' บาท'));
       const m = el('div', 'mu', o.room + ' · เลขประจำตัว ' + o.who + ' · '); m.append(el('span', 'tag ' + o.status, ST[o.status])); if (o.paid) m.append(document.createTextNode(' · ยืนยันยอดแล้ว'));
@@ -110,6 +115,8 @@
     const add = el('button', 'ghost', '+ เพิ่มเมนู'); add.onclick = () => { const r = el('div', 'menu-row'), n = el('input'), p = el('input'), on = el('input'); n.maxLength = 30; p.type = 'number'; p.value = 25; on.type = 'checkbox'; on.checked = true; on.style.width = '1.4rem'; r.dataset.id = 'm' + Math.random().toString(36).slice(2, 8); r.append(n, p, on); menu.insertBefore(r, add); }; menu.append(add);
     if (document.activeElement !== $('cutoff')) $('cutoff').value = d.cutoff;
     if (document.activeElement !== $('perSlot')) $('perSlot').value = d.per_slot;
+    for (const [id, v] of [['maxQ', d.max_queue], ['closeB', d.close_before], ['minDish', d.min_per_dish]]) if (document.activeElement !== $(id)) $(id).value = v;
+    if (document.activeElement !== $('mode')) $('mode').value = d.mode; if (document.activeElement !== $('trial')) $('trial').checked = !!d.trial;
   }
   async function act(p) { const r = await call({ action: 'set', ...p }); if (!r.ok) $('err').textContent = 'ทำรายการไม่ได้ ลองรีเฟรช'; await load(false); }
   $('goBtn').onclick = () => { code = $('code').value.trim(); if (!code) return; try { sessionStorage.setItem('fshop', code); } catch (e) {} $('loginErr').textContent = ''; load(true); };
@@ -118,7 +125,7 @@
   $('toggle').onclick = async () => { await call({ action: 'menu', enabled: !data.enabled }); await load(false); };
   $('saveMenu').onclick = async () => {
     const items = [...$('menu').querySelectorAll('.menu-row')].map((r) => { const i = r.querySelectorAll('input'); return { id: r.dataset.id, name: i[0].value, price: Number(i[1].value), on: i[2].checked }; }).filter((x) => x.name.trim());
-    const r = await call({ action: 'menu', items, cutoff: $('cutoff').value, per_slot: Number($('perSlot').value) });
+    const r = await call({ action: 'menu', items, cutoff: $('cutoff').value, per_slot: Number($('perSlot').value), mode: $('mode').value, max_queue: Number($('maxQ').value), close_before: Number($('closeB').value), min_per_dish: Number($('minDish').value), trial: $('trial').checked });
     $('err').textContent = r.ok ? '' : 'บันทึกไม่สำเร็จ (ตรวจชื่อและราคา 1–200 บาท)'; await load(false);
   };
   if (code) load(true);
