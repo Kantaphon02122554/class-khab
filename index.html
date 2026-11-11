@@ -308,6 +308,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       .ap-strip { border: 1px solid rgba(100, 116, 139, 0.25); border-radius: 0.9rem; padding: 0.6rem; margin: 1.25rem 0 1.25rem; background: rgba(255,255,255,0.6); } .ap-strip .ap-h { display: flex; align-items: center; gap: 0.5rem; width: 100%; font-weight: 700; font-size: 0.85rem; text-align: left; } .ap-strip .ap-h i { width: 1rem; height: 1rem; } .ap-strip .ap-h small { margin-left: auto; font-weight: 600; color: #2563eb; } .ap-strip .ap-row { cursor: pointer; } html.dark .ap-strip { background: rgba(17, 26, 46, 0.8); border-color: #243152; color: #e2e8f0; } html.dark .ap-strip .ap-h small { color: #7dd3fc; } .ap-links { display: flex; flex-wrap: wrap; gap: 0.4rem; padding-top: 0.5rem; margin-top: 0.3rem; border-top: 1px solid rgba(100, 116, 139, 0.2); } .ap-links a { font-size: 0.72rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 999px; background: rgba(100, 116, 139, 0.12); color: inherit; text-decoration: none; }
       .ap-hrow { display: flex; flex-wrap: wrap; gap: 0.5rem; } .ap-hrow .ap-h { flex: 1 1 40%; min-width: 0; min-height: 3rem; padding: 0.5rem 0.75rem; border-radius: 0.8rem; background: rgba(37, 99, 235, 0.08); font-size: 0.9rem; -webkit-tap-highlight-color: transparent; } .ap-hrow .ap-h span { white-space: nowrap; } .ap-hrow .ap-h:active { transform: scale(0.98); } .ap-hrow .ap-h:nth-child(3) { flex-basis: 100%; } html.dark .ap-hrow .ap-h { background: rgba(125, 211, 252, 0.1); } .ap-strip .ap-row { min-height: 2.5rem; padding: 0.5rem 0.25rem; } .ap-links a { padding: 0.4rem 0.8rem; font-size: 0.78rem; }
       .tt-log { max-height: 42vh; overflow: auto; padding: 0.25rem 0; } .tt-b { padding: 0.5rem 0.75rem; border-radius: 0.9rem; margin: 0.35rem 0; font-size: 0.85rem; line-height: 1.5; white-space: pre-wrap; word-break: break-word; max-width: 92%; } .tt-u { background: #2563eb; color: #fff; margin-left: auto; } .tt-a { background: #f1f3f6; color: #1e293b; } html.dark .tt-a { background: #1a2540; color: #e2e8f0; } .tt-row { display: flex; gap: 0.5rem; align-items: flex-end; margin-top: 0.5rem; } .tt-row textarea { flex: 1; min-width: 0; border: 1px solid rgba(100, 116, 139, 0.35); border-radius: 0.8rem; padding: 0.5rem 0.7rem; font-size: 0.9rem; background: transparent; color: inherit; resize: none; } .tt-row button { background: #2563eb; color: #fff; font-weight: 700; font-size: 0.85rem; padding: 0.6rem 1rem; border-radius: 0.8rem; } .tt-row button:disabled { opacity: 0.5; }
+      .fo-opt { display: flex; justify-content: space-between; gap: 0.5rem; width: 100%; text-align: left; padding: 0.6rem 0.75rem; margin: 0.25rem 0; border: 1px solid rgba(100, 116, 139, 0.35); border-radius: 0.8rem; font-size: 0.9rem; } .fo-opt.on { border-color: #2563eb; background: rgba(37, 99, 235, 0.1); font-weight: 700; } .fo-opt:disabled { opacity: 0.4; } .fo-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem; margin: 0.25rem 0; } .fo-slots .fo-opt { display: block; text-align: center; margin: 0; } .fo-slots small { display: block; font-weight: 400; opacity: 0.7; font-size: 0.7rem; } .fo-mine { padding: 0.5rem 0; border-top: 1px solid rgba(100, 116, 139, 0.2); font-size: 0.85rem; } .fo-mine b { display: block; } .fo-act { background: #2563eb; color: #fff; font-weight: 700; padding: 0.7rem; border-radius: 0.8rem; width: 100%; margin-top: 0.5rem; } .fo-act:disabled { opacity: 0.5; }
       .sb-row { padding: 0.5rem 0; border-top: 1px solid rgba(100, 116, 139, 0.2); font-size: 0.8rem; } .sb-row b { font-weight: 700; } .sb-row .sb-s { color: #64748b; font-weight: 500; } .sb-row .sb-a { display: flex; gap: 0.5rem; margin-top: 0.3rem; } .sb-row button { font-size: 0.75rem; font-weight: 700; padding: 0.25rem 0.7rem; border-radius: 0.6rem; background: #2563eb; color: #fff; } .sb-row button.g { background: transparent; color: #be123c; border: 1px solid rgba(190, 18, 60, 0.4); }
       .pf-colors { display: flex; gap: 0.6rem; margin-top: 0.4rem; } .pf-colors button { width: 2rem; height: 2rem; border-radius: 50%; border: 2px solid transparent; } .pf-colors button.on { border-color: #0f172a; box-shadow: 0 0 0 2px #fff inset; } html.dark .pf-colors button.on { border-color: #fff; }
       .pf-presets { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.5rem; margin-top: 0.4rem; } .pf-presets button { aspect-ratio: 1; border-radius: 50%; border: 2px solid transparent; background-size: cover; background-position: center; } .pf-presets button.on { border-color: #0f172a; box-shadow: 0 0 0 2px #fff inset; } html.dark .pf-presets button.on { border-color: #fff; }
@@ -1093,6 +1094,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
               <div class="pf-note"><span id="menuWho2">เพื่อนเห็นแค่ชื่อเล่น</span> · โปรไฟล์เก็บในเครื่องนี้เท่านั้น</div>
               <div class="v2-group">การใช้งาน</div>
               <div class="v2-list">
+                <button class="v2-item student-only" onclick="foodOpen()"><i data-lucide="utensils"></i><span class="grow">จองไข่ข้น</span><small>ร้าน ก.ไก่ ข.ไข่</small></button>
                 <button class="v2-item student-only" onclick="tutorOpen()"><i data-lucide="book-open"></i><span class="grow">เพื่อนติว (AI)</span><small>ถามเรื่องเรียน</small></button>
                 <button class="v2-item" onclick="toggleTheme()"><i data-lucide="moon"></i><span class="grow">โหมดมืด</span><span class="v2-switch"></span></button>
                 <button class="v2-item" onclick="teacherMode ? toggleTeacherPush() : togglePush()"><i data-lucide="bell"></i><span class="grow">แจ้งเตือนก่อนคาบ</span><small class="pushLabel">เปิดแจ้งเตือน</small></button>
@@ -1230,6 +1232,24 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                 <p id="apptErr" class="pf-err hidden"></p>
                 <button id="apptSend" class="pf-save" onclick="apptSubmit()">ส่งนัดหมาย</button>
                 <div class="pf-l" style="margin-top:1rem">นัดของฉัน<div id="apptMine"></div></div>
+              </div>
+            </div>
+            <!-- จองไข่ข้นร้าน ก.ไก่ ข.ไข่: จองคิวรับตามพักกลางวันของชั้น จ่ายร้านโดยตรง (แอปไม่แตะเงิน) -->
+            <div id="foSheet" class="pf-sheet hidden" onclick="if(event.target===this)foodClose()">
+              <div class="pf-panel" role="dialog" aria-label="จองไข่ข้น">
+                <div class="pf-ph"><b>จองไข่ข้น · ร้าน ก.ไก่ ข.ไข่</b><button onclick="foodClose()" aria-label="ปิด"><i data-lucide="x"></i></button></div>
+                <p id="foInfo" class="pf-note"></p>
+                <div id="foForm">
+                  <div class="pf-l">เมนู</div><div id="foItems"></div>
+                  <label class="pf-l">จำนวน (จาน)<select id="foQty"><option>1</option><option>2</option><option>3</option></select></label>
+                  <div class="pf-l">เวลารับ (ตามพักกลางวันของชั้นคุณ)</div><div id="foSlots" class="fo-slots"></div>
+                  <label class="pf-l">ระบุเพิ่มเอง (ไม่บังคับ เช่น ไม่ใส่ผัก ไข่สุกมาก)<input id="foNoteIn" maxlength="40" placeholder="เช่น ไม่ใส่ซอส" style="width:100%;padding:0.55rem;border:1px solid rgba(100,116,139,.35);border-radius:.7rem;background:transparent;color:inherit"></label><p id="foTotal" class="pf-note"></p>
+                  <button id="foGo" class="fo-act" onclick="foodBook()">จอง</button>
+                </div>
+                <p id="foErr" class="pf-err hidden"></p>
+                <div class="pf-l" style="margin-top:0.75rem">ออเดอร์วันนี้ของคุณ</div><div id="foMine"></div>
+                <div id="foPay" class="hidden" style="text-align:center;margin-top:0.5rem"><img id="foQr" src="food-qr.png" alt="QR จ่ายเงินร้าน" style="max-width:12rem;margin:0 auto" onerror="document.getElementById('foPay').remove()"><p class="pf-note">สแกนจ่ายร้านโดยตรง (แอปไม่เก็บเงิน) แล้วกด "ฉันจ่ายแล้ว" ที่ออเดอร์ ร้านจะเห็นออเดอร์หลังกดเท่านั้น · ต้องกดภายใน 15 นาทีหลังจอง ไม่งั้นคิวถูกคืน</p></div>
+                <p class="pf-note">แอปแค่จองคิว ไม่รับเงิน · จ่ายแล้วยกเลิกเองไม่ได้ ต้องคุยกับร้าน · แจ้งเตือนเมื่อร้านทำเสร็จจะมาถึงเฉพาะเครื่องที่ล็อกอินอีเมลและเปิดแจ้งเตือนไว้ · ไม่มาตามเวลา ร้านอาจเก็บอาหารไว้ให้ไม่ได้</p>
               </div>
             </div>
             <!-- เพื่อนติว (AI): ถามเรื่องเรียน จำกัดต่อคนต่อวัน ไม่เก็บบทสนทนา -->
@@ -3900,6 +3920,54 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         subBoardLoad(true);
         apptStripRender();
       }
+      // ===== จองไข่ข้น (ร้าน ก.ไก่ ข.ไข่) · จองคิวรับเท่านั้น ไม่แตะเงิน =====
+      const FO_ERR = { login: 'ต้องเข้าสู่ระบบด้วยอีเมลโรงเรียนก่อน (โปรไฟล์ > ออกจากระบบ แล้วเข้าด้วยเลขประจำตัวหรืออีเมล)', closed: 'วันนี้ร้านไม่เปิดรับจอง (เสาร์-อาทิตย์)', cutoff: 'ปิดรับจองของวันนี้แล้ว', off: 'ร้านปิดรับจองชั่วคราว', limit: 'จองได้ไม่เกิน 2 ออเดอร์ต่อวัน', full: 'ช่วงเวลานี้เต็มแล้ว เลือกช่วงอื่นนะ', bad: 'ข้อมูลไม่ถูกต้อง ลองเลือกใหม่', auth: 'ต้องเข้าสู่ระบบห้องใหม่ก่อน', net: 'เชื่อมต่อไม่ได้ ลองใหม่อีกครั้ง', gone: 'ทำรายการไม่ได้แล้ว', filter_link: 'ห้ามใส่ลิงก์', filter_contact: 'ห้ามใส่เบอร์โทรหรืออีเมล', filter_word: 'มีคำที่ไม่อนุญาต' };
+      const FO_ST = { new: 'รอร้านทำ (จ่ายแล้ว)', done: 'เสร็จแล้ว มารับได้', rejected: 'ร้านรับไม่ได้', cancelled: 'ยกเลิกแล้ว' };
+      let foSel = { item: null, slot: null }, foData = null, foBusy = false;
+      async function foodCall(body) {
+        const token = getToken(); if (!token) return { ok: false, error: 'auth' };
+        try {
+          const res = await fetch(`${SUPABASE_URL}/functions/v1/food`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ ...body, token, sid: getSid() }) });
+          const j = await res.json().catch(() => ({})); return { ...j, status: res.status };
+        } catch (e) { return { ok: false, error: 'net' }; }
+      }
+      function foodClose() { document.getElementById('foSheet').classList.add('hidden'); }
+      function foNote(msg) { const e = document.getElementById('foErr'); e.textContent = msg || ''; e.classList.toggle('hidden', !msg); }
+      async function foodOpen() { document.getElementById('foSheet').classList.remove('hidden'); if (window.lucide) lucide.createIcons(); foSel = { item: null, slot: null }; foNote(''); await foodLoad(); }
+      async function foodLoad() {
+        const g = (id) => document.getElementById(id), r = await foodCall({ action: 'info' });
+        if (!r.ok) { g('foInfo').textContent = ''; g('foForm').classList.add('hidden'); foNote(FO_ERR[r.error] || 'โหลดไม่สำเร็จ'); return; }
+        foData = r; foNote('');
+        const can = r.enabled && r.open;
+        g('foInfo').textContent = !r.enabled ? FO_ERR.off : !r.open ? ('ปิดรับจองแล้ววันนี้ (รับจองก่อน ' + r.cutoff + ' ในวันเรียน)') : 'จองได้ก่อน ' + r.cutoff + ' · รับตามเวลาพักกลางวันของชั้นคุณ · จ่ายผ่าน QR ก่อน ร้านถึงจะได้ออเดอร์';
+        g('foForm').classList.toggle('hidden', !can);
+        const items = g('foItems'); items.replaceChildren();
+        for (const it of r.items) { const b = mk('button', 'fo-opt' + (foSel.item === it.id ? ' on' : '')); b.type = 'button'; b.append(mk('span', null, it.name), mk('span', null, it.price + ' บาท')); b.onclick = () => { foSel.item = it.id; foodLoad(); }; items.append(b); }
+        const sl = g('foSlots'); sl.replaceChildren();
+        for (const s of r.slots) { const b = mk('button', 'fo-opt' + (foSel.slot === s.t ? ' on' : '')); b.type = 'button'; b.disabled = s.left < 1; b.dataset.t = s.t; b.append(document.createTextNode(s.t)); b.append(mk('small', null, s.left < 1 ? 'เต็ม' : 'เหลือ ' + s.left)); b.onclick = () => { foSel.slot = s.t; foodRender(); }; sl.append(b); }
+        foodRender();
+        const mine = g('foMine'); mine.replaceChildren();
+        if (!r.mine.length) mine.append(mk('p', 'pf-note', 'ยังไม่มีออเดอร์'));
+        for (const o of r.mine) { const d = mk('div', 'fo-mine'); d.append(mk('b', null, `#${o.id % 1000} ${o.item}${o.qty > 1 ? ' x' + o.qty : ''} · รับ ${o.slot} · ${o.total} บาท`), mk('span', null, (o.status === 'new' && !o.claimed ? 'รอชำระ: สแกน QR ด้านล่างแล้วกดปุ่ม' : FO_ST[o.status]) + (o.paid ? ' · ร้านยืนยันยอดแล้ว' : ''))); if (o.note) d.append(mk('div', 'pf-note', 'ระบุ: ' + o.note)); if (o.status === 'new' && !o.claimed) { const p = mk('button', 'fo-act', 'ฉันจ่ายแล้ว'); p.onclick = () => foodClaim(o.id); d.append(p); const c = mk('button', null, 'ยกเลิก'); c.style.cssText = 'margin-top:0.4rem;color:#dc2626;font-size:0.8rem'; c.onclick = () => foodCancel(o.id); d.append(c); } mine.append(d); }
+        const hasLive = r.mine.some((o) => o.status === 'new' && !o.claimed); const pay = g('foPay'); if (pay) pay.classList.toggle('hidden', !hasLive);
+      }
+      function foodRender() {
+        const g = (id) => document.getElementById(id); if (!foData) return;
+        document.querySelectorAll('#foSlots .fo-opt').forEach((b) => b.classList.toggle('on', b.dataset.t === foSel.slot));
+        const it = foData.items.find((i) => i.id === foSel.item), q = Number(g('foQty').value) || 1;
+        g('foTotal').textContent = it ? `รวม ${it.price * q} บาท (จ่ายร้านโดยตรง)` : 'เลือกเมนูและเวลารับ';
+        g('foGo').disabled = foBusy || !it || !foSel.slot;
+      }
+      document.addEventListener('change', (e) => { if (e.target && e.target.id === 'foQty') foodRender(); });
+      async function foodBook() {
+        if (foBusy) return; foBusy = true; foodRender(); foNote('');
+        const r = await foodCall({ action: 'order', item: foSel.item, qty: Number(document.getElementById('foQty').value) || 1, slot: foSel.slot, note: document.getElementById('foNoteIn').value });
+        foBusy = false;
+        if (!r.ok) { foNote(FO_ERR[r.error] || 'จองไม่สำเร็จ ลองใหม่อีกครั้ง'); } else { foSel = { item: null, slot: null }; document.getElementById('foNoteIn').value = ''; await foodLoad(); foNote('จองแล้ว: สแกน QR จ่าย แล้วกด "ฉันจ่ายแล้ว" ภายใน 15 นาที ร้านถึงจะได้ออเดอร์'); return; }
+        await foodLoad();
+      }
+      async function foodClaim(id) { const r = await foodCall({ action: 'claim', id }); if (!r.ok) foNote(FO_ERR[r.error] || 'ทำรายการไม่ได้ (คิวอาจถูกคืนแล้ว จองใหม่ได้)'); await foodLoad(); }
+      async function foodCancel(id) { const r = await foodCall({ action: 'cancel', id }); if (!r.ok) foNote(FO_ERR[r.error] || 'ยกเลิกไม่สำเร็จ'); await foodLoad(); }
       // ===== เพื่อนติว (ฟีดแบ็กข้อ 17 ส่วนที่ 2): แชตบอท Haiku ถามเรื่องเรียน · ประวัติอยู่ในเครื่อง (ปิดหน้าต่างแล้วหาย) ส่งเฉพาะ 4 รอบล่าสุด =====
       const TT_SUBJECTS = ['ทั่วไป', 'คณิตศาสตร์', 'วิทยาศาสตร์', 'ฟิสิกส์', 'เคมี', 'ชีววิทยา', 'ภาษาไทย', 'ภาษาอังกฤษ', 'สังคมศึกษา', 'ประวัติศาสตร์'];
       const TT_EXAMS = [['', 'ไม่ระบุ'], ['A-Level', 'A-Level'], ['TGAT', 'TGAT'], ['TPAT', 'TPAT'], ['O-NET', 'O-NET'], ['สอบกลางภาค/ปลายภาค', 'กลางภาค/ปลายภาค']];

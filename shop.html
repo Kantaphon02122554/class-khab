@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>หน้าร้าน ก.ไก่ ข.ไข่</title>
+<style>
+  :root { --bg: #f6f7f9; --card: #fff; --tx: #0f172a; --mu: #64748b; --bd: #e2e8f0; --ac: #2563eb; --ok: #16a34a; --er: #dc2626; }
+  * { box-sizing: border-box; } body { margin: 0; font-family: 'Anuphan', system-ui, sans-serif; background: var(--bg); color: var(--tx); font-size: 16px; }
+  main { max-width: 44rem; margin: 0 auto; padding: 1rem; }
+  h1 { font-size: 1.2rem; margin: 0 0 0.75rem; } h2 { font-size: 1rem; margin: 1.25rem 0 0.5rem; }
+  .card { background: var(--card); border: 1px solid var(--bd); border-radius: 0.9rem; padding: 0.9rem; margin: 0.5rem 0; }
+  input, button { font: inherit; } input { padding: 0.6rem 0.7rem; border: 1px solid var(--bd); border-radius: 0.6rem; width: 100%; }
+  button { cursor: pointer; border: 0; border-radius: 0.6rem; padding: 0.6rem 0.9rem; background: var(--ac); color: #fff; font-weight: 700; }
+  button.ghost { background: transparent; color: var(--tx); border: 1px solid var(--bd); } button.ok { background: var(--ok); } button.er { background: var(--er); } button:disabled { opacity: 0.5; }
+  .row { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; } .grow { flex: 1 1 13rem; min-width: 0; }
+  .mu { color: var(--mu); font-size: 0.85rem; } .tag { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 1rem; font-size: 0.75rem; background: #eef2ff; color: #3730a3; }
+  .tag.done { background: #dcfce7; color: #166534; } .tag.rejected, .tag.cancelled { background: #fee2e2; color: #991b1b; }
+  .slot { margin-top: 1rem; font-weight: 700; } .sum { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 0.5rem 0; } .sum span { background: var(--card); border: 1px solid var(--bd); border-radius: 0.6rem; padding: 0.3rem 0.6rem; font-size: 0.85rem; }
+  .err { color: var(--er); font-size: 0.9rem; min-height: 1.2rem; } .hidden { display: none; }
+  .menu-row { display: grid; grid-template-columns: 1fr 5rem auto; gap: 0.4rem; margin: 0.4rem 0; align-items: center; }
+</style>
+</head>
+<body>
+<main>
+  <h1>หน้าร้าน ก.ไก่ ข.ไข่ · จองไข่ข้น</h1>
+
+  <section id="login" class="card">
+    <p class="mu">ใส่รหัสร้านเพื่อดูรายการจองของวันนี้</p>
+    <div class="row"><input id="code" type="password" autocomplete="off" placeholder="รหัสร้าน" class="grow"><button id="goBtn">เข้าสู่ระบบ</button></div>
+    <p id="loginErr" class="err"></p>
+  </section>
+
+  <section id="app" class="hidden">
+    <div class="card row">
+      <div class="grow"><b id="status"></b><div class="mu" id="sub"></div></div>
+      <button id="toggle" class="ghost"></button>
+      <button id="refresh" class="ghost">รีเฟรช</button>
+    </div>
+    <div id="sum" class="sum"></div>
+    <p id="err" class="err"></p>
+    <div id="orders"></div>
+
+    <h2>เมนูและราคา</h2>
+    <div class="card">
+      <div id="menu"></div>
+      <div class="row" style="margin-top:0.6rem">
+        <label class="mu">ปิดรับจองเวลา <input id="cutoff" type="time" style="width:auto"></label>
+        <label class="mu">จานต่อช่วง 10 นาที <input id="perSlot" type="number" min="1" max="30" style="width:5rem"></label>
+        <button id="saveMenu">บันทึก</button>
+      </div>
+    </div>
+    <p class="mu">ม.1–3 รับ 11:15–11:55 · ม.4–6 รับ 12:10–12:50 (ตามพักกลางวัน) · หน้านี้เห็นแค่ห้อง เลขท้าย 3 ตัวของเลขประจำตัว และเลขคิว</p>
+  </section>
+</main>
+<script>
+  const URL_ = 'https://apolfnkholadtprbyehh.supabase.co/functions/v1/food', KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwb2xmbmtob2xhZHRwcmJ5ZWhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzODA4MzQsImV4cCI6MjEwODk1NjgzNH0.v1dzcZmhtQheVCtecQnWfnihSVEkRt9iIyiJjz-XpxM';
+  const $ = (id) => document.getElementById(id);
+  const el = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
+  const ST = { new: 'รอทำ', done: 'เสร็จแล้ว', rejected: 'รับไม่ได้', cancelled: 'นักเรียนยกเลิก' };
+  let code = '', data = null, timer = null;
+  try { code = sessionStorage.getItem('fshop') || ''; } catch (e) {}
+
+  async function call(body) {
+    try {
+      const r = await fetch(URL_, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: KEY, Authorization: 'Bearer ' + KEY }, body: JSON.stringify({ ...body, scode: code }) });
+      return await r.json().catch(() => ({ ok: false }));
+    } catch (e) { return { ok: false, error: 'net' }; }
+  }
+  async function load(first) {
+    const r = await call({ action: 'board' });
+    if (!r.ok) {
+      if (r.error === 'auth') { code = ''; try { sessionStorage.removeItem('fshop'); } catch (e) {} $('app').classList.add('hidden'); $('login').classList.remove('hidden'); if (first) $('loginErr').textContent = 'รหัสไม่ถูกต้อง'; clearInterval(timer); return; }
+      $('err').textContent = 'เชื่อมต่อไม่ได้ ลองรีเฟรช'; return;
+    }
+    $('err').textContent = ''; data = r; $('login').classList.add('hidden'); $('app').classList.remove('hidden'); render();
+    if (!timer) timer = setInterval(() => load(false), 20000);
+  }
+  function render() {
+    const d = data;
+    $('status').textContent = !d.enabled ? 'ปิดรับจองอยู่' : d.open ? 'เปิดรับจอง (ก่อน ' + d.cutoff + ')' : 'ปิดรับจองแล้ววันนี้';
+    $('sub').textContent = 'วันที่ ' + d.day;
+    $('toggle').textContent = d.enabled ? 'ปิดรับจอง' : 'เปิดรับจอง';
+    const live = d.orders.filter((o) => o.status === 'new' || o.status === 'done');
+    const dishes = live.reduce((s, o) => s + o.qty, 0), money = live.reduce((s, o) => s + o.total, 0), waiting = d.orders.filter((o) => o.status === 'new').reduce((s, o) => s + o.qty, 0);
+    const sum = $('sum'); sum.replaceChildren();
+    for (const t of ['ทั้งหมด ' + dishes + ' จาน', 'รอทำ ' + waiting + ' จาน', 'ยอดรวม ' + money + ' บาท']) sum.append(el('span', null, t));
+    const box = $('orders'); box.replaceChildren();
+    if (!d.orders.length) box.append(el('p', 'mu', 'ยังไม่มีออเดอร์ที่ชำระแล้ว (เห็นเฉพาะออเดอร์ที่นักเรียนกดว่าจ่ายแล้ว ตรวจยอดเข้าบัญชีแล้วกด "ยอดเข้าแล้ว")'));
+    let last = '';
+    for (const o of d.orders) {
+      if (o.slot !== last) { last = o.slot; box.append(el('div', 'slot', 'รับ ' + o.slot)); }
+      const c = el('div', 'card row'), info = el('div', 'grow');
+      info.append(el('b', null, '#' + (o.id % 1000) + ' ' + o.item + (o.qty > 1 ? ' x' + o.qty : '') + ' · ' + o.total + ' บาท'));
+      const m = el('div', 'mu', o.room + ' · เลขประจำตัว ' + o.who + ' · '); m.append(el('span', 'tag ' + o.status, ST[o.status])); if (o.paid) m.append(document.createTextNode(' · ยืนยันยอดแล้ว'));
+      info.append(m); if (o.note) info.append(el('div', null, 'ระบุ: ' + o.note)); c.append(info);
+      if (o.status === 'new' || o.status === 'done') {
+        if (o.status === 'new') { const b = el('button', 'ok', 'เสร็จแล้ว'); b.onclick = () => act({ id: o.id, status: 'done' }); c.append(b); const r = el('button', 'er', 'รับไม่ได้'); r.onclick = () => { if (confirm('ปฏิเสธออเดอร์นี้? นักเรียนจะได้รับแจ้ง')) act({ id: o.id, status: 'rejected' }); }; c.append(r); }
+        const p = el('button', 'ghost', o.paid ? 'ยกเลิกยืนยันยอด' : 'ยอดเข้าแล้ว'); p.onclick = () => act({ id: o.id, paid: !o.paid }); c.append(p);
+      }
+      box.append(c);
+    }
+    const menu = $('menu'); menu.replaceChildren();
+    for (const it of d.menu) {
+      const r = el('div', 'menu-row'), n = el('input'), p = el('input'), on = el('input');
+      n.value = it.name; n.maxLength = 30; p.type = 'number'; p.min = 1; p.max = 200; p.value = it.price; on.type = 'checkbox'; on.checked = it.on; on.style.width = '1.4rem';
+      r.dataset.id = it.id; r.append(n, p, on); menu.append(r);
+    }
+    const add = el('button', 'ghost', '+ เพิ่มเมนู'); add.onclick = () => { const r = el('div', 'menu-row'), n = el('input'), p = el('input'), on = el('input'); n.maxLength = 30; p.type = 'number'; p.value = 25; on.type = 'checkbox'; on.checked = true; on.style.width = '1.4rem'; r.dataset.id = 'm' + Math.random().toString(36).slice(2, 8); r.append(n, p, on); menu.insertBefore(r, add); }; menu.append(add);
+    if (document.activeElement !== $('cutoff')) $('cutoff').value = d.cutoff;
+    if (document.activeElement !== $('perSlot')) $('perSlot').value = d.per_slot;
+  }
+  async function act(p) { const r = await call({ action: 'set', ...p }); if (!r.ok) $('err').textContent = 'ทำรายการไม่ได้ ลองรีเฟรช'; await load(false); }
+  $('goBtn').onclick = () => { code = $('code').value.trim(); if (!code) return; try { sessionStorage.setItem('fshop', code); } catch (e) {} $('loginErr').textContent = ''; load(true); };
+  $('code').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('goBtn').click(); });
+  $('refresh').onclick = () => load(false);
+  $('toggle').onclick = async () => { await call({ action: 'menu', enabled: !data.enabled }); await load(false); };
+  $('saveMenu').onclick = async () => {
+    const items = [...$('menu').querySelectorAll('.menu-row')].map((r) => { const i = r.querySelectorAll('input'); return { id: r.dataset.id, name: i[0].value, price: Number(i[1].value), on: i[2].checked }; }).filter((x) => x.name.trim());
+    const r = await call({ action: 'menu', items, cutoff: $('cutoff').value, per_slot: Number($('perSlot').value) });
+    $('err').textContent = r.ok ? '' : 'บันทึกไม่สำเร็จ (ตรวจชื่อและราคา 1–200 บาท)'; await load(false);
+  };
+  if (code) load(true);
+</script>
+</body>
+</html>

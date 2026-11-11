@@ -160,6 +160,9 @@
       <h3 style="margin-top:14px">แชตบอท "เพื่อนติว" (AI)</h3>
       <p class="sub" style="margin-bottom:8px">นักเรียนที่ล็อกอินอีเมลถามเรื่องเรียนได้ 4 ครั้ง/คน/วัน ระบบรวมไม่เกิน 300 ครั้ง/วัน และใช้ได้ไม่เกินครึ่งหนึ่งของงบ AI รายเดือน · ไม่เก็บเนื้อหาบทสนทนา</p>
       <div id="tutorBox" class="muted">กำลังโหลด…</div>
+      <h3 style="margin-top:14px">จองไข่ข้น (ร้าน ก.ไก่ ข.ไข่)</h3>
+      <p class="sub" style="margin-bottom:8px">นักเรียนจองคิวรับตามพักกลางวัน แอปไม่แตะเงิน ร้านดูรายการที่ shop.html ด้วยรหัสร้าน · ปุ่มนี้ปิดรับจองฉุกเฉิน</p>
+      <div id="foodBox" class="muted">กำลังโหลด…</div>
       <h3 style="margin-top:14px">กระดานสอนแทน (ล่าสุด 80 รายการ)</h3>
       <p class="sub" style="margin-bottom:8px">ครูที่ไม่อยู่ประกาศคาบที่ต้องการคนสอนแทน ครูท่านอื่นกดรับ · ไม่เก็บเหตุผลการลา · แอดมินยกเลิกได้</p>
       <div id="subBox" class="muted">กำลังโหลด…</div>
@@ -754,6 +757,16 @@
         tb2.append(tg);
       }
     } catch (e) { if (e.message !== 'auth') tb2.textContent = 'เชื่อมต่อไม่ได้'; }
+    const fb = $('foodBox');
+    if (fb) try {
+      const r = await api({ action: 'food_stat' });
+      if (!r.body.ok) { fb.textContent = 'โหลดไม่สำเร็จ'; } else {
+        const s = r.body; fb.textContent = '';
+        fb.append(mk('span', null, 'วันนี้ ' + s.today_orders + ' ออเดอร์ (' + s.today_dishes + ' จาน) · ปิดรับจอง ' + s.cutoff + ' · สถานะ: ' + (s.enabled ? 'เปิด' : 'ปิด') + ' '));
+        const tg = mk('button', null, s.enabled ? 'ปิดรับจอง' : 'เปิดรับจอง'); tg.onclick = async () => { if (confirm(s.enabled ? 'ปิดรับจองไข่ข้นตอนนี้เลย?' : 'เปิดรับจอง?')) { await api({ action: 'food_toggle', enabled: !s.enabled }); loadOpen(); } };
+        fb.append(tg);
+      }
+    } catch (e) { if (e.message !== 'auth') fb.textContent = 'เชื่อมต่อไม่ได้'; }
     const sb = $('subBox');
     if (sb) try {
       const r = await api({ action: 'sub_list' });
