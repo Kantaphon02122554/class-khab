@@ -139,7 +139,9 @@
       <div class="row"><span>ล้มเหลว 24 ชม.</span><b id="cFail">—</b></div>
       <div class="row"><span>ตอบผิดปกติ 60 นาที</span><b id="cBad">—</b></div>
       <div class="row"><span>แจ้งเตือนส่งไปล่าสุด</span><b id="nLast">—</b></div>
-      <div class="row"><span>ส่งไปแล้ว 24 ชม.</span><b id="n24">—</b></div>
+      <div class="row"><span>ประมวลผลห้อง×คาบ 24 ชม.</span><b id="n24">—</b></div>
+      <div class="row"><span>ส่งถึงเครื่องจริง 24 ชม.</span><b id="nDev">—</b></div>
+      <p class="sub" id="nDevNote" style="margin:-2px 0 8px"></p>
       <p class="sub" style="margin-top:12px">แจ้งเตือนส่ง 7 วันล่าสุด (จำนวนห้อง×คาบ ต่อวัน)</p>
       <div class="bars" id="bars" style="margin-bottom:22px"></div>
     </div>
@@ -340,6 +342,9 @@
     const lr = h.cron.last_run; $('cLast').textContent = lr ? `${ago(lr.start)} (${lr.status === 'succeeded' ? 'สำเร็จ' : lr.status})` : 'ไม่พบ';
     $('cRuns').textContent = `${h.cron.runs_60m} / 60`; $('cFail').textContent = h.cron.failed_24h; $('cBad').textContent = h.http.bad_60m;
     $('nLast').textContent = h.notify.last_sent ? `${ago(h.notify.last_sent)} · ${fmt(h.notify.last_sent)}` : 'ยังไม่เคยส่ง'; $('n24').textContent = h.notify.sent_24h;
+    // ส่งถึงเครื่องจริง: นับจากผลการส่งที่บันทึกไว้ (เริ่มนับตั้งแต่เปิดใช้การบันทึก ก่อนหน้านั้นไม่มีข้อมูล)
+    $('nDev').textContent = h.notify.devices_since ? Number(h.notify.devices_24h || 0).toLocaleString('th-TH') : '—';
+    $('nDevNote').textContent = h.notify.devices_since ? (Date.now() - Date.parse(h.notify.devices_since) < 86_400_000 ? `เริ่มนับ ${fmt(h.notify.devices_since)} (ยังไม่ครบ 24 ชม.)` : '') : 'ยังไม่มีข้อมูล จะเริ่มนับตอนส่งแจ้งเตือนรอบถัดไป';
     const bars = $('bars'); bars.textContent = ''; const max = Math.max(1, ...h.notify.by_day.map((x) => x.n));
     const days = []; for (let i = 6; i >= 0; i--) { const dt = new Date(Date.now() - i * 86400000); days.push(new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Bangkok' }).format(dt)); }
     days.forEach((day) => { const n = (h.notify.by_day.find((x) => x.day === day) || {}).n || 0; const b = mk('div'); b.style.height = Math.max(3, (n / max) * 100) + '%'; b.title = `${day}: ${n}`; b.append(mk('span', null, `${Number(day.slice(8))}`)); bars.append(b); });
