@@ -3466,6 +3466,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       async function updateTeacherPushBanner() {
         const el = document.getElementById('pushBanner'); if (!el) return;
         const sub = await currentPushSub();
+        // โหมดครูไม่เคยเรียก updatePushButtons จึงทำให้ป้าย "เปิด/ปิดแจ้งเตือน" ในโปรไฟล์และปุ่มบนหน้าแรกค้างที่ "เปิดแจ้งเตือน" ทั้งที่เปิดแล้ว
+        document.querySelectorAll('.pushLabel').forEach((l) => { l.textContent = sub ? 'ปิดแจ้งเตือน' : 'เปิดแจ้งเตือน'; });
+        renderTopActions(sub);
         let cls = 'pb-info', html;
         if (iosNeedsInstall()) { cls = 'pb-warn'; html = '<span>iPhone/iPad: กดปุ่มแชร์ แล้วเลือก "เพิ่มไปยังหน้าจอโฮม" จากนั้นเปิดแอปจากหน้าจอโฮม จึงจะรับแจ้งเตือนได้</span>'; }
         else if (!pushSupported) { cls = 'pb-warn'; html = '<span>เบราว์เซอร์นี้ไม่รองรับการแจ้งเตือน ลองใช้ Chrome</span>'; }
