@@ -4180,7 +4180,14 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const d = mk('div', 'fo-mine'); d.append(mk('b', null, x.title + (x.closed ? ' (ปิดแล้ว)' : '')), mk('div', 'pf-note', `${x.n} ข้อ · ${x.per_q_secs} วินาที/ข้อ · ห้อง ${x.classes.join(', ')}${x.open_until ? ' · ถึง ' + x.open_until : ''}`), mk('div', 'pf-note', `เริ่มเล่น ${x.started} คน · เล่นจบ ${x.finished} คน${x.finished ? ' · เฉลี่ย ' + x.avg + ' คะแนน' : ''}`));
           const rb = mk('button', null, 'ดูผล'); rb.style.cssText = 'margin-right:0.75rem;color:#2563eb;font-weight:700'; rb.onclick = () => qtResults(x.id);
           const cb = mk('button', null, x.closed ? 'เปิดอีกครั้ง' : 'ปิดควิซ'); cb.style.cssText = 'color:#dc2626;font-size:0.85rem'; cb.onclick = async () => { await apptCall({ action: 'close', id: x.id, closed: !x.closed }, 'quiz'); qtList(); };
-          d.append(rb, cb); body.append(d);
+          const db2 = mk('button', null, 'ลบ'); db2.style.cssText = 'margin-left:0.75rem;color:#dc2626;font-size:0.85rem;font-weight:700'; db2.title = 'ลบควิซนี้ถาวร';
+          db2.onclick = async () => {
+            if (!confirm(`ลบควิซ "${x.title}" ถาวร?\nผลการเล่นของนักเรียน ${x.started} คนจะถูกลบไปด้วย และกู้คืนไม่ได้`)) return;
+            db2.disabled = true; const r = await apptCall({ action: 'delete', id: x.id }, 'quiz');
+            if (!r.ok) { db2.disabled = false; qtNote(r.error === 'gone' ? 'ไม่พบควิซนี้แล้ว' : 'ลบไม่สำเร็จ ลองใหม่อีกครั้ง'); if (r.error === 'gone') qtList(); return; }
+            qtList();
+          };
+          d.append(rb, cb, db2); body.append(d);
         }
       }
       async function qtResults(id) {
