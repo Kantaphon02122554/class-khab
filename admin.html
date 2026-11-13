@@ -142,6 +142,8 @@
       <div class="row"><span>ประมวลผลห้อง×คาบ 24 ชม.</span><b id="n24">—</b></div>
       <div class="row"><span>ส่งถึงเครื่องจริง 24 ชม.</span><b id="nDev">—</b></div>
       <p class="sub" id="nDevNote" style="margin:-2px 0 8px"></p>
+      <div class="row"><span>งบ AI เดือนนี้</span><b id="aiB">—</b></div>
+      <p class="sub" id="aiBNote" style="margin:-2px 0 8px"></p>
       <p class="sub" style="margin-top:12px">แจ้งเตือนส่ง 7 วันล่าสุด (จำนวนห้อง×คาบ ต่อวัน)</p>
       <div class="bars" id="bars" style="margin-bottom:22px"></div>
     </div>
@@ -338,7 +340,10 @@
   }
 
   function render(d) {
-    const h = d.health, red = d.alerts.filter((a) => a.level === 'red').length, yel = d.alerts.filter((a) => a.level === 'yellow').length;
+    const h = d.health;
+    // cron ไม่เคยรันเลย (ไม่มีประวัติ) ต้องไม่ขึ้นเขียว: ฝั่งเซิร์ฟเวอร์เตือนเฉพาะในเวลาเรียน จึงเติมตรงนี้ให้ขึ้นแดงเสมอ
+    if (h.cron && !h.cron.last_run && !d.alerts.some((a) => a.key === 'cron_off' || a.key === 'cron_stopped')) d.alerts = [{ key: 'cron_never', level: 'red', text: 'ไม่พบประวัติการรันของ cron ส่งแจ้งเตือนเลย' }, ...d.alerts];
+    const red = d.alerts.filter((a) => a.level === 'red').length, yel = d.alerts.filter((a) => a.level === 'yellow').length;
     const hero = $('hero'); hero.className = 'hero ' + (red ? 'bad' : yel ? 'warn' : 'ok');
     $('heroDot').textContent = red ? '✕' : yel ? '!' : '✓';
     $('heroT').textContent = red ? 'ระบบมีปัญหา ต้องแก้' : yel ? 'ใช้งานได้ แต่มีเรื่องต้องดู' : 'ระบบปกติทุกอย่าง';
@@ -353,6 +358,11 @@
     // ส่งถึงเครื่องจริง: นับจากผลการส่งที่บันทึกไว้ (เริ่มนับตั้งแต่เปิดใช้การบันทึก ก่อนหน้านั้นไม่มีข้อมูล)
     $('nDev').textContent = h.notify.devices_since ? Number(h.notify.devices_24h || 0).toLocaleString('th-TH') : '—';
     $('nDevNote').textContent = h.notify.devices_since ? (Date.now() - Date.parse(h.notify.devices_since) < 86_400_000 ? `เริ่มนับ ${fmt(h.notify.devices_since)} (ยังไม่ครบ 24 ชม.)` : '') : 'ยังไม่มีข้อมูล จะเริ่มนับตอนส่งแจ้งเตือนรอบถัดไป';
+    // งบ AI: ถ้าเซิร์ฟเวอร์ยังเป็นรุ่นเก่า (ไม่ส่ง ai มา) แสดงขีดไว้ก่อน
+    if (d.ai && d.ai.cap > 0) {
+      const pct = Math.min(100, Math.round(d.ai.pct)), usd = (d.ai.micro / 1e6).toFixed(2), capUsd = (d.ai.cap / 1e6).toFixed(0);
+      $('aiB').textContent = `${pct}%`; $('aiBNote').textContent = `ใช้ไป ${usd} จาก ${capUsd} ดอลลาร์ · เตือนเข้าเครื่องที่ 70% และ 90% · เต็มแล้วการตรวจโพสต์ด้วย AI จะหยุด`;
+    } else { $('aiB').textContent = '—'; $('aiBNote').textContent = ''; }
     const bars = $('bars'); bars.textContent = ''; const max = Math.max(1, ...h.notify.by_day.map((x) => x.n));
     const days = []; for (let i = 6; i >= 0; i--) { const dt = new Date(Date.now() - i * 86400000); days.push(new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Bangkok' }).format(dt)); }
     days.forEach((day) => { const n = (h.notify.by_day.find((x) => x.day === day) || {}).n || 0; const b = mk('div'); b.style.height = Math.max(3, (n / max) * 100) + '%'; b.title = `${day}: ${n}`; b.append(mk('span', null, `${Number(day.slice(8))}`)); bars.append(b); });
@@ -802,8 +812,8 @@
       hd.append(tg); box.append(hd);
       for (const m of s.messages) {
         const row = mk('div', 'muted'); row.style.cssText = 'display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:4px 0;border-top:1px solid rgba(128,128,128,.2)';
-        row.append(mk('span', null, new Date(m.created_at).toLocaleString('th-TH', { hour12: false }).slice(0, 17) + ' · ' + m.nick + ' (เลข ' + m.student_id + ') ' + (m.reports ? '· รายงาน ' + m.reports + ' ' : '') + (m.hidden ? '· ซ่อน ' : '') + ': ' + m.body));
-        const del = mk('button', null, 'ลบ'); del.onclick = async () => { await api({ action: 'open_delete', id: m.id }); loadOpen(); };
+        row.append(mk('span', null, fmt(m.created_at) + ' · ' + m.nick + ' (เลข ' + m.student_id + ') ' + (m.reports ? '· รายงาน ' + m.reports + ' ' : '') + (m.hidden ? '· ซ่อน ' : '') + ': ' + m.body));
+        const del = mk('button', null, 'ลบ'); del.onclick = async () => { if (!confirm('ลบข้อความนี้ถาวร?')) return; await api({ action: 'open_delete', id: m.id }); loadOpen(); };
         const b1 = mk('button', null, 'ระงับ 24 ชม.'); b1.onclick = async () => { await api({ action: 'open_ban', student_id: m.student_id, hours: 24 }); loadOpen(); };
         const b2 = mk('button', null, 'ระงับถาวร'); b2.onclick = async () => { if (confirm('ระงับเลข ' + m.student_id + ' จากโอเพ่นแชทถาวร (1 ปี)?')) { await api({ action: 'open_ban', student_id: m.student_id, hours: 8760 }); loadOpen(); } };
         row.append(del, b1, b2); box.append(row);
@@ -811,7 +821,7 @@
       if (!s.messages.length) box.append(mk('div', 'muted', 'ยังไม่มีข้อความ'));
       for (const bn of s.bans) {
         const row = mk('div', 'muted'); row.style.cssText = 'display:flex;gap:6px;align-items:center;margin-top:4px';
-        row.append(mk('span', null, 'ระงับ: เลข ' + bn.student_id + ' ถึง ' + new Date(bn.until).toLocaleString('th-TH', { hour12: false }).slice(0, 17)));
+        row.append(mk('span', null, 'ระงับ: เลข ' + bn.student_id + ' ถึง ' + fmt(bn.until)));
         const un = mk('button', null, 'ปลด'); un.onclick = async () => { await api({ action: 'open_ban', student_id: bn.student_id, hours: 0 }); loadOpen(); };
         row.append(un); box.append(row);
       }
@@ -828,8 +838,8 @@
         hd.append(tg); tb.append(hd);
         for (const m of s.messages) {
           const row = mk('div', 'muted'); row.style.cssText = 'display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:4px 0;border-top:1px solid rgba(128,128,128,.2)';
-          row.append(mk('span', null, new Date(m.created_at).toLocaleString('th-TH', { hour12: false }).slice(0, 17) + ' · ' + m.nick + (m.reports ? ' · รายงาน ' + m.reports : '') + ': ' + m.body));
-          const del = mk('button', null, 'ลบ'); del.onclick = async () => { await api({ action: 'tchat_delete', id: m.id }); loadOpen(); };
+          row.append(mk('span', null, fmt(m.created_at) + ' · ' + m.nick + (m.reports ? ' · รายงาน ' + m.reports : '') + ': ' + m.body));
+          const del = mk('button', null, 'ลบ'); del.onclick = async () => { if (!confirm('ลบข้อความนี้ถาวร?')) return; await api({ action: 'tchat_delete', id: m.id }); loadOpen(); };
           row.append(del); tb.append(row);
         }
         if (!s.messages.length) tb.append(mk('div', 'muted', 'ยังไม่มีข้อความ'));
@@ -842,7 +852,7 @@
         pb.textContent = '';
         for (const a of r.body.items) {
           const row = mk('div', 'muted'); row.style.cssText = 'display:flex;gap:6px;align-items:center;flex-wrap:wrap;padding:4px 0;border-top:1px solid rgba(128,128,128,.2)' + (a.cancelled ? ';opacity:.5' : '');
-          row.append(mk('span', null, new Date(a.at).toLocaleString('th-TH', { hour12: false }).slice(0, 17) + ' · ' + a.teacher_name + ' (รหัส ' + a.teacher_id + ') นัด ' + (a.student_id ? 'เลข ' + a.student_id + ' (' + a.class_id + ')' : 'ทั้งห้อง ' + a.class_id) + ' ที่ ' + a.place + (a.note ? ' · ' + a.note : '') + (a.cancelled ? ' · ยกเลิกแล้ว' : '')));
+          row.append(mk('span', null, fmt(a.at) + ' · ' + a.teacher_name + ' (รหัส ' + a.teacher_id + ') นัด ' + (a.student_id ? 'เลข ' + a.student_id + ' (' + a.class_id + ')' : 'ทั้งห้อง ' + a.class_id) + ' ที่ ' + a.place + (a.note ? ' · ' + a.note : '') + (a.cancelled ? ' · ยกเลิกแล้ว' : '')));
           if (!a.cancelled) { const cn = mk('button', null, 'ยกเลิก'); cn.onclick = async () => { if (confirm('ยกเลิกนัดนี้?')) { await api({ action: 'appt_cancel', id: a.id }); loadOpen(); } }; row.append(cn); }
           pb.append(row);
         }
