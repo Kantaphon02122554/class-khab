@@ -178,6 +178,8 @@ function whereText(loc) {
 
 // ===== ตารางของฉัน =====
 function myClass() { try { return localStorage.getItem('classkhab_grade') || ''; } catch (e) { return ''; } }
+// ตารางการใช้ห้อง (ห้องนี้ใครใช้คาบไหน) ให้เห็นเฉพาะแอดมินที่ล็อกอินหน้าแอดมินไว้ในเครื่องนี้ · เป็นแค่การซ่อนหน้าจอ ไม่ใช่การล็อกข้อมูล
+function isAdmin() { try { return !!(sessionStorage.getItem('ck_admin') || localStorage.getItem('ck_admin')); } catch (e) { return false; } }
 function sget(url) {
   return fetch(SUPABASE_URL + '/rest/v1/' + url, { headers: { apikey: SUPABASE_ANON_KEY, Authorization: 'Bearer ' + SUPABASE_ANON_KEY } }).then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); });
 }
@@ -923,8 +925,8 @@ function showPlace(id) {
   select(placeKeys(id));
   var c = el('div', 'card'); c.appendChild(el('h2', null, NAME_OF['s' + id] || id));
   var rooms = PLACES[id];
-  if (rooms && rooms.length) { var b = el('button', 'chip', 'ดูตารางวันนี้'); b.type = 'button'; b.onclick = function () { showRoom(rooms[0], id); }; c.appendChild(b); }
-  else c.appendChild(el('div', 'muted', 'ยังไม่มีคาบเรียนในตารางที่ใช้ห้องนี้'));
+  if (rooms && rooms.length && isAdmin()) { var b = el('button', 'chip', 'ดูตารางวันนี้'); b.type = 'button'; b.onclick = function () { showRoom(rooms[0], id); }; c.appendChild(b); }
+  else if (!(rooms && rooms.length)) c.appendChild(el('div', 'muted', 'ยังไม่มีคาบเรียนในตารางที่ใช้ห้องนี้'));
   out.replaceChildren(c);
 }
 function dayStart() { var d = bkkNow().dow; return d >= 1 && d <= 5 ? d : 1; }
@@ -933,6 +935,7 @@ function showRoom(code, placeId) {   // ตารางการใช้ห้�
   var loc = resolveRoom(code), names = placeId ? PLACES[placeId] : (loc && loc.t === 's' ? PLACES[loc.id] : [code]);
   if (loc && loc.t === 'b') select(['b' + loc.id], loc.level); else if (loc) select(placeKeys(loc.id));
   var c = el('div', 'card'); c.appendChild(el('h2', null, 'ห้อง ' + code + (loc ? ' · ' + whereText(loc) : '')));
+  if (!isAdmin()) { out.replaceChildren(c); return; }   // คนทั่วไปเห็นแค่ตำแหน่งห้อง ไม่เห็นว่าห้องนี้ใครใช้คาบไหน
   var days = el('div', 'chips'); [1, 2, 3, 4, 5].forEach(function (d) { var b = el('button', 'chip' + (d === viewDay ? ' on' : ''), DAY_SH[d]); b.type = 'button'; b.setAttribute('aria-label', 'วัน' + DAY_TH[d]); b.onclick = function () { viewDay = d; showRoom(code, placeId); }; days.appendChild(b); });
   c.appendChild(days);
   var body = el('div', null, 'กำลังโหลด…'); body.style.marginTop = '8px'; c.appendChild(body);
