@@ -3454,6 +3454,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         currentGrade = null;
         localStorage.removeItem('classkhab_student');
         leaveTeacher();
+        applyFoodGate();
         if (UI2) document.documentElement.dataset.view = 'home';
         showAuthScreen();
       }
@@ -3573,8 +3574,13 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       const VIEW_ORDER = ['home', 'social', 'msg', 'room', 'portfolio', 'menu'];
       const PORTFOLIO_OPEN = false;
       // ระบบสั่งอาหาร (ร้าน ก.ไก่ ข.ไข่): ปิดปุ่มจากหน้าเว็บไว้ก่อน (โค้ดและหลังบ้านยังอยู่ครบ) เปิดคืน: FOOD_OPEN = true
-      const FOOD_OPEN = false;
-      if (FOOD_OPEN) document.documentElement.classList.add('food-on');
+      // เปิดให้เฉพาะห้องที่อยู่ใน FOOD_CLASSES (ตอนนี้ทดลองเฉพาะ ม.3/1) · ปิดทุกห้อง: ใส่ [] · เปิดทุกห้อง: FOOD_ALL = true
+      // หมายเหตุ: ซ่อนแค่ปุ่มบนหน้าเว็บ ฟังก์ชัน food ฝั่งเซิร์ฟเวอร์ยังไม่ได้ล็อกห้อง
+      const FOOD_ALL = false, FOOD_CLASSES = ['ม.3/1'];
+      function applyFoodGate() {
+        const on = !teacherMode && !!currentGrade && (FOOD_ALL || FOOD_CLASSES.includes(currentGrade));
+        document.documentElement.classList.toggle('food-on', on);
+      }
       // ใช้ Web Animations API: ไม่ต้องบังคับคำนวณหน้าใหม่เพื่อเริ่มซ้ำ และจบแล้วไม่ทิ้ง transform ค้างบน #dashCard
       // (ถ้าค้าง แผงที่ position:fixed ข้างใน เช่น หน้าแก้โปรไฟล์ จะถูกขังในการ์ด)
       function playViewIn(dir) {
@@ -5690,6 +5696,7 @@ footer{border-top:1px solid var(--line);padding-top:24px;font-size:12px;color:va
       }
 
       function showDashboard() {
+        applyFoodGate();
         if (UI2) { initV2(); setView('home', null, true); }
         document.getElementById('authScreen').classList.add('hidden');
         document.getElementById('mainDashboard').classList.remove('hidden');
