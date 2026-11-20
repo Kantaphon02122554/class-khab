@@ -621,7 +621,10 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         html.ui2 #homeCards:not(.hidden) { grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); }
       }
 
-      #navV2 #navFood { display: none; } html.food-on #navV2 #navFood { display: flex; }
+      .v2-item.food-only { display: none; } html.food-on .v2-item.food-only { display: flex; }
+      .pf-edit + .pf-note { margin: 0.6rem 0.25rem 0.9rem; }   /* เดิมขอบบนติดลบ ทำให้ข้อความทับปุ่มแก้ไขโปรไฟล์ */
+      .pf-end { padding-bottom: 5.5rem; }   /* เผื่อที่ให้แถบเมนูล่างลอยทับไม่บังบรรทัดท้าย */
+      .hc-food { width: 100%; text-align: left; cursor: pointer; }
       body.teacher-mode #navRoom, body.teacher-mode #navPortfolio, body.teacher-mode .student-only { display: none !important; }
       .v2-tabs { display: flex; border-bottom: 1px solid #e2e8f0; } html.dark .v2-tabs { border-bottom-color: #243152; }
       .v2-tabs button { flex: 1; padding: 0.7rem 0.25rem; font-weight: 600; font-size: 0.9rem; color: #64748b; border-bottom: 2px solid transparent; }
@@ -1134,6 +1137,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
               <div class="v2-list">
                 <button class="v2-item student-only" onclick="quizOpen()"><i data-lucide="trophy"></i><span class="grow">ควิซจากครู</span><small>เล่นและเก็บคะแนน</small></button>
                 <button class="v2-item student-only" onclick="tutorOpen()"><i data-lucide="book-open"></i><span class="grow">เพื่อนติว (AI)</span><small>ถามเรื่องเรียน</small></button>
+                <button class="v2-item student-only food-only" onclick="foodOpen()"><i data-lucide="utensils"></i><span class="grow">สั่งอาหาร</span><small>ข้าวไข่ข้น</small></button>
+                <a href="map.html" class="v2-item" onclick="mapAva()"><i data-lucide="map"></i><span class="grow">แผนที่โรงเรียน</span><small>เดโม · กำลังพัฒนา</small></a>
                 <button class="v2-item" onclick="toggleTheme()"><i data-lucide="moon"></i><span class="grow">โหมดมืด</span><span class="v2-switch"></span></button>
                 <button class="v2-item" onclick="teacherMode ? toggleTeacherPush() : togglePush()"><i data-lucide="bell"></i><span class="grow">แจ้งเตือนก่อนคาบ</span><small class="pushLabel">เปิดแจ้งเตือน</small></button>
                 
@@ -1291,22 +1296,148 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
               </div>
             </div>
             <!-- จองไข่ข้นร้าน ก.ไก่ ข.ไข่: จองคิวรับตามพักกลางวันของชั้น จ่ายร้านโดยตรง (แอปไม่แตะเงิน) -->
+            <style>
+              /* หน้าสั่งอาหาร (ui2): ขาวเรียบ เส้นบาง สีเน้นน้ำเงินจุดเดียว · ใช้กับโหมดมืดด้วย */
+              .fd { --fd-bd: #e2e8f0; --fd-mu: #64748b; --fd-tx: #0f172a; --fd-bg: #f8fafc; --fd-ac: #2563eb; --fd-acs: #eff6ff; --fd-ok: #16a34a; --fd-wa: #b45309; --fd-er: #be123c; --fd-sheet: #fff; max-height: 92vh; padding-bottom: 0; }
+              html.dark .fd { --fd-bd: #243152; --fd-mu: #93a1ba; --fd-tx: #e5ecf6; --fd-bg: #0b1220; --fd-ac: #60a5fa; --fd-acs: #172554; --fd-ok: #4ade80; --fd-wa: #fbbf24; --fd-er: #fda4af; --fd-sheet: #111a2e; }
+              .fd .hidden { display: none !important; }
+              .fd .pf-ph button { width: 2.75rem; height: 2.75rem; }
+              .fd .pf-ph { position: sticky; top: -1rem; z-index: 3; background: var(--fd-sheet); margin: -1rem -1.25rem 0.5rem; padding: 1rem 1.25rem 0.5rem; }
+              .fd-shop { font-size: 0.78rem; color: var(--fd-mu); font-weight: 400; }
+              .fd-status { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--fd-tx); background: var(--fd-bg); border: 1px solid var(--fd-bd); border-radius: 14px; padding: 0.6rem 0.75rem; margin-bottom: 0.75rem; line-height: 1.45; }
+              .fd-status i { flex: none; width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--fd-mu); } .fd-status.on i { background: var(--fd-ok); }
+              .fd-meter { height: 4px; border-radius: 4px; background: var(--fd-bd); margin-top: 0.35rem; overflow: hidden; } .fd-meter span { display: block; height: 100%; background: var(--fd-ac); }
+              .fd-h { display: block; font-size: 0.8rem; font-weight: 600; color: var(--fd-mu); margin: 1rem 0 0.45rem; }
+              .fd-items { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+              .fd-item { text-align: left; border: 1px solid var(--fd-bd); border-radius: 14px; padding: 0.7rem 0.75rem; background: transparent; color: var(--fd-tx); min-height: 4rem; display: flex; flex-direction: column; justify-content: space-between; gap: 0.25rem; }
+              .fd-item b { font-weight: 600; font-size: 0.95rem; line-height: 1.3; } .fd-item span { font-size: 0.8rem; color: var(--fd-mu); font-variant-numeric: tabular-nums; }
+              .fd-item[aria-pressed="true"] { border-color: var(--fd-ac); background: var(--fd-acs); box-shadow: inset 0 0 0 1px var(--fd-ac); }
+              .fd-chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+              .fd-chip { min-height: 2.5rem; min-width: 3.5rem; padding: 0.35rem 0.75rem; border: 1px solid var(--fd-bd); border-radius: 12px; background: transparent; color: var(--fd-tx); font-weight: 500; font-variant-numeric: tabular-nums; display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.2; }
+              .fd-chip small { font-size: 0.68rem; color: var(--fd-mu); font-weight: 400; }
+              .fd-chip[aria-pressed="true"] { border-color: var(--fd-ac); background: var(--fd-acs); box-shadow: inset 0 0 0 1px var(--fd-ac); } .fd-chip:disabled { opacity: 0.4; }
+              .fd-in { display: block; width: 100%; padding: 0.65rem 0.75rem; border: 1px solid var(--fd-bd); border-radius: 12px; background: transparent; color: var(--fd-tx); font-size: 1rem; }
+              .fd-foot { position: sticky; bottom: 0; z-index: 2; display: flex; align-items: center; gap: 0.6rem; margin: 1rem -1.25rem 0; padding: 0.75rem 1.25rem calc(0.75rem + env(safe-area-inset-bottom)); border-top: 1px solid var(--fd-bd); background: var(--fd-sheet); }
+              .fd-qty { display: flex; align-items: center; border: 1px solid var(--fd-bd); border-radius: 12px; } .fd-qty button { width: 2.5rem; height: 2.75rem; font-size: 1.2rem; color: var(--fd-tx); } .fd-qty button:disabled { opacity: 0.3; } .fd-qty span { min-width: 1.5rem; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+              .fd-sum { flex: 1; min-width: 0; line-height: 1.2; } .fd-sum small { display: block; font-size: 0.72rem; color: var(--fd-mu); } .fd-sum b { font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+              .fd-go { min-height: 2.75rem; padding: 0 1.4rem; border-radius: 12px; background: var(--fd-tx); color: #fff; font-weight: 600; } html.dark .fd-go { color: #0b1220; } .fd-go:disabled { opacity: 0.35; }
+              .fd-ord { border: 1px solid var(--fd-bd); border-radius: 16px; padding: 0.85rem; margin-bottom: 0.75rem; }
+              .fd-ord-top { display: flex; gap: 0.75rem; align-items: center; }
+              .fd-qn { font-size: 2rem; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; color: var(--fd-tx); } .fd-qn small { display: block; font-size: 0.65rem; font-weight: 500; color: var(--fd-mu); margin-bottom: 0.2rem; }
+              .fd-ord-what { flex: 1; min-width: 0; font-size: 0.85rem; color: var(--fd-mu); line-height: 1.45; } .fd-ord-what b { display: block; color: var(--fd-tx); font-size: 0.95rem; font-weight: 600; }
+              .fd-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.25rem; margin: 0.8rem 0 0.4rem; list-style: none; padding: 0; }
+              .fd-steps li { font-size: 0.7rem; color: var(--fd-mu); text-align: center; padding-top: 0.45rem; border-top: 3px solid var(--fd-bd); } .fd-steps li.done { border-top-color: var(--fd-ac); } .fd-steps li.now { border-top-color: var(--fd-ac); color: var(--fd-tx); font-weight: 600; }
+              .fd-msg { font-size: 0.85rem; color: var(--fd-tx); margin: 0.4rem 0 0; line-height: 1.5; } .fd-msg.ok { color: var(--fd-ok); font-weight: 600; } .fd-msg.bad { color: var(--fd-er); }
+              .fd-pay { margin-top: 0.75rem; padding: 0.75rem; border-radius: 14px; background: var(--fd-bg); text-align: center; }
+              .fd-pay img { display: block; width: 100%; max-width: 13rem; margin: 0 auto 0.5rem; border-radius: 10px; background: #fff; }
+              .fd-amt { font-size: 1.5rem; font-weight: 600; font-variant-numeric: tabular-nums; } .fd-left { font-size: 0.8rem; color: var(--fd-wa); font-weight: 600; font-variant-numeric: tabular-nums; }
+              .fd-pay .fd-go { width: 100%; margin-top: 0.6rem; } .fd-link { margin-top: 0.4rem; min-height: 2.5rem; font-size: 0.85rem; color: var(--fd-er); }
+              .fd-more { margin: 1rem 0 0.25rem; font-size: 0.8rem; color: var(--fd-mu); } .fd-more summary { cursor: pointer; font-weight: 600; min-height: 2.25rem; display: flex; align-items: center; } .fd-more ul { margin: 0.25rem 0 0; padding-left: 1.1rem; line-height: 1.6; }
+              .fd-dlg { position: absolute; left: 0; right: 0; top: 0; z-index: 5; display: flex; align-items: flex-end; background: rgba(15, 23, 42, 0.45); }
+              .fd-dlg > div { width: 100%; background: var(--fd-sheet); border-radius: 20px 20px 0 0; padding: 1.1rem 1.25rem calc(1.1rem + env(safe-area-inset-bottom)); }
+              .fd-dlg h3 { font-size: 1rem; font-weight: 600; margin: 0 0 0.4rem; color: var(--fd-tx); } .fd-dlg p { font-size: 0.85rem; color: var(--fd-mu); white-space: pre-line; margin: 0 0 0.9rem; line-height: 1.55; }
+              .fd-dlg .fd-go { width: 100%; } .fd-dlg .fd-sec { width: 100%; min-height: 2.75rem; margin-top: 0.5rem; border: 1px solid var(--fd-bd); border-radius: 12px; color: var(--fd-tx); font-weight: 500; }
+              .fd { position: relative; }
+              /* ระยะบรรทัดสำหรับภาษาไทย (สระบน-ล่าง วรรณยุกต์) ไม่ให้ตัวหนังสือเบียดกัน */
+              .fd { line-height: 1.55; }
+              .fd-shop { margin-top: 0.2rem; line-height: 1.5; }
+              .fd-status { line-height: 1.6; padding: 0.7rem 0.85rem; }
+              .fd-h { margin: 1.25rem 0 0.6rem; }
+              .fd-item { padding: 0.8rem 0.85rem; gap: 0.4rem; } .fd-item b { line-height: 1.4; }
+              .fd-chip { line-height: 1.35; padding: 0.4rem 0.8rem; } .fd-chip small { line-height: 1.4; margin-top: 0.1rem; }
+              .fd-sum { line-height: 1.4; }
+              .fd-ord { padding: 1rem; }
+              .fd-ord-top { align-items: flex-start; gap: 0.9rem; }
+              .fd-qn { line-height: 1.1; } .fd-qn small { margin-bottom: 0.35rem; line-height: 1.3; }
+              .fd-ord-what { line-height: 1.6; padding-top: 0.15rem; } .fd-ord-what b { margin-bottom: 0.2rem; line-height: 1.45; }
+              .fd-steps { margin: 1rem 0 0.6rem; gap: 0.35rem; } .fd-steps li { padding-top: 0.55rem; font-size: 0.72rem; line-height: 1.4; }
+              .fd-msg { margin: 0.6rem 0 0; line-height: 1.6; }
+              .fd .pf-note { margin: 0.45rem 0 0; line-height: 1.6; }
+              .fd-pay { padding: 0.9rem; } .fd-amt { line-height: 1.3; margin-top: 0.2rem; } .fd-left { margin-top: 0.3rem; line-height: 1.5; }
+              .fd-pay .pf-note { margin: 0.6rem 0 0; }
+              .fd-dlg p { line-height: 1.65; }
+              .fd-more ul { line-height: 1.7; } .fd-more li + li { margin-top: 0.25rem; }
+              /* unslop: จังหวะระยะตามตาราง 4px · ช่องในกลุ่มเล็กกว่าช่องระหว่างกลุ่ม */
+              .fd-status { padding: 12px 16px; gap: 8px; border-radius: 16px; margin-bottom: 12px; }
+              .fd-h { margin: 20px 0 8px; }
+              .fd-items { gap: 8px; } .fd-item { padding: 12px 16px; gap: 4px; border-radius: 16px; }
+              .fd-chips { gap: 8px; } .fd-chip { padding: 4px 12px; min-height: 44px; border-radius: 12px; }
+              .fd-foot { gap: 12px; padding: 12px 20px calc(12px + env(safe-area-inset-bottom)); margin: 16px -1.25rem 0; }
+              .fd-li { padding: 12px 16px; gap: 12px; margin-bottom: 8px; border-radius: 16px; } .fd-li .q { min-width: 52px; }
+              .fd-hero { gap: 16px; padding: 16px 0 8px; } .fd-hero p { margin-top: 4px; }
+              .fd-art { width: 76px; height: 76px; } .fd-art svg { width: 32px; height: 32px; stroke-width: 1.75; }
+              .fd-track { column-gap: 8px; row-gap: 4px; margin: 16px 0 4px; } .fd-ti svg { width: 24px; height: 24px; stroke-width: 1.75; }
+              .fd-track .fd-tl:nth-last-child(4) { justify-self: start; } .fd-track .fd-tl:last-child { justify-self: end; }
+              .fd-hint { margin-top: 8px; }
+              .fd-card { padding: 16px; margin-top: 12px; border-radius: 16px; } .fd-row { gap: 12px; } .fd-row + .fd-row { margin-top: 16px; }
+              .fd-line { padding: 4px 0; } .fd-line.tot { margin-top: 8px; padding-top: 12px; }
+              .fd-ctitle { margin-bottom: 8px; }
+              .fd-pay { padding: 16px; margin-top: 12px; border-radius: 16px; } .fd-pay img { border-radius: 12px; margin-bottom: 8px; } .fd-pay .fd-go { margin-top: 12px; }
+              .fd-ord { padding: 16px; border-radius: 16px; }
+              .fd-again { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 48px; margin-top: 16px; border: 1px solid var(--fd-bd); border-radius: 12px; background: transparent; color: var(--fd-tx); font-weight: 600; } .fd-again svg { width: 18px; height: 18px; stroke-width: 1.75; }
+              .fd-again-note { margin: 16px 0 0; text-align: center; font-size: 0.85rem; color: var(--fd-mu); line-height: 1.55; }
+              /* รายการออเดอร์แบบย่อในหน้าสั่ง (แตะเพื่อดูรายละเอียด) */
+              .fd-li { display: flex; align-items: center; gap: 0.8rem; width: 100%; text-align: left; border: 1px solid var(--fd-bd); border-radius: 14px; padding: 0.75rem 0.85rem; margin-bottom: 0.5rem; background: transparent; color: var(--fd-tx); line-height: 1.45; }
+              .fd-li .q { font-size: 1.375rem; font-weight: 600; font-variant-numeric: tabular-nums; min-width: 3.2rem; }
+              .fd-li .t { flex: 1; min-width: 0; } .fd-li .t b { display: block; font-weight: 600; font-size: 0.92rem; } .fd-li .t span { font-size: 0.8rem; color: var(--fd-mu); }
+              .fd-li .t span.w { color: var(--fd-wa); font-weight: 600; } .fd-li .t span.ok { color: var(--fd-ok); font-weight: 600; } .fd-li .t span.bad { color: var(--fd-er); }
+              .fd-li svg { width: 1.1rem; height: 1.1rem; color: var(--fd-mu); flex: none; }
+              /* หน้ารายละเอียดออเดอร์ */
+              .fd-det .pf-panel { min-height: 75vh; max-height: 96vh; }
+              .fd-detph { display: grid !important; grid-template-columns: 2.75rem 1fr 2.75rem; text-align: center; border-bottom: 1px solid var(--fd-bd); }
+              .fd-detph b { font-size: 1.05rem; font-weight: 600; }
+              .fd-hero { display: flex; align-items: center; gap: 1rem; padding: 1rem 0 0.5rem; }
+              .fd-hero > div:first-child { flex: 1; min-width: 0; } .fd-hero h2 { font-size: 1.5rem; font-weight: 600; line-height: 1.35; margin: 0; color: var(--fd-tx); } .fd-hero p { margin: 0.4rem 0 0; font-size: 0.88rem; color: var(--fd-mu); line-height: 1.55; }
+              .fd-art { flex: none; width: 4.75rem; height: 4.75rem; border-radius: 50%; display: grid; place-items: center; background: var(--fd-acs); color: var(--fd-ac); } .fd-art svg { width: 2.2rem; height: 2.2rem; }
+              .fd-art.ok { background: #dcfce7; color: #16a34a; } .fd-art.bad { background: #ffe4e6; color: #be123c; } .fd-art.w { background: #fef3c7; color: #b45309; }
+              html.dark .fd-art.ok { background: #14352a; color: #4ade80; } html.dark .fd-art.bad { background: #3b1518; color: #fda4af; } html.dark .fd-art.w { background: #3b2a06; color: #fbbf24; }
+              .fd-track { display: grid; grid-template-columns: auto 1fr auto 1fr auto 1fr auto; align-items: center; column-gap: 0.45rem; row-gap: 0.35rem; margin: 1rem 0 0.25rem; }
+              .fd-ti { color: var(--fd-mu); opacity: 0.55; display: grid; place-items: center; } .fd-ti svg { width: 1.5rem; height: 1.5rem; } .fd-ti.on { color: var(--fd-ac); opacity: 1; } .fd-ti.now { color: var(--fd-ac); opacity: 1; }
+              .fd-tb { height: 4px; border-radius: 4px; background: var(--fd-bd); } .fd-tb.on { background: var(--fd-ac); } .fd-tb.half { background: linear-gradient(90deg, var(--fd-ac) 40%, var(--fd-bd) 40%); }
+              .fd-tl { font-size: 0.7rem; color: var(--fd-mu); white-space: nowrap; justify-self: center; } .fd-tl.now { color: var(--fd-tx); font-weight: 600; }
+              .fd-hint { font-size: 0.85rem; color: var(--fd-mu); margin: 0.6rem 0 0; line-height: 1.55; }
+              .fd-card { border: 1px solid var(--fd-bd); border-radius: 16px; padding: 1rem; margin-top: 0.85rem; }
+              .fd-row { display: flex; gap: 0.7rem; } .fd-row + .fd-row { margin-top: 0.9rem; }
+              .fd-row > i, .fd-row > svg { flex: none; width: 18px; height: 18px; margin-top: 2px; color: var(--fd-mu); stroke-width: 1.75; }
+              .fd-lbl { font-size: 0.8rem; color: var(--fd-mu); line-height: 1.5; } .fd-val { font-size: 1rem; font-weight: 600; color: var(--fd-tx); line-height: 1.5; margin-top: 0.1rem; } .fd-sub { font-size: 0.82rem; color: var(--fd-mu); line-height: 1.5; }
+              .fd-bigq { font-size: 2.25rem; font-weight: 600; line-height: 1.15; font-variant-numeric: tabular-nums; }
+              .fd-line { display: flex; justify-content: space-between; gap: 0.75rem; padding: 0.3rem 0; font-size: 0.92rem; line-height: 1.5; color: var(--fd-tx); } .fd-line span:last-child { font-variant-numeric: tabular-nums; white-space: nowrap; }
+              .fd-line.tot { border-top: 1px solid var(--fd-bd); margin-top: 0.5rem; padding-top: 0.75rem; font-weight: 600; }
+              .fd-ctitle { font-size: 0.8rem; font-weight: 600; color: var(--fd-mu); margin-bottom: 0.5rem; }
+              .fd button:focus-visible, .fd input:focus-visible, .fd summary:focus-visible { outline: 2px solid var(--fd-ac); outline-offset: 2px; }
+            </style>
             <div id="foSheet" class="pf-sheet hidden" onclick="if(event.target===this)foodClose()">
-              <div class="pf-panel" role="dialog" aria-label="สั่งอาหาร">
-                <div class="pf-ph"><b>สั่งอาหาร · ร้าน ก.ไก่ ข.ไข่</b><button onclick="foodClose()" aria-label="ปิด"><i data-lucide="x"></i></button></div>
-                <p id="foInfo" class="pf-note"></p>
-                <div id="foForm">
-                  <div class="pf-l">เมนู</div><div id="foItems"></div>
-                  <label id="foPriceWrap" class="pf-l hidden"><span id="foPriceLbl">เลือกราคาจานที่ต้องการ (บาท)</span><select id="foPrice"></select><input id="foPriceNum" type="number" inputmode="numeric" step="1" class="hidden" style="width:100%;padding:0.55rem;border:1px solid rgba(100,116,139,.35);border-radius:.7rem;background:transparent;color:inherit"></label>
-                  <label class="pf-l">จำนวน (จาน)<select id="foQty"><option>1</option><option>2</option><option>3</option></select></label>
-                  <div id="foSlotLbl" class="pf-l">เวลารับ (ตามพักกลางวันของชั้นคุณ)</div><div id="foSlots" class="fo-slots"></div>
-                  <label class="pf-l"><span id="foNoteLbl">ระบุเพิ่มเอง (ไม่บังคับ เช่น ไม่ใส่ผัก ไข่สุกมาก)</span><input id="foNoteIn" maxlength="40" placeholder="เช่น ไม่ใส่ซอส" style="width:100%;padding:0.55rem;border:1px solid rgba(100,116,139,.35);border-radius:.7rem;background:transparent;color:inherit"></label><p id="foTotal" class="pf-note"></p>
-                  <button id="foGo" class="fo-act" onclick="foodBook()">จอง</button>
+              <div class="pf-panel fd" role="dialog" aria-modal="true" aria-labelledby="fdTitle">
+                <div class="pf-ph"><div><b id="fdTitle">สั่งอาหาร</b><div class="fd-shop">ร้าน ก.ไก่ ข.ไข่ · จ่ายเงินให้ร้านโดยตรง แอปไม่ได้เก็บเงิน</div></div><button onclick="foodClose()" aria-label="ปิด"><i data-lucide="x"></i></button></div>
+                <div id="foInfo" class="fd-status" aria-live="polite"></div>
+                <p id="foErr" class="pf-err hidden" role="alert"></p>
+                <div id="foMine"></div>
+                <div id="foForm" class="hidden">
+                  <span class="fd-h">เลือกเมนู</span><div id="foItems" class="fd-items"></div>
+                  <div id="foPriceWrap" class="hidden"><span class="fd-h" id="foPriceLbl">ราคาจาน</span><div id="foPrices" class="fd-chips"></div><input id="foPriceNum" type="number" inputmode="numeric" step="1" class="fd-in hidden" aria-labelledby="foPriceLbl"></div>
+                  <label class="fd-h" for="foNoteIn" id="foNoteLbl">อยากบอกร้านเพิ่ม (ไม่ใส่ก็ได้)</label><input id="foNoteIn" class="fd-in" maxlength="40" placeholder="เช่น ไม่ใส่ผัก ไข่สุกมาก">
+                  <div id="foSlotWrap"><span class="fd-h">จะมารับกี่โมง</span><div id="foSlots" class="fd-chips"></div></div>
+                  <div class="fd-foot">
+                    <div class="fd-qty" role="group" aria-label="จำนวนจาน"><button type="button" id="foMinus" onclick="foQty(-1)" aria-label="ลดจำนวน">−</button><span id="foQty" aria-live="polite">1</span><button type="button" id="foPlus" onclick="foQty(1)" aria-label="เพิ่มจำนวน">+</button></div>
+                    <div class="fd-sum"><small>รวม</small><b id="foTotal">–</b></div>
+                    <button id="foGo" class="fd-go" onclick="foodBook()">สั่งเลย</button>
+                  </div>
                 </div>
-                <p id="foErr" class="pf-err hidden"></p>
-                <div class="pf-l" style="margin-top:0.75rem">ออเดอร์วันนี้ของคุณ</div><div id="foMine"></div>
-                <div id="foPay" class="hidden" style="text-align:center;margin-top:0.5rem"><img id="foQr" alt="QR จ่ายเงินร้าน" style="max-width:12rem;margin:0 auto" onerror="this.replaceWith(Object.assign(document.createElement('b'),{textContent:'ยังไม่มี QR ในแอป: ขอ QR จ่ายเงินจากร้านโดยตรง'}))"><p class="pf-note">สแกนจ่ายร้านโดยตรง (แอปไม่เก็บเงิน) แล้วกด "ฉันจ่ายแล้ว" ที่ออเดอร์ ร้านจะเห็นออเดอร์หลังกดเท่านั้น · ต้องกดภายใน 15 นาทีหลังจอง ไม่งั้นคิวถูกคืน</p></div>
-                <p class="pf-note">ตอนรับอาหารให้บอกเลขคิว (#) กับร้าน ร้านไม่เห็นชื่อหรือห้องของคุณ · แอปแค่จองคิว ไม่รับเงิน · จ่ายแล้วยกเลิกเองไม่ได้ ต้องคุยกับร้าน · แจ้งเตือนเมื่อร้านทำเสร็จจะมาถึงเฉพาะเครื่องที่ล็อกอินอีเมลและเปิดแจ้งเตือนไว้ · ไม่มาตามเวลา ร้านอาจเก็บอาหารไว้ให้ไม่ได้</p>
+                <details class="fd-more"><summary>ข้อควรรู้</summary><ul>
+                  <li>สั่งแล้วต้องจ่ายผ่าน QR ของร้านและส่งรูปสลิปภายใน 15 นาที ไม่งั้นออเดอร์จะถูกยกเลิก</li>
+                  <li>ระบบเช็กยอดเงิน เวลาโอน และบัญชีร้านจากรูปสลิปให้อัตโนมัติ ไม่เก็บรูปไว้ (ปิดชื่อและเลขบัญชีของคุณในรูปได้)</li>
+                  <li>ร้านเห็นแค่เลขคิว (#) ไม่เห็นชื่อหรือห้อง ตอนรับอาหารให้บอกเลขคิว</li>
+                  <li>จ่ายแล้วยกเลิกเองไม่ได้ ต้องคุยกับร้าน · ไม่มาตามเวลา ร้านอาจเก็บอาหารไว้ให้ไม่ได้</li>
+                  <li>แจ้งเตือนตอนทำเสร็จมาถึงเฉพาะเครื่องที่ล็อกอินอีเมลและเปิดแจ้งเตือนไว้</li>
+                </ul></details>
+                <div id="foDlg" class="fd-dlg hidden" role="alertdialog" aria-modal="true" aria-labelledby="foDlgT" aria-describedby="foDlgP"><div><h3 id="foDlgT"></h3><p id="foDlgP"></p><button id="foDlgOk" class="fd-go"></button><button id="foDlgNo" class="fd-sec"></button></div></div>
+              </div>
+            </div>
+            <div id="foDet" class="pf-sheet fd-det hidden" style="z-index:81" onclick="if(event.target===this)foDetClose()">
+              <div class="pf-panel fd" role="dialog" aria-modal="true" aria-labelledby="foDetT">
+                <div class="pf-ph fd-detph"><button onclick="foDetClose()" aria-label="กลับไปหน้าสั่งอาหาร"><i data-lucide="arrow-left"></i></button><b id="foDetT">รายละเอียดออเดอร์</b><span></span></div>
+                <p id="foDetErr" class="pf-err hidden" role="alert" style="margin-top:0.75rem"></p>
+                <div id="foDetBody"></div>
               </div>
             </div>
             <!-- เพื่อนติว (AI): ถามเรื่องเรียน จำกัดต่อคนต่อวัน ไม่เก็บบทสนทนา -->
@@ -1613,7 +1744,6 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         <button id="navHome" class="on" aria-current="page" onclick="setView('home')"><i data-lucide="calendar-days"></i><span>ตาราง</span></button>
         <button id="navSocial" onclick="setView('social')"><i data-lucide="sparkles"></i><span>โซเชียล</span></button>
         <button id="navRoom" onclick="setView('room')"><i data-lucide="users"></i><span>ห้องเรา</span><span id="navRoomDot" class="hidden absolute top-1 left-1/2 ml-2 w-2 h-2 rounded-full bg-rose-500"></span></button>
-        <button id="navFood" class="student-only" onclick="foodOpen()"><i data-lucide="utensils"></i><span>สั่งอาหาร</span></button>
         <button id="navPortfolio" style="display:none" onclick="setView('portfolio')"><i data-lucide="file-pen-line"></i><span>พอร์ต</span></button>
         <button id="navMenu" onclick="setView('menu')"><i data-lucide="menu"></i><span>โปรไฟล์</span></button>
       </nav>
@@ -3132,7 +3262,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         else if (r.error === 'filter_word') alert(harshMsg(r, 'ข้อความมีถ้อยคำที่ไม่อนุญาต ปรับแล้วลองอีกครั้ง') || 'ข้อความมีถ้อยคำที่ไม่อนุญาต ปรับแล้วลองอีกครั้ง');
         else alert('โพสต์ไม่สำเร็จ ตรวจหัวข้อแล้วลองอีกครั้ง');
       }
-      document.addEventListener('visibilitychange', () => { if (!document.hidden && currentGrade) { if (!teacherMode) loadAnnouncements(); loadNotice(); renderHomeCards(); } });
+      document.addEventListener('visibilitychange', () => { if (!document.hidden && currentGrade) { if (!teacherMode) { loadAnnouncements(); foodPeek(); } loadNotice(); renderHomeCards(); } });
 
       // --- แถบประกาศจากผู้ดูแล (site_notices: ส่งจากหน้าแอดมิน แสดงถึงเวลาหมดอายุ ผู้ใช้ปิดแถบนั้นได้) ---
       async function loadNotice() {
@@ -3454,7 +3584,6 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         currentGrade = null;
         localStorage.removeItem('classkhab_student');
         leaveTeacher();
-        applyFoodGate();
         if (UI2) document.documentElement.dataset.view = 'home';
         showAuthScreen();
       }
@@ -3574,13 +3703,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       const VIEW_ORDER = ['home', 'social', 'msg', 'room', 'portfolio', 'menu'];
       const PORTFOLIO_OPEN = false;
       // ระบบสั่งอาหาร (ร้าน ก.ไก่ ข.ไข่): ปิดปุ่มจากหน้าเว็บไว้ก่อน (โค้ดและหลังบ้านยังอยู่ครบ) เปิดคืน: FOOD_OPEN = true
-      // เปิดให้เฉพาะห้องที่อยู่ใน FOOD_CLASSES (ตอนนี้ทดลองเฉพาะ ม.3/1) · ปิดทุกห้อง: ใส่ [] · เปิดทุกห้อง: FOOD_ALL = true
-      // หมายเหตุ: ซ่อนแค่ปุ่มบนหน้าเว็บ ฟังก์ชัน food ฝั่งเซิร์ฟเวอร์ยังไม่ได้ล็อกห้อง
-      const FOOD_ALL = false, FOOD_CLASSES = ['ม.3/1'];
-      function applyFoodGate() {
-        const on = !teacherMode && !!currentGrade && (FOOD_ALL || FOOD_CLASSES.includes(currentGrade));
-        document.documentElement.classList.toggle('food-on', on);
-      }
+      const FOOD_OPEN = false;
+      if (FOOD_OPEN) document.documentElement.classList.add('food-on');
       // ใช้ Web Animations API: ไม่ต้องบังคับคำนวณหน้าใหม่เพื่อเริ่มซ้ำ และจบแล้วไม่ทิ้ง transform ค้างบน #dashCard
       // (ถ้าค้าง แผงที่ position:fixed ข้างใน เช่น หน้าแก้โปรไฟล์ จะถูกขังในการ์ด)
       function playViewIn(dir) {
@@ -3739,6 +3863,10 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         else if (Number.isInteger(p.preset)) el.style.backgroundImage = withOv('url("' + presetUri(p.preset) + '")');
         else { el.textContent = (p.name || '').trim().charAt(0) || '?'; if (ov) { el.style.backgroundImage = 'url("' + ov + '")'; el.style.backgroundSize = 'cover'; el.style.backgroundPosition = 'center'; } return; }
         el.style.backgroundSize = 'cover'; el.style.backgroundPosition = 'center';
+      }
+      // ส่งหน้าตาอวตารให้หน้าแผนที่ (โหมดเดินสำรวจ) ผ่าน sessionStorage ของแท็บนี้ ไม่ส่งขึ้นเซิร์ฟเวอร์
+      function mapAva() {
+        try { const p = readProfile(); sessionStorage.setItem('classkhab_map_ava', JSON.stringify({ c: p.color || PF_COLORS[0], b: (p.img || '').startsWith('data:image/') ? p.img : (Number.isInteger(p.preset) ? presetUri(p.preset) : ''), o: outfitUri(p.outfit), t: (p.name || '').trim().charAt(0) })); } catch (e) { /* ไม่เป็นไร แผนที่ใช้ตัวละครพื้นฐาน */ }
       }
       const avaCanSync = () => !!getSid() || (teacherMode && !!teacherToken());   // รูปที่เพื่อนเห็นต้องมีตัวตนบนเซิร์ฟเวอร์: นักเรียนล็อกอินอีเมล หรือครูล็อกอินรหัสครู
       // รูปที่ตั้งไว้ในเครื่องแต่ยังไม่เคยขึ้นเซิร์ฟเวอร์ (เช่นตั้งก่อนมีระบบนี้) ส่งขึ้นเองหนึ่งครั้งต่อรูป ถ้าเซิร์ฟเวอร์ตอบชัดเจน (ผ่าน/ไม่ผ่าน) จำไว้ ไม่ส่งซ้ำ ถ้าเน็ตหรือระบบตรวจรูปขัดข้องจะลองใหม่ตอนเปิดเว็บครั้งหน้า
@@ -4254,9 +4382,9 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         qtList();
       }
       // ===== จองไข่ข้น (ร้าน ก.ไก่ ข.ไข่) · จองคิวรับเท่านั้น ไม่แตะเงิน =====
-      const FO_ERR = { login: 'ต้องเข้าสู่ระบบด้วยอีเมลโรงเรียนก่อน (โปรไฟล์ > ออกจากระบบ แล้วเข้าด้วยเลขประจำตัวหรืออีเมล)', closed: 'วันนี้ร้านไม่เปิดรับจอง (เสาร์-อาทิตย์)', cutoff: 'ปิดรับจองของวันนี้แล้ว', off: 'ร้านปิดรับจองชั่วคราว', limit: 'จองได้ไม่เกิน 2 ออเดอร์ต่อวัน', full: 'คิวเต็มตอนนี้ ลองใหม่อีกสักพัก (หรือเลือกช่วงอื่นถ้าเป็นโหมดจอง)', window: 'ตอนนี้ไม่ใช่ช่วงสั่ง (สั่งได้ช่วงพักกลางวันของชั้นคุณ)', bad: 'ข้อมูลไม่ถูกต้อง ลองเลือกใหม่', auth: 'ต้องเข้าสู่ระบบห้องใหม่ก่อน', net: 'เชื่อมต่อไม่ได้ ลองใหม่อีกครั้ง', gone: 'ทำรายการไม่ได้แล้ว', custom: 'ตามสั่ง: เขียนเมนูที่ต้องการก่อน', filter_link: 'ห้ามใส่ลิงก์', filter_contact: 'ห้ามใส่เบอร์โทรหรืออีเมล', filter_word: 'มีคำที่ไม่อนุญาต', ai_note: 'ข้อความหมายเหตุนี้ไม่เหมาะสม ลองเขียนใหม่ให้เป็นเรื่องอาหาร' };
+      const FO_ERR = { slip_img: 'อ่านรูปไม่ได้ ลองแคปหน้าจอสลิปแล้วแนบใหม่', slip_reused: 'สลิปนี้ถูกใช้กับออเดอร์อื่นแล้ว', slip_unavailable: 'ตอนนี้ตรวจสลิปไม่ได้', slip_budget: 'ตอนนี้ตรวจสลิปไม่ได้ (โควตา AI เดือนนี้หมด)', rate: 'ตรวจสลิปถี่เกินไป รอสักครู่แล้วลองใหม่', login:'ต้องเข้าสู่ระบบด้วยอีเมลโรงเรียนก่อน (โปรไฟล์ > ออกจากระบบ แล้วเข้าด้วยเลขประจำตัวหรืออีเมล)', closed: 'วันเสาร์-อาทิตย์ร้านไม่เปิด', cutoff: 'วันนี้หมดเวลาสั่งแล้ว', off: 'ร้านหยุดรับออเดอร์ชั่วคราว', limit: 'สั่งได้ไม่เกิน 2 ออเดอร์ต่อวัน', full: 'ตอนนี้ร้านรับไม่ทันแล้ว ลองใหม่อีกสักพัก หรือเลือกเวลามารับอื่น', window: 'ตอนนี้ไม่ใช่ช่วงสั่ง (สั่งได้ช่วงพักกลางวันของชั้นคุณ)', bad: 'ข้อมูลไม่ถูกต้อง ลองเลือกใหม่', auth: 'ต้องเข้าสู่ระบบห้องใหม่ก่อน', net: 'เชื่อมต่อไม่ได้ ลองใหม่อีกครั้ง', gone: 'ออเดอร์นี้ใช้ไม่ได้แล้ว', custom: 'ตามสั่ง: เขียนเมนูที่ต้องการก่อน', filter_link: 'ห้ามใส่ลิงก์', filter_contact: 'ห้ามใส่เบอร์โทรหรืออีเมล', filter_word: 'มีคำที่ไม่อนุญาต', ai_note: 'ข้อความหมายเหตุนี้ไม่เหมาะสม ลองเขียนใหม่ให้เป็นเรื่องอาหาร' };
       const FO_ST = { new: 'รอร้านทำ (จ่ายแล้ว)', done: 'เสร็จแล้ว มารับได้', rejected: 'ร้านรับไม่ได้', cancelled: 'ยกเลิกแล้ว' };
-      let foSel = { item: null, slot: null }, foData = null, foBusy = false;
+      let foSel = { item: null, slot: null, qty: 1 }, foData = null, foBusy = false, foTick = 0, foPoll = 0, foLimitNote = false;
       async function foodCall(body) {
         const token = getToken(); if (!token) return { ok: false, error: 'auth' };
         try {
@@ -4264,67 +4392,255 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const j = await res.json().catch(() => ({})); return { ...j, status: res.status };
         } catch (e) { return { ok: false, error: 'net' }; }
       }
-      function foInfoText(r) {
-        if (!r.enabled) return FO_ERR.off;
-        if (r.mode === 'walkup') {
-          return r.open ? 'สั่งตอนพัก · คิวตอนนี้ ' + r.queue + '/' + r.cap + ' จาน (ประมาณ ' + r.queue * r.min_per_dish + ' นาที) · จ่าย QR ก่อน ร้านถึงจะได้ออเดอร์ · ทำเสร็จแล้วจะแจ้งเตือน'
-            : 'เปิดสั่งในช่วงพักกลางวันของชั้นคุณ เริ่ม ' + r.window.from + ' น. (ปิดรับก่อนพักจบ ' + r.window.close_before + ' นาที)';
-        }
-        return !r.open ? 'ปิดรับจองแล้ววันนี้ (รับจองก่อน ' + r.cutoff + ' ในวันเรียน)' : 'จองได้ก่อน ' + r.cutoff + ' · รับตามเวลาพักกลางวันของชั้นคุณ · จ่ายผ่าน QR ก่อน ร้านถึงจะได้ออเดอร์';
+      // การ์ดสั่งอาหารบนหน้าตาราง: ถามสถานะร้านเบาๆ (เฉพาะนักเรียนที่ล็อกอินอีเมลแล้ว และเมื่อเปิดระบบ) ไม่ถี่กว่า 1 ครั้ง/นาที
+      let foPeekAt = 0;
+      async function foodPeek() {
+        if (!FOOD_OPEN || teacherMode || !getSid() || Date.now() - foPeekAt < 60000) return;
+        foPeekAt = Date.now();
+        const r = await foodCall({ action: 'info' });
+        window._food = r && r.ok ? r : null; renderHomeCards();
       }
-      function foodClose() { document.getElementById('foSheet').classList.add('hidden'); }
-      function foNote(msg) { const e = document.getElementById('foErr'); e.textContent = msg || ''; e.classList.toggle('hidden', !msg); }
-      async function foodOpen() { document.getElementById('foSheet').classList.remove('hidden'); if (window.lucide) lucide.createIcons(); { const q = document.getElementById('foQr'); if (q && !q.getAttribute('src')) q.src = 'food-qr.png'; } foSel = { item: null, slot: null }; foNote(''); await foodLoad(); }
+      function foodCard() {
+        const r = window._food; if (!FOOD_OPEN || teacherMode || !r) return null;
+        const o = r.mine.filter((x) => x.status === 'new' || x.status === 'done').pop(), q = o ? '#' + (o.id % 1000) + ' · ' + o.item + (o.qty > 1 ? ' × ' + o.qty : '') : '';
+        if (o) { const st = foStage(o); return { title: st === 3 ? 'ข้าวไข่ข้นเสร็จแล้ว มารับได้' : st === 2 ? 'ร้านกำลังทำข้าวไข่ข้น' : 'รอจ่ายเงิน', text: q + ' · แตะเพื่อดูออเดอร์' }; }
+        if (!r.enabled || !r.open || !r.items.length) return null;
+        return { title: 'สั่งข้าวไข่ข้นวันนี้', text: r.mode === 'walkup' ? 'สั่งตอนพักได้ · มีคนรออยู่ ' + r.queue + ' จาน' : 'สั่งได้ถึง ' + r.cutoff + ' น. · มารับตอนพักเที่ยง' };
+      }
+      // เวลาที่จองในเครื่องนี้ (ใช้นับถอยหลัง 15 นาทีให้จ่าย) · เก็บแค่เลขออเดอร์กับเวลา ล้างเองเมื่อเกินหนึ่งวัน
+      function foBooked(id, at) {
+        let m = {}; try { m = JSON.parse(localStorage.getItem('classkhab_fo_t') || '{}') || {}; } catch (e) { m = {}; }
+        if (at) { const cut = Date.now() - 86400000; for (const k of Object.keys(m)) if (m[k] < cut) delete m[k]; m[id] = at; try { localStorage.setItem('classkhab_fo_t', JSON.stringify(m)); } catch (e) { /* ไม่เป็นไร */ } }
+        return m[id] || 0;
+      }
+      function foInfoRender(r) {
+        const box = document.getElementById('foInfo'); box.replaceChildren();
+        const on = r.enabled && r.open; box.classList.toggle('on', on); box.append(mk('i'));
+        const t = mk('div'); t.style.flex = '1';
+        if (!r.enabled) t.textContent = 'ร้านหยุดรับออเดอร์ชั่วคราว';
+        else if (r.mode === 'walkup') {
+          if (r.open) {
+            t.append(document.createTextNode('สั่งตอนพักได้ · มีคนรออยู่ ' + r.queue + ' จาน · รอประมาณ ' + r.queue * r.min_per_dish + ' นาที'));
+            const bar = mk('div', 'fd-meter'), fill = mk('span'); fill.style.width = Math.min(100, Math.round((r.queue / Math.max(1, r.cap)) * 100)) + '%'; bar.append(fill); t.append(bar);
+          } else t.textContent = 'สั่งได้ตอนพักเที่ยงของชั้นคุณ เริ่ม ' + r.window.from + ' น. (หยุดรับก่อนหมดพัก ' + r.window.close_before + ' นาที)';
+        } else t.textContent = r.open ? 'สั่งได้ถึง ' + r.cutoff + ' น. · มารับตอนพักเที่ยงของชั้นคุณ' + (r.window && r.window.to ? ' (' + r.window.from + '–' + r.window.to + ')' : '') : 'วันนี้หมดเวลาสั่งแล้ว (สั่งได้ก่อน ' + r.cutoff + ' น. ในวันเรียน)';
+        if (r.window && r.window.note) { const n = mk('div', 'fd-sub', 'ช่วงนี้เวลาพักเปลี่ยนตามประกาศโรงเรียน'); n.style.marginTop = '4px'; t.append(n); }
+        box.append(t);
+      }
+      function foodClose() { if (foDetId != null) foDetClose(); document.getElementById('foSheet').classList.add('hidden'); document.getElementById('foDlg').classList.add('hidden'); clearInterval(foTick); clearInterval(foPoll); foTick = foPoll = 0; foPeekAt = 0; foodPeek(); }
+      function foNote(msg) { for (const id of ['foErr', 'foDetErr']) { const e = document.getElementById(id); if (!e) continue; const show = !!msg && (id === 'foErr' || foDetId != null); e.textContent = show ? msg : ''; e.classList.toggle('hidden', !show); } }
+      async function foodOpen() {
+        document.getElementById('foSheet').classList.remove('hidden'); if (window.lucide) lucide.createIcons();
+        foSel = { item: null, slot: null, qty: 1 }; document.getElementById('foNoteIn').value = ''; foNote('');
+        await foodLoad();
+        clearInterval(foPoll); foPoll = setInterval(() => { const s = document.getElementById('foSheet'); if (s.classList.contains('hidden')) { clearInterval(foPoll); foPoll = 0; return; } if (!document.hidden && !foBusy && foData && foData.mine.some((o) => o.status === 'new')) foodLoad(); }, 20000);
+      }
       async function foodLoad() {
         const g = (id) => document.getElementById(id), r = await foodCall({ action: 'info' });
-        if (!r.ok) { g('foInfo').textContent = ''; g('foForm').classList.add('hidden'); foNote(FO_ERR[r.error] || 'โหลดไม่สำเร็จ'); return; }
-        foData = r;
-        const can = r.enabled && r.open;
-        g('foInfo').textContent = foInfoText(r);
+        if (!r.ok) { g('foInfo').replaceChildren(); g('foForm').classList.add('hidden'); g('foMine').replaceChildren(); foNote(FO_ERR[r.error] || 'โหลดไม่สำเร็จ'); return; }
+        foData = r; foInfoRender(r); if (foLimitNote) { foNote(''); foLimitNote = false; }
+        const active = r.mine.filter((o) => o.status === 'new').length;
+        const can = r.enabled && r.open && active < (r.max_active || 2);
         g('foForm').classList.toggle('hidden', !can);
-        const walk = r.mode === 'walkup'; g('foSlotLbl').classList.toggle('hidden', walk); g('foSlots').classList.toggle('hidden', walk);
-        if (!foSel.item) { const d = r.items.find((i) => i.custom); if (d) foSel.item = d.id; }   // ค่าเริ่มต้น: เลือก "ตามสั่ง" ไว้ให้
+        g('foSlotWrap').classList.toggle('hidden', r.mode === 'walkup');
+        if (foSel.item && !r.items.some((i) => i.id === foSel.item)) foSel.item = null;   // เมนูถูกตั้งเป็นหมด
+        if (!foSel.item && r.items.length === 1) foSel.item = r.items[0].id;
         const items = g('foItems'); items.replaceChildren();
-        for (const it of r.items) { const b = mk('button', 'fo-opt' + (foSel.item === it.id ? ' on' : '')); b.type = 'button'; b.append(mk('span', null, it.name), mk('span', null, it.max > it.price ? it.price + '–' + it.max + ' บาท' + (it.custom ? ' (พิมพ์ราคาเอง)' : '') : it.price + ' บาท')); b.onclick = () => { foSel.item = it.id; items.querySelectorAll('.fo-opt').forEach((x) => x.classList.toggle('on', x === b)); foodRender(); }; items.append(b); }
+        if (!r.items.length) items.append(mk('p', 'pf-note', 'วันนี้เมนูหมดแล้ว'));
+        for (const it of r.items) {
+          const b = mk('button', 'fd-item'); b.type = 'button'; b.setAttribute('aria-pressed', foSel.item === it.id ? 'true' : 'false');
+          b.append(mk('b', null, it.name), mk('span', null, it.custom ? 'ตามสั่ง · ' + it.price + (it.max > it.price ? '–' + it.max : '') + ' บาท' : it.max > it.price ? it.price + '–' + it.max + ' บาท' : it.price + ' บาท'));
+          b.onclick = () => { foSel.item = it.id; items.querySelectorAll('.fd-item').forEach((x) => x.setAttribute('aria-pressed', x === b ? 'true' : 'false')); foodRender(); };
+          items.append(b);
+        }
         const sl = g('foSlots'); sl.replaceChildren();
-        for (const s of r.slots) { const b = mk('button', 'fo-opt' + (foSel.slot === s.t ? ' on' : '')); b.type = 'button'; b.disabled = s.left < 1; b.dataset.t = s.t; b.append(document.createTextNode(s.t)); b.append(mk('small', null, s.left < 1 ? 'เต็ม' : 'เหลือ ' + s.left)); b.onclick = () => { foSel.slot = s.t; foodRender(); }; sl.append(b); }
-        foodRender();
-        const mine = g('foMine'); mine.replaceChildren();
-        if (!r.mine.length) mine.append(mk('p', 'pf-note', 'ยังไม่มีออเดอร์'));
-        for (const o of r.mine) { const d = mk('div', 'fo-mine'); d.append(mk('b', null, `#${o.id % 1000} ${o.item}${o.qty > 1 ? ' x' + o.qty : ''} · ${o.slot === 'now' ? 'รับเมื่อเสร็จ' : 'รับ ' + o.slot} · ${o.total} บาท`), mk('span', null, (o.status === 'new' && !o.claimed ? 'รอชำระ: สแกน QR ด้านล่างแล้วกดปุ่ม' : FO_ST[o.status]) + (o.paid ? ' · ร้านยืนยันยอดแล้ว' : ''))); if (r.mode === 'walkup' && o.status === 'new' && o.claimed) d.append(mk('div', 'pf-note', 'ก่อนคุณ ' + o.ahead + ' จาน · ประมาณ ' + (o.ahead + o.qty) * r.min_per_dish + ' นาที')); if (o.note) d.append(mk('div', 'pf-note', 'ระบุ: ' + o.note)); if (o.status === 'new' && !o.claimed) { const p = mk('button', 'fo-act', 'ฉันจ่ายแล้ว'); p.onclick = () => foodClaim(o.id); d.append(p); const c = mk('button', null, 'ยกเลิก'); c.style.cssText = 'margin-top:0.4rem;color:#dc2626;font-size:0.8rem'; c.onclick = () => foodCancel(o.id); d.append(c); } mine.append(d); }
-        const hasLive = r.mine.some((o) => o.status === 'new' && !o.claimed); const pay = g('foPay'); if (pay) pay.classList.toggle('hidden', !hasLive);
+        if (foSel.slot && !r.slots.some((s) => s.t === foSel.slot && s.left > 0)) foSel.slot = null;
+        for (const s of r.slots) { const b = mk('button', 'fd-chip'); b.type = 'button'; b.disabled = s.left < 1; b.dataset.t = s.t; b.setAttribute('aria-pressed', foSel.slot === s.t ? 'true' : 'false'); b.append(document.createTextNode(s.t), mk('small', null, s.left < 1 ? 'เต็ม' : 'เหลือ ' + s.left)); b.onclick = () => { foSel.slot = s.t; foodRender(); }; sl.append(b); }
+        foodRender(); foMineRender(r);
+        if (active >= (r.max_active || 2) && r.enabled && r.open && !document.getElementById('foErr').textContent) foLimitNote = true, foNote('สั่งค้างไว้ได้ไม่เกิน ' + (r.max_active || 2) + ' ออเดอร์ รอร้านทำเสร็จก่อนแล้วค่อยสั่งเพิ่ม');
       }
+      // รายการออเดอร์แบบย่อในหน้าสั่ง: แตะเพื่อเปิดหน้ารายละเอียด
+      let foDetId = null;
+      function foStage(o) {   // ขั้นของออเดอร์: 1 รอจ่าย · 2 ร้านกำลังทำ · 3 มารับได้ · -1 ทำไม่ได้ · -2 ยกเลิก
+        if (o.status === 'done') return 3; if (o.status === 'rejected') return -1; if (o.status === 'cancelled') return -2;
+        return o.claimed ? 2 : 1;
+      }
+      function foMineRender(r) {
+        const mine = document.getElementById('foMine'); mine.replaceChildren();
+        const list = r.mine.filter((o) => o.status !== 'cancelled' || o.claimed).slice().reverse();
+        if (list.length) mine.append(mk('span', 'fd-h', 'ออเดอร์วันนี้ของคุณ'));
+        for (const o of list) {
+          const st = foStage(o), b = mk('button', 'fd-li'); b.type = 'button'; b.setAttribute('aria-label', 'ดูรายละเอียดออเดอร์ #' + (o.id % 1000));
+          const t = mk('div', 't'); t.append(mk('b', null, o.item + (o.qty > 1 ? ' × ' + o.qty : '') + ' · ' + o.total + ' บาท'));
+          const s2 = st === 1 ? mk('span', 'w fd-left', 'รอจ่ายเงิน') : st === 2 ? mk('span', null, 'ร้านกำลังทำ') : st === 3 ? mk('span', 'ok', 'เสร็จแล้ว มารับได้') : mk('span', 'bad', st === -1 ? 'ร้านทำให้ไม่ได้' : 'ยกเลิกแล้ว');
+          if (st === 1) s2.dataset.id = o.id; t.append(s2);
+          const ic = mk('i'); ic.setAttribute('data-lucide', 'chevron-right');
+          b.append(mk('span', 'q', '#' + (o.id % 1000)), t, ic); b.onclick = () => foDetOpen(o.id); mine.append(b);
+        }
+        if (window.lucide) lucide.createIcons();
+        if (foDetId != null) foDetRender();
+        foTickRun();
+      }
+      function foDetOpen(id) { foDetId = id; document.getElementById('foDet').classList.remove('hidden'); foDetRender(); foTickRun(); document.getElementById('foDet').querySelector('.pf-panel').scrollTop = 0; }
+      function foDetClose() { foDetId = null; document.getElementById('foDet').classList.add('hidden'); const d = document.getElementById('foDlg'); if (d.parentElement !== document.querySelector('#foSheet .pf-panel')) { d.classList.add('hidden'); document.querySelector('#foSheet .pf-panel').append(d); } foTickRun(); }
+      function foIcon(name) { const i = mk('i'); i.setAttribute('data-lucide', name); return i; }
+      function foDetRender() {
+        const body = document.getElementById('foDetBody'), o = foData && foData.mine.find((x) => x.id === foDetId);
+        if (!o) { foDetClose(); return; }
+        const r = foData, st = foStage(o), q = '#' + (o.id % 1000), walk = o.slot === 'now';
+        body.replaceChildren();
+        // หัว: สถานะตัวใหญ่ + ไอคอนในวงกลม
+        const HERO = {
+          1: ['รอคุณจ่ายเงิน', 'จ่ายผ่าน QR ของร้าน แล้วส่งรูปสลิปเพื่อยืนยัน', 'wallet', 'w'],
+          2: ['ร้านกำลังทำอาหาร', walk ? 'ก่อนคุณ ' + o.ahead + ' จาน · รอประมาณ ' + (o.ahead + o.qty) * r.min_per_dish + ' นาที' : 'จะเสร็จทันเวลามารับ ' + o.slot + ' น.', 'chef-hat', ''],
+          3: ['อาหารเสร็จแล้ว มารับได้เลย', 'บอกเลขคิว ' + q + ' ที่ร้าน', 'shopping-bag', 'ok'],
+          '-1': ['ร้านทำออเดอร์นี้ให้ไม่ได้', 'คุยกับร้านเรื่องคืนเงินได้เลย', 'circle-x', 'bad'],
+          '-2': ['ออเดอร์นี้ถูกยกเลิก', 'สั่งใหม่ได้ที่หน้าสั่งอาหาร', 'circle-x', 'bad'],
+        }[st];
+        const hero = mk('div', 'fd-hero'), ht = mk('div'); ht.append(mk('h2', null, HERO[0]), mk('p', null, HERO[1]));
+        const art = mk('div', 'fd-art ' + HERO[3]); art.append(foIcon(HERO[2])); hero.append(ht, art); body.append(hero);
+        // แถบขั้นตอนแบบไอคอน
+        if (st > 0) {
+          const tr = mk('div', 'fd-track'); tr.setAttribute('role', 'img'); tr.setAttribute('aria-label', 'ขั้นตอน: ' + ['สั่งแล้ว', 'จ่ายเงิน', 'ร้านกำลังทำ', 'มารับได้'].slice(0, st + 1).join(' → '));
+          const steps = [['receipt', 'สั่งแล้ว'], ['wallet', 'จ่ายเงิน'], ['chef-hat', 'ร้านกำลังทำ'], ['shopping-bag', 'มารับได้']];
+          steps.forEach((p, i) => { const ti = mk('span', 'fd-ti' + (i < st ? ' on' : i === st ? ' now' : '')); ti.append(foIcon(p[0])); tr.append(ti); if (i < 3) tr.append(mk('span', 'fd-tb' + (i < st ? ' on' : i === st && st < 3 ? ' half' : ''))); });
+          steps.forEach((p, i) => { const l = mk('span', 'fd-tl' + (i === st ? ' now' : ''), p[1]); l.style.gridColumn = String(i * 2 + 1); l.style.gridRow = '2'; tr.append(l); });
+          body.append(tr);
+          body.append(mk('p', 'fd-hint', st === 1 ? 'ร้านจะเห็นออเดอร์หลังได้รูปสลิปแล้วเท่านั้น' : st === 2 ? 'เราจะแจ้งเตือนเมื่ออาหารเสร็จ (ต้องเปิดแจ้งเตือนไว้)' : 'ถ้ามาไม่ทันเวลา ร้านอาจเก็บอาหารไว้ให้ไม่ได้'));
+        }
+        // จ่ายเงิน (เฉพาะยังไม่จ่าย)
+        if (st === 1) {
+          const pay = mk('div', 'fd-pay'), img = mk('img'); img.alt = 'QR พร้อมเพย์ของร้าน สำหรับจ่ายเงิน'; img.src = 'food-qr.png'; img.onerror = () => img.replaceWith(mk('p', 'fd-msg', 'ยังไม่มี QR ในแอป ขอ QR จ่ายเงินจากร้านโดยตรง'));
+          pay.append(img, mk('div', 'fd-amt', 'โอน ' + o.total + ' บาท'));
+          const left = mk('div', 'fd-left'); left.dataset.id = o.id; pay.append(left);
+          pay.append(mk('p', 'pf-note', 'บันทึกรูป QR แล้วเปิดในแอปธนาคารได้ · ระบบเช็กสลิปให้อัตโนมัติ ไม่เก็บรูปไว้'));
+          const go = mk('button', 'fd-go', 'จ่ายแล้ว ส่งรูปสลิป'); go.type = 'button'; go.onclick = () => foodClaim(o.id); pay.append(go);
+          const cx = mk('button', 'fd-link', 'ยกเลิกออเดอร์นี้'); cx.type = 'button'; cx.onclick = () => foodCancel(o.id); pay.append(cx);
+          body.append(pay);
+        }
+        // การ์ดรับอาหาร
+        const pick = mk('div', 'fd-card');
+        const r1 = mk('div', 'fd-row'), d1 = foIcon('store'), c1 = mk('div'); c1.append(mk('div', 'fd-lbl', 'รับอาหารที่'), mk('div', 'fd-val', 'ร้าน ก.ไก่ ข.ไข่'), mk('div', 'fd-sub', 'จ่ายเงินให้ร้านโดยตรง แอปไม่ได้เก็บเงิน')); r1.append(d1, c1);
+        const r2 = mk('div', 'fd-row'), d2 = foIcon('clock'), c2 = mk('div'); c2.append(mk('div', 'fd-lbl', 'เวลามารับ'), mk('div', 'fd-val', walk ? 'เมื่อได้แจ้งเตือนว่าเสร็จ' : o.slot + ' น. (พักเที่ยง)')); r2.append(d2, c2);
+        const r3 = mk('div', 'fd-row'), d3 = foIcon('ticket'), c3 = mk('div'); c3.append(mk('div', 'fd-lbl', 'เลขคิว (บอกร้านตอนรับอาหาร)'), mk('div', 'fd-bigq', q)); r3.append(d3, c3);
+        pick.append(r1, r2, r3); body.append(pick);
+        // การ์ดรายการ
+        const items = mk('div', 'fd-card'); items.append(mk('div', 'fd-ctitle', 'รายการที่สั่ง'));
+        const unit = o.qty ? Math.round(o.total / o.qty) : o.total;
+        const l1 = mk('div', 'fd-line'); l1.append(mk('span', null, o.item + ' × ' + o.qty), mk('span', null, unit * o.qty + ' บาท')); items.append(l1);
+        if (o.note) items.append(mk('div', 'fd-sub', 'บอกร้าน: ' + o.note));
+        const lt = mk('div', 'fd-line tot'); lt.append(mk('span', null, 'รวม'), mk('span', null, o.total + ' บาท')); items.append(lt);
+        items.append(mk('div', 'fd-sub', st === 1 ? 'ยังไม่ได้จ่าย' : o.paid ? 'จ่ายผ่าน QR ร้าน · ร้านได้รับเงินแล้ว' : st > 1 ? 'จ่ายผ่าน QR ร้าน · ส่งรูปสลิปแล้ว' : ''));
+        body.append(items);
+        // สั่งเพิ่ม: กลับไปที่เมนูในหน้าสั่ง · ถ้าสั่งไม่ได้ บอกเหตุผลแทนปุ่ม
+        const active = r.mine.filter((x) => x.status === 'new').length, max = r.max_active || 2;
+        const why = !r.enabled ? 'ร้านหยุดรับออเดอร์ชั่วคราว' : !r.open ? (r.mode === 'walkup' ? 'ตอนนี้ยังไม่ใช่ช่วงสั่ง (สั่งได้ตอนพักเที่ยงของชั้นคุณ)' : 'วันนี้หมดเวลาสั่งแล้ว') : !r.items.length ? 'วันนี้เมนูหมดแล้ว' : active >= max ? 'สั่งค้างไว้ได้ไม่เกิน ' + max + ' ออเดอร์ รอร้านทำเสร็จก่อนแล้วค่อยสั่งเพิ่ม' : '';
+        if (why) body.append(mk('p', 'fd-again-note', why));
+        else { const more = mk('button', 'fd-again'); more.type = 'button'; more.append(foIcon('plus'), document.createTextNode('สั่งเพิ่ม')); more.onclick = foOrderMore; body.append(more); }
+        if (window.lucide) lucide.createIcons();
+      }
+      async function foOrderMore() {   // ปิดหน้ารายละเอียด แล้วเลื่อนหน้าสั่งไปที่เมนู
+        foDetClose();
+        foSel = { item: null, slot: null, qty: 1 }; document.getElementById('foNoteIn').value = ''; await foodLoad();
+        const panel = document.querySelector('#foSheet .pf-panel'), form = document.getElementById('foForm');
+        if (form.classList.contains('hidden')) return;
+        panel.scrollTo({ top: Math.max(0, form.offsetTop - 72), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      }
+      function foTickRun() {   // นับถอยหลังเวลาจ่าย 15 นาที (เฉพาะออเดอร์ที่จองจากเครื่องนี้)
+        clearInterval(foTick); foTick = 0;
+        const els = [...document.querySelectorAll('#foMine .fd-left, #foDetBody .fd-left')]; if (!els.length) return;
+        const win = ((foData && foData.pay_min) || 15) * 60000;
+        const tick = () => {
+          let gone = false;
+          for (const e of els) { const at = foBooked(Number(e.dataset.id)); if (!at) { e.textContent = 'จ่ายและส่งรูปสลิปภายใน 15 นาทีหลังสั่ง'; continue; } const ms = at + win - Date.now(); if (ms <= 0) { e.textContent = 'หมดเวลาจ่าย ออเดอร์นี้ถูกยกเลิกแล้ว'; gone = true; continue; } const s = Math.ceil(ms / 1000); e.textContent = 'เหลือเวลาจ่าย ' + Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0') + ' นาที'; }
+          if (gone) { clearInterval(foTick); foTick = 0; setTimeout(foodLoad, 1500); }
+        };
+        tick(); foTick = setInterval(tick, 1000);
+      }
+      function foQty(d) { const max = (foData && foData.max_qty) || 3; foSel.qty = Math.max(1, Math.min(max, (foSel.qty || 1) + d)); foodRender(); }
       function foodRender() {
         const g = (id) => document.getElementById(id); if (!foData) return;
-        document.querySelectorAll('#foSlots .fo-opt').forEach((b) => b.classList.toggle('on', b.dataset.t === foSel.slot));
-        const it = foData.items.find((i) => i.id === foSel.item), q = Number(g('foQty').value) || 1;
-        const flex = !!(it && it.max > it.price), pw = g('foPriceWrap'), ps = g('foPrice');
-        pw.classList.toggle('hidden', !flex);
-        const free = flex && !!it.custom, num = g('foPriceNum');
-        ps.classList.toggle('hidden', free); num.classList.toggle('hidden', !free);
-        g('foPriceLbl').textContent = free ? `พิมพ์ราคาที่ต้องการ (${it.price}–${it.max} บาท)` : 'เลือกราคาจานที่ต้องการ (บาท)';
+        document.querySelectorAll('#foSlots .fd-chip').forEach((b) => b.setAttribute('aria-pressed', b.dataset.t === foSel.slot ? 'true' : 'false'));
+        const it = foData.items.find((i) => i.id === foSel.item), q = foSel.qty || 1, max = foData.max_qty || 3;
+        g('foQty').textContent = q; g('foMinus').disabled = q <= 1; g('foPlus').disabled = q >= max;
+        const flex = !!(it && it.max > it.price), free = flex && !!it.custom, num = g('foPriceNum'), pr = g('foPrices');
+        g('foPriceWrap').classList.toggle('hidden', !flex); pr.classList.toggle('hidden', free); num.classList.toggle('hidden', !free);
+        g('foPriceLbl').textContent = free ? `พิมพ์ราคาต่อจาน (${it.price}–${it.max} บาท)` : 'เลือกราคาต่อจาน';
         if (free && num.dataset.item !== it.id) { num.min = it.price; num.max = it.max; num.value = it.price; num.dataset.item = it.id; }
-        if (flex && !free && ps.dataset.item !== it.id) { ps.replaceChildren(); for (let v = it.price; v <= it.max; v += 5) { const o = mk('option', null, v + ' บาท'); o.value = v; ps.append(o); } ps.dataset.item = it.id; }
-        if (!flex) { delete ps.dataset.item; delete num.dataset.item; }
-        const unit = flex ? (free ? Number(num.value) || 0 : Number(ps.value) || it.price) : it ? it.price : 0;
+        if (flex && !free && pr.dataset.item !== it.id) {
+          pr.replaceChildren(); pr.dataset.item = it.id; foSel.price = it.price;
+          for (let v = it.price; v <= it.max; v += 5) { const b = mk('button', 'fd-chip', v + ' บาท'); b.type = 'button'; b.dataset.v = v; b.onclick = () => { foSel.price = v; foodRender(); }; pr.append(b); }
+        }
+        if (!flex) { delete pr.dataset.item; delete num.dataset.item; }
+        const unit = flex ? (free ? Number(num.value) || 0 : foSel.price || it.price) : it ? it.price : 0;
+        pr.querySelectorAll('.fd-chip').forEach((b) => b.setAttribute('aria-pressed', Number(b.dataset.v) === unit ? 'true' : 'false'));
         foSel.flex = flex; foSel.price = unit;
         const priceBad = free && (!Number.isInteger(unit) || unit < it.price || unit > it.max);
-        g('foTotal').textContent = it ? `รวม ${unit * q} บาท (จ่ายร้านโดยตรง)` : 'เลือกเมนูและเวลารับ';
-        const cu = !!(it && it.custom), ni = g('foNoteIn'); ni.maxLength = cu ? 80 : 40; g('foNoteLbl').textContent = cu ? 'ตามสั่ง: เขียนเมนูที่ต้องการ (จำเป็น) ร้านอาจปฏิเสธและคืนเงินถ้าทำไม่ได้หรือราคาไม่ตรง' : 'ระบุเพิ่มเอง (ไม่บังคับ เช่น ไม่ใส่ผัก ไข่สุกมาก)';
-        g('foGo').disabled = foBusy || !it || (foData.mode !== 'walkup' && !foSel.slot) || (cu && ni.value.trim().length < 2) || priceBad;
+        g('foTotal').textContent = it && !priceBad ? unit * q + ' บาท' : '–';
+        const cu = !!(it && it.custom), ni = g('foNoteIn'); ni.maxLength = cu ? 80 : 40;
+        g('foNoteLbl').textContent = cu ? 'อยากกินอะไร เขียนบอกร้าน (ต้องใส่)' : 'อยากบอกร้านเพิ่ม (ไม่ใส่ก็ได้)';
+        ni.placeholder = cu ? 'เช่น ข้าวไข่ข้นกุ้ง ไม่เผ็ด' : 'เช่น ไม่ใส่ผัก ไข่สุกมาก';
+        const need = !it ? 'เลือกเมนู' : foData.mode !== 'walkup' && !foSel.slot ? 'เลือกเวลามารับ' : cu && ni.value.trim().length < 2 ? 'เขียนเมนู' : priceBad ? 'ใส่ราคาให้ถูก' : '';
+        const go = g('foGo'); go.disabled = foBusy || !!need; go.textContent = foBusy ? 'กำลังสั่ง…' : need || 'สั่งเลย';
       }
-      document.addEventListener('change', (e) => { if (e.target && (e.target.id === 'foQty' || e.target.id === 'foPrice')) foodRender(); });
-      document.addEventListener('input', (e) => { if (e.target && e.target.id === 'foPriceNum') foodRender(); });
-      document.addEventListener('input', (e) => { if (e.target && e.target.id === 'foNoteIn') foodRender(); });
+      document.addEventListener('input', (e) => { if (e.target && (e.target.id === 'foPriceNum' || e.target.id === 'foNoteIn')) foodRender(); });
       async function foodBook() {
         if (foBusy) return; foBusy = true; foodRender(); foNote('');
-        const r = await foodCall({ action: 'order', item: foSel.item, qty: Number(document.getElementById('foQty').value) || 1, slot: foSel.slot, note: document.getElementById('foNoteIn').value, price: foSel.flex ? foSel.price : undefined });
+        const r = await foodCall({ action: 'order', item: foSel.item, qty: foSel.qty || 1, slot: foSel.slot, note: document.getElementById('foNoteIn').value, price: foSel.flex ? foSel.price : undefined });
         foBusy = false;
-        if (!r.ok) { foNote(FO_ERR[r.error] || 'จองไม่สำเร็จ ลองใหม่อีกครั้ง'); } else { foSel = { item: null, slot: null }; document.getElementById('foNoteIn').value = ''; await foodLoad(); foNote('จองแล้ว: สแกน QR จ่าย แล้วกด "ฉันจ่ายแล้ว" ภายใน 15 นาที ร้านถึงจะได้ออเดอร์'); return; }
+        if (!r.ok) { foNote(FO_ERR[r.error] || 'จองไม่สำเร็จ ลองใหม่อีกครั้ง'); await foodLoad(); return; }
+        if (r.id) foBooked(r.id, Date.now());
+        foSel = { item: null, slot: null, qty: 1 }; document.getElementById('foNoteIn').value = '';
         await foodLoad();
+        if (r.id && foData && foData.mine.some((o) => o.id === r.id)) foDetOpen(r.id);
       }
-      async function foodClaim(id) { const r = await foodCall({ action: 'claim', id }); if (!r.ok) foNote(FO_ERR[r.error] || 'ทำรายการไม่ได้ (คิวอาจถูกคืนแล้ว จองใหม่ได้)'); else foNote(''); await foodLoad(); }
-      async function foodCancel(id) { const r = await foodCall({ action: 'cancel', id }); if (!r.ok) foNote(FO_ERR[r.error] || 'ยกเลิกไม่สำเร็จ'); else foNote(''); await foodLoad(); }
+      // กล่องถามในหน้าสั่งอาหาร (แทน confirm ของเบราว์เซอร์)
+      function foAsk(title, text, ok, no) {
+        return new Promise((res) => {
+          const g = (id) => document.getElementById(id), d = g('foDlg'), host = foDetId != null ? document.querySelector('#foDet .pf-panel') : document.querySelector('#foSheet .pf-panel');
+          if (d.parentElement !== host) host.append(d);
+          const panel = d.parentElement;
+          d.style.top = panel.scrollTop + 'px'; d.style.height = panel.clientHeight + 'px'; panel.style.overflow = 'hidden';   // คลุมเฉพาะส่วนที่เห็นอยู่ แม้เลื่อนลงมาแล้ว
+          g('foDlgT').textContent = title; g('foDlgP').textContent = text; g('foDlgOk').textContent = ok; g('foDlgNo').textContent = no;
+          const done = (v) => { d.classList.add('hidden'); panel.style.overflow = ''; g('foDlgOk').onclick = g('foDlgNo').onclick = null; res(v); };
+          g('foDlgOk').onclick = () => done(true); g('foDlgNo').onclick = () => done(false);
+          d.classList.remove('hidden'); g('foDlgOk').focus();
+        });
+      }
+      // "ฉันจ่ายแล้ว" = แนบรูปสลิป → ระบบให้ AI ตรวจยอด เวลา และบัญชีปลายทาง 4 หลักท้าย (ไม่เก็บรูป) · ไม่ผ่าน/ตรวจไม่ได้ เลือกส่งให้ร้านตรวจเองได้
+      const FO_SLIP_WHY = { unreadable: 'อ่านยอดหรือเวลาจากสลิปไม่ออก', amount: 'ยอดเงินไม่ตรงกับออเดอร์', time: 'เวลาโอนไม่ตรง (ต้องโอนหลังสั่งออเดอร์นี้)', to: 'โอนเข้าบัญชีที่ไม่ใช่ของร้าน' };
+      function foodClaim(id) {
+        if (foBusy) return;
+        const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*';
+        inp.onchange = () => { if (inp.files && inp.files[0]) foodSlip(id, inp.files[0]); };
+        inp.click();
+      }
+      async function foSlipData(file) {   // ย่อรูปในเครื่องก่อนส่ง (ด้านยาวไม่เกิน 1280px) ลดเวลาส่งและค่า AI
+        const img = await createImageBitmap(file), k = Math.min(1, 1280 / Math.max(img.width, img.height));
+        const c = document.createElement('canvas'); c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); return c.toDataURL('image/jpeg', 0.82);
+      }
+      async function foodSlip(id, file) {
+        if (foBusy) return; foBusy = true; foNote('กำลังเช็กสลิป…');
+        let r;
+        try { r = await foodCall({ action: 'slip', id, image: await foSlipData(file) }); } catch { r = { ok: false, error: 'slip_img' }; }
+        foBusy = false;
+        if (r.ok) { foNote(''); await foodLoad(); return; }
+        if (r.error === 'slip_mismatch' || r.error === 'slip_unavailable' || r.error === 'slip_budget') {
+          const why = r.error === 'slip_mismatch' ? (r.reasons || []).map((x) => '• ' + (FO_SLIP_WHY[x] || x)).join('\n') + (r.read && r.read.amount != null ? `\n\nสลิปอ่านได้ ${r.read.amount} บาท${r.read.time ? ' เวลา ' + r.read.time : ''} · ออเดอร์ ${r.total} บาท` : '') : FO_ERR[r.error];
+          foNote('');
+          if (await foAsk('สลิปไม่ตรงกับออเดอร์', why + '\n\nถ้าจ่ายถูกแล้ว ให้ร้านเช็กเงินในแอปธนาคารเองได้', 'ให้ร้านเช็กเงินเอง', 'ส่งรูปสลิปใหม่')) {
+            const m = await foodCall({ action: 'slip', id, manual: true, reason: r.error === 'slip_mismatch' ? (r.reasons || []).join(',') : 'unavailable' });
+            foNote(m.ok ? '' : (FO_ERR[m.error] || 'ทำต่อไม่ได้ (ออเดอร์อาจหมดเวลาแล้ว สั่งใหม่ได้)'));
+          } else foodClaim(id);
+          await foodLoad(); return;
+        }
+        foNote(FO_ERR[r.error] || 'ทำต่อไม่ได้ (ออเดอร์อาจหมดเวลาแล้ว สั่งใหม่ได้)'); await foodLoad();
+      }
+      async function foodCancel(id) {
+        if (!(await foAsk('ยกเลิกออเดอร์ #' + (id % 1000) + '?', 'ยกเลิกได้ถ้ายังไม่จ่าย ที่ของคุณจะว่างให้คนอื่นสั่ง', 'ยกเลิกออเดอร์', 'ไม่ยกเลิก'))) return;
+        const r = await foodCall({ action: 'cancel', id }); if (!r.ok) foNote(FO_ERR[r.error] || 'ยกเลิกไม่สำเร็จ'); else foNote(''); await foodLoad();
+      }
       // ===== เพื่อนติว (ฟีดแบ็กข้อ 17 ส่วนที่ 2): แชตบอท Haiku ถามเรื่องเรียน · ประวัติอยู่ในเครื่อง (ปิดหน้าต่างแล้วหาย) ส่งเฉพาะ 4 รอบล่าสุด =====
       const TT_SUBJECTS = ['ทั่วไป', 'คณิตศาสตร์', 'วิทยาศาสตร์', 'ฟิสิกส์', 'เคมี', 'ชีววิทยา', 'ภาษาไทย', 'ภาษาอังกฤษ', 'สังคมศึกษา', 'ประวัติศาสตร์'];
       const TT_EXAMS = [['', 'ไม่ระบุ'], ['A-Level', 'A-Level'], ['TGAT', 'TGAT'], ['TPAT', 'TPAT'], ['O-NET', 'O-NET'], ['สอบกลางภาค/ปลายภาค', 'กลางภาค/ปลายภาค']];
@@ -5659,8 +5975,14 @@ footer{border-top:1px solid var(--line);padding-top:24px;font-size:12px;color:va
           ann: window._annItems || [], done: getDone(), exams: examSrc.ev || [], notice, events: window._events || [], nudge: window._pushNudge || null, dismissed: readCardState(), appts: window._appts || [], apptWhen, subs: window._subs || [],
         });
         box.textContent = '';
-        if (!all.length) { box.classList.add('hidden'); return; }
+        const fc = foodCard();
+        if (!all.length && !fc) { box.classList.add('hidden'); return; }
         box.classList.remove('hidden');
+        if (fc) {   // การ์ดสั่งอาหาร: ขึ้นเฉพาะตอนสั่งได้หรือมีออเดอร์ค้างวันนี้ ไม่นับรวมในจำนวนการ์ดสูงสุด
+          const el = mk('button', 'hc hc-ok hc-food'), body = mk('div', 'hc-body'), ic = mk('span', 'hc-ic'), li = document.createElement('i');
+          el.type = 'button'; body.append(mk('div', 'hc-t', fc.title), mk('div', 'hc-s', fc.text));
+          li.setAttribute('data-lucide', 'utensils'); ic.append(li); el.append(ic, body); el.onclick = () => foodOpen(); box.append(el);
+        }
         const show = cardsExpanded ? all : all.slice(0, CARD_MAX);
         for (const c of show) {
           const el = mk('div', 'hc hc-' + c.tone), body = mk('div', 'hc-body');
@@ -5696,7 +6018,6 @@ footer{border-top:1px solid var(--line);padding-top:24px;font-size:12px;color:va
       }
 
       function showDashboard() {
-        applyFoodGate();
         if (UI2) { initV2(); setView('home', null, true); }
         document.getElementById('authScreen').classList.add('hidden');
         document.getElementById('mainDashboard').classList.remove('hidden');
@@ -5720,7 +6041,7 @@ footer{border-top:1px solid var(--line);padding-top:24px;font-size:12px;color:va
         updateMenuV2();
         avaAutoSync();
         if (teacherMode) { syncTeacherPush(); openPeek(); apptStripLoad(); }
-        else { loadVerified(); loadAnnouncements(); chatPeek(); openPeek(); syncPush(); loadAppts(); loadSubs(); }
+        else { loadVerified(); loadAnnouncements(); chatPeek(); openPeek(); syncPush(); loadAppts(); loadSubs(); foodPeek(); }
       }
 
       function selectDay(dayName) {
