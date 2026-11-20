@@ -3703,7 +3703,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       const VIEW_ORDER = ['home', 'social', 'msg', 'room', 'portfolio', 'menu'];
       const PORTFOLIO_OPEN = false;
       // ระบบสั่งอาหาร (ร้าน ก.ไก่ ข.ไข่): ปิดปุ่มจากหน้าเว็บไว้ก่อน (โค้ดและหลังบ้านยังอยู่ครบ) เปิดคืน: FOOD_OPEN = true
-      const FOOD_OPEN = false;
+      const FOOD_OPEN = true;
       if (FOOD_OPEN) document.documentElement.classList.add('food-on');
       // ใช้ Web Animations API: ไม่ต้องบังคับคำนวณหน้าใหม่เพื่อเริ่มซ้ำ และจบแล้วไม่ทิ้ง transform ค้างบน #dashCard
       // (ถ้าค้าง แผงที่ position:fixed ข้างใน เช่น หน้าแก้โปรไฟล์ จะถูกขังในการ์ด)
