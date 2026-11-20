@@ -1,0 +1,1008 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f1f5f9">
+<title>แผนที่โรงเรียน · ClassKhab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  // โหมดมืดตามที่ตั้งไว้ในหน้าหลัก (ค่าเริ่มต้นสว่าง) · ตั้งก่อนวาดหน้ากันกะพริบ
+  try { if (localStorage.getItem('classkhab_theme') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}
+</script>
+<style>
+:root{--bg:#f1f5f9;--surface:#fff;--line:#e2e8f0;--text:#0f172a;--muted:#64748b;--acc:#2563eb;--accsoft:#dbeafe}
+html.dark{--bg:#0b1220;--surface:#111a2e;--line:#243152;--text:#e5ecf6;--muted:#93a1ba;--acc:#60a5fa;--accsoft:#1e3a8a}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:'Anuphan',system-ui,sans-serif}
+body{max-width:560px;margin:0 auto;padding:0 16px calc(24px + env(safe-area-inset-bottom));min-height:100dvh}
+header{display:flex;align-items:center;gap:10px;padding:14px 0 8px}
+header a{color:var(--muted);text-decoration:none;font-size:14px;padding:6px 8px 6px 0}
+h1{font-size:17px;font-weight:600;margin:0;flex:1}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:transparent;color:var(--muted);font:500 13px 'Anuphan';padding:6px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--acc);color:#fff}
+button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+#stage{position:relative;height:min(56dvh,460px);min-height:280px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg);touch-action:none}
+#stage canvas{display:block;width:100%;height:100%}
+.lab{position:absolute;transform:translate(-50%,-50%);font-size:11px;font-weight:500;color:var(--text);background:color-mix(in srgb,var(--surface) 86%,transparent);padding:1px 6px;border-radius:6px;pointer-events:none;white-space:nowrap}
+.lab.sel{background:var(--acc);color:#fff}
+.tools{position:absolute;right:8px;top:8px;display:flex;flex-direction:column;gap:6px}
+.tools button{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:600 16px 'Anuphan';cursor:pointer}
+.legend{position:absolute;left:8px;bottom:8px;font-size:11px;color:var(--muted);background:color-mix(in srgb,var(--surface) 88%,transparent);padding:3px 8px;border-radius:8px}
+.go{display:block;width:100%;margin-top:12px;border:0;border-radius:12px;background:var(--acc);color:#fff;font:600 15px 'Anuphan';padding:13px 14px;cursor:pointer}
+.go:disabled{opacity:.55;cursor:default}
+.card{margin-top:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.55}
+.card.acc{border-left:3px solid var(--acc)}
+.card b{font-weight:600}
+.muted{color:var(--muted)}
+h2{font-size:14px;font-weight:600;margin:0 0 6px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:999px;padding:5px 11px;font:500 13px 'Anuphan';cursor:pointer}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.chip.dim{opacity:.5}
+.row{display:flex;gap:10px;padding:6px 0;border-top:1px solid var(--line)}
+.row:first-of-type{border-top:0}
+.row .p{width:74px;flex:none;color:var(--muted)}
+#list details{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-top:8px;padding:2px 12px}
+#list summary{padding:10px 0;font-weight:500;cursor:pointer}
+.views{display:flex;gap:6px;margin-top:10px}
+.views button{flex:1;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:10px;font:500 13px 'Anuphan';padding:8px 6px;cursor:pointer}
+.views button[aria-pressed="true"]{background:var(--accsoft);border-color:var(--acc);color:var(--text)}
+#stage:fullscreen{height:100%;border-radius:0;border:0}
+.hud{position:absolute;left:8px;top:8px;right:52px;display:flex;flex-direction:column;align-items:flex-start;gap:6px;pointer-events:none}
+.pill{font-size:12px;background:color-mix(in srgb,var(--surface) 90%,transparent);color:var(--text);padding:4px 9px;border-radius:9px;line-height:1.4}
+.pill.muted{color:var(--muted)}
+#tgt{display:flex;align-items:center;gap:6px}
+#tgt svg{width:16px;height:16px;flex:none;color:var(--acc)}
+#joy{position:absolute;width:76px;height:76px;margin:-38px 0 0 -38px;border:2px solid color-mix(in srgb,var(--acc) 55%,transparent);border-radius:50%;pointer-events:none}
+#joy i{position:absolute;left:50%;top:50%;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:color-mix(in srgb,var(--acc) 70%,transparent)}
+#cap{position:absolute;left:8px;right:8px;bottom:8px;display:flex;align-items:center;gap:8px;background:color-mix(in srgb,var(--surface) 92%,transparent);border-radius:12px;padding:8px 8px 8px 12px}
+#cap .t{flex:1;min-width:0}
+#cap b{display:block;font-size:15px;font-weight:600}
+#cap span{font-size:12px;color:var(--muted)}
+#cap button{width:34px;height:34px;flex:none;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--text);font:600 15px 'Anuphan';cursor:pointer}
+.tools svg{width:16px;height:16px;vertical-align:middle}
+.hidden{display:none!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <a href="index.html" aria-label="กลับหน้าตาราง">‹ ตาราง</a>
+  <h1>แผนที่โรงเรียน</h1>
+  <div class="seg" role="group" aria-label="โหมดแสดงผล">
+    <button id="m3d" type="button" aria-pressed="true">3 มิติ</button>
+    <button id="mls" type="button" aria-pressed="false">รายการ</button>
+  </div>
+</header>
+
+<div id="stage">
+  <canvas id="cv" role="img" aria-label="แผนที่โรงเรียน 3 มิติ ลากเพื่อหมุน บีบเพื่อซูม หรือเปลี่ยนเป็นโหมดรายการ"></canvas>
+  <div id="labels"></div>
+  <div class="tools">
+    <button id="zin" type="button" aria-label="ซูมเข้า">+</button><button id="zout" type="button" aria-label="ซูมออก">−</button><button id="rst" type="button" aria-label="รีเซ็ตมุม">⟲</button>
+    <button id="camv" type="button" class="hidden" aria-label="สลับมุมกล้อง: หลังตัวละคร หรือสายตา"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg></button>
+    <button id="fs" type="button" class="hidden" aria-label="เต็มจอ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg></button>
+  </div>
+  <div id="hud" class="hud hidden">
+    <div id="hint" class="pill muted">แตะค้างแล้วลากขึ้นเพื่อเดิน ลากซ้ายขวาเพื่อเลี้ยว (คอมใช้ปุ่มลูกศร) · แตะอาคารหรือกดปุ่มด้านล่างเพื่อให้บอกทาง</div>
+    <div id="tgt" class="pill hidden"><svg id="tgtArrow" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 20 21 12 16 4 21Z"/></svg><span id="tgtText"></span></div>
+  </div>
+  <div id="joy" class="hidden"><i></i></div>
+  <div id="cap" class="hidden" aria-live="polite">
+    <button id="capPrev" type="button" aria-label="จุดก่อนหน้า">‹</button>
+    <div class="t"><b id="capT"></b><span id="capS"></span></div>
+    <button id="capPlay" type="button" aria-label="หยุดชั่วคราว">❚❚</button>
+    <button id="capNext" type="button" aria-label="จุดถัดไป">›</button>
+  </div>
+  <div id="legend" class="legend">ผังโดยประมาณ</div>
+</div>
+<div id="views" class="views" role="group" aria-label="วิธีดูแผนที่">
+  <button id="vMap" type="button" aria-pressed="true">มองจากด้านบน</button>
+  <button id="vWalk" type="button" aria-pressed="false">เดินสำรวจ</button>
+  <button id="vTour" type="button" aria-pressed="false">ทัวร์โรงเรียน</button>
+</div>
+
+<button id="where" class="go" type="button">คาบถัดไปของฉันอยู่ที่ไหน</button>
+<div id="out"></div>
+
+<div id="list" class="hidden" aria-label="รายการอาคารและสถานที่"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+'use strict';
+var SUPABASE_URL = 'https://apolfnkholadtprbyehh.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwb2xmbmtob2xhZHRwcmJ5ZWhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzODA4MzQsImV4cCI6MjEwODk1NjgzNH0.v1dzcZmhtQheVCtecQnWfnihSVEkRt9iIyiJjz-XpxM';
+
+// ===== ข้อมูลผัง (เมตร จากมุมซ้ายบนของภาพดาวเทียม; ประมาณ ±5–10 ม.) สร้างจาก ต้นแบบ/campus-layout-sat-m.json ด้วย scripts/gen-map.cjs =====
+var CAMPUS = [{"k":"b1","t":"b","id":1,"n":"อาคาร 1","x":272,"z":240.5,"l":79.1,"w":18.1,"r":21},{"k":"b2","t":"b","id":2,"n":"อาคาร 2","x":292.1,"z":196.3,"l":79.1,"w":18.1,"r":21},{"k":"b3","t":"b","id":3,"n":"อาคาร 3","x":315.6,"z":154.1,"l":79.1,"w":18.1,"r":21},{"k":"b4","t":"b","id":4,"n":"อาคาร 4","x":235.8,"z":325,"l":80.4,"w":22.8,"r":22},{"k":"b5","t":"b","id":5,"n":"อาคาร 5","x":375.2,"z":171.5,"l":54.9,"w":24.1,"r":116},{"k":"b6","t":"b","id":6,"n":"อาคาร 6","x":335,"z":100.5,"l":79.7,"w":18.8,"r":20},{"k":"sdome","t":"s","id":"dome","n":"โดม","x":254.6,"z":288.1,"l":57,"w":41.5,"r":21},{"k":"scan1","t":"s","id":"can1","n":"โรงอาหาร 1","x":201,"z":181.6,"l":29.5,"w":44.2,"r":27},{"k":"scan2","t":"s","id":"can2","n":"โรงอาหาร 2","x":219.1,"z":146.7,"l":18.8,"w":30.8,"r":113},{"k":"slibrary","t":"s","id":"library","n":"ห้องสมุด (รวม IS)","x":337.7,"z":259.3,"l":28.1,"w":19.4,"r":117},{"k":"snurse","t":"s","id":"nurse","n":"พยาบาล","x":274.7,"z":166.8,"l":13.4,"w":12.1,"r":26},{"k":"smusic","t":"s","id":"music","n":"บ้านดนตรี","x":247.9,"z":128.6,"l":20.1,"w":20.8,"r":23},{"k":"stobe","t":"s","id":"tobe","n":"ทูบี","x":213.7,"z":272.7,"l":32.2,"w":17.4,"r":113},{"k":"shomec","t":"s","id":"homec","n":"คหกรรม","x":134,"z":245.2,"l":47.6,"w":18.8,"r":109},{"k":"sagri","t":"s","id":"agri","n":"เกษตร","x":105.2,"z":236.5,"l":47.6,"w":18.8,"r":109},{"k":"sworkshop","t":"s","id":"workshop","n":"โรงฝึก (อาคารอุตสาหกรรม)","x":168.8,"z":249.9,"l":25.5,"w":27.5,"r":106},{"k":"spe","t":"s","id":"pe","n":"อาคารพละ","x":245.2,"z":361.1,"l":34.8,"w":13.4,"r":22},{"k":"sfield","t":"s","id":"field","n":"สนามฟุตบอล/กรีฑา","x":373.2,"z":337,"l":138.7,"w":97.2,"r":115},{"k":"sfutsal","t":"s","id":"futsal","n":"สนามฟุตซอล","x":293.5,"z":347.1,"l":36.9,"w":24.1,"r":114},{"k":"scourt2","t":"s","id":"court2","n":"สนามแบตมินตัน","x":275.4,"z":383.9,"l":20.1,"w":14.7,"r":20},{"k":"svball","t":"s","id":"vball","n":"สนามวอลเลย์ (หอประชุม 1)","x":400,"z":199.7,"l":24.8,"w":30.2,"r":116},{"k":"sbasket","t":"s","id":"basket","n":"สนามบาส","x":229.1,"z":189.6,"l":32.2,"w":15.4,"r":113},{"k":"spark","t":"s","id":"park","n":"โรงจอดรถ","x":199,"z":337.7,"l":16.8,"w":55.6,"r":112},{"k":"spetang1","t":"s","id":"petang1","n":"สนามเปตอง 1","x":237.2,"z":344.4,"l":14.7,"w":4,"r":22},{"k":"spetang2","t":"s","id":"petang2","n":"สนามเปตอง 2","x":221.1,"z":337.7,"l":14.7,"w":4,"r":22},{"k":"stakraw","t":"s","id":"takraw","n":"สนามตะกร้อ","x":315.6,"z":302.8,"l":13.4,"w":6,"r":114}];
+// รหัสห้อง 3 หลัก: หลักแรก = อาคาร หลักสอง = ชั้น (0 = ชั้นล่างสุด) · รายการห้องต่อชั้น (จากตาราง 3,505 คาบ; สร้างใหม่เมื่อตารางเปลี่ยน)
+var ROOMS = {"1":{"1":["111","112","114","117","118"],"2":["121","122","123","124","125","126","128"]},"2":{"1":["211","214","215","216","219"],"2":["221","222","223","226","227","228"]},"3":{"0":["301","302","304","306","307"],"1":["311","312","313","314","315","316","317","318"],"2":["321","322","323","324","325","326","327","328"]},"4":{"1":["411","412","413","414","415","416","417","418"],"2":["421","422","423","424","425","426","427","428"],"3":["431","432","433","437","438"]},"5":{"0":["501","502","503","504","505","506","507"],"1":["511","512","513","514","515","516","517","518"]},"6":{"1":["611","612","613","614","615","616","617","618"],"2":["621","623","624","625","627"],"3":["632","636","637","638"]}};
+var LEVELS = { 1: [0, 2], 2: [0, 2], 3: [0, 2], 4: [0, 3], 5: [0, 1], 6: [0, 3] };      // อาคาร → [ชั้นต่ำสุด, ชั้นสูงสุด]
+// ชื่อห้องในตารางที่ไม่ใช่รหัส 3 หลัก → สถานที่ในผัง (ชื่อตรงตามที่เก็บในฐานข้อมูล)
+var PLACES = {
+  library: ['ห้องสมุด', 'ห้องสมุด2', 'IS'], nurse: ['พยาบาล'], music: ['บ้านดนตรี'], tobe: ['ทูบี'], homec: ['คหกรรม1', 'คหกรรม2'],
+  agri: ['เกษตร 1', 'เกษตร 2'], workshop: ['โรงฝึก 2'], pe: ['อาคารพละ', 'ห้องพละ', 'สน.เทเบิล'], field: ['สน.กรีฑา'], futsal: ['สน.ฟุตซอล'],
+  petang1: ['สน.เปตอง'], takraw: ['สน.ตะกร้อ'], vball: ['หอประชุม 1', 'สน.วอลฯ2'], basket: ['สน.บาสฯ']
+};
+var ALSO = { petang1: ['petang2'] };                              // เลือกสถานที่นี้ ให้ไฮไลต์อันอื่นด้วย
+var KIND = { dome: 'canopy', can1: 'box2', can2: 'box', library: 'box', nurse: 'box', music: 'box', tobe: 'box', homec: 'box', agri: 'box', workshop: 'box', pe: 'box' };   // อื่นๆ = พื้นแบน (สนาม/ลาน)
+var BREAK = /พักกลางวัน|พัก/;
+
+function norm(s) { return String(s || '').replace(/\s+/g, '').toLowerCase(); }
+var PLACE_OF = {};
+Object.keys(PLACES).forEach(function (id) { PLACES[id].forEach(function (n) { if (!PLACE_OF[norm(n)]) PLACE_OF[norm(n)] = id; }); });
+var NAME_OF = {};
+CAMPUS.forEach(function (c) { NAME_OF[c.k] = c.n; });
+var PERIODS = [['08:20', '09:10'], ['09:15', '10:05'], ['10:20', '11:10'], ['11:15', '12:05'], ['12:10', '13:00'], ['13:05', '13:55'], ['14:00', '14:50'], ['14:55', '15:45'], ['15:50', '16:40'], ['16:45', '17:35']];
+var DAY_TH = { 1: 'จันทร์', 2: 'อังคาร', 3: 'พุธ', 4: 'พฤหัสบดี', 5: 'ศุกร์' }, DAY_SH = { 1: 'จ', 2: 'อ', 3: 'พ', 4: 'พฤ', 5: 'ศ' }, DAY_N = { 'จันทร์': 1, 'อังคาร': 2, 'พุธ': 3, 'พฤหัสบดี': 4, 'ศุกร์': 5 };
+var $ = function (id) { return document.getElementById(id); };
+function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+
+// ===== เวลาไทย (ทดสอบ: เพิ่ม ?now=2026-11-17T10:30) =====
+function bkkNow() {
+  var q = new URLSearchParams(location.search).get('now');
+  if (q && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(q)) { var d = new Date(q + ':00Z'); var wd = d.getUTCDay(); return { dow: wd === 0 ? 7 : wd, min: d.getUTCHours() * 60 + d.getUTCMinutes() }; }
+  var p = new Intl.DateTimeFormat('en-US', { timeZone: 'Asia/Bangkok', weekday: 'short', hour: '2-digit', minute: '2-digit', hour12: false }).formatToParts(new Date()), o = {};
+  p.forEach(function (x) { o[x.type] = x.value; });
+  return { dow: { Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6, Sun: 7 }[o.weekday] || 1, min: (Number(o.hour) % 24) * 60 + Number(o.minute) };
+}
+var toMin = function (t) { var a = t.split(':'); return Number(a[0]) * 60 + Number(a[1]); };
+function periodTimes() {   // เวลาคาบปกติ หรือเวลาชั่วคราวที่หน้าหลักจำไว้ (ถ้ายังอยู่ในช่วง)
+  var t = PERIODS.map(function (x) { return x.slice(); });
+  try {
+    var row = JSON.parse(localStorage.getItem('classkhab_periods') || 'null'), now = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Bangkok' }).format(new Date());
+    if (row && row.times && row.start_date <= now && now <= row.end_date) Object.keys(row.times).forEach(function (p) { var v = row.times[p]; if (Array.isArray(v) && /^\d\d:\d\d$/.test(v[0]) && /^\d\d:\d\d$/.test(v[1]) && t[p - 1]) t[p - 1] = [v[0], v[1]]; });
+  } catch (e) { /* ใช้เวลาปกติ */ }
+  return t;
+}
+
+// ===== ที่ตั้งของชื่อห้อง =====
+function resolveRoom(room) {
+  var r = String(room || '').trim();
+  if (!r || r === '-') return null;
+  if (/^\d{3}$/.test(r)) {
+    var b = Number(r[0]), l = Number(r[1]), lv = LEVELS[b];
+    return lv && l >= lv[0] && l <= lv[1] ? { t: 'b', id: b, level: l, code: r } : null;
+  }
+  var pid = PLACE_OF[norm(r)];
+  return pid ? { t: 's', id: pid, name: r } : null;
+}
+function whereText(loc) {
+  if (!loc) return '';
+  return loc.t === 'b' ? 'อาคาร ' + loc.id + ' ' + (loc.level === 0 ? 'ชั้นล่าง' : 'ชั้น ' + loc.level) : (NAME_OF['s' + loc.id] || loc.name);
+}
+
+// ===== ตารางของฉัน =====
+function myClass() { try { return localStorage.getItem('classkhab_grade') || ''; } catch (e) { return ''; } }
+function sget(url) {
+  return fetch(SUPABASE_URL + '/rest/v1/' + url, { headers: { apikey: SUPABASE_ANON_KEY, Authorization: 'Bearer ' + SUPABASE_ANON_KEY } }).then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); });
+}
+function mySchedule(cls) {   // ใช้ตารางที่หน้าหลักเก็บไว้ ถ้าไม่มีค่อยโหลด
+  try { var s = JSON.parse(localStorage.getItem('classkhab_sched_' + cls) || 'null'); if (Array.isArray(s) && s.length) return Promise.resolve(s); } catch (e) { /* โหลดใหม่ */ }
+  return sget('schedule_items?select=day,period,subject,room&class_id=eq.' + encodeURIComponent(cls) + '&limit=1000').then(function (rows) {
+    return rows.map(function (r) { return { day: DAY_TH[r.day], period: r.period, subject: r.subject, room: r.room || '-' }; });
+  });
+}
+function nextClass(sched, now) {
+  var times = periodTimes(), today = sched.filter(function (x) { return DAY_N[x.day] === now.dow; }).sort(function (a, b) { return a.period - b.period; });
+  for (var i = 0; i < today.length; i++) {
+    var it = today[i], tm = times[it.period - 1]; if (!tm) continue;
+    if (BREAK.test(it.subject) && (!it.room || it.room === '-')) continue;
+    if (toMin(tm[1]) <= now.min) continue;
+    return { item: it, start: tm[0], end: tm[1], running: toMin(tm[0]) <= now.min };
+  }
+  return null;
+}
+
+// ===== 3 มิติ =====
+var S = 0.1, LH = 0.4;                // 1 เมตร = 0.1 หน่วยโลก · ความสูงต่อชั้น 4 ม. (ตามจริง)
+var gl = null, scene, cam, renderer, cv = $('cv'), stage = $('stage'), labsEl = $('labels');
+var yaw = -0.55, pitch = 0.62, zoom = 1, cx = 0, cz = 0;
+var meshes = [], labels = [], groups = {}, sel = null;      // sel = { keys:[...], level }
+var raf = 0;
+function isDark() { return document.documentElement.classList.contains('dark'); }
+// สีและรายละเอียดตามภาพถ่ายที่ปันส่งมา (สรุปไว้ใน ต้นแบบ/campus-brief.md):
+// อาคาร 1–3 ผนังขาวครีม เสาและกรอบหน้าต่างสีน้ำเงินเข้ม ฐานลายหินน้ำตาล ระเบียงยาวทุกชั้น หลังคาเมทัลชีทเทาอ่อนจั่วต่ำชายคายื่น บันไดมีหลังคาที่ปลายอาคาร
+// อาคาร 1 มีป้ายดำอักษรเหลือง สวนพุ่มตัดแต่ง ต้นไม้ดัด เสาธงชาติกลาง + ธงเหลือง/ขาวสองข้าง
+// อาคาร 4 สี่ชั้น ผนังขาว แถบแดงส้มตามขอบพื้นทุกชั้น แผงอิฐส้ม หลังคากระเบื้องแดงปั้นหยาซ้อนชั้นมีจั่วยื่นเป็นช่วง · อาคาร 6 ผนังเหลืองครีม หลังคาแดง ชั้นล่างโล่ง
+// โดม หลังคาเมทัลชีทโค้งช่วงเดียวสีขาวเทา โครงถักเหล็กเทาที่ขอบ เสากลมสีขาวสูง ขอบพื้นทาแดงขาว · โรงอาหาร 1 อาคารเก่าสีขาว ซุ้มโค้งแหลมชั้นสอง ใต้ถุนโล่ง
+// บ้านดนตรี บ้านไม้ยกพื้นสีเขียวฟ้า · สนามฟุตบอลหญ้าแห้งน้ำตาลอมเขียว ลู่วิ่งดินสีอ่อนเส้นขาว ประตูขาว · สนามวอลเลย์พื้นทราย ข้างกันมีศาลาหลังคาแดงเสาส้มอิฐ 4 หลัง · ต้นไม้ใหญ่หนาแน่น
+// โหมดมืด = กลางคืน (ไฟในหน้าต่าง แสงจันทร์) · ไฮไลต์ห้อง/อาคารที่เลือกด้วยสีเน้นเรืองแสงทับพื้นผิว
+var PAL = {
+  light: { sky: 0xcfe2f3, grass: '#9fbf80', pave: 0xd9d6cf, acc: 0x2563eb, hemi: [0xe8f2ff, 0x8ea575, 0.8], sun: [0xfff1dc, 0.85], tree: 0x557f45, trunk: 0x6f5238 },
+  dark: { sky: 0x0b1426, grass: '#22301f', pave: 0x3a3d45, acc: 0x60a5fa, hemi: [0x6f83b3, 0x1b2416, 0.42], sun: [0xb4c6f0, 0.3], tree: 0x2c4a2a, trunk: 0x3b2c20 }
+};
+// สเปกอาคาร: wall สีผนัง · roof สีหลังคา · rt ทรงหลังคา (gable จั่ว / hip ปั้นหยา / hip2 ปั้นหยาซ้อนชั้น / arch โค้ง) · rise ความสูงหลังคา (ม.)
+// front: ด้านระเบียง (+1 = ฝั่ง +z ของอาคาร, -1 = ฝั่ง -z) · open0 ชั้นล่างโล่ง · arches ซุ้มโค้งชั้นบน · wood บ้านไม้ · brick แผงอิฐ
+// trim สีเสา/กรอบหน้าต่าง · base ลายฐานชั้นล่าง · band แถบสีตามขอบพื้น · over ชายคายื่น (ม.) · stairs บันไดมีหลังคาที่ปลาย · dormers จั่วยื่นบนหลังคา
+var CREAM = '#f1ead8';
+var SPEC = {
+  b: { wall: '#f3efe4', trim: '#27426e', base: '#8b6b52', roof: 0xc3c7cb, rt: 'gable', rise: 1.6, over: 0.3, front: 1, stairs: true },
+  b4: { wall: '#f6f3ec', band: '#c4572f', brick: '#c9693e', roof: 0xb5452b, rt: 'hip2', rise: 4.5, front: -1, dormers: true },
+  b5: { wall: CREAM, roof: 0x77808a, rt: 'gable', rise: 2, front: 1 },
+  b6: { wall: '#efdca0', roof: 0xb04a32, rt: 'hip', rise: 3.5, front: 1, open0: true },
+  can1: { wall: '#f5f3ee', roof: 0x6f7780, rt: 'gable', rise: 2.5, front: 1, open0: true, arches: true },
+  can2: { wall: '#f4f1e8', roof: 0x7d8792, rt: 'gable', rise: 2, front: 1, open0: true },
+  library: { wall: '#efe6d2', roof: 0xa0533c, rt: 'hip', rise: 3, front: 1 },
+  nurse: { wall: '#f6f6f2', roof: 0xa0533c, rt: 'gable', rise: 2, front: 1 },
+  music: { wall: '#5fa3a0', roof: 0x55606a, rt: 'gable', rise: 1.5, front: 1, wood: true, stilts: true },
+  tobe: { wall: '#eef0f2', roof: 0x7d8792, rt: 'gable', rise: 2, front: 1 },
+  pe: { wall: '#ecebe4', roof: 0x7d8792, rt: 'gable', rise: 2.5, front: 1 },
+  homec: { wall: '#e9e6df', roof: 0xa3aab2, rt: 'arch', front: 1 }, agri: { wall: '#e9e6df', roof: 0xa3aab2, rt: 'arch', front: 1 }, workshop: { wall: '#dcdcd6', roof: 0xa3aab2, rt: 'arch', front: 1 }
+};
+function specOf(c) { return c.t === 'b' ? SPEC['b' + c.id] || SPEC.b : SPEC[c.id] || { wall: CREAM, roof: 0x7d8792, rt: 'gable', rise: 2, front: 1 }; }
+var COURT = {   // สนาม: [พื้น, เส้น, แบบเส้น]
+  field: ['#8d9a5c', '#ffffff', 'field'], futsal: ['#4f8d58', '#ffffff', 'court'], basket: ['#c8613f', '#ffffff', 'court'], vball: ['#d6c39b', '#ffffff', 'court'],
+  court2: ['#3f8a6a', '#ffffff', 'court'], takraw: ['#4b8a5c', '#ffffff', 'court'], petang1: ['#d4bf96', '#b8a175', 'sand'], petang2: ['#d4bf96', '#b8a175', 'sand'], park: ['#bdbab3', '#9d9a93', 'slots']
+};
+var hemi, sun, isNight = null, decor = [], fontTex = [];
+function canvasTex(w, h, fn) {
+  var c = document.createElement('canvas'); c.width = w; c.height = h; fn(c.getContext('2d'), w, h);
+  var t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.anisotropy = 4; return t;
+}
+function shade(hex, k) {   // ทำสีให้เข้ม/อ่อนลง k (-1..1)
+  var n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255, f = function (v) { return Math.max(0, Math.min(255, Math.round(k < 0 ? v * (1 + k) : v + (255 - v) * k))); };
+  return 'rgb(' + f(r) + ',' + f(g) + ',' + f(b) + ')';
+}
+var FACADE = {};
+// ลายผนังหนึ่งช่วงเสา หนึ่งชั้น (64×64): win หน้าต่างบานเกล็ด · corr ระเบียงทางเดิน · open ใต้ถุนโล่ง · arch ซุ้มโค้งแหลม · wood ไม้ · end ผนังหัวท้าย
+function facade(kind, sp, night, ground) {
+  var gb = ground && sp.base, key = [kind, sp.wall, sp.brick, sp.trim, sp.band, gb ? sp.base : '', night ? 'n' : 'd'].join('|'); if (FACADE[key]) return FACADE[key];
+  var wall = sp.wall, lit = night ? '#f3cf7f' : null, trim = sp.trim || null;
+  return (FACADE[key] = canvasTex(64, 64, function (x) {
+    x.fillStyle = wall; x.fillRect(0, 0, 64, 64);
+    if (kind === 'win') {
+      if (sp.brick) { x.fillStyle = sp.brick; x.fillRect(0, 8, 9, 48); x.fillRect(55, 8, 9, 48); x.fillStyle = 'rgba(255,255,255,.25)'; for (var yb = 10; yb < 56; yb += 4) { x.fillRect(0, yb, 9, 1); x.fillRect(55, yb, 9, 1); } }
+      x.fillStyle = lit || '#7d93a6'; x.fillRect(12, 15, 40, 29);
+      x.fillStyle = night ? 'rgba(255,255,255,.25)' : 'rgba(225,235,242,.55)'; for (var y = 16; y < 44; y += 3) x.fillRect(12, y, 40, 1);   // บานเกล็ด
+      x.fillStyle = 'rgba(40,52,62,.55)'; for (var gx = 14; gx < 52; gx += 6) x.fillRect(gx, 15, 1, 29);                                 // เหล็กดัด
+      x.fillStyle = shade(wall, -0.35); x.fillRect(12, 44, 40, 2);
+      if (trim) { x.strokeStyle = trim; x.lineWidth = 2; x.strokeRect(12, 15, 40, 29); x.fillStyle = trim; x.fillRect(31, 15, 2, 29); }        // กรอบหน้าต่างสีน้ำเงินเข้ม
+    } else if (kind === 'corr') {
+      x.fillStyle = night ? '#3b3a35' : shade(wall, -0.32); x.fillRect(0, 6, 64, 48);                                                  // ร่มเงาในระเบียง
+      x.fillStyle = night ? '#e9c983' : '#f4f3ee'; x.fillRect(24, 14, 16, 34); x.fillStyle = 'rgba(0,0,0,.25)'; for (var d = 27; d < 40; d += 4) x.fillRect(d, 16, 1, 14);   // ประตูไม้สีขาวมีลูกกรง
+      x.fillStyle = sp.brick || wall; x.fillRect(0, 36, 64, 18); x.fillStyle = 'rgba(0,0,0,.12)'; x.fillRect(0, 36, 64, 2);           // ผนังกันตกระเบียง
+      if (sp.brick) { x.fillStyle = 'rgba(255,255,255,.22)'; for (var yy = 40; yy < 54; yy += 4) x.fillRect(0, yy, 64, 1); }
+      x.fillStyle = wall; x.fillRect(0, 0, 64, 6); x.fillStyle = trim || wall; x.fillRect(0, 0, 5, 64);                                // คาน + เสา (สีเสาตามอาคาร)
+      if (trim) { x.fillRect(0, 36, 64, 2); }                                                                                       // ขอบราวระเบียง
+    } else if (kind === 'open') {
+      x.fillStyle = night ? '#2d2c29' : '#6d6a63'; x.fillRect(0, 8, 64, 56);
+      x.fillStyle = night ? '#8b7a52' : '#b9b1a1'; for (var t = 10; t < 60; t += 18) x.fillRect(t, 46, 12, 4);                          // โต๊ะใต้ถุน
+      x.fillStyle = wall; x.fillRect(0, 0, 6, 64); x.fillRect(0, 0, 64, 8);
+    } else if (kind === 'arch') {
+      x.fillStyle = shade(wall, -0.08); for (var by = 2; by < 64; by += 6) for (var bx = (by / 6) % 2 ? 0 : 3; bx < 64; bx += 6) x.fillRect(bx, by, 3, 3);   // บล็อกช่องลม
+      x.fillStyle = lit || '#55534e'; x.beginPath(); x.moveTo(16, 54); x.lineTo(16, 30); x.quadraticCurveTo(17, 16, 32, 10); x.quadraticCurveTo(47, 16, 48, 30); x.lineTo(48, 54); x.closePath(); x.fill();
+      x.strokeStyle = shade(wall, -0.15); x.lineWidth = 2; x.stroke();
+    } else if (kind === 'wood') {
+      x.fillStyle = shade(wall, -0.18); for (var p = 4; p < 64; p += 6) x.fillRect(0, p, 64, 1);
+      x.fillStyle = '#f2f2ee'; x.fillRect(18, 16, 28, 24); x.fillStyle = lit || '#3e5560'; x.fillRect(21, 19, 22, 18);
+    } else {   // end
+      x.fillStyle = 'rgba(0,0,0,.07)'; x.fillRect(0, 0, 4, 64);
+      x.fillStyle = shade(wall, -0.12); for (var v = 0; v < 3; v++) x.fillRect(26 + v * 5, 22, 3, 3);
+    }
+    if (gb) {   // ฐานชั้นล่างลายหินตาหมากรุกสีน้ำตาล
+      for (var cy = 40; cy < 56; cy += 4) for (var cx2 = 0; cx2 < 64; cx2 += 4) { x.fillStyle = ((cx2 + cy) / 4) % 2 ? sp.base : shade(sp.base, -0.22); x.fillRect(cx2, cy, 4, 4); }
+    }
+    if (sp.band) { x.fillStyle = sp.band; x.fillRect(0, 52, 64, 12); x.fillRect(0, 0, 64, 3); }   // แถบสีตามขอบพื้นชั้น
+    else { x.fillStyle = 'rgba(0,0,0,.10)'; x.fillRect(0, 56, 64, 8); }   // พื้นชั้น
+  }));
+}
+function rep(t, rx) { var c = t.clone(); c.needsUpdate = true; c.repeat.set(Math.max(1, Math.round(rx)), 1); return c; }
+function lam(o) { return new THREE.MeshLambertMaterial(o); }
+function courtTex(spec, L, W) {   // พื้นสนามวาดตามสัดส่วนจริง
+  var px = 8, w = Math.max(32, Math.min(1024, Math.round(L * px))), h = Math.max(32, Math.min(1024, Math.round(W * px)));
+  return canvasTex(w, h, function (x) {
+    x.fillStyle = spec[0]; x.fillRect(0, 0, w, h); x.strokeStyle = spec[1]; x.lineWidth = Math.max(1.5, w / 260);
+    if (spec[2] === 'field') {   // ลู่วิ่งดินรอบสนามหญ้า (ภาพดาวเทียม: สนามกรีฑาดิน) + แถบหญ้าตัดสลับ
+      var tw = h * 0.12, r = (h - 12) / 2;
+      x.fillStyle = '#cfbf9c'; rr(x, 6, 6, w - 12, h - 12, r); x.fill();
+      x.fillStyle = spec[0]; rr(x, 6 + tw, 6 + tw, w - 12 - 2 * tw, h - 12 - 2 * tw, r - tw); x.fill();
+      x.save(); rr(x, 6 + tw, 6 + tw, w - 12 - 2 * tw, h - 12 - 2 * tw, r - tw); x.clip(); x.fillStyle = 'rgba(255,255,255,.06)'; for (var s = 0; s < w; s += w / 14) x.fillRect(s, 0, w / 28, h); x.restore();
+      x.strokeStyle = 'rgba(255,255,255,.75)'; x.lineWidth = 1;
+      for (var i = 1; i < 5; i++) { var o = 6 + tw * i / 5; rr(x, o, o, w - 2 * o, h - 2 * o, r - tw * i / 5); x.stroke(); }
+      var g = fieldBox(w, h); x.strokeStyle = '#fff'; x.lineWidth = 2; x.strokeRect(g.x, g.y, g.w, g.h); x.beginPath(); x.moveTo(w / 2, g.y); x.lineTo(w / 2, g.y + g.h); x.stroke();
+      x.beginPath(); x.arc(w / 2, h / 2, g.h * 0.14, 0, Math.PI * 2); x.stroke();
+      x.strokeRect(g.x, h / 2 - g.h * 0.3, g.w * 0.15, g.h * 0.6); x.strokeRect(g.x + g.w * 0.85, h / 2 - g.h * 0.3, g.w * 0.15, g.h * 0.6);
+    } else if (spec[2] === 'court') {
+      var m = Math.min(w, h) * 0.08; x.strokeRect(m, m, w - 2 * m, h - 2 * m);
+      x.beginPath(); x.moveTo(w / 2, m); x.lineTo(w / 2, h - m); x.stroke(); x.beginPath(); x.arc(w / 2, h / 2, Math.min(w, h) * 0.13, 0, Math.PI * 2); x.stroke();
+    } else if (spec[2] === 'slots') {
+      x.strokeStyle = spec[1]; for (var q = 0; q < w; q += 22) { x.beginPath(); x.moveTo(q, 0); x.lineTo(q, h * 0.42); x.moveTo(q, h); x.lineTo(q, h * 0.58); x.stroke(); }
+    } else { x.strokeStyle = spec[1]; x.lineWidth = 3; x.strokeRect(2, 2, w - 4, h - 4); }
+  });
+}
+function fieldBox(w, h) { var tw = h * 0.12, fw = (w - 12 - 2 * tw) * 0.66, fh = (h - 12 - 2 * tw) * 0.82; return { x: (w - fw) / 2, y: (h - fh) / 2, w: fw, h: fh }; }
+function rr(x, a, b, w, h, r) { r = Math.max(0, Math.min(r, w / 2, h / 2)); x.beginPath(); x.moveTo(a + r, b); x.arcTo(a + w, b, a + w, b + h, r); x.arcTo(a + w, b + h, a, b + h, r); x.arcTo(a, b + h, a, b, r); x.arcTo(a, b, a + w, b, r); x.closePath(); }
+function grassTex(col) {
+  return canvasTex(128, 128, function (x) {
+    x.fillStyle = col; x.fillRect(0, 0, 128, 128);
+    var s = 7; for (var i = 0; i < 900; i++) { s = (s * 16807) % 2147483647; var a = s % 128; s = (s * 16807) % 2147483647; var b = s % 128; x.fillStyle = (s % 3 ? 'rgba(0,0,0,.05)' : 'rgba(255,255,255,.05)'); x.fillRect(a, b, 2, 2); }
+  });
+}
+function init3d() {
+  try {
+    renderer = new THREE.WebGLRenderer({ canvas: cv, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  } catch (e) { return false; }
+  scene = new THREE.Scene(); scene.fog = new THREE.Fog(0xffffff, 1e4, 2e4);
+  hemi = new THREE.HemisphereLight(0xffffff, 0x888888, 0.8); scene.add(hemi);
+  sun = new THREE.DirectionalLight(0xffffff, 0.8); sun.castShadow = true; scene.add(sun); scene.add(sun.target);
+  cam = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 500);
+  var minx = 1e9, maxx = -1e9, minz = 1e9, maxz = -1e9;
+  CAMPUS.forEach(function (c) {
+    var g = new THREE.Group(); g.position.set(c.x * S, 0, c.z * S); g.rotation.y = -c.r * Math.PI / 180; scene.add(g); groups[c.k] = g;
+    var L = c.l * S, W = c.w * S, id = c.id, sp = specOf(c);
+    if (c.t === 'b') {
+      sp = Object.assign({}, sp, { front: faceDome(c) });   // ปันยืนยัน: ระเบียงทุกอาคารหันเข้าหาโดม
+      var lv = LEVELS[id], n = lv[1] - lv[0] + 1;
+      apron(g, L, W);
+      for (var l = lv[0]; l <= lv[1]; l++) {
+        var has = !!(ROOMS[id] && ROOMS[id][l] && ROOMS[id][l].length);
+        block(g, L, LH, W, (l - lv[0] + 0.5) * LH, sp, l === lv[0] ? 'ground' : l === lv[1] ? 'top' : 'mid', { type: 'b', id: id, level: l, key: c.k, has: has });
+      }
+      roofFor(g, L, W, n * LH, sp);
+      if (sp.stairs) stairTower(g, L, W, n, sp);
+      if (id === 1) frontOf1(g, L, W, n, sp.front);
+      lab(c, n * LH + sp.rise * S + 0.4);
+    } else {
+      var kind = KIND[id] || 'flat';
+      if (kind === 'canopy') {   // โดม: เสาคอนกรีตสูง + หลังคาโครงเหล็กโค้งสีเทา + ปีกหลังคาโค้งสีขาวด้านหนึ่ง + พื้นคอนกรีตสองโทน
+        var ph = 0.75, fl0 = new THREE.Mesh(new THREE.BoxGeometry(L, 0.02, W), lam({ map: canvasTex(64, 64, function (x) { x.fillStyle = '#cfcac0'; x.fillRect(0, 0, 64, 64); x.fillStyle = '#bdb7ab'; x.fillRect(0, 0, 32, 32); x.fillRect(32, 32, 32, 32); }) }));
+        fl0.material.map.repeat.set(Math.round(L / 0.6), Math.round(W / 0.6)); fl0.position.y = 0.01; fl0.receiveShadow = true; g.add(fl0); decor.push(fl0);
+        [-1, -0.6, -0.2, 0.2, 0.6, 1].forEach(function (a) { [-1, 1].forEach(function (b) { post(g, a * L * 0.47, b * W * 0.47, ph, 0.07, 0xf4f3ef); }); });
+        arch(g, L, W, ph, W * 0.24, 0xe2e4e6, 1, { type: 's', id: id, key: c.k, role: 'canopy' }, 0, true);
+        [-1, 1].forEach(function (b) { bar(g, L, 0.06, 0.06, 0, ph, b * W * 0.5, 0x6b7178); });            // โครงถักเหล็กเทาที่ขอบหลังคา
+        [-1, -0.5, 0, 0.5, 1].forEach(function (a) { bar(g, 0.03, 0.03, W, a * L * 0.47, ph + 0.01, 0, 0x7b8188); });
+        curbs(g, L, W);                                                                                       // ขอบพื้นทาแดง-ขาว
+        arch(g, L * 0.9, W * 0.32, ph * 0.75, W * 0.1, 0xf1f1ee, 1, null, -(W / 2 + W * 0.16));
+        [-0.45, 0, 0.45].forEach(function (a) { post(g, a * L, -(W / 2 + W * 0.3), ph * 0.75, 0.04, 0xe4e1da); });
+        lab(c, ph + W * 0.24 + 0.4);
+      } else if (kind === 'flat') {
+        var cs = COURT[id] || ['#b9c4a8', '#ffffff', 'plain'];
+        var m = new THREE.Mesh(new THREE.BoxGeometry(L, 0.04, W), null); m.position.y = 0.02; m.receiveShadow = true;
+        var top = lam({ map: courtTex(cs, c.l, c.w) }), side = lam({ color: 0xbfbfb6 });
+        m.userData = { type: 's', id: id, key: c.k, role: 'flat', day: [side, side, top, side, side, side] }; m.userData.night = m.userData.day; m.material = m.userData.day;
+        g.add(m); meshes.push(m);
+        if (id === 'field') goals(g, c);
+        if (id === 'basket') [-1, 1].forEach(function (s) { hoop(g, s * L * 0.44, 0, s); });
+        if (id === 'vball') { [-1, 1].forEach(function (s) { post(g, 0, s * W * 0.42, 0.26, 0.012, 0xffffff); }); bar(g, 0.01, 0.07, W * 0.84, 0, 0.2, 0, 0xf2f2f2); }   // เสาและตาข่ายวอลเลย์สีขาว
+        if (id === 'park') { [-0.45, 0, 0.45].forEach(function (a) { post(g, a * L, -W * 0.2, 0.28); post(g, a * L, W * 0.2, 0.28); }); var rf = new THREE.Mesh(new THREE.BoxGeometry(L, 0.03, W * 0.55), lam({ color: 0x8a9bb0 })); rf.position.y = 0.3; rf.castShadow = true; g.add(rf); decor.push(rf); }
+        lab(c, 0.4);
+      } else {
+        var fl = kind === 'box2' ? 2 : 1, base = sp.stilts ? 0.12 : 0; apron(g, L, W);
+        if (sp.stilts) [-0.45, 0, 0.45].forEach(function (a) { [-0.42, 0.42].forEach(function (b) { post(g, a * L, b * W, base, 0.03, 0x6b5640); }); });
+        for (var f = 0; f < fl; f++) block(g, L, LH, W, base + (f + 0.5) * LH, sp, fl > 1 && f === 0 ? 'ground' : 'top', { type: 's', id: id, key: c.k });
+        roofFor(g, L, W, base + fl * LH, sp);
+        lab(c, base + fl * LH + (sp.rise || 2) * S + 0.35);
+      }
+    }
+    minx = Math.min(minx, c.x - c.l / 2); maxx = Math.max(maxx, c.x + c.l / 2); minz = Math.min(minz, c.z - c.l / 2); maxz = Math.max(maxz, c.z + c.l / 2);
+  });
+  cx = (minx + maxx) / 2 * S; cz = (minz + maxz) / 2 * S;
+  var half = Math.max(maxx - minx, maxz - minz) / 2 * S + 4, sc = sun.shadow.camera;
+  sun.position.set(cx - 25, 45, cz + 18); sun.target.position.set(cx, 0, cz);
+  sc.left = -half; sc.right = half; sc.top = half; sc.bottom = -half; sc.near = 1; sc.far = 140; sc.updateProjectionMatrix();
+  sun.shadow.mapSize.set(2048, 2048); sun.shadow.bias = -0.0006; sun.shadow.normalBias = 0.02;
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { fontTex.forEach(function (f) { f(); }); req(); });
+  return true;
+}
+function block(g, L, h, W, y, sp, pos, ud) {   // หนึ่งชั้น: ด้านระเบียง + ด้านหน้าต่าง + ผนังหัวท้าย
+  var BAY = 0.45, frontKind, backKind;
+  if (sp.open0 && pos === 'ground') frontKind = backKind = 'open';
+  else if (sp.arches && pos !== 'ground') frontKind = backKind = 'arch';
+  else if (sp.wood) frontKind = backKind = 'wood';
+  else { frontKind = 'corr'; backKind = 'win'; }
+  var mats = function (night) {
+    var gr = pos === 'ground', fr = lam({ map: rep(facade(frontKind, sp, night, gr), L / BAY) }), bk = lam({ map: rep(facade(backKind, sp, night, gr), L / BAY) });
+    var en = lam({ map: rep(facade('end', sp, night, gr), W / BAY) }), tp = lam({ color: 0xb9b6ae }), bt = lam({ color: 0x777777 });
+    return sp.front < 0 ? [en, en.clone(), tp, bt, bk, fr] : [en, en.clone(), tp, bt, fr, bk];   // ลำดับด้าน: +x −x +y −y +z −z
+  };
+  var m = new THREE.Mesh(new THREE.BoxGeometry(L, h, W), null); m.position.y = y; m.castShadow = true; m.receiveShadow = true;
+  ud.day = mats(false); ud.night = mats(true); m.userData = ud; m.material = ud.day; g.add(m); meshes.push(m); return m;
+}
+function roofFor(g, L, W, y, sp) {
+  var rise = (sp.rise || 2) * S;
+  if (sp.rt === 'arch') { arch(g, L, W, y, W * 0.28, sp.roof, 1, null, 0); return; }
+  if (sp.rt === 'hip') { hip(g, L + 0.16, W + 0.16, y, rise, sp.roof); return; }
+  if (sp.rt === 'hip2') {
+    hip(g, L + 0.2, W + 0.24, y, rise * 0.45, sp.roof); hip(g, L * 0.9, W * 0.62, y + rise * 0.3, rise * 0.7, shadeHex(sp.roof, 0.92));
+    if (sp.dormers) [-L / 3, 0, L / 3].forEach(function (dx) { [-1, 1].forEach(function (s2) {   // จั่วยื่นเป็นช่วงบนหลังคา (ภาพอาคาร 4)
+      var d = new THREE.Group(); d.position.set(dx, y + rise * 0.12, s2 * (W / 2 - 0.25)); d.rotation.y = Math.PI / 2; g.add(d);
+      gable(d, 0.7, 0.62, 0, rise * 0.5, sp.roof, 0.03);
+      var tri = new THREE.Shape(); tri.moveTo(-0.31, 0); tri.lineTo(0, rise * 0.5); tri.lineTo(0.31, 0); tri.lineTo(-0.31, 0);
+      var face = new THREE.Mesh(new THREE.ShapeGeometry(tri), lam({ color: 0xf6f3ec, side: THREE.DoubleSide })); face.position.set(dx, y + rise * 0.12, s2 * (W / 2 + 0.09)); g.add(face); decor.push(face);
+    }); });
+    return;
+  }
+  gable(g, L, W, y, rise, sp.roof, sp.over);
+}
+function shadeHex(h, k) { var c = new THREE.Color(h); c.multiplyScalar(k); return c.getHex(); }
+function gable(g, L, W, y, rise, col, over) {   // หลังคาจั่วทรงต่ำ (over = ชายคายื่น หน่วยโลก)
+  var o = over != null ? over : 0.08;
+  var sh = new THREE.Shape(); sh.moveTo(-W / 2 - o, -0.02); sh.lineTo(0, rise); sh.lineTo(W / 2 + o, -0.02); sh.lineTo(-W / 2 - o, -0.02);
+  var geo = new THREE.ExtrudeGeometry(sh, { depth: L + 2 * o, bevelEnabled: false }); geo.translate(0, 0, -(L + 2 * o) / 2);
+  var m = new THREE.Mesh(geo, lam({ color: col })); m.rotation.y = Math.PI / 2; m.position.y = y; m.castShadow = true; g.add(m); decor.push(m);
+}
+function hip(g, L, W, y, h, col) {   // หลังคาปั้นหยา: สันตามแนวยาว ลาดสี่ด้าน
+  var a = L / 2, b = W / 2, r = Math.max(0, a - b);
+  var geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute([-a, 0, -b, a, 0, -b, a, 0, b, -a, 0, b, -r, h, 0, r, h, 0], 3));
+  geo.setIndex([3, 2, 5, 3, 5, 4, 1, 0, 4, 1, 4, 5, 0, 3, 4, 2, 1, 5]);
+  geo = geo.toNonIndexed(); geo.computeVertexNormals();
+  var m = new THREE.Mesh(geo, lam({ color: col })); m.position.y = y; m.castShadow = true; g.add(m); decor.push(m);
+}
+function arch(g, L, W, y, rise, col, op, ud, oz, ribs) {   // หลังคาโค้งครึ่งกระบอก ตามแนวยาว (oz = เลื่อนออกด้านข้าง)
+  var geo = new THREE.CylinderGeometry(W / 2, W / 2, L, 28, 1, true, Math.PI, Math.PI);
+  var mat = lam({ color: col, side: THREE.DoubleSide, transparent: op < 1, opacity: op });
+  if (ribs) mat.map = canvasTex(8, 64, function (x) { x.fillStyle = '#fff'; x.fillRect(0, 0, 8, 64); x.fillStyle = 'rgba(0,0,0,.18)'; x.fillRect(0, 0, 8, 2); }), mat.map.repeat.set(1, Math.round(L / 0.5));
+  var m = new THREE.Mesh(geo, mat); m.rotation.z = -Math.PI / 2; m.scale.set(rise / (W / 2), 1, 1); m.position.set(0, y, oz || 0); m.castShadow = true; m.receiveShadow = true;
+  // หลัง rotation.z: แกนกระบอกตามแนว x; scale.x (แกนเดิม) = ความสูงโค้ง
+  g.add(m);
+  if (ud) { ud.day = mat; ud.night = mat; m.userData = ud; meshes.push(m); } else decor.push(m);
+  return m;
+}
+function post(g, x, z, h, r, col) { var p = new THREE.Mesh(new THREE.CylinderGeometry(r || 0.035, r || 0.035, h, 8), lam({ color: col || 0xd5d8dc })); p.position.set(x, h / 2, z); p.castShadow = true; g.add(p); decor.push(p); }
+function apron(g, L, W) { var a = new THREE.Mesh(new THREE.BoxGeometry(L + 1.2, 0.02, W + 1.2), lam({ color: 0xd9d6cf })); a.position.y = 0.01; a.receiveShadow = true; a.userData.apron = 1; g.add(a); decor.push(a); }
+function bar(g, w, h, d, x, y, z, col) { var b = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), lam({ color: col || 0xffffff })); b.position.set(x, y, z); b.castShadow = true; g.add(b); decor.push(b); return b; }
+function goals(g, c) {   // ประตูฟุตบอลหนึ่งคู่ (กว้าง 7.3 ม. สูง 2.4 ม.)
+  var w = Math.max(32, Math.min(1024, Math.round(c.l * 8))), h = Math.max(32, Math.min(1024, Math.round(c.w * 8))), fb = fieldBox(w, h), L = c.l * S;
+  var gx = (fb.w / 2) / w * L, gw = 0.73, gh = 0.24;
+  [-1, 1].forEach(function (s) { var x = s * gx; bar(g, 0.015, gh, 0.015, x, gh / 2, -gw / 2); bar(g, 0.015, gh, 0.015, x, gh / 2, gw / 2); bar(g, 0.015, 0.015, gw, x, gh, 0); });
+}
+var CURB = null;
+function curbs(g, L, W) {   // ขอบทางทาสีแดง-ขาวสลับ (ภาพโดมและถนนทางเข้า)
+  if (!CURB) CURB = canvasTex(16, 2, function (x) { x.fillStyle = '#c8362f'; x.fillRect(0, 0, 8, 2); x.fillStyle = '#f4f4f2'; x.fillRect(8, 0, 8, 2); });
+  [[L, 0, W / 2, 0], [L, 0, -W / 2, 0], [W, L / 2, 0, Math.PI / 2], [W, -L / 2, 0, Math.PI / 2]].forEach(function (e) {
+    var t = CURB.clone(); t.needsUpdate = true; t.repeat.set(Math.round(e[0] / 0.2), 1);
+    var b = new THREE.Mesh(new THREE.BoxGeometry(e[0], 0.03, 0.04), lam({ map: t })); b.position.set(e[1], 0.025, e[2]); b.rotation.y = e[3]; b.receiveShadow = true; g.add(b); decor.push(b);
+  });
+}
+function stairTower(g, L, W, n, sp) {   // บันไดมีหลังคาที่ปลายอาคาร (ภาพหน้าอาคาร 1)
+  var h = n * LH + 0.08, tw = 0.42, td = 0.55, x = L / 2 + tw / 2, z = (sp.front || 1) * (W / 2 - td / 2);
+  var t = bar(g, tw, h, td, x, h / 2, z, 0xffffff); t.material.color.set(sp.wall); t.receiveShadow = true;
+  var d = new THREE.Group(); d.position.set(x, h, z); g.add(d); gable(d, td, tw, 0, 0.12, sp.roof, 0.06);
+  if (sp.trim) for (var k = 0; k < n; k++) bar(g, 0.02, LH * 0.5, td * 0.8, x + tw / 2 + 0.005, (k + 0.55) * LH, z, new THREE.Color(sp.trim).getHex());
+}
+function hoop(g, x, z, s) { bar(g, 0.02, 0.3, 0.02, x, 0.15, z, 0x9aa0a6); bar(g, 0.01, 0.11, 0.18, x - s * 0.02, 0.3, z, 0xffffff); }
+function faceDome(c) {   // ฝั่งของอาคารที่หันเข้าหาโดม: +1 = ฝั่ง +z ในกรอบของอาคาร, -1 = ฝั่ง -z
+  var d = CAMPUS.filter(function (x) { return x.k === 'sdome'; })[0]; if (!d) return 1;
+  var a = -c.r * Math.PI / 180, dx = d.x - c.x, dz = d.z - c.z;
+  return dx * Math.sin(a) + dz * Math.cos(a) >= 0 ? 1 : -1;
+}
+function frontOf1(g0, L, W, n, f) {
+  var g = new THREE.Group(); if (f < 0) g.rotation.y = Math.PI; g0.add(g);   // หันป้าย สวน และเสาธงไปฝั่งโดม   // อาคาร 1: ป้ายดำอักษรเหลืองยาวตลอดหน้าอาคาร + เสาธงและสวนหย่อมด้านหน้า (ฝั่งระเบียง +z)
+  var draw = function (x, w, h) { x.fillStyle = '#16181b'; x.fillRect(0, 0, w, h); x.fillStyle = '#f2c230'; x.font = '600 ' + Math.round(h * 0.62) + 'px Anuphan, Tahoma, sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('โรงเรียนท่าบ่อ  ๑ อำเภอ ๑ โรงเรียนคุณภาพ', w / 2, h * 0.55); };
+  var t = canvasTex(1536, 40, function (x, w, h) { draw(x, w, h); }); t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
+  fontTex.push(function () { draw(t.image.getContext('2d'), 1536, 40); t.needsUpdate = true; });
+  var sign = new THREE.Mesh(new THREE.PlaneGeometry(L * 0.7, L * 0.7 / 38), lam({ map: t })); sign.position.set(0, n * LH - 0.09, W / 2 + 0.012); g.add(sign); decor.push(sign);
+  var fz = W / 2 + 1.1;
+  bar(g, 2.2, 0.02, 0.9, 0, 0.012, fz, 0x7fa65a);                                         // สนามหญ้าหน้าอาคาร
+  [[-0.32, 0xd6c13c], [0.32, 0x4f8a3e], [-0.18, 0x5c9447], [0.18, 0xc9b737]].forEach(function (r) { bar(g, 2.0, 0.05, 0.08, 0, 0.035, fz + r[0], r[1]); });   // พุ่มตัดแต่งเหลือง/เขียวเป็นแนว
+  [-0.8, 0.8].forEach(function (x) { post(g, x, fz, 0.1, 0.012, 0x5a4330); var b = new THREE.Mesh(new THREE.SphereGeometry(0.1, 10, 8), lam({ color: 0x4d7f3a })); b.scale.set(1.3, 0.6, 1.3); b.position.set(x, 0.14, fz); b.castShadow = true; g.add(b); decor.push(b); });   // ต้นไม้ดัดทรงร่ม
+  [[-0.35, '#f2c230'], [0.35, '#f7f7f2']].forEach(function (f2) {                             // ธงเหลือง/ขาวสองข้าง
+    post(g, f2[0], fz, 0.72, 0.008, 0xffffff);
+    var fl = new THREE.Mesh(new THREE.PlaneGeometry(0.13, 0.085), lam({ color: f2[1], side: THREE.DoubleSide })); fl.position.set(f2[0] + 0.065, 0.66, fz); g.add(fl); decor.push(fl);
+  });
+  post(g, 0, fz, 1.0, 0.01, 0xffffff);
+  var flag = new THREE.Mesh(new THREE.PlaneGeometry(0.18, 0.12), lam({ side: THREE.DoubleSide, map: canvasTex(30, 20, function (x) { [['#a51931', 0], ['#f4f5f8', 3], ['#2d2a4a', 7], ['#f4f5f8', 13], ['#a51931', 17]].forEach(function (s, i, a) { x.fillStyle = s[0]; x.fillRect(0, s[1], 30, (a[i + 1] ? a[i + 1][1] : 20) - s[1]); }); }) }));
+  flag.position.set(0.09, 0.92, fz); g.add(flag); decor.push(flag);
+}
+function lab(c, y) { var e = el('div', 'lab', c.t === 'b' ? String(c.id) : c.n); labsEl.appendChild(e); labels.push({ e: e, c: c, y: y }); }
+function selected(m) { return sel && sel.keys.indexOf(m.userData.key) >= 0 && (sel.level == null || m.userData.type !== 'b' || m.userData.level === sel.level); }
+function paint() {
+  var night = isDark(), pal = PAL[night ? 'dark' : 'light'];
+  if (isNight !== night) {   // เปลี่ยนกลางวัน/กลางคืน
+    isNight = night;
+    hemi.color.setHex(pal.hemi[0]); hemi.groundColor.setHex(pal.hemi[1]); hemi.intensity = pal.hemi[2];
+    sun.color.setHex(pal.sun[0]); sun.intensity = pal.sun[1];
+    scene.background = new THREE.Color(pal.sky); scene.fog.color.setHex(pal.sky);
+    decor.forEach(function (m) { if (m.userData.apron) m.material.color.setHex(pal.pave); });
+    if (plane) { plane.material.map = grassTex(pal.grass); plane.material.map.repeat.set(40, 40); plane.material.needsUpdate = true; }
+    if (trees) { var tk = night ? 0x5f6f66 : 0xffffff; trees.crown.material.color.setHex(tk); trees.cone.material.color.setHex(tk); trees.trunk.material.color.setHex(pal.trunk); }
+  }
+  var ground = view !== 'map'; scene.fog.near = ground ? 28 : 1e4; scene.fog.far = ground ? 120 : 2e4;
+  meshes.forEach(function (m) {
+    var u = m.userData, hi = selected(m), dim = !!sel && !hi && u.type === 'b' && sel.keys.indexOf(u.key) >= 0;
+    var set = night ? u.night : u.day; if (m.material !== set) m.material = set;
+    (Array.isArray(set) ? set : [set]).forEach(function (mt) {
+      mt.emissive.setHex(hi ? pal.acc : 0x000000); mt.emissiveIntensity = hi ? 0.55 : 1;
+      if (mt.userData.baseOp == null) mt.userData.baseOp = mt.opacity; var tr = dim || mt.userData.baseOp < 1;
+      var op = dim ? 0.35 : mt.userData.baseOp; if (mt.opacity !== op || mt.transparent !== tr) { mt.opacity = op; mt.transparent = tr || op < 1; mt.needsUpdate = true; }
+    });
+  });
+  if (plane) { walk.beacon.material.color.setHex(pal.acc); walk.body.userData.nose.material.color.setHex(pal.acc); }
+}
+function activeCam() { return view === 'map' ? cam : pcam; }
+function frame() {
+  var w = stage.clientWidth, h = stage.clientHeight; if (!w || !h) return;
+  if (view !== 'map') { pcam.aspect = w / h; pcam.updateProjectionMatrix(); return; }   // กล้องมุมพื้นตั้งตำแหน่งใน stepWalk/stepTour
+  var W = (w < h ? 17 : 16 * w / h) / zoom, H = W * h / w;
+  cam.left = -W; cam.right = W; cam.top = H; cam.bottom = -H; cam.updateProjectionMatrix();
+  var d = 120; cam.position.set(cx + d * Math.cos(pitch) * Math.sin(yaw), d * Math.sin(pitch), cz + d * Math.cos(pitch) * Math.cos(yaw)); cam.lookAt(cx, 0, cz);
+}
+function draw() {
+  if (!gl) return;
+  frame(); paint(); var ac = activeCam(); renderer.render(scene, ac);
+  var w = stage.clientWidth, h = stage.clientHeight, v = new THREE.Vector3(), ground = view !== 'map';
+  labels.forEach(function (L) {
+    v.set(L.c.x * S, L.y, L.c.z * S);
+    var far = ground ? v.distanceTo(ac.position) : 0;
+    v.project(ac); L.e.style.left = ((v.x + 1) / 2 * w) + 'px'; L.e.style.top = ((1 - v.y) / 2 * h) + 'px';
+    var isSel = !!sel && sel.keys.indexOf(L.c.k) >= 0;
+    if (ground) {   // มุมพื้น: ซ่อนป้ายที่อยู่หลังกล้อง หรือไกลเกิน (ยกเว้นที่เลือกไว้)
+      L.e.textContent = L.c.t === 'b' ? 'อาคาร ' + L.c.id : L.c.n;
+      L.e.style.display = v.z > 1 || (!isSel && far > (L.c.t === 'b' ? 30 : 14)) ? 'none' : '';
+    } else if (L.c.t === 'b') { L.e.style.display = ''; L.e.textContent = zoom < 1.3 && !isSel ? String(L.c.id) : 'อาคาร ' + L.c.id; }
+    else L.e.style.display = isSel || zoom >= 1.7 ? '' : 'none';
+    L.e.classList.toggle('sel', isSel);
+  });
+}
+function req() { if (!raf) raf = requestAnimationFrame(function () { raf = 0; draw(); }); }
+function resize() { if (!gl) return; renderer.setSize(stage.clientWidth, stage.clientHeight, false); req(); }
+
+// ===== มุมพื้น: เดินสำรวจ (อวตารของเรา) + ทัวร์โรงเรียน (ใช้โชว์) =====
+// ไม่มีคนอื่นในฉาก ไม่ส่งตำแหน่งไปไหน ทุกอย่างคำนวณในเครื่อง
+var view = 'map', pcam = null, plane = null, loopOn = false, tv = null, rc2 = null, solidMeshes = [], CAMPUS_BY = {};
+var RM = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+var SOLID = [], BOUNDS = null;     // ตึกที่เดินทะลุไม่ได้ (สนาม ลาน และใต้โดมเดินได้)
+var walk = { x: 0, z: 0, h: 0, fwd: 0, turn: 0, key: { f: 0, t: 0 }, dist: 0.75, eye: false, body: null, beacon: null, tgt: null, bob: 0, snap: true, txt: '' };
+var tour = { i: 0, t: 0, play: true, ang: -0.55, fromP: null, fromL: null, look: null };
+var V3 = function (x, y, z) { return new THREE.Vector3(x, y, z); };
+CAMPUS.forEach(function (c) { CAMPUS_BY[c.k] = c; });
+
+function avaData() {
+  var d = null; try { d = JSON.parse(sessionStorage.getItem('classkhab_map_ava') || 'null'); } catch (e) { d = null; }
+  d = d && typeof d === 'object' ? d : {};
+  var img = function (s) { return typeof s === 'string' && /^data:image\/(svg\+xml|jpeg|png|webp)[;,]/.test(s) ? s : ''; };
+  return { c: /^#[0-9a-f]{6}$/i.test(d.c || '') ? d.c : '#2563eb', b: img(d.b), o: img(d.o), t: typeof d.t === 'string' ? Array.from(d.t)[0] || '' : '' };
+}
+function avatarTexture(d) {   // หน้าอวตารแบบเดียวกับหน้าโปรไฟล์: สีพื้น + รูป/อวตารสำเร็จรูป + ชุดแต่งตัว (หรือตัวอักษรแรกของชื่อเล่น)
+  var c = document.createElement('canvas'); c.width = c.height = 128; var x = c.getContext('2d'), tex = new THREE.CanvasTexture(c);
+  function paintFace(imgs) {
+    x.clearRect(0, 0, 128, 128); x.save(); x.beginPath(); x.arc(64, 64, 62, 0, Math.PI * 2); x.clip();
+    x.fillStyle = d.c; x.fillRect(0, 0, 128, 128);
+    if (!d.b) { x.fillStyle = '#fff'; x.font = '600 60px Anuphan, sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(d.t, 64, 68); }
+    imgs.forEach(function (im) { if (im.naturalWidth) { var s = Math.min(im.naturalWidth, im.naturalHeight), sx = (im.naturalWidth - s) / 2, sy = (im.naturalHeight - s) / 2; x.drawImage(im, sx, sy, s, s, 0, 0, 128, 128); } });
+    x.restore(); x.lineWidth = 4; x.strokeStyle = '#fff'; x.beginPath(); x.arc(64, 64, 61, 0, Math.PI * 2); x.stroke();
+    tex.needsUpdate = true;
+  }
+  paintFace([]);
+  var srcs = [d.b, d.o].filter(Boolean);
+  if (srcs.length) {
+    var imgs = srcs.map(function (s) { var im = new Image(); im.src = s; return im; });
+    Promise.all(imgs.map(function (im) { return im.decode ? im.decode().catch(function () {}) : Promise.resolve(); })).then(function () {
+      paintFace(imgs);
+      try { x.getImageData(0, 0, 1, 1); } catch (e) { paintFace([]); }   // บางเบราว์เซอร์ไม่ยอมให้ใช้ภาพ SVG ทำพื้นผิว ใช้หน้าพื้นฐานแทน
+      req();
+    });
+  }
+  return tex;
+}
+function initGround() {
+  pcam = new THREE.PerspectiveCamera(55, 1, 0.02, 400); tv = new THREE.Vector3(); rc2 = new THREE.Raycaster();
+  var x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9;
+  CAMPUS.forEach(function (c) {
+    var R = Math.max(c.l, c.w) / 2; x0 = Math.min(x0, c.x - R); x1 = Math.max(x1, c.x + R); z0 = Math.min(z0, c.z - R); z1 = Math.max(z1, c.z + R);
+    if (c.t === 'b' || (KIND[c.id] && KIND[c.id] !== 'canopy')) SOLID.push(c);
+  });
+  BOUNDS = { x0: (x0 - 20) * S, x1: (x1 + 20) * S, z0: (z0 - 20) * S, z1: (z1 + 20) * S };
+  plane = new THREE.Mesh(new THREE.PlaneGeometry(BOUNDS.x1 - BOUNDS.x0 + 200, BOUNDS.z1 - BOUNDS.z0 + 200), new THREE.MeshLambertMaterial({ color: 0xffffff }));
+  plane.rotation.x = -Math.PI / 2; plane.position.set((BOUNDS.x0 + BOUNDS.x1) / 2, -0.01, (BOUNDS.z0 + BOUNDS.z1) / 2); plane.receiveShadow = true; scene.add(plane);
+  solidMeshes = meshes.filter(function (m) { return m.userData.role !== 'flat' && m.userData.role !== 'canopy'; });
+  scene.updateMatrixWorld(true);
+  salas();
+  approach();
+  plantTrees();
+  // ตัวละคร (สูงราว 1.9 ม. ใหญ่กว่าคนจริงนิดหน่อยให้เห็นชัด): ลำตัว + หน้าอวตาร (หันหากล้องเสมอ) + ลูกศรบอกทิศหน้า + เงา
+  var d = avaData(), body = new THREE.Group();
+  var torso = new THREE.Mesh(new THREE.CylinderGeometry(0.026, 0.036, 0.1, 16), new THREE.MeshLambertMaterial({ color: d.c })); torso.position.y = 0.05; torso.castShadow = true; body.add(torso);
+  var head = new THREE.Sprite(new THREE.SpriteMaterial({ map: avatarTexture(d) })); head.scale.set(0.1, 0.1, 1); head.position.y = 0.145; body.add(head);
+  var nose = new THREE.Mesh(new THREE.ConeGeometry(0.018, 0.045, 3), new THREE.MeshBasicMaterial({ color: 0x2563eb })); nose.rotation.x = Math.PI / 2; nose.position.set(0, 0.01, 0.075); body.add(nose); body.userData.nose = nose;
+  var sh = new THREE.Mesh(new THREE.CircleGeometry(0.042, 20), new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, opacity: 0.18 })); sh.rotation.x = -Math.PI / 2; sh.position.y = 0.003; body.add(sh);
+  body.visible = false; scene.add(body); walk.body = body;
+  var bc = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 6, 24, 1, true), new THREE.MeshBasicMaterial({ color: 0x2563eb, transparent: true, opacity: 0.25, depthWrite: false, side: THREE.DoubleSide }));
+  bc.visible = false; scene.add(bc); walk.beacon = bc;
+  // จุดเริ่ม: กลางโดม หันไปทางอาคาร 1
+  var st = CAMPUS_BY.sdome, b1 = CAMPUS_BY.b1;
+  walk.x = st ? st.x * S : cx; walk.z = st ? st.z * S : cz;
+  walk.h = b1 ? Math.atan2(b1.x * S - walk.x, b1.z * S - walk.z) : 0;
+  tour.look = V3(cx, 0, cz);
+}
+var AVOID = [];   // จุดที่ต้นไม้ห้ามขึ้น นอกจากผัง (เช่นศาลา): [x, z, รัศมี]
+function salas() {   // ศาลาหลังคากระเบื้องแดงทรงปั้นหยา เสาส้มอิฐ 4 หลังเรียง ติดสนามวอลเลย์ (ภาพสนามวอลเลย์) · วางฝั่งที่ไม่ทับอะไร ถ้าทับทั้งสองฝั่งก็ไม่วาง
+  var c = CAMPUS.filter(function (x) { return x.k === 'svball'; })[0]; if (!c) return;
+  var g = groups[c.k], L = c.l * S, W = c.w * S, xs = [-0.9, -0.3, 0.3, 0.9].map(function (k) { return k * Math.min(L / 2, 1.6) / 0.9; });
+  var side = [1, -1].filter(function (s2) {
+    return xs.every(function (x) {
+      var v = V3(x, 0, s2 * (W / 2 + 0.55)); g.localToWorld(v);
+      return CAMPUS.every(function (o) { if (o.k === c.k) return true; tv.set(v.x, 0, v.z); groups[o.k].worldToLocal(tv); return !(Math.abs(tv.x) < o.l * S / 2 + 0.35 && Math.abs(tv.z) < o.w * S / 2 + 0.35); });
+    });
+  })[0];
+  if (!side) return;
+  xs.forEach(function (x) {
+    var z = side * (W / 2 + 0.55), sg = new THREE.Group(); sg.position.set(x, 0, z); g.add(sg);
+    bar(sg, 0.5, 0.03, 0.5, 0, 0.015, 0, 0xd9d4ca).receiveShadow = true;
+    [[-1, -1], [-1, 1], [1, -1], [1, 1]].forEach(function (d) { post(sg, d[0] * 0.2, d[1] * 0.2, 0.24, 0.022, 0xd98c6a); });
+    hip(sg, 0.62, 0.62, 0.24, 0.17, 0xa8432c);
+    var v = V3(x, 0, z); g.localToWorld(v); AVOID.push([v.x, v.z, 0.6]);
+  });
+}
+// ทางเข้าโรงเรียน (ภาพโดรนจากถนนใหญ่ + ปันยืนยันว่าประตูอยู่ฝั่งสนามฟุตบอล):
+// ถนนสาย 2020 ขนานด้านยาวของสนามฝั่งนอก · รั้วเตี้ยสีขาวตลอดแนว · ประตูเสาขาวป้ายสีเลือดหมูอยู่เลยปลายสนามไปเล็กน้อย
+// ถนนทางเข้าตรงเลียบปลายสนาม ไปจบที่ปลายแถวอาคาร 1–2 · ขอบทางแดง-ขาว พุ่มไม้ตัดแต่ง เสาไฟโซลาร์ ทางเดินมีหลังคาขาวฝั่งสนาม
+// ตำแหน่งเป็นค่าประมาณ (หน่วยเมตร ในกรอบของสนาม: แกน x ตามแนวยาวสนาม, แกน z ตามแนวกว้าง ค่าลบ = ฝั่งถนนใหญ่)
+var GATE = { x: -89, fence: -60, hw: -75, hwW: 22, roadW: 8, roadEnd: 70 };
+function approach() {
+  var c = CAMPUS.filter(function (x) { return x.k === 'sfield'; })[0]; if (!c) return;
+  var g = new THREE.Group(); g.position.set(c.x * S, 0, c.z * S); g.rotation.y = -c.r * Math.PI / 180; scene.add(g); g.updateMatrixWorld(true);
+  var m = function (v) { return v * S; }, gx = m(GATE.x), fz = m(GATE.fence), rw = m(GATE.roadW), z0 = fz, z1 = m(GATE.roadEnd), rl = z1 - z0, rz = (z0 + z1) / 2;
+  var avoid = function (x, z, r) { var v = V3(x, 0, z); g.localToWorld(v); AVOID.push([v.x, v.z, r]); };
+  // ถนนสาย 2020: ยางมะตอย เส้นแบ่งช่องจราจรขาวประ เส้นกลางเหลือง
+  var hwT = canvasTex(256, 64, function (x) {
+    x.fillStyle = '#55585d'; x.fillRect(0, 0, 256, 64); x.fillStyle = '#f2f2ee'; x.fillRect(0, 2, 256, 2); x.fillRect(0, 60, 256, 2);
+    for (var i = 0; i < 256; i += 64) { x.fillRect(i, 17, 32, 2); x.fillRect(i, 45, 32, 2); }
+    x.fillStyle = '#e2b43a'; x.fillRect(0, 30, 256, 1.5); x.fillRect(0, 33, 256, 1.5);
+  });
+  hwT.repeat.set(Math.round(400 / 24), 1);
+  var hw = new THREE.Mesh(new THREE.PlaneGeometry(m(400), m(GATE.hwW)), lam({ map: hwT })); hw.rotation.x = -Math.PI / 2; hw.position.set(0, 0.006, m(GATE.hw)); hw.receiveShadow = true; g.add(hw); decor.push(hw);
+  for (var hx = -200; hx <= 200; hx += 8) avoid(m(hx), m(GATE.hw), m(GATE.hwW / 2 + 3));
+  // ถนนทางเข้า: คอนกรีต รอยต่อแผ่น
+  var rdT = canvasTex(64, 64, function (x) { x.fillStyle = '#cdc9c0'; x.fillRect(0, 0, 64, 64); x.fillStyle = 'rgba(0,0,0,.12)'; x.fillRect(0, 0, 64, 1); x.fillRect(31, 0, 1, 64); });
+  rdT.repeat.set(2, Math.round(rl / 0.5));
+  var rd = new THREE.Mesh(new THREE.PlaneGeometry(rw, rl), lam({ map: rdT })); rd.rotation.x = -Math.PI / 2; rd.position.set(gx, 0.008, rz); rd.receiveShadow = true; g.add(rd); decor.push(rd);
+  for (var rz2 = z0; rz2 <= z1; rz2 += 0.5) avoid(gx, rz2, rw / 2 + 0.35);
+  // ขอบทางแดง-ขาว + พุ่มไม้ตัดแต่งสองข้าง
+  if (!CURB) CURB = canvasTex(16, 2, function (x) { x.fillStyle = '#c8362f'; x.fillRect(0, 0, 8, 2); x.fillStyle = '#f4f4f2'; x.fillRect(8, 0, 8, 2); });
+  [-1, 1].forEach(function (sd) {
+    var t = CURB.clone(); t.needsUpdate = true; t.repeat.set(Math.round(rl / 0.2), 1);
+    var cb = new THREE.Mesh(new THREE.BoxGeometry(rl, 0.03, 0.04), lam({ map: t })); cb.rotation.y = Math.PI / 2; cb.position.set(gx + sd * rw / 2, 0.02, rz); g.add(cb); decor.push(cb);
+    var hd = bar(g, 0.12, 0.07, rl - 1.2, gx + sd * (rw / 2 + 0.16), 0.035, rz + 0.6, 0x4f8a3e); hd.receiveShadow = true;
+  });
+  // เสาไฟโซลาร์ฝั่งเหนือของถนน ทุก ~20 ม.
+  for (var lz = z0 + 1; lz < z1; lz += m(20)) {
+    post(g, gx - rw / 2 - 0.3, lz, 0.6, 0.01, 0xdfe2e5);
+    bar(g, 0.12, 0.012, 0.05, gx - rw / 2 - 0.3, 0.6, lz, 0x2c3e57);   // แผงโซลาร์
+  }
+  // ทางเดินมีหลังคาขาวฝั่งสนาม (ขนานถนน) จากประตูเข้าไป ~80 ม.
+  var wx = gx + rw / 2 + m(3), wl = m(80), wz = z0 + 0.3 + wl / 2;
+  for (var pz = z0 + 0.3; pz <= z0 + 0.3 + wl; pz += m(8)) { post(g, wx - m(1.4), pz, 0.26, 0.012, 0xe9e9e6); post(g, wx + m(1.4), pz, 0.26, 0.012, 0xe9e9e6); }
+  var wr = bar(g, m(3.6), 0.02, wl, wx, 0.27, wz, 0xf1f1ee); wr.receiveShadow = true;
+  for (var az = z0; az <= z0 + wl; az += 0.6) avoid(wx, az, 0.35);
+  // รั้วเตี้ยสีขาวตามแนวถนนใหญ่ (เว้นช่องประตู)
+  var fx0 = m(-115), fx1 = m(110), gap = rw / 2 + m(2.5);
+  [[fx0, gx - gap], [gx + gap, fx1]].forEach(function (seg) {
+    var len = seg[1] - seg[0], mid = (seg[0] + seg[1]) / 2;
+    bar(g, len, 0.1, 0.02, mid, 0.05, fz, 0xf4f4f1); bar(g, len, 0.012, 0.03, mid, 0.1, fz, 0xffffff);
+    for (var fp = seg[0]; fp <= seg[1]; fp += m(3)) bar(g, 0.025, 0.12, 0.025, fp, 0.06, fz, 0xffffff);
+    for (var ax = seg[0]; ax <= seg[1]; ax += 0.6) avoid(ax, fz, 0.3);
+  });
+  // ประตู: เสาขาวสูงสองต้น คานป้ายสีเลือดหมูอักษรเหลือง
+  [-1, 1].forEach(function (sd) { var col = bar(g, 0.14, 0.72, 0.14, gx + sd * (rw / 2 + 0.12), 0.36, fz, 0xf6f6f2); col.receiveShadow = true; bar(g, 0.18, 0.04, 0.18, gx + sd * (rw / 2 + 0.12), 0.74, fz, 0xf6f6f2); });
+  var draw = function (x, w, h) { x.fillStyle = '#6e1f2a'; x.fillRect(0, 0, w, h); x.strokeStyle = '#e8c45a'; x.lineWidth = 3; x.strokeRect(4, 4, w - 8, h - 8); x.fillStyle = '#f2c94c'; x.font = '600 ' + Math.round(h * 0.5) + 'px Anuphan, Tahoma, sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText('โรงเรียนท่าบ่อ', w / 2, h * 0.55); };
+  var st = canvasTex(512, 96, function (x, w, h) { draw(x, w, h); }); st.wrapS = st.wrapT = THREE.ClampToEdgeWrapping;
+  fontTex.push(function () { draw(st.image.getContext('2d'), 512, 96); st.needsUpdate = true; });
+  var sm = lam({ map: st }), plain = lam({ color: 0x6e1f2a });
+  var beam = new THREE.Mesh(new THREE.BoxGeometry(rw + 0.5, 0.17, 0.1), [plain, plain, plain, plain, sm, sm]); beam.position.set(gx, 0.62, fz); beam.castShadow = true; g.add(beam); decor.push(beam);
+  avoid(gx, fz, 1.2);
+}
+var trees = null;
+function plantTrees() {   // ต้นไม้ตามช่องว่าง (สุ่มแบบตายตัว ทุกเครื่องเห็นเหมือนกัน) ไม่ขึ้นบนตึก สนาม หรือลาน · เดินผ่านได้
+  var seed = 20261117, rnd = function () { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+  var pts = [], step = 0.85;
+  for (var x = BOUNDS.x0 + 0.5; x < BOUNDS.x1; x += step) for (var z = BOUNDS.z0 + 0.5; z < BOUNDS.z1; z += step) {
+    var px = x + (rnd() - 0.5) * step, pz = z + (rnd() - 0.5) * step; if (rnd() > 0.3) continue;
+    var ok = true;
+    for (var i = 0; i < CAMPUS.length && ok; i++) { var c = CAMPUS[i]; tv.set(px, 0, pz); groups[c.k].worldToLocal(tv); if (Math.abs(tv.x) < c.l * S / 2 + 0.9 && Math.abs(tv.z) < c.w * S / 2 + 0.9) ok = false; }
+    for (var a = 0; a < AVOID.length && ok; a++) if (Math.hypot(px - AVOID[a][0], pz - AVOID[a][1]) < AVOID[a][2]) ok = false;
+    if (ok && pts.length < 420) pts.push([px, pz, 0.7 + rnd() * 0.9, rnd() < 0.22 ? 1 : 0, rnd()]);   // [x, z, ขนาด, ชนิด (1 = สนทรงกรวย), สุ่มสี]
+  }
+  if (!pts.length) return;
+  var round = pts.filter(function (p2) { return !p2[3]; }), pine = pts.filter(function (p2) { return p2[3]; });
+  // ต้นไม้ใหญ่ทรงพุ่มกลม (จามจุรี/ประดู่) กับต้นสนทรงกรวยสูง (ภาพหน้าอาคาร 1) · สีพุ่มต่างกันเล็กน้อยต่อต้น
+  var crown = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(0.28, 1), new THREE.MeshLambertMaterial({ color: 0xffffff, flatShading: true }), Math.max(1, round.length));
+  var cone = new THREE.InstancedMesh(new THREE.ConeGeometry(0.13, 0.62, 7), new THREE.MeshLambertMaterial({ color: 0xffffff, flatShading: true }), Math.max(1, pine.length));
+  var trunk = new THREE.InstancedMesh(new THREE.CylinderGeometry(0.03, 0.045, 0.3, 6), new THREE.MeshLambertMaterial({ color: 0x7a5a3c }), pts.length);
+  var o = new THREE.Object3D(), col = new THREE.Color();
+  pts.forEach(function (p2, i) { o.position.set(p2[0], 0.15 * p2[2], p2[1]); o.scale.set(p2[2], p2[2], p2[2]); o.rotation.set(0, 0, 0); o.updateMatrix(); trunk.setMatrixAt(i, o.matrix); });
+  round.forEach(function (p2, i) {
+    o.position.set(p2[0], 0.47 * p2[2], p2[1]); o.scale.set(p2[2] * 1.15, p2[2] * 0.82, p2[2] * 1.15); o.rotation.set(0, p2[0] * 7, 0); o.updateMatrix(); crown.setMatrixAt(i, o.matrix);
+    crown.setColorAt(i, col.setHSL(0.25 + p2[4] * 0.06, 0.32 + p2[4] * 0.12, 0.34 + p2[4] * 0.08));
+  });
+  pine.forEach(function (p2, i) {
+    o.position.set(p2[0], 0.5 * p2[2], p2[1]); o.scale.set(p2[2], p2[2] * 1.15, p2[2]); o.rotation.set(0, 0, 0); o.updateMatrix(); cone.setMatrixAt(i, o.matrix);
+    cone.setColorAt(i, col.setHSL(0.3 + p2[4] * 0.04, 0.38, 0.27 + p2[4] * 0.05));
+  });
+  crown.count = round.length; cone.count = pine.length;
+  crown.castShadow = cone.castShadow = trunk.castShadow = true; scene.add(trunk); scene.add(crown); scene.add(cone); trees = { crown: crown, cone: cone, trunk: trunk };
+}
+function blocked(x, z) {
+  if (x < BOUNDS.x0 || x > BOUNDS.x1 || z < BOUNDS.z0 || z > BOUNDS.z1) return true;
+  for (var i = 0; i < SOLID.length; i++) {
+    var c = SOLID[i]; tv.set(x, 0, z); groups[c.k].worldToLocal(tv);
+    if (Math.abs(tv.x) < c.l * S / 2 + 0.04 && Math.abs(tv.z) < c.w * S / 2 + 0.04) return true;
+  }
+  return false;
+}
+function stepWalk(dt) {
+  var f = walk.fwd || walk.key.f, t = walk.turn || walk.key.t;
+  walk.h -= t * 1.9 * dt;
+  if (f) {
+    var sp = (f > 0 ? 0.5 : 0.3) * f * dt, nx = walk.x + Math.sin(walk.h) * sp, nz = walk.z + Math.cos(walk.h) * sp;   // ~5 ม./วินาที (เร็วกว่าเดินจริง ให้ทั่วโรงเรียนไม่นาน)
+    if (!blocked(nx, nz)) { walk.x = nx; walk.z = nz; } else if (!blocked(nx, walk.z)) walk.x = nx; else if (!blocked(walk.x, nz)) walk.z = nz;
+    walk.bob += dt * 11;
+  }
+  var b = walk.body; b.position.set(walk.x, f && !RM ? Math.abs(Math.sin(walk.bob)) * 0.02 : 0, walk.z); b.rotation.y = walk.h;
+  var fx = Math.sin(walk.h), fz = Math.cos(walk.h);
+  if (walk.eye) {
+    b.visible = false; pcam.position.set(walk.x + fx * 0.03, 0.16, walk.z + fz * 0.03); pcam.lookAt(walk.x + fx * 5, 0.16, walk.z + fz * 5);
+  } else {
+    b.visible = true;
+    var head = V3(walk.x, 0.16, walk.z), want = V3(walk.x - fx * walk.dist, 0.14 + walk.dist * 0.4, walk.z - fz * walk.dist);
+    var dir = want.clone().sub(head), len = dir.length(); dir.normalize(); rc2.set(head, dir); rc2.far = len;
+    var hit = rc2.intersectObjects(solidMeshes, false)[0]; if (hit) want = head.clone().addScaledVector(dir, Math.max(0.08, hit.distance - 0.05));   // ตึกบังกล้อง ดึงกล้องเข้ามา
+    if (walk.snap) { pcam.position.copy(want); walk.snap = false; } else pcam.position.lerp(want, 1 - Math.exp(-10 * dt));
+    pcam.lookAt(walk.x, 0.13, walk.z);
+  }
+  updTarget();
+}
+function setTarget() {
+  var c = sel ? CAMPUS_BY[sel.keys[0]] : null; walk.tgt = c || null;
+  walk.beacon.visible = view === 'walk' && !!c; if (c) walk.beacon.position.set(c.x * S, 3, c.z * S);
+  $('tgt').classList.toggle('hidden', !c); walk.txt = ''; updTarget();
+}
+function updTarget() {
+  var c = walk.tgt; if (!c) return;
+  tv.set(walk.x, 0, walk.z); groups[c.k].worldToLocal(tv);
+  var m = Math.hypot(Math.max(0, Math.abs(tv.x) - c.l * S / 2), Math.max(0, Math.abs(tv.z) - c.w * S / 2)) / S;   // เมตรถึงขอบ
+  var name = c.t === 'b' ? 'อาคาร ' + c.id + (sel && sel.level != null ? ' ' + (sel.level === 0 ? 'ชั้นล่าง' : 'ชั้น ' + sel.level) : '') : c.n;
+  var txt = m < 8 ? 'ถึงแล้ว · ' + name : name + ' · อีกประมาณ ' + Math.max(10, Math.round(m / 10) * 10) + ' ม.';
+  if (txt !== walk.txt) { $('tgtText').textContent = txt; walk.txt = txt; }
+  var rel = Math.atan2(c.x * S - walk.x, c.z * S - walk.z) - walk.h;    // บวก = อยู่ทางซ้าย
+  $('tgtArrow').style.transform = 'rotate(' + (-rel * 180 / Math.PI).toFixed(1) + 'deg)';
+  $('tgtArrow').style.visibility = m < 8 ? 'hidden' : '';
+}
+// จอยสติ๊ก: แตะค้างตรงไหนก็ได้ ลากขึ้น = เดินหน้า ลง = ถอย ซ้ายขวา = เลี้ยว
+var joyO = null;
+function joyStart(e) { var r = stage.getBoundingClientRect(); joyO = { x: e.clientX, y: e.clientY }; var j = $('joy'); j.style.left = (e.clientX - r.left) + 'px'; j.style.top = (e.clientY - r.top) + 'px'; j.querySelector('i').style.transform = ''; j.classList.remove('hidden'); }
+function joyMove(p) {
+  if (!joyO) return; var dx = p.x - joyO.x, dy = p.y - joyO.y, m = Math.hypot(dx, dy), R = 38; if (m > R) { dx *= R / m; dy *= R / m; }
+  $('joy').querySelector('i').style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+  var f = -dy / R, t = dx / R; walk.fwd = Math.abs(f) < 0.15 ? 0 : f; walk.turn = Math.abs(t) < 0.15 ? 0 : t;
+  if (walk.fwd || walk.turn) $('hint').classList.add('hidden');
+}
+function joyEnd() { joyO = null; walk.fwd = 0; walk.turn = 0; $('joy').classList.add('hidden'); }
+var KEYS = { ArrowUp: ['f', 1], KeyW: ['f', 1], ArrowDown: ['f', -1], KeyS: ['f', -1], ArrowLeft: ['t', -1], KeyA: ['t', -1], ArrowRight: ['t', 1], KeyD: ['t', 1] };
+window.addEventListener('keydown', function (e) {
+  var k = KEYS[e.code]; if (view !== 'walk' || !k || e.altKey || e.ctrlKey || e.metaKey) return;
+  e.preventDefault(); walk.key[k[0]] = k[1]; $('hint').classList.add('hidden');
+});
+window.addEventListener('keyup', function (e) { var k = KEYS[e.code]; if (k && walk.key[k[0]] === k[1]) walk.key[k[0]] = 0; });
+window.addEventListener('blur', function () { walk.key.f = walk.key.t = 0; joyEnd(); });
+
+// ทัวร์: กล้องบินไปทีละจุด หยุดชมแล้วไปต่อเอง (แตะแผนที่ = หยุด/เล่น)
+var STOPS = [
+  { k: null, t: 'โรงเรียนท่าบ่อ', s: 'ภาพรวม · ผังโดยประมาณจากภาพดาวเทียม' },
+  { k: 'gate', t: 'ประตูโรงเรียน', s: 'ติดถนนสาย 2020 ฝั่งสนามฟุตบอล · ถนนทางเข้าตรงไปถึงอาคาร 2' },
+  { k: 'b2', s: 'อาคารแรกที่เจอเมื่อเดินเข้าจากป้ายโรงเรียน' }, { k: 'b1' }, { k: 'sdome' }, { k: 'b4' }, { k: 'spe' }, { k: 'sfield' },
+  { k: 'sfutsal' }, { k: 'slibrary' }, { k: 'b3' }, { k: 'b6' }, { k: 'b5' }, { k: 'svball' }, { k: 'scan1' }, { k: 'shomec', s: 'อยู่ติดกับเกษตรและโรงฝึก' }
+].filter(function (st) { return !st.k || CAMPUS_BY[st.k] || (st.k === 'gate' && CAMPUS_BY.sfield); });
+var MOVE_S = 2.4, STAY_S = 4.2;
+var ICON_PAUSE = '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>';
+var ICON_PLAY = '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l12-7.5Z"/></svg>';
+function gatePos() {   // ตำแหน่งประตูในโลก (จากกรอบของสนาม)
+  var c = CAMPUS_BY.sfield, a = -c.r * Math.PI / 180, x = GATE.x * S, z = GATE.fence * S;
+  return { x: c.x * S + x * Math.cos(a) + z * Math.sin(a), z: c.z * S - x * Math.sin(a) + z * Math.cos(a), a: a };
+}
+function stopInfo(st) {
+  var c = st.k ? CAMPUS_BY[st.k] : null; if (!c) return { t: st.t, s: st.s };
+  if (c.t !== 'b') return { t: c.n, s: st.s || '' };
+  var lv = LEVELS[c.id], n = 0; for (var l = lv[0]; l <= lv[1]; l++) n += (ROOMS[c.id] && ROOMS[c.id][l] || []).length;
+  return { t: 'อาคาร ' + c.id, s: (lv[1] - lv[0] + 1) + ' ชั้น' + (n ? ' · ห้องในตารางเรียน ' + n + ' ห้อง' : '') + (st.s ? ' · ' + st.s : '') };
+}
+function stopPose(st, ang) {
+  if (st.k === 'gate') { var gp = gatePos(); return { p: V3(gp.x + Math.sin(ang) * 6, 3.4, gp.z + Math.cos(ang) * 6), l: V3(gp.x, 0.3, gp.z) }; }
+  var c = st.k ? CAMPUS_BY[st.k] : null;
+  if (!c) return { p: V3(cx + Math.sin(ang) * 30, 28, cz + Math.cos(ang) * 30), l: V3(cx, 0, cz) };
+  var R = Math.max(c.l, c.w) * S / 2, D = R * 1.8 + 3, ty = c.t === 'b' ? (LEVELS[c.id][1] - LEVELS[c.id][0] + 1) * LH * 0.4 : 0.2;
+  return { p: V3(c.x * S + Math.sin(ang) * D, D * 0.5 + 1.2, c.z * S + Math.cos(ang) * D), l: V3(c.x * S, ty, c.z * S) };
+}
+function tourGo(i, instant) {
+  tour.i = (i + STOPS.length) % STOPS.length; tour.t = instant || RM ? MOVE_S : 0; tour.ang = -0.55;
+  tour.fromP = pcam.position.clone(); tour.fromL = tour.look.clone();
+  var st = STOPS[tour.i], inf = stopInfo(st); $('capT').textContent = inf.t; $('capS').textContent = inf.s || '';
+  select(st.k && CAMPUS_BY[st.k] ? [st.k] : null);
+  if (instant || RM) { var p = stopPose(st, tour.ang); pcam.position.copy(p.p); tour.look.copy(p.l); tour.fromP = p.p.clone(); tour.fromL = p.l.clone(); }
+}
+function tourPlay(on) { tour.play = on; var b = $('capPlay'); b.innerHTML = on ? ICON_PAUSE : ICON_PLAY; b.setAttribute('aria-label', on ? 'หยุดชั่วคราว' : 'เล่นต่อ'); }
+function stepTour(dt) {
+  if (tour.play) tour.t += dt;
+  var st = STOPS[tour.i]; if (tour.play && tour.t > MOVE_S && !RM) tour.ang += dt * 0.07;   // หมุนรอบช้าๆ ตอนหยุดชม
+  var pose = stopPose(st, tour.ang), k = Math.min(1, tour.t / MOVE_S), e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+  pcam.position.lerpVectors(tour.fromP, pose.p, e); tour.look.lerpVectors(tour.fromL, pose.l, e); pcam.lookAt(tour.look);
+  if (tour.play && tour.t > MOVE_S + STAY_S) tourGo(tour.i + 1);
+}
+$('capPrev').onclick = function () { tourGo(tour.i - 1); };
+$('capNext').onclick = function () { tourGo(tour.i + 1); };
+$('capPlay').onclick = function () { tourPlay(!tour.play); };
+
+var lastT = 0;
+function loop(t) {
+  if (view === 'map') { loopOn = false; return; }
+  requestAnimationFrame(loop);
+  if (document.hidden) { lastT = 0; return; }
+  var dt = lastT ? Math.min(0.05, (t - lastT) / 1000) : 0.016; lastT = t;
+  if (view === 'walk') stepWalk(dt); else stepTour(dt);
+  draw();
+}
+function setView(v) {
+  if (!gl) return;
+  var prev = view; view = v;
+  [['vMap', 'map'], ['vWalk', 'walk'], ['vTour', 'tour']].forEach(function (x) { $(x[0]).setAttribute('aria-pressed', x[1] === v ? 'true' : 'false'); });
+  var ground = v !== 'map';
+  ['zin', 'zout', 'rst'].forEach(function (id) { $(id).classList.toggle('hidden', ground); });
+  $('camv').classList.toggle('hidden', v !== 'walk');
+  $('fs').classList.toggle('hidden', !ground || !stage.requestFullscreen);
+  $('hud').classList.toggle('hidden', v !== 'walk'); $('cap').classList.toggle('hidden', v !== 'tour'); $('legend').classList.toggle('hidden', v === 'tour');
+  walk.body.visible = v === 'walk'; joyEnd();
+  if (v === 'walk') { walk.snap = true; setTarget(); }
+  else walk.beacon.visible = false;
+  if (v === 'tour') { if (prev === 'map') { var p0 = stopPose(STOPS[0], -0.55); pcam.position.copy(p0.p); tour.look.copy(p0.l); } tourPlay(true); tourGo(0, prev === 'map'); }
+  if (v === 'map' && document.fullscreenElement) document.exitFullscreen().catch(function () {});
+  if (ground && !loopOn) { loopOn = true; lastT = 0; requestAnimationFrame(loop); }
+  req();
+}
+$('vMap').onclick = function () { setView('map'); };
+$('vWalk').onclick = function () { setView('walk'); };
+$('vTour').onclick = function () { setView('tour'); };
+$('camv').onclick = function () { walk.eye = !walk.eye; walk.snap = true; this.setAttribute('aria-pressed', walk.eye ? 'true' : 'false'); };
+$('fs').onclick = function () { if (document.fullscreenElement) document.exitFullscreen().catch(function () {}); else stage.requestFullscreen().catch(function () {}); };
+document.addEventListener('fullscreenchange', function () { resize(); });
+
+// ===== แตะ/ลาก/ซูม =====
+var ptr = {}, moved = 0, p0 = 0, z0 = 1, rc, mv;
+function bindCtl() {
+  rc = new THREE.Raycaster(); mv = new THREE.Vector2();
+  cv.addEventListener('pointerdown', function (e) {
+    cv.setPointerCapture(e.pointerId); ptr[e.pointerId] = { x: e.clientX, y: e.clientY, x0: e.clientX, y0: e.clientY }; moved = 0;
+    if (view === 'walk' && Object.keys(ptr).length === 1) joyStart(e);
+    var k = Object.keys(ptr); if (k.length === 2) { p0 = Math.hypot(ptr[k[0]].x - ptr[k[1]].x, ptr[k[0]].y - ptr[k[1]].y); z0 = zoom; }
+  });
+  cv.addEventListener('pointermove', function (e) {
+    var p = ptr[e.pointerId]; if (!p) return; var k = Object.keys(ptr);
+    if (view === 'walk') { moved += Math.abs(e.clientX - p.x) + Math.abs(e.clientY - p.y); p.x = e.clientX; p.y = e.clientY; if (k.length === 1) joyMove(p); return; }
+    if (view === 'tour') { moved += Math.abs(e.clientX - p.x) + Math.abs(e.clientY - p.y); p.x = e.clientX; p.y = e.clientY; return; }
+    if (k.length === 1) { var dx = e.clientX - p.x; moved += Math.abs(dx) + Math.abs(e.clientY - p.y); yaw -= dx * 0.008; }
+    else if (k.length === 2) { p.x = e.clientX; p.y = e.clientY; zoom = Math.max(0.7, Math.min(3, z0 * Math.hypot(ptr[k[0]].x - ptr[k[1]].x, ptr[k[0]].y - ptr[k[1]].y) / p0)); moved += 10; req(); return; }
+    p.x = e.clientX; p.y = e.clientY; req();
+  });
+  function up(e) {
+    var had = !!ptr[e.pointerId]; delete ptr[e.pointerId];
+    if (view === 'walk') joyEnd();
+    if (had && moved < 6 && !Object.keys(ptr).length) { if (view === 'tour') tourPlay(!tour.play); else pick(e); }
+  }
+  cv.addEventListener('pointerup', up); cv.addEventListener('pointercancel', function (e) { delete ptr[e.pointerId]; if (view === 'walk') joyEnd(); });
+  cv.addEventListener('wheel', function (e) { e.preventDefault(); if (view === 'walk') { walk.dist = Math.max(0.3, Math.min(2.5, walk.dist * (e.deltaY < 0 ? 0.9 : 1.1))); return; } if (view !== 'map') return; zoom = Math.max(0.7, Math.min(3, zoom * (e.deltaY < 0 ? 1.1 : 0.9))); req(); }, { passive: false });
+  $('zin').onclick = function () { zoom = Math.min(3, zoom * 1.25); req(); };
+  $('zout').onclick = function () { zoom = Math.max(0.7, zoom / 1.25); req(); };
+  $('rst').onclick = function () { yaw = -0.55; zoom = 1; req(); };
+}
+function pick(e) {
+  var r = cv.getBoundingClientRect(); mv.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+  rc.setFromCamera(mv, activeCam()); var hit = rc.intersectObjects(meshes, false)[0];
+  if (!hit) { select(null); out.replaceChildren(); return; }
+  var u = hit.object.userData;
+  if (u.type === 'b') showBuilding(u.id, u.has ? u.level : null); else showPlace(u.id);
+}
+function select(keys, level) { sel = keys && keys.length ? { keys: keys, level: level == null ? null : level } : null; req(); updateList(); if (view === 'walk') setTarget(); }
+
+// ===== แผงรายละเอียด =====
+var out = $('out'), viewDay = 0, lastQuery = null, cache = {};
+function placeKeys(id) { return ['s' + id].concat((ALSO[id] || []).map(function (x) { return 's' + x; })); }
+function showBuilding(id, level) {
+  select(['b' + id], level);
+  var lv = LEVELS[id], c = el('div', 'card'); c.appendChild(el('h2', null, 'อาคาร ' + id + ' · ' + (lv[1] - lv[0] + 1) + ' ระดับ'));
+  var ch = el('div', 'chips');
+  for (var l = lv[0]; l <= lv[1]; l++) (function (l) {
+    var has = !!(ROOMS[id] && ROOMS[id][l] && ROOMS[id][l].length), b = el('button', 'chip' + (level === l ? ' on' : '') + (has ? '' : ' dim'), (l === 0 ? 'ชั้นล่าง' : 'ชั้น ' + l) + (has ? '' : ' · ไม่มีห้องเรียนในตาราง')); b.type = 'button';
+    b.onclick = function () { showBuilding(id, l); }; ch.appendChild(b);
+  })(l);
+  c.appendChild(ch);
+  if (level != null && ROOMS[id] && ROOMS[id][level]) {
+    var rc2 = el('div', 'chips');
+    ROOMS[id][level].forEach(function (code) { var b = el('button', 'chip', code); b.type = 'button'; b.onclick = function () { showRoom(code); }; rc2.appendChild(b); });
+    c.appendChild(rc2);
+  }
+  out.replaceChildren(c);
+}
+function showPlace(id) {
+  select(placeKeys(id));
+  var c = el('div', 'card'); c.appendChild(el('h2', null, NAME_OF['s' + id] || id));
+  var rooms = PLACES[id];
+  if (rooms && rooms.length) { var b = el('button', 'chip', 'ดูตารางวันนี้'); b.type = 'button'; b.onclick = function () { showRoom(rooms[0], id); }; c.appendChild(b); }
+  else c.appendChild(el('div', 'muted', 'ยังไม่มีคาบเรียนในตารางที่ใช้ห้องนี้'));
+  out.replaceChildren(c);
+}
+function dayStart() { var d = bkkNow().dow; return d >= 1 && d <= 5 ? d : 1; }
+function showRoom(code, placeId) {   // ตารางการใช้ห้อง: คาบ · วิชา · ชั้นเรียน (ไม่แสดงชื่อครู)
+  if (!viewDay) viewDay = dayStart();
+  var loc = resolveRoom(code), names = placeId ? PLACES[placeId] : (loc && loc.t === 's' ? PLACES[loc.id] : [code]);
+  if (loc && loc.t === 'b') select(['b' + loc.id], loc.level); else if (loc) select(placeKeys(loc.id));
+  var c = el('div', 'card'); c.appendChild(el('h2', null, 'ห้อง ' + code + (loc ? ' · ' + whereText(loc) : '')));
+  var days = el('div', 'chips'); [1, 2, 3, 4, 5].forEach(function (d) { var b = el('button', 'chip' + (d === viewDay ? ' on' : ''), DAY_SH[d]); b.type = 'button'; b.setAttribute('aria-label', 'วัน' + DAY_TH[d]); b.onclick = function () { viewDay = d; showRoom(code, placeId); }; days.appendChild(b); });
+  c.appendChild(days);
+  var body = el('div', null, 'กำลังโหลด…'); body.style.marginTop = '8px'; c.appendChild(body);
+  out.replaceChildren(c);
+  var q = 'schedule_items?select=class_id,period,subject&day=eq.' + viewDay + '&room=in.(' + encodeURIComponent(names.map(function (n) { return '"' + n + '"'; }).join(',')) + ')&order=period.asc&limit=200';
+  lastQuery = q;
+  (cache[q] ? Promise.resolve(cache[q]) : sget(q).then(function (r) { cache[q] = r; return r; })).then(function (rows) {
+    if (lastQuery !== q) return; body.replaceChildren();
+    if (!rows.length) { body.appendChild(el('div', 'muted', 'วัน' + DAY_TH[viewDay] + 'ไม่มีคาบในห้องนี้')); return; }
+    var times = periodTimes();
+    rows.forEach(function (r) { var row = el('div', 'row'); row.appendChild(el('div', 'p', 'คาบ ' + r.period + (times[r.period - 1] ? ' ' + times[r.period - 1][0] : ''))); row.appendChild(el('div', null, r.subject + ' · ' + r.class_id)); body.appendChild(row); });
+  }).catch(function () { if (lastQuery === q) { body.replaceChildren(el('div', 'muted', 'โหลดตารางไม่ได้ ลองใหม่')); } });
+}
+
+// ===== ปุ่ม "คาบถัดไปของฉันอยู่ที่ไหน" =====
+$('where').onclick = function () {
+  var btn = this, cls = myClass(), now = bkkNow();
+  function say(title, text, extra) { var c = el('div', 'card acc'); c.appendChild(el('b', null, title)); if (text) c.appendChild(el('div', 'muted', text)); if (extra) c.appendChild(extra); out.replaceChildren(c); }
+  if (!cls) { var a = el('a', null, 'ไปหน้าตาราง'); a.href = 'index.html'; a.style.color = 'var(--acc)'; say('ยังไม่ได้เลือกห้อง', 'เลือกห้องในหน้าตารางก่อน แล้วกลับมาที่นี่', a); return; }
+  if (now.dow > 5) { select(null); say('วันนี้ไม่มีเรียน', 'ลองกดอาคารบนแผนที่เพื่อดูห้องและตารางแต่ละวัน'); return; }
+  btn.disabled = true; say('กำลังหาคาบถัดไป…', '');
+  mySchedule(cls).then(function (sched) {
+    btn.disabled = false;
+    var n = nextClass(sched, now);
+    if (!n) { select(null); say('วันนี้ไม่มีคาบแล้ว', ''); return; }
+    var it = n.item, loc = resolveRoom(it.room), head = (n.running ? 'ตอนนี้ · ' : 'คาบถัดไป · ') + 'คาบ ' + it.period + ' (' + n.start + '–' + n.end + ')';
+    if (!it.room || it.room === '-') { select(null); say(head, it.subject + ' · คาบนี้ไม่ได้ระบุสถานที่'); return; }
+    if (!loc) { select(null); say(head, it.subject + ' · ห้อง ' + it.room + ' · ยังไม่มีตำแหน่งของห้องนี้ในแผนที่'); return; }
+    if (loc.t === 'b') select(['b' + loc.id], loc.level); else select(placeKeys(loc.id));
+    var c = el('div', 'card acc'); c.appendChild(el('b', null, head)); c.appendChild(el('div', null, it.subject)); c.appendChild(el('div', null, 'ห้อง ' + it.room + ' · ' + whereText(loc)));
+    out.replaceChildren(c);
+  }).catch(function () { btn.disabled = false; say('โหลดตารางไม่ได้', 'ลองใหม่อีกครั้ง'); });
+};
+
+// ===== โหมดรายการ (ทางสำรอง และสำหรับโปรแกรมอ่านจอ) =====
+function buildList() {
+  var host = $('list'); host.replaceChildren();
+  [1, 2, 3, 4, 5, 6].forEach(function (id) {
+    var lv = LEVELS[id], d = document.createElement('details'), s = el('summary', null, 'อาคาร ' + id + ' · ' + (lv[1] - lv[0] + 1) + ' ระดับ'); d.appendChild(s);
+    for (var l = lv[0]; l <= lv[1]; l++) {
+      var rooms = (ROOMS[id] && ROOMS[id][l]) || []; var h = el('div', 'muted', l === 0 ? 'ชั้นล่าง' : 'ชั้น ' + l); h.style.marginTop = '6px'; d.appendChild(h);
+      var ch = el('div', 'chips'); ch.style.marginBottom = '8px';
+      if (!rooms.length) ch.appendChild(el('span', 'muted', 'ไม่มีห้องเรียนในตาราง'));
+      rooms.forEach(function (code) { var b = el('button', 'chip', code); b.type = 'button'; b.onclick = function () { showRoom(code); out.scrollIntoView({ block: 'nearest' }); }; ch.appendChild(b); });
+      d.appendChild(ch);
+    }
+    host.appendChild(d);
+  });
+  var o = document.createElement('details'); o.appendChild(el('summary', null, 'สถานที่อื่น'));
+  var ch2 = el('div', 'chips'); ch2.style.marginBottom = '10px';
+  Object.keys(PLACES).forEach(function (id) { var b = el('button', 'chip', NAME_OF['s' + id] || id); b.type = 'button'; b.onclick = function () { showPlace(id); out.scrollIntoView({ block: 'nearest' }); }; ch2.appendChild(b); });
+  o.appendChild(ch2); host.appendChild(o);
+}
+function updateList() { /* รายการไม่ไฮไลต์ ใช้การ์ดด้านบนแทน */ }
+function setMode(m3d) {
+  $('m3d').setAttribute('aria-pressed', m3d ? 'true' : 'false'); $('mls').setAttribute('aria-pressed', m3d ? 'false' : 'true');
+  if (!m3d && view !== 'map') setView('map');
+  stage.classList.toggle('hidden', !m3d); $('views').classList.toggle('hidden', !m3d); $('list').classList.toggle('hidden', m3d); if (m3d) { resize(); }
+  try { localStorage.setItem('classkhab_map_mode', m3d ? '3d' : 'list'); } catch (e) { /* ไม่เป็นไร */ }
+}
+$('m3d').onclick = function () { if (gl) setMode(true); }; $('mls').onclick = function () { setMode(false); };
+
+// ===== เริ่มต้น =====
+buildList();
+gl = typeof THREE !== 'undefined' && init3d();
+if (gl) { initGround(); bindCtl(); window.addEventListener('resize', resize); new MutationObserver(req).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] }); resize(); }
+var saved = 'ls'; try { saved = localStorage.getItem('classkhab_map_mode') === 'list' ? 'ls' : '3d'; } catch (e) { saved = '3d'; }
+if (!gl) { $('m3d').disabled = true; setMode(false); out.appendChild(el('div', 'card muted', 'เครื่องนี้แสดงแผนที่ 3 มิติไม่ได้ ใช้โหมดรายการแทน')); } else setMode(saved === '3d');
+window.__map = { select: select, showBuilding: showBuilding, showRoom: showRoom, resolveRoom: resolveRoom, nextClass: nextClass, setView: setView, blocked: function (x, z) { return blocked(x, z); }, state: function () { return { sel: sel, zoom: zoom, gl: !!gl, view: view, walk: { x: walk.x, z: walk.z, h: walk.h, txt: walk.txt }, tour: tour.i }; } };
+})();
+</script>
+</body>
+</html>
