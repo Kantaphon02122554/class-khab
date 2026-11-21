@@ -2,160 +2,309 @@
 <html lang="th">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0f172a">
 <title>หน้าร้าน ก.ไก่ ข.ไข่</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root { --bg: #f6f7f9; --card: #fff; --tx: #0f172a; --mu: #64748b; --bd: #e2e8f0; --ac: #2563eb; --ok: #16a34a; --er: #dc2626; }
-  * { box-sizing: border-box; } body { margin: 0; font-family: 'Anuphan', system-ui, sans-serif; background: var(--bg); color: var(--tx); font-size: 16px; }
-  main { max-width: 44rem; margin: 0 auto; padding: 1rem; }
-  h1 { font-size: 1.2rem; margin: 0 0 0.75rem; } h2 { font-size: 1rem; margin: 1.25rem 0 0.5rem; }
-  .card { background: var(--card); border: 1px solid var(--bd); border-radius: 0.9rem; padding: 0.9rem; margin: 0.5rem 0; }
-  input, button { font: inherit; } input { padding: 0.6rem 0.7rem; border: 1px solid var(--bd); border-radius: 0.6rem; width: 100%; }
-  button { cursor: pointer; border: 0; border-radius: 0.6rem; padding: 0.6rem 0.9rem; background: var(--ac); color: #fff; font-weight: 700; }
-  button.ghost { background: transparent; color: var(--tx); border: 1px solid var(--bd); } button.ok { background: var(--ok); } button.er { background: var(--er); } button:disabled { opacity: 0.5; }
-  .row { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; } .grow { flex: 1 1 13rem; min-width: 0; }
-  .mu { color: var(--mu); font-size: 0.85rem; } .tag { display: inline-block; padding: 0.1rem 0.5rem; border-radius: 1rem; font-size: 0.75rem; background: #eef2ff; color: #3730a3; }
-  .tag.done { background: #dcfce7; color: #166534; } .tag.rejected, .tag.cancelled { background: #fee2e2; color: #991b1b; }
-  .slot { margin-top: 1rem; font-weight: 700; } .sum { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 0.5rem 0; } .sum span { background: var(--card); border: 1px solid var(--bd); border-radius: 0.6rem; padding: 0.3rem 0.6rem; font-size: 0.85rem; }
-  .err { color: var(--er); font-size: 0.9rem; min-height: 1.2rem; } .hidden { display: none; }
-  .menu-row { display: grid; grid-template-columns: 1fr 4rem 4rem 2.2rem 2.8rem; gap: 0.4rem; margin: 0.4rem 0; align-items: center; } .menu-head { color: var(--mu); font-size: 0.75rem; }
-  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: 0.5rem; } .stat b { display: block; font-size: 1.4rem; } .stat span { color: var(--mu); font-size: 0.8rem; } table { width: 100%; border-collapse: collapse; font-size: 0.85rem; } td, th { padding: 0.3rem 0.4rem; border-bottom: 1px solid var(--bd); text-align: right; } td:first-child, th:first-child { text-align: left; }
+  :root { --bg: #f1f5f9; --card: #fff; --tx: #0f172a; --mu: #64748b; --bd: #e2e8f0; --ac: #2563eb; --acs: #dbeafe; --ok: #16a34a; --oks: #dcfce7; --er: #dc2626; --ers: #fee2e2; --wa: #b45309; --was: #fef3c7; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #0b1220; --card: #111a2e; --tx: #e5ecf6; --mu: #93a1ba; --bd: #243152; --ac: #60a5fa; --acs: #1e3a8a; --ok: #4ade80; --oks: #14352a; --er: #f87171; --ers: #3b1518; --wa: #fbbf24; --was: #3b2a06; } }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin: 0; font-family: 'Anuphan', system-ui, sans-serif; background: var(--bg); color: var(--tx); font-size: 16px; padding-bottom: env(safe-area-inset-bottom); }
+  main { max-width: 46rem; margin: 0 auto; padding: 0 1rem 5rem; }
+  input, select, button { font: inherit; color: inherit; }
+  input, select { padding: 0.6rem 0.75rem; border: 1px solid var(--bd); border-radius: 0.7rem; background: var(--card); width: 100%; }
+  button { cursor: pointer; border: 0; border-radius: 0.7rem; padding: 0.65rem 1rem; background: var(--ac); color: #fff; font-weight: 600; min-height: 2.75rem; }
+  button.ghost { background: transparent; color: var(--tx); border: 1px solid var(--bd); }
+  button.ok { background: var(--ok); color: #fff; } button.er { background: transparent; color: var(--er); border: 1px solid var(--er); }
+  button:disabled { opacity: 0.5; cursor: default; }
+  button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--ac); outline-offset: 2px; }
+  .hidden { display: none !important; }
+  .mu { color: var(--mu); font-size: 0.85rem; }
+  .err { color: var(--er); font-size: 0.9rem; margin: 8px 0 0; } .err:empty { display: none; }
+  /* หัวแถบติดบน */
+  .bar { position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 0.75rem 0 0.5rem; }
+  .bar-top { display: flex; align-items: center; gap: 0.6rem; }
+  .bar h1 { font-size: 1rem; margin: 0; font-weight: 600; flex: 1; min-width: 0; }
+  .bar h1 small { display: block; font-weight: 400; color: var(--mu); font-size: 0.78rem; }
+  .dot { display: inline-block; width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--mu); margin-right: 0.35rem; } .dot.on { background: var(--ok); } .dot.off { background: var(--er); }
+  .sw { position: relative; width: 3.4rem; height: 2rem; flex: none; padding: 0; border-radius: 1rem; background: var(--bd); } .sw::after { content: ''; position: absolute; top: 0.2rem; left: 0.2rem; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: #fff; transition: transform .2s; } .sw[aria-checked="true"] { background: var(--ok); } .sw[aria-checked="true"]::after { transform: translateX(1.4rem); }
+  .ib { width: 2.75rem; padding: 0; background: transparent; border: 1px solid var(--bd); color: var(--mu); display: grid; place-items: center; } .ib[aria-pressed="true"] { color: var(--tx); }
+  .tabs { display: flex; gap: 0.25rem; margin-top: 0.6rem; border-bottom: 1px solid var(--bd); }
+  .tabs button { flex: 1; background: transparent; color: var(--mu); border-radius: 0; border-bottom: 2px solid transparent; padding: 0.5rem 0.25rem; min-height: 2.5rem; font-weight: 600; } .tabs button[aria-selected="true"] { color: var(--ac); border-bottom-color: var(--ac); }
+  .badge { display: inline-block; min-width: 1.3rem; padding: 0 0.35rem; margin-left: 0.25rem; border-radius: 1rem; background: var(--er); color: #fff; font-size: 0.72rem; line-height: 1.3rem; text-align: center; }
+  /* การ์ด */
+  .card { background: var(--card); border: 1px solid var(--bd); border-radius: 1rem; padding: 0.9rem; margin: 0.6rem 0; }
+  .sumrow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin: 0.6rem 0; }
+  .sumrow div { background: var(--card); border: 1px solid var(--bd); border-radius: 1rem; padding: 0.6rem 0.4rem; text-align: center; } .sumrow b { display: block; font-weight: 600; font-size: 1.75rem; line-height: 1.2; font-variant-numeric: tabular-nums; } .sumrow span { color: var(--mu); font-size: 0.78rem; }
+  .chips { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; margin: 0.5rem 0; }
+  .chip { min-height: 2.25rem; padding: 0.3rem 0.8rem; background: var(--card); color: var(--tx); border: 1px solid var(--bd); border-radius: 2rem; font-weight: 500; font-size: 0.9rem; } .chip[aria-pressed="true"] { background: var(--acs); border-color: var(--ac); color: var(--tx); }
+  .chip.sold { text-decoration: line-through; color: var(--mu); border-style: dashed; } #sold .chip[aria-pressed="true"] { background: var(--card); border-color: var(--bd); } .sumrow div:first-child b { color: var(--ac); }
+  .find { margin: 0.5rem 0; }
+  /* ออเดอร์ */
+  .slot { margin: 20px 0 4px; font-weight: 600; font-size: 0.9375rem; }
+  .ord { display: grid; grid-template-columns: auto 1fr; gap: 0.2rem 0.8rem; background: var(--card); border: 1px solid var(--bd); border-left-width: 4px; border-radius: 1rem; padding: 0.8rem; margin: 0.5rem 0; }
+  .ord.new { border-left-color: var(--ac); } .ord.done { border-left-color: var(--ok); opacity: 0.8; } .ord.rejected, .ord.cancelled { border-left-color: var(--er); opacity: 0.7; } .ord.manual { border-color: var(--wa); border-left-width: 6px; box-shadow: 0 0 0 1px var(--wa) inset; }
+  .ord.fresh { animation: flash 1.6s ease-out 2; }
+  @keyframes flash { 0%, 100% { background: var(--card); } 40% { background: var(--acs); } }
+  .qn { grid-row: span 2; font-size: 2rem; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; min-width: 3.6rem; text-align: center; align-self: center; }
+  .ord-t { font-weight: 600; } .ord-n { background: var(--was); color: var(--wa); border-radius: 0.5rem; padding: 0.15rem 0.5rem; font-size: 0.88rem; display: inline-block; margin-top: 0.2rem; font-weight: 600; }
+  .ord-m { color: var(--mu); font-size: 0.82rem; display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
+  .tag { display: inline-block; padding: 0.05rem 0.5rem; border-radius: 1rem; font-size: 0.75rem; background: var(--acs); color: var(--tx); font-weight: 600; } .tag.done { background: var(--oks); } .tag.rejected, .tag.cancelled { background: var(--ers); } .tag.warn { background: var(--was); color: var(--wa); } .tag.good { background: var(--oks); }
+  .acts { grid-column: 1 / -1; display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap; } .acts .ok { flex: 2 1 8rem; } .acts .er, .acts .ghost { flex: 1 1 6rem; }
+  .empty { text-align: center; padding: 2rem 1rem; color: var(--mu); }
+  /* เมนู */
+  .mi { display: grid; grid-template-columns: 1fr 5rem 5rem; gap: 0.5rem; padding: 0.7rem 0; border-top: 1px solid var(--bd); } .mi:first-child { border-top: 0; }
+  .mi label { font-size: 0.72rem; color: var(--mu); display: block; } .mi .nm { grid-column: 1 / -1; }
+  .mi .opts { grid-column: 1 / -1; display: flex; gap: 1rem; align-items: center; font-size: 0.88rem; flex-wrap: wrap; } .mi .opts label { display: flex; align-items: center; gap: 0.4rem; font-size: 0.88rem; color: var(--tx); } .mi .opts input { width: 1.3rem; height: 1.3rem; padding: 0; }
+  .mi .rm { margin-left: auto; min-height: 2.25rem; padding: 0.3rem 0.7rem; }
+  .fld { display: grid; gap: 0.2rem; margin: 0.8rem 0; } .fld > span { font-weight: 600; font-size: 0.9rem; } .fld small { color: var(--mu); font-size: 0.78rem; line-height: 1.4; }
+  .savebar { position: sticky; bottom: 0; padding: 0.6rem 0 calc(0.6rem + env(safe-area-inset-bottom)); background: linear-gradient(transparent, var(--bg) 30%); }
+  .savebar button { width: 100%; }
+  /* สถิติ */
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; } .stat { background: var(--bg); border-radius: 0.8rem; padding: 0.6rem 0.75rem; } .stat b { display: block; font-weight: 600; font-size: 1.25rem; font-variant-numeric: tabular-nums; } .stat span { color: var(--mu); font-size: 0.8rem; display: block; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; font-variant-numeric: tabular-nums; } td, th { padding: 0.4rem; border-bottom: 1px solid var(--bd); text-align: right; } td:first-child, th:first-child { text-align: left; } th { color: var(--mu); font-weight: 500; }
+  .toast { position: fixed; left: 50%; bottom: calc(1rem + env(safe-area-inset-bottom)); transform: translateX(-50%); background: var(--tx); color: var(--bg); padding: 0.6rem 1rem; border-radius: 0.8rem; font-size: 0.9rem; z-index: 9; max-width: 90vw; }
+  .dlg { position: fixed; inset: 0; z-index: 10; background: rgba(15, 23, 42, 0.5); display: flex; align-items: flex-end; justify-content: center; } .dlg > div { width: 100%; max-width: 30rem; background: var(--card); border-radius: 1.2rem 1.2rem 0 0; padding: 1.1rem 1.1rem calc(1.1rem + env(safe-area-inset-bottom)); } .dlg h2 { margin: 0 0 0.4rem; font-size: 1.05rem; } .dlg p { margin: 0 0 1rem; color: var(--mu); font-size: 0.9rem; } .dlg button { width: 100%; margin-top: 0.5rem; }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
 </style>
 </head>
 <body>
 <main>
-  <h1>หน้าร้าน ก.ไก่ ข.ไข่ · จองไข่ข้น</h1>
-
-  <section id="login" class="card">
-    <p class="mu">ใส่รหัสร้านเพื่อดูรายการจองของวันนี้</p>
-    <div class="row"><input id="code" type="password" autocomplete="off" placeholder="รหัสร้าน" class="grow"><button id="goBtn">เข้าสู่ระบบ</button></div>
-    <p id="loginErr" class="err"></p>
+  <section id="login" class="card" style="margin-top:1rem">
+    <h1 style="font-size:1.15rem;margin:0 0 0.25rem">หน้าร้าน ก.ไก่ ข.ไข่</h1>
+    <p class="mu" style="margin:0 0 0.75rem">ใส่รหัสร้านเพื่อดูออเดอร์ของวันนี้</p>
+    <div style="display:flex;gap:0.5rem"><input id="code" type="password" autocomplete="off" placeholder="รหัสร้าน" aria-label="รหัสร้าน"><button id="goBtn" style="flex:none">เข้าสู่ระบบ</button></div>
+    <p id="loginErr" class="err" role="alert"></p>
   </section>
 
   <section id="app" class="hidden">
-    <div class="card row">
-      <div class="grow"><b id="status"></b><div class="mu" id="sub"></div></div>
-      <button id="toggle" class="ghost"></button>
-      <button id="refresh" class="ghost">รีเฟรช</button>
-    </div>
-    <div id="sum" class="sum"></div>
-    <p id="err" class="err"></p>
-    <div id="orders"></div>
-
-    <h2>สถิติออเดอร์ที่วิ่งผ่านแอป</h2>
-    <div class="card">
-      <div id="stats" class="stats"></div>
-      <table id="statDays" style="margin-top:0.75rem"></table>
-      <p class="mu" id="statNote">นับเฉพาะออเดอร์ที่นักเรียนกดจ่ายแล้วและไม่ถูกยกเลิก/ปฏิเสธ เก็บย้อนหลัง 90 วัน</p>
-    </div>
-
-    <h2>เมนูและราคา</h2>
-    <div class="card">
-      <div id="menu"></div>
-      <div class="row" style="margin-top:0.6rem">
-        <label class="mu">โหมด <select id="mode"><option value="preorder">จองล่วงหน้า (เลือกเวลารับ)</option><option value="walkup">สั่งตอนพักกลางวัน (ไม่เลือกเวลา)</option></select></label>
-        <label class="mu">ปิดรับจองเวลา (โหมดจอง) <input id="cutoff" type="time" style="width:auto"></label>
-        <label class="mu">จานต่อช่วง 10 นาที <input id="perSlot" type="number" min="1" max="30" style="width:5rem"></label>
-        <label class="mu">คิวสูงสุดตอนพัก (จาน/ระดับ) <input id="maxQ" type="number" min="1" max="40" style="width:5rem"></label>
-        <label class="mu">ปิดรับก่อนพักจบ (นาที) <input id="closeB" type="number" min="0" max="60" style="width:5rem"></label>
-        <label class="mu">นาทีต่อจาน <input id="minDish" type="number" min="1" max="15" style="width:5rem"></label>
-        <label class="mu"><input id="trial" type="checkbox" style="width:auto"> โหมดทดสอบ (เปิดรับทั้งวัน)</label>
-        <button id="saveMenu">บันทึก</button>
+    <div class="bar">
+      <div class="bar-top">
+        <h1><span id="dot" class="dot"></span><span id="status">กำลังโหลด…</span><small id="sub"></small></h1>
+        <button id="bell" class="ib" type="button" aria-pressed="false" aria-label="เสียงเตือนเมื่อมีออเดอร์ใหม่" title="เสียงเตือนออเดอร์ใหม่"></button>
+        <button id="refresh" class="ib" type="button" aria-label="รีเฟรช" title="รีเฟรช"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg></button>
+        <button id="toggle" class="sw" type="button" role="switch" aria-checked="false" aria-label="เปิดรับออเดอร์"></button>
+      </div>
+      <div class="tabs" role="tablist">
+        <button role="tab" data-tab="orders" aria-selected="true">ออเดอร์<span id="newBadge" class="badge hidden">0</span></button>
+        <button role="tab" data-tab="menu" aria-selected="false">เมนู</button>
+        <button role="tab" data-tab="stats" aria-selected="false">สถิติ</button>
+        <button role="tab" data-tab="set" aria-selected="false">ตั้งค่า</button>
       </div>
     </div>
-    <p class="mu">ม.1–3 รับ 11:15–11:55 · ม.4–6 รับ 12:10–12:50 (ตามพักกลางวัน) · หน้านี้ไม่แสดงชื่อ ห้อง หรือเลขประจำตัวนักเรียน ให้นักเรียนบอกเลขคิว (#) ตอนรับอาหาร · ช่อง "สูงสุด" ว่างไว้ = ราคาตายตัว ถ้าใส่ นักเรียนเลือกราคาจานเองทีละ 5 บาทตั้งแต่ราคาเริ่มต้นถึงสูงสุด (เช่น 20 ถึง 35) · ถ้าติ๊ก "ตามสั่ง" ด้วย นักเรียนพิมพ์ราคาเองเป็นจำนวนเต็มใดก็ได้ในช่วงนั้น (สูงสุด 500) ราคาตามสั่งสวิงมาก ให้ตรวจยอดเงินเข้าตรงกับยอดในออเดอร์ก่อนกดเสร็จ</p>
+    <p id="err" class="err" role="alert"></p>
+
+    <!-- ออเดอร์ -->
+    <div id="p-orders">
+      <div id="sum" class="sumrow"></div>
+      <div id="sold" class="chips" aria-label="เมนูที่ขายอยู่"></div>
+      <div class="find"><input id="find" inputmode="numeric" placeholder="ค้นหาเลขคิว (#)" aria-label="ค้นหาเลขคิว"></div>
+      <div class="chips" id="flt" role="group" aria-label="กรองสถานะ"><button class="chip" data-f="new" aria-pressed="true">รอทำ</button><button class="chip" data-f="done" aria-pressed="false">เสร็จแล้ว</button><button class="chip" data-f="closed" aria-pressed="false">ทำไม่ได้/ยกเลิก</button><button class="chip" data-f="all" aria-pressed="false">ทั้งหมด</button></div>
+      <div id="orders"></div>
+      <p class="mu">ร้านเห็นเฉพาะเลขคิว (#) ไม่เห็นชื่อ ห้อง หรือเลขประจำตัวนักเรียน · ออเดอร์ที่ขึ้นป้าย "เช็กเงินในแอปธนาคารก่อน" ให้ดูว่ามีเงินเข้าตรงกับออเดอร์ก่อนกด "ได้เงินแล้ว"</p>
+    </div>
+
+    <!-- เมนู -->
+    <div id="p-menu" class="hidden">
+      <div class="card"><div id="menu"></div><button id="addItem" class="ghost" type="button" style="width:100%;margin-top:0.5rem">+ เพิ่มเมนู</button></div>
+      <p class="mu">ติ๊ก "ขายอยู่" ปิดไว้ = เมนูหมด นักเรียนจะไม่เห็น · "สูงสุด" ว่างไว้ = ราคาตายตัว ถ้าใส่ นักเรียนเลือกราคาจานเองทีละ 5 บาทจากราคาเริ่มต้นถึงสูงสุด · "ตามสั่ง" = นักเรียนพิมพ์ชื่อเมนูและราคาเอง (ไม่เกิน 500 บาท) ให้ตรวจยอดเงินเข้าให้ตรงกับออเดอร์ก่อนกดเสร็จ · เพิ่มได้สูงสุด 8 เมนู</p>
+      <div class="savebar"><button id="saveMenu" type="button">บันทึกเมนู</button></div>
+    </div>
+
+    <!-- สถิติ -->
+    <div id="p-stats" class="hidden">
+      <div class="card"><div id="stats" class="stats"></div><table id="statDays" style="margin-top:0.75rem"></table>
+      <p class="mu" style="margin-bottom:0">นับเฉพาะออเดอร์ที่นักเรียนกดจ่ายแล้วและไม่ถูกยกเลิก/ปฏิเสธ เก็บย้อนหลัง 90 วัน</p></div>
+    </div>
+
+    <!-- ตั้งค่า -->
+    <div id="p-set" class="hidden">
+      <div class="card">
+        <label class="fld"><span>วิธีรับออเดอร์</span><select id="mode"><option value="preorder">สั่งล่วงหน้า (นักเรียนเลือกเวลามารับ)</option><option value="walkup">สั่งตอนพักเที่ยง (ต่อคิว ไม่ต้องเลือกเวลา)</option></select><small id="lunchTxt">ม.1–3 พัก 11:15–12:05 · ม.4–6 พัก 12:10–13:00</small></label>
+        <div id="set-pre">
+          <label class="fld"><span>หยุดรับออเดอร์เวลา</span><input id="cutoff" type="time"><small>หลังเวลานี้ นักเรียนสั่งของวันนั้นไม่ได้</small></label>
+          <label class="fld"><span>ทำได้กี่จานในทุก 10 นาที</span><input id="perSlot" type="number" min="1" max="30" inputmode="numeric"><small>ช่วงเวลารับเต็มเมื่อครบจำนวนนี้</small></label>
+        </div>
+        <div id="set-walk">
+          <label class="fld"><span>รับพร้อมกันได้สูงสุดกี่จาน (นับแยก ม.ต้น / ม.ปลาย)</span><input id="maxQ" type="number" min="1" max="40" inputmode="numeric"><small>ครบแล้วนักเรียนสั่งเพิ่มไม่ได้ จนกว่าร้านจะทำเสร็จบางจาน</small></label>
+          <label class="fld"><span>หยุดรับก่อนหมดเวลาพักกี่นาที</span><input id="closeB" type="number" min="0" max="60" inputmode="numeric"></label>
+          <label class="fld"><span>ทำหนึ่งจานใช้กี่นาที</span><input id="minDish" type="number" min="1" max="15" inputmode="numeric"><small>ใช้คำนวณเวลารอที่แสดงให้นักเรียน</small></label>
+        </div>
+        <label class="fld" style="grid-auto-flow:column;justify-content:start;align-items:center;gap:0.6rem"><input id="trial" type="checkbox" style="width:1.4rem;height:1.4rem;padding:0"><span>เปิดให้สั่งได้ทั้งวัน (ใช้ตอนทดลองเท่านั้น) <small style="display:block;font-weight:400">ปิดไว้ตอนขายจริง</small></span></label>
+      </div>
+      <div class="savebar"><button id="saveSet" type="button">บันทึกการตั้งค่า</button></div>
+    </div>
   </section>
 </main>
+<div id="toast" class="toast hidden" role="status"></div>
+<div id="dlg" class="dlg hidden" role="alertdialog" aria-modal="true" aria-labelledby="dlgT" aria-describedby="dlgP"><div><h2 id="dlgT"></h2><p id="dlgP"></p><button id="dlgOk" class="er" type="button"></button><button id="dlgNo" class="ghost" type="button">ไม่ใช่</button></div></div>
 <script>
   const URL_ = 'https://apolfnkholadtprbyehh.supabase.co/functions/v1/food', KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwb2xmbmtob2xhZHRwcmJ5ZWhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzODA4MzQsImV4cCI6MjEwODk1NjgzNH0.v1dzcZmhtQheVCtecQnWfnihSVEkRt9iIyiJjz-XpxM';
   const $ = (id) => document.getElementById(id);
   const el = (t, c, x) => { const e = document.createElement(t); if (c) e.className = c; if (x != null) e.textContent = x; return e; };
-  const ST = { new: 'รอทำ', done: 'เสร็จแล้ว', rejected: 'รับไม่ได้', cancelled: 'นักเรียนยกเลิก' };
-  let code = '', data = null, timer = null, menuDirty = false;
-  try { code = sessionStorage.getItem('fshop') || ''; } catch (e) {}
+  const ST = { new: 'รอทำ', done: 'เสร็จแล้ว', rejected: 'ทำให้ไม่ได้', cancelled: 'นักเรียนยกเลิก' };
+  const SN = { amount: 'ยอดไม่ตรง', time: 'เวลาไม่ตรง', to: 'บัญชีปลายทางไม่ตรง', unreadable: 'อ่านสลิปไม่ออก', unavailable: 'ระบบตรวจไม่ได้', noslip: 'ไม่ได้แนบสลิป', off: 'ปิดตรวจสลิปชั่วคราว' };
+  let code = '', data = null, timer = null, dirty = false, tab = 'orders', filter = 'new', seen = null, fresh = new Set(), sound = false, audio = null, toastT = 0;
+  const BASE_TITLE = document.title;
+  const ICON_BELL = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>', ICON_BELL_OFF = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.7 3A6 6 0 0 1 18 8c0 2.7.5 4.6 1.2 6"/><path d="M17 17H3s3-2 3-9a4.67 4.67 0 0 1 .3-1.7"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/><path d="m2 2 20 20"/></svg>';
+  try { code = sessionStorage.getItem('fshop') || ''; sound = localStorage.getItem('fshop_sound') === '1'; } catch (e) {}
 
+  function ask(title, text, ok) {   // กล่องยืนยันในหน้า (บางแอป/เบราว์เซอร์บล็อก confirm)
+    return new Promise((res) => { const d = $('dlg'); $('dlgT').textContent = title; $('dlgP').textContent = text; $('dlgOk').textContent = ok; const done = (v) => { d.classList.add('hidden'); res(v); }; $('dlgOk').onclick = () => done(true); $('dlgNo').onclick = () => done(false); d.classList.remove('hidden'); $('dlgOk').focus(); });
+  }
+  function toast(t) { const e = $('toast'); e.textContent = t; e.classList.remove('hidden'); clearTimeout(toastT); toastT = setTimeout(() => e.classList.add('hidden'), 2600); }
   async function call(body) {
     try {
       const r = await fetch(URL_, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: KEY, Authorization: 'Bearer ' + KEY }, body: JSON.stringify({ ...body, scode: code }) });
       return await r.json().catch(() => ({ ok: false }));
     } catch (e) { return { ok: false, error: 'net' }; }
   }
+  function beep() {   // เสียงติ๊ดสั้นๆ ตอนมีออเดอร์ใหม่ (ต้องกดปุ่มกระดิ่งหนึ่งครั้งเพื่อให้เบราว์เซอร์อนุญาตเสียง)
+    try {
+      audio = audio || new (window.AudioContext || window.webkitAudioContext)();
+      const o = audio.createOscillator(), g = audio.createGain(); o.type = 'sine'; o.frequency.value = 880; o.connect(g); g.connect(audio.destination);
+      g.gain.setValueAtTime(0.0001, audio.currentTime); g.gain.exponentialRampToValueAtTime(0.25, audio.currentTime + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, audio.currentTime + 0.5); o.start(); o.stop(audio.currentTime + 0.55);
+      if (navigator.vibrate) navigator.vibrate(120);
+    } catch (e) { /* ไม่มีเสียงก็ไม่เป็นไร */ }
+  }
+  function showLogin(msg) { code = ''; try { sessionStorage.removeItem('fshop'); } catch (e) {} $('app').classList.add('hidden'); $('login').classList.remove('hidden'); $('loginErr').textContent = msg || ''; clearInterval(timer); timer = null; }
   async function load(first) {
     const r = await call({ action: 'board' });
     if (!r.ok) {
-      if (r.error === 'auth') { code = ''; try { sessionStorage.removeItem('fshop'); } catch (e) {} $('app').classList.add('hidden'); $('login').classList.remove('hidden'); if (first) $('loginErr').textContent = 'รหัสไม่ถูกต้อง'; clearInterval(timer); return; }
+      if (r.error === 'auth') return showLogin(first ? 'รหัสไม่ถูกต้อง' : '');
+      if (r.error === 'rate') return showLogin('ใส่รหัสผิดบ่อยเกินไป รอสักครู่แล้วลองใหม่');
       $('err').textContent = 'เชื่อมต่อไม่ได้ ลองรีเฟรช'; return;
     }
     if (first) loadStats();
-    $('err').textContent = ''; data = r; $('login').classList.add('hidden'); $('app').classList.remove('hidden'); render();
-    if (!timer) timer = setInterval(() => load(false), 20000);
+    $('err').textContent = '';
+    const ids = new Set(r.orders.filter((o) => o.status === 'new').map((o) => o.id));
+    if (seen) { const add = [...ids].filter((i) => !seen.has(i)); if (add.length) { add.forEach((i) => fresh.add(i)); if (sound) beep(); } }
+    seen = ids; data = r; $('login').classList.add('hidden'); $('app').classList.remove('hidden'); render();
+    if (!timer) timer = setInterval(() => { if (!document.hidden) load(false); }, 15000);
+  }
+  function setTab(t) {
+    tab = t;
+    document.querySelectorAll('.tabs button').forEach((b) => b.setAttribute('aria-selected', b.dataset.tab === t ? 'true' : 'false'));
+    for (const id of ['orders', 'menu', 'stats', 'set']) $('p-' + id).classList.toggle('hidden', id !== t);
+    if (t === 'stats') loadStats();
+    window.scrollTo({ top: 0 });
+  }
+  function head(d) {
+    const on = d.enabled && d.open;
+    $('dot').className = 'dot ' + (on ? 'on' : 'off');
+    $('status').textContent = !d.enabled ? 'ปิดรับออเดอร์อยู่' : d.mode === 'walkup' ? (d.trial ? 'เปิดรับทั้งวัน (ทดลอง)' : 'เปิดรับออเดอร์ตอนพัก') : d.open ? 'เปิดรับออเดอร์ (ถึง ' + d.cutoff + ')' : 'วันนี้หมดเวลารับออเดอร์แล้ว';
+    const L = d.lunch;   // เวลาพักกลางวันวันนี้ (ตามตารางเวลาเรียนชั่วคราวถ้ามีประกาศ)
+    $('sub').textContent = 'วันที่ ' + d.day + (L ? ' · พัก ม.ต้น ' + L.low.join('–') + ' · ม.ปลาย ' + L.high.join('–') : '');
+    if (L) $('lunchTxt').textContent = 'วันนี้ ม.1–3 พัก ' + L.low.join('–') + ' · ม.4–6 พัก ' + L.high.join('–') + (L.note ? ' (ตามประกาศ: ' + L.note + ')' : '') + ' · เวลารับเป็นช่วงละ 10 นาทีในเวลาพัก';
+    const t = $('toggle'); t.setAttribute('aria-checked', d.enabled ? 'true' : 'false'); t.title = d.enabled ? 'ปิดรับออเดอร์' : 'เปิดรับออเดอร์';
+    $('bell').innerHTML = sound ? ICON_BELL : ICON_BELL_OFF; $('bell').setAttribute('aria-pressed', sound ? 'true' : 'false');
   }
   function render() {
-    const d = data;
-    $('status').textContent = !d.enabled ? 'ปิดรับอยู่' : d.mode === 'walkup' ? 'เปิดโหมดสั่งตอนพัก' + (d.trial ? ' (ทดสอบ: เปิดทั้งวัน)' : ' (ม.ต้น 11:15–12:05 · ม.ปลาย 12:10–13:00)') : d.open ? 'เปิดรับจอง (ก่อน ' + d.cutoff + ')' : 'ปิดรับจองแล้ววันนี้';
-    $('sub').textContent = 'วันที่ ' + d.day;
-    $('toggle').textContent = d.enabled ? 'ปิดรับจอง' : 'เปิดรับจอง';
+    const d = data; head(d);
+    const waitN = d.orders.filter((o) => o.status === 'new').length;
+    const nb = $('newBadge'); nb.textContent = waitN; nb.classList.toggle('hidden', !waitN);
+    document.title = (waitN ? '(' + waitN + ') ' : '') + BASE_TITLE;
     const live = d.orders.filter((o) => o.status === 'new' || o.status === 'done');
     const dishes = live.reduce((s, o) => s + o.qty, 0), money = live.reduce((s, o) => s + o.total, 0), waiting = d.orders.filter((o) => o.status === 'new').reduce((s, o) => s + o.qty, 0);
     const sum = $('sum'); sum.replaceChildren();
-    for (const t of ['ทั้งหมด ' + dishes + ' จาน', 'รอทำ ' + waiting + ' จาน', 'ยอดรวม ' + money + ' บาท']) sum.append(el('span', null, t));
+    for (const [n, l] of [[waiting, 'จานรอทำ'], [dishes, 'จานทั้งหมด'], [money, 'บาทรวม']]) { const c = el('div'); c.append(el('b', null, String(n)), el('span', null, l)); sum.append(c); }
+    // เมนูที่ขายอยู่: แตะเพื่อ ขาย/หมด ทันที (ไม่ต้องไปแท็บเมนู)
+    const sold = $('sold'); sold.replaceChildren(); sold.append(el('span', 'mu', 'เมนูวันนี้ (แตะเมนูที่ของหมด):'));
+    for (const it of d.menu) { const b = el('button', 'chip' + (it.on ? '' : ' sold'), it.name); b.type = 'button'; b.setAttribute('aria-pressed', it.on ? 'true' : 'false'); b.title = it.on ? 'ขายอยู่ แตะเพื่อตั้งเป็นหมด' : 'หมดแล้ว แตะเพื่อเปิดขาย'; b.onclick = () => toggleItem(it.id); sold.append(b); }
+    renderOrders();
+    if (dirty) return renderSettings(d, true);
+    renderMenu(d); renderSettings(d);
+  }
+  function renderOrders() {
+    const d = data, q = $('find').value.replace(/\D/g, '');
+    document.querySelectorAll('#flt .chip').forEach((b) => b.setAttribute('aria-pressed', b.dataset.f === filter ? 'true' : 'false'));
     const box = $('orders'); box.replaceChildren();
-    if (!d.orders.length) box.append(el('p', 'mu', 'ยังไม่มีออเดอร์ที่ชำระแล้ว (เห็นเฉพาะออเดอร์ที่นักเรียนกดว่าจ่ายแล้ว ตรวจยอดเข้าบัญชีแล้วกด "ยอดเข้าแล้ว")'));
+    let list = d.orders.filter((o) => filter === 'all' || o.status === filter || (filter === 'closed' && (o.status === 'rejected' || o.status === 'cancelled')));
+    if (q) list = list.filter((o) => String(o.id % 1000).includes(q));
+    if (!list.length) { box.append(el('div', 'empty', d.orders.length ? (q ? 'ไม่พบเลขคิวนี้' : 'ไม่มีออเดอร์ในกลุ่มนี้') : 'ยังไม่มีออเดอร์ (ร้านเห็นเฉพาะออเดอร์ที่นักเรียนกดว่าจ่ายแล้ว)')); return; }
     let last = '';
-    for (const o of d.orders) {
-      if (o.slot !== last) { last = o.slot; box.append(el('div', 'slot', o.slot === 'now' ? 'คิวสั่งตอนพัก (เรียงตามลำดับที่จ่ายเงิน ทำจากบนลงล่าง)' : 'รับ ' + o.slot)); }
-      const c = el('div', 'card row'), info = el('div', 'grow');
-      info.append(el('b', null, '#' + (o.id % 1000) + ' ' + o.item + (o.qty > 1 ? ' x' + o.qty : '') + ' · ' + o.total + ' บาท'));
-      const m = el('div', 'mu', ''); m.append(el('span', 'tag ' + o.status, ST[o.status])); if (o.paid) m.append(document.createTextNode(' · ยืนยันยอดแล้ว'));
-      info.append(m); if (o.note) info.append(el('div', null, 'ระบุ: ' + o.note)); c.append(info);
+    for (const o of list) {
+      if (o.slot !== last) { last = o.slot; box.append(el('div', 'slot', o.slot === 'now' ? 'คิวสั่งตอนพัก · ทำจากบนลงล่าง' : 'รับเวลา ' + o.slot)); }
+      const manual = o.slip === 'manual' && o.status === 'new' && !o.paid;
+      const c = el('div', 'ord ' + o.status + (manual ? ' manual' : '') + (fresh.has(o.id) ? ' fresh' : ''));
+      c.append(el('div', 'qn', '#' + (o.id % 1000)));
+      const info = el('div'); info.append(el('div', 'ord-t', o.item + (o.qty > 1 ? ' × ' + o.qty : '') + ' · ' + o.total + ' บาท'));
+      const m = el('div', 'ord-m'); m.append(el('span', 'tag ' + o.status, ST[o.status]));
+      if (o.paid) m.append(el('span', 'tag good', 'ได้เงินแล้ว'));
+      if (o.slip === 'ok' && !o.paid) m.append(el('span', 'tag good', 'สลิปถูกต้อง (ระบบเช็กแล้ว)'));
+      if (o.slip === 'manual') m.append(el('span', 'tag warn', 'เช็กเงินในแอปธนาคารก่อน: ' + String(o.slip_note || '').split(',').filter(Boolean).map((x) => SN[x] || 'ไม่ผ่านการตรวจ').join(', ')));
+      info.append(m); if (o.note) info.append(el('div', 'ord-n', 'ระบุ: ' + o.note)); c.append(info);
       if (o.status === 'new' || o.status === 'done') {
-        if (o.status === 'new') { const b = el('button', 'ok', 'เสร็จแล้ว'); b.onclick = () => act({ id: o.id, status: 'done' }); c.append(b); const r = el('button', 'er', 'รับไม่ได้'); r.onclick = () => { if (confirm('ปฏิเสธออเดอร์นี้? นักเรียนจะได้รับแจ้ง')) act({ id: o.id, status: 'rejected' }); }; c.append(r); }
-        const p = el('button', 'ghost', o.paid ? 'ยกเลิกยืนยันยอด' : 'ยอดเข้าแล้ว'); p.onclick = () => act({ id: o.id, paid: !o.paid }); c.append(p);
+        const a = el('div', 'acts');
+        if (o.status === 'new') {
+          const b = el('button', 'ok', 'เสร็จแล้ว'); b.onclick = () => act({ id: o.id, status: 'done' }, 'ทำเสร็จ #' + (o.id % 1000) + ' แล้ว นักเรียนได้รับแจ้ง'); a.append(b);
+          const r = el('button', 'er', 'ทำให้ไม่ได้'); r.onclick = async () => { if (await ask('ทำออเดอร์ #' + (o.id % 1000) + ' ให้ไม่ได้?', 'นักเรียนจะได้รับแจ้ง และร้านต้องคืนเงินให้นักเรียนเอง', 'ทำให้ไม่ได้')) act({ id: o.id, status: 'rejected' }, 'แจ้งนักเรียนแล้ว'); }; a.append(r);
+        }
+        // ปุ่มได้เงินแล้ว: โชว์เฉพาะออเดอร์ที่สลิปยังไม่ผ่านการเช็กของระบบ (ร้านต้องเปิดแอปธนาคารดูเอง) · สลิปถูกต้องแล้วไม่ต้องกด
+        if (o.slip !== 'ok') { const p = el('button', 'ghost', o.paid ? 'ยังไม่ได้เงิน' : 'ได้เงินแล้ว'); p.onclick = () => act({ id: o.id, paid: !o.paid }); a.append(p); }
+        c.append(a);
       }
       box.append(c);
     }
-    const menu = $('menu'); if (menuDirty) return renderSettings(d);   // ร้านกำลังแก้เมนูอยู่: ไม่ล้างค่าที่พิมพ์ค้างตอนรีเฟรชอัตโนมัติ
-    menu.replaceChildren(); { const hd = el('div', 'menu-row menu-head'); for (const t of ['ชื่อเมนู', 'ราคา', 'สูงสุด', 'เปิด', 'ตามสั่ง']) hd.append(el('span', null, t)); menu.append(hd); }
-    for (const it of d.menu) {
-      const r = el('div', 'menu-row'), n = el('input'), p = el('input'), on = el('input');
-      const cu = el('input'); cu.type = 'checkbox'; cu.checked = !!it.custom; cu.style.width = '1.4rem'; cu.title = 'ตามสั่ง: นักเรียนเขียนเมนูเอง';
-      n.value = it.name; n.maxLength = 30; p.type = 'number'; p.min = 1; p.max = 200; p.value = it.price; on.type = 'checkbox'; on.checked = it.on; on.style.width = '1.4rem'; on.title = 'เปิดขาย';
-      const mx = el('input'); mx.type = 'number'; mx.min = 1; mx.max = 500; mx.placeholder = '-'; mx.value = it.max || ''; mx.title = 'ราคาสูงสุดที่นักเรียนเลือกได้ (ว่าง = ราคาตายตัว)';
-      r.dataset.id = it.id; r.append(n, p, mx, on, cu); menu.append(r);
-    }
-    const add = el('button', 'ghost', '+ เพิ่มเมนู'); add.onclick = () => { const r = el('div', 'menu-row'), n = el('input'), p = el('input'), on = el('input'), cu = el('input'), mx = el('input'); mx.type = 'number'; mx.placeholder = '-'; n.maxLength = 30; p.type = 'number'; p.value = 25; on.type = 'checkbox'; on.checked = true; on.style.width = '1.4rem'; cu.type = 'checkbox'; cu.style.width = '1.4rem'; r.dataset.id = 'm' + Math.random().toString(36).slice(2, 8); r.append(n, p, mx, on, cu); menu.insertBefore(r, add); menuDirty = true; }; menu.append(add);
-    renderSettings(d);
   }
-  function renderSettings(d) {
-    if (document.activeElement !== $('cutoff')) $('cutoff').value = d.cutoff;
-    if (document.activeElement !== $('perSlot')) $('perSlot').value = d.per_slot;
-    for (const [id, v] of [['maxQ', d.max_queue], ['closeB', d.close_before], ['minDish', d.min_per_dish]]) if (document.activeElement !== $(id)) $(id).value = v;
-    if (document.activeElement !== $('mode')) $('mode').value = d.mode; if (document.activeElement !== $('trial')) $('trial').checked = !!d.trial;
+  function menuRow(it) {
+    const r = el('div', 'mi'); r.dataset.id = it.id;
+    const nm = el('div', 'nm'), nl = el('label', null, 'ชื่อเมนู'), n = el('input'); n.maxLength = 30; n.value = it.name || ''; nm.append(nl, n);
+    const pw = el('div'), pl = el('label', null, 'ราคา (บาท)'), p = el('input'); p.type = 'number'; p.min = 1; p.max = 200; p.inputMode = 'numeric'; p.value = it.price || 25; pw.append(pl, p);
+    const mw = el('div'), ml = el('label', null, 'สูงสุด (ถ้ามี)'), mx = el('input'); mx.type = 'number'; mx.min = 1; mx.max = 500; mx.inputMode = 'numeric'; mx.placeholder = '-'; mx.value = it.max || ''; mw.append(ml, mx);
+    const o = el('div', 'opts'), l1 = el('label'), on = el('input'); on.type = 'checkbox'; on.checked = it.on !== false; l1.append(on, document.createTextNode('ขายอยู่'));
+    const l2 = el('label'), cu = el('input'); cu.type = 'checkbox'; cu.checked = !!it.custom; l2.append(cu, document.createTextNode('ตามสั่ง'));
+    const rm = el('button', 'ghost rm', 'ลบ'); rm.type = 'button'; rm.onclick = () => { r.remove(); dirty = true; };
+    o.append(l1, l2, rm); r.append(nm, pw, mw, o); return r;
+  }
+  function renderMenu(d) { const m = $('menu'); m.replaceChildren(); for (const it of d.menu) m.append(menuRow(it)); }
+  function renderSettings(d, keep) {
+    const set = (id, v) => { if (document.activeElement !== $(id)) $(id).value = v; };
+    if (!keep) { set('cutoff', d.cutoff); set('perSlot', d.per_slot); set('maxQ', d.max_queue); set('closeB', d.close_before); set('minDish', d.min_per_dish); set('mode', d.mode); if (document.activeElement !== $('trial')) $('trial').checked = !!d.trial; }
+    const walk = $('mode').value === 'walkup'; $('set-walk').classList.toggle('hidden', !walk); $('set-pre').classList.toggle('hidden', walk);
   }
   async function loadStats() {
-    const r = await call({ action: 'stats' });
-    if (!r.ok) return;
+    const r = await call({ action: 'stats' }); if (!r.ok) return;
     const box = $('stats'); box.replaceChildren();
-    for (const [t, v] of [['วันนี้', r.today], ['7 วันล่าสุด', r.week], ['30 วันล่าสุด', r.month], ['ทั้งหมด (90 วัน)', r.all]]) {
-      const c = el('div', 'stat'); c.append(el('span', null, t), el('b', null, v.orders + ' ออเดอร์'), el('span', null, v.dishes + ' จาน · ' + v.amount + ' บาท')); box.append(c);
-    }
+    for (const [t, v] of [['วันนี้', r.today], ['7 วันล่าสุด', r.week], ['30 วันล่าสุด', r.month], ['ทั้งหมด (90 วัน)', r.all]]) { const c = el('div', 'stat'); c.append(el('span', null, t), el('b', null, v.orders + ' ออเดอร์'), el('span', null, v.dishes + ' จาน · ' + v.amount + ' บาท')); box.append(c); }
     const tb = $('statDays'); tb.replaceChildren();
     const hr = el('tr'); for (const t of ['วันที่', 'ออเดอร์', 'จาน', 'บาท']) hr.append(el('th', null, t)); tb.append(hr);
     for (const d of r.days.slice(0, 14)) { const tr = el('tr'); for (const t of [d.day, d.orders, d.dishes, d.amount]) tr.append(el('td', null, String(t))); tb.append(tr); }
     if (!r.days.length) { const tr = el('tr'), td = el('td', null, 'ยังไม่มีข้อมูล'); td.colSpan = 4; tr.append(td); tb.append(tr); }
   }
-  async function act(p) { const r = await call({ action: 'set', ...p }); if (!r.ok) $('err').textContent = 'ทำรายการไม่ได้ ลองรีเฟรช'; await load(false); loadStats(); }
-  $('menu').addEventListener('input', () => { menuDirty = true; });
-  $('goBtn').onclick = () => { code = $('code').value.trim(); if (!code) return; try { sessionStorage.setItem('fshop', code); } catch (e) {} $('loginErr').textContent = ''; load(true); };
-  $('code').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('goBtn').click(); });
-  $('refresh').onclick = () => { load(false); loadStats(); };
-  $('toggle').onclick = async () => { await call({ action: 'menu', enabled: !data.enabled }); await load(false); };
+  async function act(p, msg) { const r = await call({ action: 'set', ...p }); if (!r.ok) $('err').textContent = 'ทำรายการไม่ได้ ลองรีเฟรช'; else if (msg) toast(msg); fresh.clear(); await load(false); if (tab === 'stats') loadStats(); }
+  function readItems() { return [...$('menu').querySelectorAll('.mi')].map((r) => { const i = r.querySelectorAll('input'); return { id: r.dataset.id, name: i[0].value, price: Number(i[1].value), max: i[2].value === '' ? null : Number(i[2].value), on: i[3].checked, custom: i[4].checked }; }).filter((x) => x.name.trim()); }
+  async function toggleItem(id) {   // เปลี่ยนสถานะ ขาย/หมด ของเมนูเดียว ส่งเมนูเดิมทั้งชุดตามที่เซิร์ฟเวอร์ต้องการ
+    if (dirty) { toast('มีการแก้เมนูที่ยังไม่บันทึก ไปกดบันทึกในแท็บเมนูก่อน'); return; }
+    const items = data.menu.map((it) => ({ id: it.id, name: it.name, price: it.price, max: it.max || null, on: it.id === id ? !it.on : it.on, custom: !!it.custom }));
+    const r = await call({ action: 'menu', items }); if (!r.ok) { $('err').textContent = 'บันทึกไม่สำเร็จ'; return; }
+    dirty = false; await load(false);
+  }
+  $('menu').addEventListener('input', () => { dirty = true; });
+  $('addItem').onclick = () => { if ($('menu').querySelectorAll('.mi').length >= 8) { toast('เพิ่มได้สูงสุด 8 เมนู'); return; } $('menu').append(menuRow({ id: 'm' + Math.random().toString(36).slice(2, 8), name: '', price: 25, on: true })); dirty = true; $('menu').lastChild.querySelector('input').focus(); };
   $('saveMenu').onclick = async () => {
-    const items = [...$('menu').querySelectorAll('.menu-row:not(.menu-head)')].map((r) => { const i = r.querySelectorAll('input'); return { id: r.dataset.id, name: i[0].value, price: Number(i[1].value), max: i[2].value === '' ? null : Number(i[2].value), on: i[3].checked, custom: i[4].checked }; }).filter((x) => x.name.trim());
-    const r = await call({ action: 'menu', items, cutoff: $('cutoff').value, per_slot: Number($('perSlot').value), mode: $('mode').value, max_queue: Number($('maxQ').value), close_before: Number($('closeB').value), min_per_dish: Number($('minDish').value), trial: $('trial').checked });
-    $('err').textContent = r.ok ? '' : 'บันทึกไม่สำเร็จ (ตรวจชื่อและราคา 1–200 บาท)'; if (r.ok) menuDirty = false; await load(false);
+    const items = readItems(); if (!items.length) { $('err').textContent = 'ต้องมีเมนูอย่างน้อย 1 รายการ'; return; }
+    const r = await call({ action: 'menu', items });
+    if (r.ok) { dirty = false; $('err').textContent = ''; toast('บันทึกเมนูแล้ว'); } else $('err').textContent = 'บันทึกไม่สำเร็จ (ชื่อไม่ซ้ำ ราคา 1–200 บาท และราคาสูงสุดต้องมากกว่าราคาเริ่มต้น)';
+    await load(false);
   };
+  $('saveSet').onclick = async () => {
+    const r = await call({ action: 'menu', cutoff: $('cutoff').value, per_slot: Number($('perSlot').value), mode: $('mode').value, max_queue: Number($('maxQ').value), close_before: Number($('closeB').value), min_per_dish: Number($('minDish').value), trial: $('trial').checked });
+    $('err').textContent = r.ok ? '' : 'บันทึกไม่สำเร็จ ตรวจตัวเลขอีกครั้ง'; if (r.ok) toast('บันทึกการตั้งค่าแล้ว'); await load(false);
+  };
+  $('mode').addEventListener('change', () => renderSettings(data, true));
+  $('toggle').onclick = async () => { const on = !data.enabled; const r = await call({ action: 'menu', enabled: on }); if (r.ok) toast(on ? 'เปิดรับออเดอร์แล้ว' : 'ปิดรับออเดอร์แล้ว'); await load(false); };
+  $('bell').onclick = () => { sound = !sound; try { localStorage.setItem('fshop_sound', sound ? '1' : '0'); } catch (e) {} if (sound) beep(); toast(sound ? 'เปิดเสียงเตือนแล้ว (ต้องเปิดหน้านี้ค้างไว้)' : 'ปิดเสียงเตือนแล้ว'); render(); };
+  $('refresh').onclick = () => { fresh.clear(); load(false); if (tab === 'stats') loadStats(); };
+  document.querySelectorAll('.tabs button').forEach((b) => { b.onclick = () => setTab(b.dataset.tab); });
+  document.querySelectorAll('#flt .chip').forEach((b) => { b.onclick = () => { filter = b.dataset.f; renderOrders(); }; });
+  $('find').addEventListener('input', renderOrders);
+  $('goBtn').onclick = () => { code = $('code').value.trim(); if (!code) return; try { sessionStorage.setItem('fshop', code); } catch (e) {} $('loginErr').textContent = ''; seen = null; load(true); };
+  $('code').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('goBtn').click(); });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && code) load(false); });
   if (code) load(true);
 </script>
 </body>
