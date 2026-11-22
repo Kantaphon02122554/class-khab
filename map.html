@@ -118,9 +118,11 @@ var SUPABASE_URL = 'https://apolfnkholadtprbyehh.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFwb2xmbmtob2xhZHRwcmJ5ZWhoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzODA4MzQsImV4cCI6MjEwODk1NjgzNH0.v1dzcZmhtQheVCtecQnWfnihSVEkRt9iIyiJjz-XpxM';
 
 // ===== ข้อมูลผัง (เมตร จากกลางอาคาร 1 ตามผังทางการของโรงเรียน; ประมาณ ±3–5 ม.) สร้างจาก ต้นแบบ/campus-layout-official.json ด้วย scripts/gen-map.cjs =====
-var CAMPUS = [{"k":"b6","t":"b","id":6,"n":"อาคาร 6","x":0,"z":-142.9,"l":80,"w":19,"r":0},{"k":"b3","t":"b","id":3,"n":"อาคาร 3","x":0,"z":-88.8,"l":79,"w":18,"r":0},{"k":"b2","t":"b","id":2,"n":"อาคาร 2","x":0,"z":-45.9,"l":79,"w":18,"r":0},{"k":"b1","t":"b","id":1,"n":"อาคาร 1","x":0,"z":1.2,"l":79,"w":18,"r":0},{"k":"b4","t":"b","id":4,"n":"อาคาร 4","x":-9.2,"z":100.9,"l":80,"w":23,"r":0},{"k":"b5","t":"b","id":5,"n":"อาคาร 5","x":62.5,"z":-81.8,"l":55,"w":24,"r":90},{"k":"sdome","t":"s","id":"dome","n":"โดมเอนกประสงค์","x":-6.3,"z":51.5,"l":62,"w":66,"r":90},{"k":"splaza6","t":"s","id":"plaza6","n":"ลานเอนกประสงค์","x":0,"z":-118.2,"l":82.7,"w":12.9,"r":0},{"k":"snurse","t":"s","id":"nurse","n":"เรือนพยาบาล","x":-31.7,"z":-65.9,"l":15.3,"w":11.8,"r":0},{"k":"scoop","t":"s","id":"coop","n":"สหกรณ์","x":-33.3,"z":-26.5,"l":12,"w":8.2,"r":0},{"k":"spav9","t":"s","id":"pav9","n":"ศาลา 9 เหลี่ยม","x":-11,"z":-27.1,"l":8.7,"w":9.4,"r":0},{"k":"smarble","t":"s","id":"marble","n":"ลานหินอ่อน","x":12.7,"z":-21.8,"l":21.3,"w":10.6,"r":0},{"k":"scopy","t":"s","id":"copy","n":"ร้านถ่ายเอกสาร","x":-52.3,"z":19.4,"l":16.7,"w":8.2,"r":0},{"k":"sten","t":"s","id":"ten","n":"ซุ้มสิบเซียน","x":38,"z":50,"l":38.8,"w":12,"r":90},{"k":"scan1","t":"s","id":"can1","n":"โรงอาหาร 1","x":-83.5,"z":-24.7,"l":58.8,"w":19,"r":90},{"k":"scan2","t":"s","id":"can2","n":"โรงอาหาร 2","x":-81.3,"z":-68.5,"l":50,"w":21.8,"r":0},{"k":"sbasket","t":"s","id":"basket","n":"สนามบาส","x":-61.3,"z":-23.5,"l":28,"w":15,"r":90},{"k":"smusic","t":"s","id":"music","n":"บ้านดนตรี","x":-51,"z":-99.4,"l":24.7,"w":7.3,"r":90},{"k":"sagri","t":"s","id":"agri","n":"อาคารเกษตร","x":-97.2,"z":52.9,"l":47.1,"w":8.3,"r":90},{"k":"shomec","t":"s","id":"homec","n":"คหกรรม","x":-85.8,"z":52.9,"l":47.1,"w":8.3,"r":90},{"k":"sworkshop","t":"s","id":"workshop","n":"โรงฝึก","x":-72.7,"z":52.9,"l":47.1,"w":12,"r":90},{"k":"stobe","t":"s","id":"tobe","n":"อาคาร To Be","x":-53,"z":52.9,"l":47.1,"w":8.7,"r":90},{"k":"spark","t":"s","id":"park","n":"ที่จอดรถคณะครู","x":-17.5,"z":130.6,"l":89,"w":18.8,"r":0},{"k":"spe","t":"s","id":"pe","n":"อาคารพละ","x":36.7,"z":128.5,"l":16,"w":15.9,"r":0},{"k":"spetang1","t":"s","id":"petang1","n":"สนามเปตอง 1","x":-7.2,"z":115.9,"l":15,"w":4.7,"r":0},{"k":"spetang2","t":"s","id":"petang2","n":"สนามเปตอง 2","x":11.2,"z":115.9,"l":15,"w":4.7,"r":0},{"k":"slibrary","t":"s","id":"library","n":"ห้องสมุด","x":64.2,"z":-3.5,"l":25.9,"w":19,"r":90},{"k":"svball","t":"s","id":"vball","n":"หอประชุม 1","x":88.7,"z":-63.8,"l":25.3,"w":19.4,"r":0},{"k":"sduty","t":"s","id":"duty","n":"ศาลาครูเวร","x":84,"z":-20.9,"l":13.3,"w":8.8,"r":0},{"k":"snatri","t":"s","id":"natri","n":"ศาลานาตรีชน","x":130.7,"z":-20.9,"l":17.3,"w":8.8,"r":0},{"k":"sfield","t":"s","id":"field","n":"สนามฟุตบอล/กรีฑา","x":109,"z":34.7,"l":92.9,"w":54,"r":90},{"k":"stakraw","t":"s","id":"takraw","n":"สนามตะกร้อ","x":64.7,"z":31.8,"l":17.3,"w":18.8,"r":0},{"k":"sopen","t":"s","id":"open","n":"ลานโล่ง","x":64.7,"z":53.5,"l":17.3,"w":17.6,"r":0},{"k":"ssala1","t":"s","id":"sala1","n":"ศาลา","x":78.3,"z":53.5,"l":10,"w":6,"r":90},{"k":"ssala2","t":"s","id":"sala2","n":"ศาลา","x":78.3,"z":87.9,"l":10,"w":6,"r":90},{"k":"sfutsal","t":"s","id":"futsal","n":"สนามฟุตซอล","x":64.7,"z":87.6,"l":17.3,"w":24.7,"r":0},{"k":"svball2","t":"s","id":"vball2","n":"สนามวอลเลย์ 1–2","x":64.7,"z":124.1,"l":36.5,"w":17.3,"r":90},{"k":"sspark","t":"s","id":"spark","n":"ที่จอดรถนักเรียน","x":138.6,"z":38.8,"l":77.6,"w":4,"r":90}];
+var CAMPUS = [{"k":"b6","t":"b","id":6,"n":"อาคาร 6","x":0,"z":-142.9,"l":80,"w":19,"r":0},{"k":"b3","t":"b","id":3,"n":"อาคาร 3","x":0,"z":-88.8,"l":79,"w":18,"r":0},{"k":"b2","t":"b","id":2,"n":"อาคาร 2","x":0,"z":-45.9,"l":79,"w":18,"r":0},{"k":"b1","t":"b","id":1,"n":"อาคาร 1","x":0,"z":1.2,"l":79,"w":18,"r":0},{"k":"b4","t":"b","id":4,"n":"อาคาร 4","x":-6.2,"z":100,"l":80,"w":23,"r":0},{"k":"b5","t":"b","id":5,"n":"อาคาร 5","x":62.2,"z":-82.4,"l":55,"w":15,"r":90},{"k":"sdome","t":"s","id":"dome","n":"โดมเอนกประสงค์","x":-6.8,"z":56.5,"l":50.6,"w":66,"r":90},{"k":"splaza6","t":"s","id":"plaza6","n":"ลานเอนกประสงค์","x":0,"z":-118.2,"l":82.7,"w":12.9,"r":0},{"k":"snurse","t":"s","id":"nurse","n":"เรือนพยาบาล","x":-32,"z":-70.3,"l":14.7,"w":12.4,"r":0},{"k":"scoop","t":"s","id":"coop","n":"สหกรณ์","x":-33.3,"z":-26.5,"l":12,"w":8.2,"r":0},{"k":"spav9","t":"s","id":"pav9","n":"ศาลา 9 เหลี่ยม","x":-11,"z":-27.1,"l":8.7,"w":9.4,"r":0},{"k":"smarble","t":"s","id":"marble","n":"ลานหินอ่อน","x":12.7,"z":-21.8,"l":21.3,"w":10.6,"r":0},{"k":"scopy","t":"s","id":"copy","n":"ร้านถ่ายเอกสาร","x":-52.3,"z":20,"l":16.7,"w":8.2,"r":0},{"k":"sten","t":"s","id":"ten","n":"ซุ้มสิบเซียน","x":38.2,"z":56.8,"l":51.2,"w":14.3,"r":90},{"k":"scan1","t":"s","id":"can1","n":"โรงอาหาร 1","x":-83.8,"z":-17.6,"l":70.6,"w":19,"r":90},{"k":"scan2","t":"s","id":"can2","n":"โรงอาหาร 2","x":-80.8,"z":-67.9,"l":51,"w":21.8,"r":0},{"k":"sbasket","t":"s","id":"basket","n":"สนามบาส","x":-64.3,"z":-22.9,"l":28,"w":15,"r":90},{"k":"smusic","t":"s","id":"music","n":"บ้านดนตรี","x":-54.8,"z":-100,"l":23.5,"w":9.7,"r":90},{"k":"sagri","t":"s","id":"agri","n":"อาคารเกษตร","x":-90.8,"z":59.7,"l":40.6,"w":8.3,"r":90},{"k":"shomec","t":"s","id":"homec","n":"คหกรรม","x":-81.7,"z":59.7,"l":40.6,"w":8,"r":90},{"k":"sworkshop","t":"s","id":"workshop","n":"โรงฝึก","x":-72.5,"z":59.7,"l":40.6,"w":8.3,"r":90},{"k":"stobe","t":"s","id":"tobe","n":"อาคาร To Be","x":-53,"z":57.4,"l":48.8,"w":8.7,"r":90},{"k":"swc1","t":"s","id":"wc1","n":"ห้องน้ำ","x":-53.3,"z":-141.5,"l":19.4,"w":10.7,"r":90},{"k":"swc2","t":"s","id":"wc2","n":"ห้องน้ำ","x":-51.5,"z":-70,"l":16.5,"w":5.7,"r":90},{"k":"swc3","t":"s","id":"wc3","n":"ห้องน้ำ","x":-51.7,"z":-43.8,"l":17.1,"w":5.3,"r":90},{"k":"swc4","t":"s","id":"wc4","n":"ห้องน้ำ","x":62.2,"z":-123.2,"l":15,"w":10,"r":0},{"k":"swc5","t":"s","id":"wc5","n":"ห้องน้ำ","x":-61,"z":42.1,"l":17.1,"w":4.7,"r":90},{"k":"swc6","t":"s","id":"wc6","n":"ห้องน้ำ","x":-61,"z":72.1,"l":17.1,"w":4.7,"r":90},{"k":"spark","t":"s","id":"park","n":"ที่จอดรถคณะครู","x":-17.5,"z":130.3,"l":89,"w":18.2,"r":0},{"k":"spe","t":"s","id":"pe","n":"อาคารพละ","x":37.7,"z":123.2,"l":16,"w":14.7,"r":0},{"k":"spetang1","t":"s","id":"petang1","n":"สนามเปตอง 1","x":-7.2,"z":115.9,"l":15,"w":4.7,"r":0},{"k":"spetang2","t":"s","id":"petang2","n":"สนามเปตอง 2","x":11.2,"z":115.9,"l":15,"w":4.7,"r":0},{"k":"slibrary","t":"s","id":"library","n":"ห้องสมุด","x":66.5,"z":-2.4,"l":27.1,"w":11,"r":90},{"k":"svball","t":"s","id":"vball","n":"หอประชุม 1","x":89.8,"z":-65,"l":25.7,"w":21.8,"r":0},{"k":"sduty","t":"s","id":"duty","n":"ศาลาครูเวร","x":81.2,"z":-20.3,"l":17.7,"w":8.8,"r":0},{"k":"snatri","t":"s","id":"natri","n":"ศาลานาตรีชน","x":131,"z":-20.6,"l":16.7,"w":8.2,"r":0},{"k":"sfield","t":"s","id":"field","n":"สนามฟุตบอล/กรีฑา","x":109,"z":57.4,"l":104.1,"w":54,"r":90},{"k":"stakraw","t":"s","id":"takraw","n":"สนามตะกร้อ","x":65.5,"z":29.7,"l":18.3,"w":21.8,"r":0},{"k":"sopen","t":"s","id":"open","n":"ลานโล่ง","x":65.3,"z":59.1,"l":17.3,"w":32.4,"r":0},{"k":"ssala1","t":"s","id":"sala1","n":"ศาลา","x":78.7,"z":52.6,"l":10,"w":6,"r":90},{"k":"ssala2","t":"s","id":"sala2","n":"ศาลา","x":78.7,"z":89.7,"l":10,"w":6,"r":90},{"k":"sfutsal","t":"s","id":"futsal","n":"สนามฟุตซอล","x":65.2,"z":87.9,"l":17.7,"w":24.1,"r":0},{"k":"svball2","t":"s","id":"vball2","n":"สนามวอลเลย์ 1–2","x":63.3,"z":124.1,"l":29.4,"w":14.7,"r":90},{"k":"sspark","t":"s","id":"spark","n":"ที่จอดรถนักเรียน","x":138.7,"z":32.4,"l":85.9,"w":5,"r":90}];
 // รหัสห้อง 3 หลัก: หลักแรก = อาคาร หลักสอง = ชั้น (0 = ชั้นล่างสุด) · รายการห้องต่อชั้น (จากตาราง 3,505 คาบ; สร้างใหม่เมื่อตารางเปลี่ยน)
 var ROOMS = {"1":{"1":["111","112","114","117","118"],"2":["121","122","123","124","125","126","128"]},"2":{"1":["211","214","215","216","219"],"2":["221","222","223","226","227","228"]},"3":{"0":["301","302","304","306","307"],"1":["311","312","313","314","315","316","317","318"],"2":["321","322","323","324","325","326","327","328"]},"4":{"1":["411","412","413","414","415","416","417","418"],"2":["421","422","423","424","425","426","427","428"],"3":["431","432","433","437","438"]},"5":{"0":["501","502","503","504","505","506","507"],"1":["511","512","513","514","515","516","517","518"]},"6":{"1":["611","612","613","614","615","616","617","618"],"2":["621","623","624","625","627"],"3":["632","636","637","638"]}};
+// ถนนภายในและประตูหลังตามผังทางการ (เมตร): { ชื่อ: { name, a_m: [x, z], b_m: [x, z], w_m } } · ถนนจากประตูหน้าวาดแยกใน approach()
+var ROADS = {"lane":{"name":"ถนนข้างอาคาร 5","a_m":[47.5,-135.3],"b_m":[47.5,25.3],"w_m":7,"px":[586.5,730,586.5,1003]},"south":{"name":"ถนนด้านหลังโรงเรียน","a_m":[-131.3,144.4],"b_m":[51,144.4],"w_m":7,"px":[50,1205.5,597,1205.5]}}, GATES = {"back":{"name":"ประตูหลังโรงเรียน","at_m":[-131.3,144.4],"road":"south"}};
 var LEVELS = { 1: [0, 2], 2: [0, 2], 3: [0, 2], 4: [0, 3], 5: [0, 1], 6: [0, 3] };      // อาคาร → [ชั้นต่ำสุด, ชั้นสูงสุด]
 // ชื่อห้องในตารางที่ไม่ใช่รหัส 3 หลัก → สถานที่ในผัง (ชื่อตรงตามที่เก็บในฐานข้อมูล)
 var PLACES = {
@@ -129,7 +131,7 @@ var PLACES = {
   petang1: ['สน.เปตอง'], takraw: ['สน.ตะกร้อ'], vball: ['หอประชุม 1'], vball2: ['สน.วอลฯ2'], basket: ['สน.บาสฯ']
 };
 var ALSO = { petang1: ['petang2'] };                              // เลือกสถานที่นี้ ให้ไฮไลต์อันอื่นด้วย
-var KIND = { dome: 'canopy', can1: 'box2', can2: 'box', library: 'box', nurse: 'box', music: 'box', tobe: 'box', homec: 'box', agri: 'box', workshop: 'box', pe: 'box', vball: 'box', coop: 'box', copy: 'box', pav9: 'poly9', ten: 'hexes', duty: 'sala', natri: 'sala', sala1: 'sala', sala2: 'sala' };   // sala/hexes/poly9 = ศาลาโล่ง เดินลอดได้   // อื่นๆ = พื้นแบน (สนาม/ลาน)
+var KIND = { dome: 'canopy', can1: 'box2', can2: 'box', library: 'box', nurse: 'box', music: 'box', tobe: 'box', homec: 'box', agri: 'box', workshop: 'box', pe: 'box', vball: 'box', coop: 'box', copy: 'box', pav9: 'poly9', ten: 'hexes', duty: 'sala', natri: 'sala', sala1: 'sala', sala2: 'sala', wc1: 'box', wc2: 'box', wc3: 'box', wc4: 'box', wc5: 'box', wc6: 'box' };   // sala/hexes/poly9 = ศาลาโล่ง เดินลอดได้   // อื่นๆ = พื้นแบน (สนาม/ลาน)
 var BREAK = /พักกลางวัน|พัก/;
 
 function norm(s) { return String(s || '').replace(/\s+/g, '').toLowerCase(); }
@@ -242,9 +244,13 @@ var SPEC = {
   copy: { wall: '#eef0f2', roof: 0x7d8792, rt: 'gable', rise: 1.5, front: 1 },
   ten: { wall: '#b98a63', roof: 0xa0533c, rt: 'hip', rise: 2.5, front: 1, open0: true },
   duty: { wall: '#f3efe4', roof: 0xa0533c, rt: 'hip', rise: 2, front: 1, open0: true },
-  natri: { wall: '#f3efe4', roof: 0xa0533c, rt: 'hip', rise: 2, front: 1, open0: true }
+  natri: { wall: '#f3efe4', roof: 0xa0533c, rt: 'hip', rise: 2, front: 1, open0: true },
+  // ห้องน้ำ: อาคารชั้นเดียวผนังขาว หน้าต่างบานเกล็ดทั้งสองด้าน (plain = ไม่มีระเบียง) · ผังวาดกากบาทที่หลังข้างอาคาร 6 กับเหนืออาคาร 5 = หลังคาปั้นหยา
+  wc: { wall: '#eef0ee', roof: 0x7d8792, rt: 'gable', rise: 1.2, front: 1, plain: true },
+  wc1: { wall: '#eef0ee', roof: 0x7d8792, rt: 'hip', rise: 1.6, front: 1, plain: true },
+  wc4: { wall: '#eef0ee', roof: 0x7d8792, rt: 'hip', rise: 1.6, front: 1, plain: true }
 };
-function specOf(c) { return c.t === 'b' ? SPEC['b' + c.id] || SPEC.b : SPEC[c.id] || { wall: CREAM, roof: 0x7d8792, rt: 'gable', rise: 2, front: 1 }; }
+function specOf(c) { return c.t === 'b' ? SPEC['b' + c.id] || SPEC.b : SPEC[c.id] || (/^wc\d$/.test(c.id) ? SPEC.wc : { wall: CREAM, roof: 0x7d8792, rt: 'gable', rise: 2, front: 1 }); }
 var COURT = {   // สนาม: [พื้น, เส้น, แบบเส้น]
   field: ['#8d9a5c', '#ffffff', 'field'], futsal: ['#4f8d58', '#ffffff', 'court'], basket: ['#c8613f', '#ffffff', 'court'],
   takraw: ['#4b8a5c', '#ffffff', 'court'], petang1: ['#d4bf96', '#b8a175', 'sand'], petang2: ['#d4bf96', '#b8a175', 'sand'], park: ['#bdbab3', '#9d9a93', 'slots'],
@@ -425,6 +431,7 @@ function block(g, L, h, W, y, sp, pos, ud) {   // หนึ่งชั้น: �
   if (sp.open0 && pos === 'ground') frontKind = backKind = 'open';
   else if (sp.arches && pos !== 'ground') frontKind = backKind = 'arch';
   else if (sp.wood) frontKind = backKind = 'wood';
+  else if (sp.plain) frontKind = backKind = 'win';
   else { frontKind = 'corr'; backKind = 'win'; }
   var mats = function (night) {
     var gr = pos === 'ground', fr = lam({ map: rep(facade(frontKind, sp, night, gr), L / BAY) }), bk = lam({ map: rep(facade(backKind, sp, night, gr), L / BAY) });
@@ -626,6 +633,7 @@ function initGround() {
   scene.updateMatrixWorld(true);
   salas();
   approach();
+  roads();
   plantTrees();
   // ตัวละคร (สูงราว 1.9 ม. ใหญ่กว่าคนจริงนิดหน่อยให้เห็นชัด): ลำตัว + หน้าอวตาร (หันหากล้องเสมอ) + ลูกศรบอกทิศหน้า + เงา
   var d = avaData(), body = new THREE.Group();
@@ -665,8 +673,10 @@ function salas() {   // ศาลาหลังคากระเบื้อ�
 // ถนนสาย 2020 ขนานด้านยาวของสนามฝั่งนอก · รั้วเตี้ยสีขาวตลอดแนว · ประตูเสาขาวป้ายสีเลือดหมูอยู่เลยปลายสนามไปเล็กน้อย
 // ถนนทางเข้าตรงเลียบปลายสนาม ไปจบหน้าห้องสมุด (ผังทางการ) · ขอบทางแดง-ขาว พุ่มไม้ตัดแต่ง เสาไฟโซลาร์ ทางเดินมีหลังคาขาวฝั่งสนาม
 // ตำแหน่งเป็นค่าประมาณ (หน่วยเมตร ในกรอบของสนาม: แกน x ตามแนวยาวสนาม, แกน z ตามแนวกว้าง ค่าลบ = ฝั่งถนนใหญ่)
-// ประตูหน้า: พิกัดในกรอบของสนามฟุตบอล (ผังทางการ: ประตูอยู่มุมขวาบนของสนาม ถนนเข้าวิ่งไปทางตะวันตกถึงหน้าห้องสมุด)
-var GATE = { x: -64, fence: -31.7, hw: -46.7, hwW: 22, roadW: 8, roadEnd: 44 };
+// ประตูหน้า: พิกัดในกรอบของสนามฟุตบอล (ผังทางการ: ประตูอยู่มุมขวาบนของสนาม ถนนเข้าวิ่งไปทางตะวันตก)
+// วัดใหม่ 23 พ.ย.: ถนนอยู่แนว y 897 บนผัง (ฝั่งเหนือของแถบถนน ทางเดินมีหลังคาอยู่ฝั่งใต้ ไม่ทับศาลาครูเวร/นาตรีชน)
+// ปลายถนนไปชนถนนข้างอาคาร 5 (ROADS.lane) · รั้ว = ขอบตะวันออกของผัง · ถนนใหญ่และรั้วยาวตลอดแนวโรงเรียน (hwX/hwLen, fenceA/fenceB ในกรอบของสนาม)
+var GATE = { x: -94.4, fence: -32.2, hw: -47.2, hwW: 22, roadW: 8, roadEnd: 61.5, hwX: -60, hwLen: 500, fenceA: -237, fenceB: 103 };
 function approach() {
   var c = CAMPUS.filter(function (x) { return x.k === 'sfield'; })[0]; if (!c) return;
   var g = new THREE.Group(); g.position.set(c.x * S, 0, c.z * S); g.rotation.y = -c.r * Math.PI / 180; scene.add(g); g.updateMatrixWorld(true);
@@ -678,9 +688,9 @@ function approach() {
     for (var i = 0; i < 256; i += 64) { x.fillRect(i, 17, 32, 2); x.fillRect(i, 45, 32, 2); }
     x.fillStyle = '#e2b43a'; x.fillRect(0, 30, 256, 1.5); x.fillRect(0, 33, 256, 1.5);
   });
-  hwT.repeat.set(Math.round(400 / 24), 1);
-  var hw = new THREE.Mesh(new THREE.PlaneGeometry(m(400), m(GATE.hwW)), lam({ map: hwT })); hw.rotation.x = -Math.PI / 2; hw.position.set(0, 0.006, m(GATE.hw)); hw.receiveShadow = true; g.add(hw); decor.push(hw);
-  for (var hx = -200; hx <= 200; hx += 8) avoid(m(hx), m(GATE.hw), m(GATE.hwW / 2 + 3));
+  hwT.repeat.set(Math.round(GATE.hwLen / 24), 1);
+  var hw = new THREE.Mesh(new THREE.PlaneGeometry(m(GATE.hwLen), m(GATE.hwW)), lam({ map: hwT })); hw.rotation.x = -Math.PI / 2; hw.position.set(m(GATE.hwX), 0.006, m(GATE.hw)); hw.receiveShadow = true; g.add(hw); decor.push(hw);
+  for (var hx = GATE.hwX - GATE.hwLen / 2; hx <= GATE.hwX + GATE.hwLen / 2; hx += 8) avoid(m(hx), m(GATE.hw), m(GATE.hwW / 2 + 3));
   // ถนนทางเข้า: คอนกรีต รอยต่อแผ่น
   var rdT = canvasTex(64, 64, function (x) { x.fillStyle = '#cdc9c0'; x.fillRect(0, 0, 64, 64); x.fillStyle = 'rgba(0,0,0,.12)'; x.fillRect(0, 0, 64, 1); x.fillRect(31, 0, 1, 64); });
   rdT.repeat.set(2, Math.round(rl / 0.5));
@@ -704,7 +714,7 @@ function approach() {
   var wr = bar(g, m(3.6), 0.02, wl, wx, 0.27, wz, 0xf1f1ee); wr.receiveShadow = true;
   for (var az = z0; az <= z0 + wl; az += 0.6) avoid(wx, az, 0.35);
   // รั้วเตี้ยสีขาวตามแนวถนนใหญ่ (เว้นช่องประตู)
-  var fx0 = m(-115), fx1 = m(110), gap = rw / 2 + m(2.5);
+  var fx0 = m(GATE.fenceA), fx1 = m(GATE.fenceB), gap = rw / 2 + m(2.5);
   [[fx0, gx - gap], [gx + gap, fx1]].forEach(function (seg) {
     var len = seg[1] - seg[0], mid = (seg[0] + seg[1]) / 2;
     bar(g, len, 0.1, 0.02, mid, 0.05, fz, 0xf4f4f1); bar(g, len, 0.012, 0.03, mid, 0.1, fz, 0xffffff);
@@ -719,6 +729,27 @@ function approach() {
   var sm = lam({ map: st }), plain = lam({ color: 0x6e1f2a });
   var beam = new THREE.Mesh(new THREE.BoxGeometry(rw + 0.5, 0.17, 0.1), [plain, plain, plain, plain, sm, sm]); beam.position.set(gx, 0.62, fz); beam.castShadow = true; g.add(beam); decor.push(beam);
   avoid(gx, fz, 1.2);
+}
+// ถนนภายในตามผังทางการ (ROADS): คอนกรีตรอยต่อแผ่น ขอบคันหินสีเทาอ่อน · ต้นไม้ไม่ขึ้นบนถนน · เดินผ่านได้
+// ประตูหลังโรงเรียน (GATES.back): เสาขาวสองต้นคร่อมปลายถนน + ประตูเหล็กบานเลื่อนสีเทาปิดไว้ครึ่งเดียว
+function roads() {
+  Object.keys(ROADS).forEach(function (k) {
+    var r = ROADS[k], ax = r.a_m[0] * S, az = r.a_m[1] * S, bx = r.b_m[0] * S, bz = r.b_m[1] * S, len = Math.hypot(bx - ax, bz - az), w = r.w_m * S;
+    if (len < 0.01) return;
+    var g = new THREE.Group(); g.position.set((ax + bx) / 2, 0, (az + bz) / 2); g.rotation.y = -Math.atan2(bz - az, bx - ax); scene.add(g);   // แกน x ของกลุ่มตามแนวถนน
+    var t = canvasTex(64, 64, function (x) { x.fillStyle = '#cdc9c0'; x.fillRect(0, 0, 64, 64); x.fillStyle = 'rgba(0,0,0,.12)'; x.fillRect(0, 0, 1, 64); x.fillRect(0, 31, 64, 1); });
+    t.repeat.set(Math.max(1, Math.round(len / 0.5)), 1);
+    var p = new THREE.Mesh(new THREE.PlaneGeometry(len, w), lam({ map: t })); p.rotation.x = -Math.PI / 2; p.position.y = 0.007; p.receiveShadow = true; g.add(p); decor.push(p);
+    [-1, 1].forEach(function (s2) { bar(g, len, 0.02, 0.03, 0, 0.012, s2 * w / 2, 0xe3e1db).receiveShadow = true; });
+    for (var d = 0; d <= len; d += 0.5) AVOID.push([ax + (bx - ax) * d / len, az + (bz - az) * d / len, w / 2 + 0.35]);
+  });
+  var bk = GATES.back, rd = bk && ROADS[bk.road]; if (!rd) return;
+  var gw = rd.w_m * S, gg = new THREE.Group(); gg.position.set(bk.at_m[0] * S, 0, bk.at_m[1] * S); gg.rotation.y = -Math.atan2(rd.b_m[1] - rd.a_m[1], rd.b_m[0] - rd.a_m[0]); scene.add(gg);
+  [-1, 1].forEach(function (s2) { bar(gg, 0.12, 0.42, 0.12, 0, 0.21, s2 * (gw / 2 + 0.1), 0xf6f6f2).receiveShadow = true; bar(gg, 0.15, 0.03, 0.15, 0, 0.435, s2 * (gw / 2 + 0.1), 0xf6f6f2); });
+  bar(gg, 0.02, 0.02, gw / 2, 0, 0.19, -gw / 4, 0x5d636b); bar(gg, 0.02, 0.02, gw / 2, 0, 0.03, -gw / 4, 0x5d636b);   // ราวบน/ล่าง
+  for (var bz2 = -gw / 2 + 0.03; bz2 < 0; bz2 += 0.06) bar(gg, 0.012, 0.16, 0.012, 0, 0.11, bz2, 0x5d636b);              // ซี่ประตู
+  var v = V3(bk.at_m[0] * S, 0, bk.at_m[1] * S); AVOID.push([v.x, v.z, gw / 2 + 0.6]);
+  lab({ k: 'gback', t: 's', n: bk.name, x: bk.at_m[0], z: bk.at_m[1] }, 0.6);
 }
 var trees = null;
 function plantTrees() {   // ต้นไม้ตามช่องว่าง (สุ่มแบบตายตัว ทุกเครื่องเห็นเหมือนกัน) ไม่ขึ้นบนตึก สนาม หรือลาน · เดินผ่านได้
@@ -816,7 +847,7 @@ window.addEventListener('blur', function () { walk.key.f = walk.key.t = 0; joyEn
 
 // ทัวร์: กล้องบินไปทีละจุด หยุดชมแล้วไปต่อเอง (แตะแผนที่ = หยุด/เล่น)
 var STOPS = [
-  { k: null, t: 'โรงเรียนท่าบ่อ', s: 'ภาพรวม · ผังโดยประมาณจากภาพดาวเทียม' },
+  { k: null, t: 'โรงเรียนท่าบ่อ', s: 'ภาพรวม · ผังโดยประมาณจากผังทางการของโรงเรียน' },
   { k: 'gate', t: 'ประตูโรงเรียน', s: 'ติดถนนสาย 2020 ฝั่งสนามฟุตบอล · ถนนทางเข้าตรงไปถึงหน้าห้องสมุด' },
   { k: 'b2', s: 'อาคารแรกที่เจอเมื่อเดินเข้าจากป้ายโรงเรียน' }, { k: 'b1' }, { k: 'sdome' }, { k: 'b4' }, { k: 'spe' }, { k: 'sfield' },
   { k: 'sfutsal' }, { k: 'slibrary' }, { k: 'b3' }, { k: 'b6' }, { k: 'b5' }, { k: 'svball' }, { k: 'scan1' }, { k: 'shomec', s: 'อยู่ติดกับเกษตรและโรงฝึก' }
@@ -954,7 +985,7 @@ function showPlace(id) {
   var c = el('div', 'card'); c.appendChild(el('h2', null, NAME_OF['s' + id] || id));
   var rooms = PLACES[id];
   if (rooms && rooms.length && isAdmin()) { var b = el('button', 'chip', 'ดูตารางวันนี้'); b.type = 'button'; b.onclick = function () { showRoom(rooms[0], id); }; c.appendChild(b); }
-  else if (!(rooms && rooms.length)) c.appendChild(el('div', 'muted', 'ยังไม่มีคาบเรียนในตารางที่ใช้ห้องนี้'));
+  else if (!(rooms && rooms.length) && !/^wc\d$/.test(id)) c.appendChild(el('div', 'muted', 'ยังไม่มีคาบเรียนในตารางที่ใช้ห้องนี้'));
   out.replaceChildren(c);
 }
 function dayStart() { var d = bkkNow().dow; return d >= 1 && d <= 5 ? d : 1; }
