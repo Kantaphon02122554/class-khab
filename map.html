@@ -123,7 +123,7 @@ var CAMPUS = [{"k":"b6","t":"b","id":6,"n":"อาคาร 6","x":0,"z":-142.9,
 // รหัสห้อง 3 หลัก: หลักแรก = อาคาร หลักสอง = ชั้น (0 = ชั้นล่างสุด) · รายการห้องต่อชั้น (จากตาราง 3,505 คาบ; สร้างใหม่เมื่อตารางเปลี่ยน)
 var ROOMS = {"1":{"1":["111","112","114","117","118"],"2":["121","122","123","124","125","126","128"]},"2":{"1":["211","214","215","216","219"],"2":["221","222","223","226","227","228"]},"3":{"0":["301","302","304","306","307"],"1":["311","312","313","314","315","316","317","318"],"2":["321","322","323","324","325","326","327","328"]},"4":{"1":["411","412","413","414","415","416","417","418"],"2":["421","422","423","424","425","426","427","428"],"3":["431","432","433","437","438"]},"5":{"0":["501","502","503","504","505","506","507"],"1":["511","512","513","514","515","516","517","518"]},"6":{"1":["611","612","613","614","615","616","617","618"],"2":["621","623","624","625","627"],"3":["632","636","637","638"]}};
 // ถนนภายในและประตูหลังตามผังทางการ (เมตร): { ชื่อ: { name, a_m: [x, z], b_m: [x, z], w_m } } · ถนนจากประตูหน้าวาดแยกใน approach()
-var ROADS = {"lane":{"name":"ถนนข้างอาคาร 5","a_m":[47.5,-135.3],"b_m":[47.5,25.3],"w_m":7,"px":[586.5,730,586.5,1003]},"south":{"name":"ถนนด้านหลังโรงเรียน","a_m":[-131.3,144.4],"b_m":[51,144.4],"w_m":7,"px":[50,1205.5,597,1205.5]}}, GATES = {"back":{"name":"ประตูหลังโรงเรียน","at_m":[-131.3,144.4],"road":"south"}};
+var ROADS = {"lane":{"name":"ถนนข้างอาคาร 5","a_m":[48,-135.3],"b_m":[48,144.4],"w_m":6,"px":[588,730,588,1205.5]},"south":{"name":"ถนนด้านหลังโรงเรียน","a_m":[-131.3,144.4],"b_m":[51,144.4],"w_m":7,"px":[50,1205.5,597,1205.5]}}, GATES = {"back":{"name":"ประตูหลังโรงเรียน","at_m":[-131.3,144.4],"road":"south"}};
 var LEVELS = { 1: [0, 2], 2: [0, 2], 3: [0, 2], 4: [0, 3], 5: [0, 1], 6: [0, 3] };      // อาคาร → [ชั้นต่ำสุด, ชั้นสูงสุด]
 // ชื่อห้องในตารางที่ไม่ใช่รหัส 3 หลัก → สถานที่ในผัง (ชื่อตรงตามที่เก็บในฐานข้อมูล)
 var PLACES = {
@@ -635,6 +635,7 @@ function initGround() {
   salas();
   approach();
   roads();
+  loadModels();
   plantTrees();
   // ตัวละคร (สูงราว 1.9 ม. ใหญ่กว่าคนจริงนิดหน่อยให้เห็นชัด): ลำตัว + หน้าอวตาร (หันหากล้องเสมอ) + ลูกศรบอกทิศหน้า + เงา
   var d = avaData(), body = new THREE.Group();
@@ -709,19 +710,9 @@ function approach() {
     post(g, gx - rw / 2 - 0.3, lz, 0.6, 0.01, 0xdfe2e5);
     bar(g, 0.12, 0.012, 0.05, gx - rw / 2 - 0.3, 0.6, lz, 0x2c3e57);   // แผงโซลาร์
   }
-  // ทางเดินมีหลังคาขาวฝั่งสนาม (ขนานถนน) จากประตูเข้าไป ~80 ม.
-  // โมเดลจาก Blender (models/walkway.glb: ยาว 24 ม. เสาแถวเดียวฝั่งสนาม หลังคาโค้งยื่นคลุมทาง) วางต่อกัน 3 ชุด = 72 ม. · โหลดไม่ได้ก็ไม่มีทางเดินหลังคา (ไม่กระทบอย่างอื่น)
-  var wx = gx + rw / 2 + m(3), wl = m(72);
-  for (var az = z0; az <= z0 + wl; az += 0.6) avoid(wx, az, 0.35);
-  if (THREE.GLTFLoader) new THREE.GLTFLoader().load('models/walkway.glb', function (gl) {
-    [0, 1, 2].forEach(function (k) {
-      var w = gl.scene.clone(true);
-      w.traverse(function (o) { if (o.isMesh) { var c = o.material.color; o.material = lam({ color: c.clone ? c.clone() : 0xffffff }); o.castShadow = true; o.receiveShadow = true; decor.push(o); } });
-      w.scale.setScalar(S); w.rotation.y = -Math.PI / 2;   // ยาวตามแกน z ของกรอบสนาม · ฝั่งเสาอยู่ด้านสนาม (+x) หลังคาคลุมทางฝั่งถนน
-      w.position.set(wx, 0, z0 + 0.3 + m(12 + 24 * k)); g.add(w);
-    });
-    req();
-  });
+  // ทางเดินมีหลังคาเลียบถนนทางเข้าฝั่งสนาม (คืนทางเดิมตามที่ปันขอ) ไปต่อกับทางเดินเลียบถนนข้างอาคาร 5 ที่มุมทางเข้า · วางโมเดลใน loadModels()
+  var wx = gx + rw / 2 + m(3);
+  ENTRY = { g: g, wx: wx, z0: z0 + 0.3, zEnd: (c.x - (WALK.x + 1.8)) * S, avoid: avoid };   // zEnd = ปลายทางเดินที่ขอบนอกของทางเดินเลียบถนนข้างอาคาร 5 (กรอบสนามหมุน 90°: แกน z ของกรอบ = −x ของโลก)
   // รั้วเตี้ยสีขาวตามแนวถนนใหญ่ (เว้นช่องประตู)
   var fx0 = m(GATE.fenceA), fx1 = m(GATE.fenceB), gap = rw / 2 + m(2.5);
   [[fx0, gx - gap], [gx + gap, fx1]].forEach(function (seg) {
@@ -759,6 +750,55 @@ function roads() {
   for (var bz2 = -gw / 2 + 0.03; bz2 < 0; bz2 += 0.06) bar(gg, 0.012, 0.16, 0.012, 0, 0.11, bz2, 0x5d636b);              // ซี่ประตู
   var v = V3(bk.at_m[0] * S, 0, bk.at_m[1] * S); AVOID.push([v.x, v.z, gw / 2 + 0.6]);
   lab({ k: 'gback', t: 's', n: bk.name, x: bk.at_m[0], z: bk.at_m[1] }, 0.6);
+}
+// โมเดลจาก Blender ใน models/ (โหลดไม่ได้ก็ใช้ของที่สร้างในโค้ดต่อ ไม่กระทบอย่างอื่น)
+// ทางเดินมีหลังคาโค้ง (walkway.glb ยาว 24 ม.) เลียบฝั่งตะวันออกของถนนข้างอาคาร 5 ตั้งแต่มุมทางเข้าโรงเรียนไปถึงอาคาร 4 (ปันขอ) · เสาแถวเดียวฝั่งสนาม หลังคายื่นคลุมทางฝั่งถนน
+var WALK = { x: 53.4, z0: -33, n: 6 };
+var ENTRY = null;   // ทางเดินเลียบถนนทางเข้า (ตั้งค่าใน approach())   // เมตร: กึ่งกลางทางเดินในแกน x · เริ่มที่ขอบใต้ของถนนทางเข้า · 6 ชุด = 144 ม. (ลงไปถึงปลายอาคาร 4)
+function loadModels() {
+  // กันต้นไม้ขึ้นบนทางเดิน (ต้องทำก่อน plantTrees ไม่รอโหลดโมเดล)
+  for (var d = 0; d <= WALK.n * 24; d += 1) AVOID.push([WALK.x * S, (WALK.z0 + d) * S, 0.4]);
+  if (ENTRY) for (var az = ENTRY.z0; az <= ENTRY.zEnd; az += 0.6) ENTRY.avoid(ENTRY.wx, az, 0.35);
+  if (!THREE.GLTFLoader) return;
+  var ld = new THREE.GLTFLoader();
+  ld.load('models/walkway.glb', function (gl) {
+    for (var k = 0; k < WALK.n; k++) {
+      var w = gl.scene.clone(true);
+      w.traverse(function (o) { if (o.isMesh) { var c = o.material.color; o.material = lam({ color: c ? c.clone() : 0xffffff }); o.castShadow = true; o.receiveShadow = true; decor.push(o); } });
+      w.scale.setScalar(S); w.rotation.y = -Math.PI / 2;   // ยาวตามแกน z (เหนือ→ใต้) · หลังคาคลุมทางฝั่งตะวันตก (ถนน) เสาอยู่ฝั่งตะวันออก (สนาม)
+      w.position.set(WALK.x * S, 0, (WALK.z0 + 12 + 24 * k) * S); scene.add(w);
+    }
+    if (ENTRY) {   // ทางเดินเลียบถนนทางเข้า: 4 ชุดยืดให้พอดีจากแนวรั้วถึงมุมที่ต่อกับทางเดินเลียบถนนข้างอาคาร 5
+      var len = ENTRY.zEnd - ENTRY.z0, n = 4, seg = len / n;
+      for (var e = 0; e < n; e++) {
+        var we = gl.scene.clone(true);
+        we.traverse(function (o) { if (o.isMesh) { var c2 = o.material.color; o.material = lam({ color: c2 ? c2.clone() : 0xffffff }); o.castShadow = true; o.receiveShadow = true; decor.push(o); } });
+        we.scale.set(seg / 24, S, S); we.rotation.y = -Math.PI / 2;
+        we.position.set(ENTRY.wx, 0, ENTRY.z0 + seg * (e + 0.5)); ENTRY.g.add(we);
+      }
+    }
+    req();
+  });
+  // ศาลาหลังคาแดง (sala.glb โมดูล 6×6 ม.): ใช้แทนศาลาที่สร้างในโค้ด วางต่อกันตามความยาว ยืดให้พอดีขนาดแต่ละหลัง
+  ld.load('models/sala.glb', function (gl) {
+    CAMPUS.forEach(function (c) {
+      if (['sala', 'poly9'].indexOf(KIND[c.id]) < 0 || c.t !== 's') return;
+      var g = groups[c.k]; if (!g) return;
+      g.children.slice().forEach(function (ch) { g.remove(ch); var i = meshes.indexOf(ch); if (i >= 0) meshes.splice(i, 1); i = decor.indexOf(ch); if (i >= 0) decor.splice(i, 1); });
+      var n = Math.max(1, Math.round(c.l / 6)), sx = c.l * S / n / 6, sz = c.w * S / 6;
+      for (var k = 0; k < n; k++) {
+        var w = gl.scene.clone(true);
+        w.traverse(function (o) {
+          if (!o.isMesh) return;
+          var mt = lam({ color: o.material.color ? o.material.color.clone() : 0xffffff });
+          o.material = mt; o.castShadow = true; o.receiveShadow = true;
+          o.userData = { type: 's', id: c.id, key: c.k, day: mt, night: mt }; meshes.push(o);
+        });
+        w.scale.set(sx, S, sz); w.position.set((k + 0.5 - n / 2) * c.l * S / n, 0, 0); g.add(w);
+      }
+    });
+    scene.updateMatrixWorld(true); req();
+  });
 }
 var trees = null;
 function plantTrees() {   // ต้นไม้ตามช่องว่าง (สุ่มแบบตายตัว ทุกเครื่องเห็นเหมือนกัน) ไม่ขึ้นบนตึก สนาม หรือลาน · เดินผ่านได้
