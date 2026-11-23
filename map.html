@@ -799,6 +799,27 @@ function loadModels() {
     });
     scene.updateMatrixWorld(true); req();
   });
+  // อาคาร 4 (b4.glb รอบ 2 จาก 3 ภาพ: ผนังชมพูแซลมอน เสาระเบียงส้ม กันสาดกระเบื้องแดงรอบตึกทุกชั้น บล็อกช่องลมที่หัวตึก ปีกยื่นแผงอิฐ หลังคาปั้นหยาจั่ว) แทนกล่องที่สร้างในโค้ด
+  // ชิ้นในโมเดลตั้งชื่อ lvl0..lvl3 (ชั้นล่าง..ชั้น 3) และ roof (นับเป็นชั้นบนสุด) เพื่อให้กดเลือก/ไฮไลต์ชั้นได้เหมือนเดิม · ระเบียงหันเข้าโดมตาม faceDome()
+  ld.load('models/b4.glb', function (gl) {
+    var c = CAMPUS_BY.b4, g = c && groups.b4; if (!g) return;
+    g.children.slice().forEach(function (ch) { g.remove(ch); var i = meshes.indexOf(ch); if (i >= 0) meshes.splice(i, 1); i = decor.indexOf(ch); if (i >= 0) decor.splice(i, 1); });
+    var lv = LEVELS[4], w = gl.scene;
+    w.traverse(function (o) {
+      if (!o.isMesh) return;
+      var p = o, m = null; while (p && !(m = /^(lvl([0-9])|roof)$/.exec(p.name || ''))) p = p.parent;
+      var level = m ? (m[2] != null ? Number(m[2]) : lv[1]) : lv[1];
+      // สีในโมเดลเก็บเป็นค่าเชิงเส้น แปลงกลับเป็น sRGB ให้ตรงกับสีที่เลือกไว้ (แผนที่ไม่ได้แปลงสีตอนแสดงผล) · ลายบล็อกช่องลมใช้ภาพในโมเดล
+      var src = o.material, mp = src.map || null; if (mp) mp.encoding = THREE.LinearEncoding;
+      var mt = lam({ color: src.color ? src.color.clone().convertLinearToSRGB() : 0xffffff, map: mp });
+      o.material = mt; o.castShadow = true; o.receiveShadow = true;
+      o.userData = { type: 'b', id: 4, level: level, key: 'b4', has: !!(ROOMS[4] && ROOMS[4][level] && ROOMS[4][level].length), day: mt, night: mt }; meshes.push(o);
+    });
+    w.scale.set(c.l / 80 * S, S, c.w / 23 * S); if (faceDome(c) < 0) w.rotation.y = Math.PI;   // โมเดล: ระเบียงอยู่ฝั่ง +z
+    g.add(w); scene.updateMatrixWorld(true);
+    solidMeshes = meshes.filter(function (m2) { return m2.userData.role !== 'flat' && m2.userData.role !== 'canopy'; });
+    req();
+  });
   // ซุ้มสิบเซียน: ศาลาสี่เหลี่ยมหลังคาแดง 10 หลัง (ten.glb โมดูล 6×6 ม. ปันขอเปลี่ยนจากหกเหลี่ยม) เรียง 2 แถว × 5 ตามผังทางการ แทนของที่สร้างในโค้ด
   ld.load('models/ten.glb', function (gl) {
     CAMPUS.forEach(function (c) {
