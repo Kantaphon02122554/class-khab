@@ -799,6 +799,26 @@ function loadModels() {
     });
     scene.updateMatrixWorld(true); req();
   });
+  // ซุ้มสิบเซียน: ศาลาสี่เหลี่ยมหลังคาแดง 10 หลัง (ten.glb โมดูล 6×6 ม. ปันขอเปลี่ยนจากหกเหลี่ยม) เรียง 2 แถว × 5 ตามผังทางการ แทนของที่สร้างในโค้ด
+  ld.load('models/ten.glb', function (gl) {
+    CAMPUS.forEach(function (c) {
+      if (KIND[c.id] !== 'hexes' || c.t !== 's') return;
+      var g = groups[c.k]; if (!g) return;
+      g.children.slice().forEach(function (ch) { g.remove(ch); var i = meshes.indexOf(ch); if (i >= 0) meshes.splice(i, 1); i = decor.indexOf(ch); if (i >= 0) decor.splice(i, 1); });
+      var L = c.l * S, W = c.w * S, sk = Math.min(L / 5, W / 2) * 0.42 / 3;
+      for (var ri = 0; ri < 5; ri++) for (var ci = 0; ci < 2; ci++) {
+        var w = gl.scene.clone(true);
+        w.traverse(function (o) {
+          if (!o.isMesh) return;
+          var mt = lam({ color: o.material.color ? o.material.color.clone() : 0xffffff });
+          o.material = mt; o.castShadow = true; o.receiveShadow = true;
+          o.userData = { type: 's', id: c.id, key: c.k, day: mt, night: mt }; meshes.push(o);
+        });
+        w.scale.setScalar(sk); w.position.set(((ri + 0.5) / 5 - 0.5) * L, 0, ((ci + 0.5) / 2 - 0.5) * W); g.add(w);
+      }
+    });
+    scene.updateMatrixWorld(true); req();
+  });
 }
 var trees = null;
 function plantTrees() {   // ต้นไม้ตามช่องว่าง (สุ่มแบบตายตัว ทุกเครื่องเห็นเหมือนกัน) ไม่ขึ้นบนตึก สนาม หรือลาน · เดินผ่านได้
