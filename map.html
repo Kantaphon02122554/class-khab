@@ -111,6 +111,7 @@ h2{font-size:14px;font-weight:600;margin:0 0 6px}
 <div id="list" class="hidden" aria-label="รายการอาคารและสถานที่"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
 <script>
 (function () {
 'use strict';
@@ -709,10 +710,18 @@ function approach() {
     bar(g, 0.12, 0.012, 0.05, gx - rw / 2 - 0.3, 0.6, lz, 0x2c3e57);   // แผงโซลาร์
   }
   // ทางเดินมีหลังคาขาวฝั่งสนาม (ขนานถนน) จากประตูเข้าไป ~80 ม.
-  var wx = gx + rw / 2 + m(3), wl = m(80), wz = z0 + 0.3 + wl / 2;
-  for (var pz = z0 + 0.3; pz <= z0 + 0.3 + wl; pz += m(8)) { post(g, wx - m(1.4), pz, 0.26, 0.012, 0xe9e9e6); post(g, wx + m(1.4), pz, 0.26, 0.012, 0xe9e9e6); }
-  var wr = bar(g, m(3.6), 0.02, wl, wx, 0.27, wz, 0xf1f1ee); wr.receiveShadow = true;
+  // โมเดลจาก Blender (models/walkway.glb: ยาว 24 ม. เสาแถวเดียวฝั่งสนาม หลังคาโค้งยื่นคลุมทาง) วางต่อกัน 3 ชุด = 72 ม. · โหลดไม่ได้ก็ไม่มีทางเดินหลังคา (ไม่กระทบอย่างอื่น)
+  var wx = gx + rw / 2 + m(3), wl = m(72);
   for (var az = z0; az <= z0 + wl; az += 0.6) avoid(wx, az, 0.35);
+  if (THREE.GLTFLoader) new THREE.GLTFLoader().load('models/walkway.glb', function (gl) {
+    [0, 1, 2].forEach(function (k) {
+      var w = gl.scene.clone(true);
+      w.traverse(function (o) { if (o.isMesh) { var c = o.material.color; o.material = lam({ color: c.clone ? c.clone() : 0xffffff }); o.castShadow = true; o.receiveShadow = true; decor.push(o); } });
+      w.scale.setScalar(S); w.rotation.y = -Math.PI / 2;   // ยาวตามแกน z ของกรอบสนาม · ฝั่งเสาอยู่ด้านสนาม (+x) หลังคาคลุมทางฝั่งถนน
+      w.position.set(wx, 0, z0 + 0.3 + m(12 + 24 * k)); g.add(w);
+    });
+    req();
+  });
   // รั้วเตี้ยสีขาวตามแนวถนนใหญ่ (เว้นช่องประตู)
   var fx0 = m(GATE.fenceA), fx1 = m(GATE.fenceB), gap = rw / 2 + m(2.5);
   [[fx0, gx - gap], [gx + gap, fx1]].forEach(function (seg) {
