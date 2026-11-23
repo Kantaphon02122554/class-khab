@@ -820,6 +820,23 @@ function loadModels() {
     solidMeshes = meshes.filter(function (m2) { return m2.userData.role !== 'flat' && m2.userData.role !== 'canopy'; });
     req();
   });
+  // โดม (dome.glb จากภาพใต้โดม: เสาเหลี่ยมครีมสูง ยอดเสาค้ำตัว Y โครงถักเหล็กโค้งทุกแนวเสา หลังคาเมทัลชีทลอน พื้นสองโทน ขอบแดง-ขาว) แทนของที่สร้างในโค้ด
+  // โมเดล 62 × 66 ม. (แกนโค้งตามแกน x) ยืดให้พอดีขนาดในผัง · ทั้งหมดเป็น canopy: เดินลอดได้ กล้องไม่ชน
+  ld.load('models/dome.glb', function (gl) {
+    var c = CAMPUS_BY.sdome, g = c && groups.sdome; if (!g) return;
+    g.children.slice().forEach(function (ch) { g.remove(ch); var i = meshes.indexOf(ch); if (i >= 0) meshes.splice(i, 1); i = decor.indexOf(ch); if (i >= 0) decor.splice(i, 1); });
+    var w = gl.scene;
+    w.traverse(function (o) {
+      if (!o.isMesh) return;
+      var src = o.material, mp = src.map || null; if (mp) mp.encoding = THREE.LinearEncoding;
+      var mt = lam({ color: src.color ? src.color.clone().convertLinearToSRGB() : 0xffffff, map: mp, side: THREE.DoubleSide });
+      o.material = mt; o.castShadow = true; o.receiveShadow = true;
+      o.userData = { type: 's', id: c.id, key: c.k, role: 'canopy', day: mt, night: mt }; meshes.push(o);
+    });
+    w.scale.set(c.l / 62 * S, S, c.w / 66 * S); g.add(w); scene.updateMatrixWorld(true);
+    solidMeshes = meshes.filter(function (m2) { return m2.userData.role !== 'flat' && m2.userData.role !== 'canopy'; });
+    req();
+  });
   // ซุ้มสิบเซียน: ศาลาสี่เหลี่ยมหลังคาแดง 10 หลัง (ten.glb โมดูล 6×6 ม. ปันขอเปลี่ยนจากหกเหลี่ยม) เรียง 2 แถว × 5 ตามผังทางการ แทนของที่สร้างในโค้ด
   ld.load('models/ten.glb', function (gl) {
     CAMPUS.forEach(function (c) {
