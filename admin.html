@@ -175,6 +175,15 @@
       <div id="cmdOk" style="display:none;gap:8px;margin-top:8px"><button class="pri" onclick="cmdConfirm()">✓ ยืนยันบันทึก</button><button onclick="cmdCancel()">ยกเลิก</button></div>
     </div>
 
+    <div class="card" id="sec-live" style="grid-column:1/-1"><h3>ถ่ายทอดสด (ฝังในแอป)</h3>
+      <p class="sub" style="margin-bottom:8px">วางลิงก์ไลฟ์ YouTube หรือ Facebook แล้วกดเปิดถ่ายทอด ทุกคนจะเห็นการ์ด "กำลังถ่ายทอดสด" ในหน้าตาราง กดปิดเมื่อจบ YouTube ต้องเป็นลิงก์วิดีโอ/ไลฟ์ (ไม่ใช่ลิงก์ @ชื่อช่อง) และเปิด "อนุญาตให้ฝัง"</p>
+      <div style="display:grid;gap:8px">
+        <input type="text" id="liveUrl" maxlength="300" autocomplete="off" placeholder="https://www.youtube.com/watch?v=… หรือ https://www.facebook.com/…/videos/…" />
+        <input type="text" id="liveTitle" maxlength="60" autocomplete="off" placeholder="ชื่อไลฟ์ (ไม่ใส่ก็ได้) เช่น ศึกชิงสี วันสุดท้าย" />
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="pri" id="liveOn" onclick="liveSet(true)">เปิดถ่ายทอด</button><button id="liveOff" onclick="liveSet(false)">ปิดถ่ายทอด</button><span id="liveMsg" class="muted" style="align-self:center"></span></div>
+      </div>
+    </div>
+
     <div style="grid-column:1/-1;display:grid;gap:10px">
       <details class="card fold" id="sec-open"><summary>โอเพ่นแชท (ทุกห้องคุยรวมกัน)<span class="bd" id="bd-open"></span></summary>
         <p class="sub">ต้องล็อกอินอีเมลโรงเรียน + ผ่านกติกา/ชื่อเล่นก่อนเข้า · ข้อความผ่าน Haiku ตรวจทุกข้อความ · ผิดกติกา 3 ครั้งใน 30 นาที ระงับ 24 ชม. ซ้ำเพิ่มเป็นสองเท่า สูงสุด 7 วัน</p>
@@ -289,7 +298,7 @@
     } catch (err) { $('loginErr').textContent = 'เชื่อมต่อไม่ได้'; }
     b.disabled = false; b.textContent = 'เข้าสู่ระบบ';
   }
-  function show() { $('login').classList.add('hidden'); $('app').classList.remove('hidden'); $('fab').classList.remove('hidden'); setTimeout(pushBtnInit, 300); }
+  function show() { $('login').classList.add('hidden'); $('app').classList.remove('hidden'); $('fab').classList.remove('hidden'); setTimeout(pushBtnInit, 300); setTimeout(liveLoad, 400); }
 
   // ---------- แจ้งเตือนแอดมินเข้าเครื่องนี้ (Web Push) ----------
   // ระบบตรวจสุขภาพทุก 5 นาที และแจ้งเมื่อมีปัญหา/ข้อความใหม่/รายงานใหม่ (ดู monitor ใน admin-status)
@@ -461,6 +470,33 @@
     return { error: `ไม่รู้จักคำสั่ง "${verb}" พิมพ์ ช่วย เพื่อดูคำสั่งทั้งหมด` };
   }
   function cmdShow(text, ok) { const o = $('cmdOut'); o.style.display = 'block'; o.textContent = text; $('cmdOk').style.display = ok ? 'flex' : 'none'; }
+  // ถ่ายทอดสด: เรียก Edge Function live (ตรวจรหัสแอดมินและตรวจลิงก์ที่เซิร์ฟเวอร์)
+  async function liveCall(extra) {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/live`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: ANON, Authorization: `Bearer ${ANON}` }, body: JSON.stringify({ password: store.get(), ...extra }) });
+    return { status: res.status, body: await res.json().catch(() => ({})) };
+  }
+  const liveSay = (t) => { $('liveMsg').textContent = t; };
+  async function liveLoad() {
+    try {
+      const r = await liveCall({ action: 'status' });
+      if (r.status === 401) return;
+      const b = r.body; if (!b.ok) return;
+      $('liveUrl').value = b.url || ''; $('liveTitle').value = b.title || '';
+      liveSay(b.on ? 'ตอนนี้ถ่ายทอดอยู่' : 'ตอนนี้ปิดอยู่');
+    } catch (e) { /* โหลดไม่ได้ก็ไม่เป็นไร กดบันทึกทีหลังได้ */ }
+  }
+  async function liveSet(on) {
+    const url = $('liveUrl').value.trim(), title = $('liveTitle').value.trim();
+    if (on && !url) return liveSay('วางลิงก์ไลฟ์ก่อน');
+    $('liveOn').disabled = $('liveOff').disabled = true; liveSay('กำลังบันทึก…');
+    try {
+      const r = await liveCall({ action: 'set', on, url: on ? url : (url || ''), title });
+      if (r.status === 401) { signOut(); return; }
+      if (r.body.ok) liveSay(on ? 'เปิดถ่ายทอดแล้ว (' + (r.body.kind === 'facebook' ? 'Facebook' : 'YouTube') + ')' : 'ปิดถ่ายทอดแล้ว');
+      else liveSay(r.body.error === 'url' ? 'ลิงก์ไม่ถูกต้อง ใช้ได้เฉพาะลิงก์วิดีโอ/ไลฟ์ของ YouTube หรือ Facebook' : r.body.error === 'rate' ? 'ลองผิดหลายครั้ง รอสักครู่' : 'บันทึกไม่สำเร็จ ลองใหม่');
+    } catch (e) { liveSay('เชื่อมต่อไม่ได้'); }
+    $('liveOn').disabled = $('liveOff').disabled = false;
+  }
   function cmdCancel() { cmdPending = null; $('cmdOut').style.display = 'none'; $('cmdOk').style.display = 'none'; }
   async function cmdRun() {
     cmdPending = null; const line = $('cmdIn').value; if (!line.trim()) return;

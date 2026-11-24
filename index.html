@@ -1138,6 +1138,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                 <button class="v2-item student-only" onclick="quizOpen()"><i data-lucide="trophy"></i><span class="grow">ควิซจากครู</span><small>เล่นและเก็บคะแนน</small></button>
                 <button class="v2-item student-only" onclick="tutorOpen()"><i data-lucide="book-open"></i><span class="grow">เพื่อนติว (AI)</span><small>ถามเรื่องเรียน</small></button>
                 <button class="v2-item student-only food-only" onclick="foodOpen()"><i data-lucide="utensils"></i><span class="grow">สั่งอาหาร</span><small>ข้าวไข่ข้น</small></button>
+                <button class="v2-item" onclick="liveOpen()"><i data-lucide="radio"></i><span class="grow">ถ่ายทอดสด</span><small id="liveSm">ดูไลฟ์โรงเรียน</small></button>
                 <a href="map.html" class="v2-item" onclick="mapAva()"><i data-lucide="map"></i><span class="grow">แผนที่โรงเรียน</span><small>เดโม · กำลังพัฒนา</small></a>
                 <button class="v2-item" onclick="toggleTheme()"><i data-lucide="moon"></i><span class="grow">โหมดมืด</span><span class="v2-switch"></span></button>
                 <button class="v2-item" onclick="teacherMode ? toggleTeacherPush() : togglePush()"><i data-lucide="bell"></i><span class="grow">แจ้งเตือนก่อนคาบ</span><small class="pushLabel">เปิดแจ้งเตือน</small></button>
@@ -1407,6 +1408,13 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
               .fd-ctitle { font-size: 0.8rem; font-weight: 600; color: var(--fd-mu); margin-bottom: 0.5rem; }
               .fd button:focus-visible, .fd input:focus-visible, .fd summary:focus-visible { outline: 2px solid var(--fd-ac); outline-offset: 2px; }
             </style>
+            <div id="liveSheet" class="pf-sheet hidden" onclick="if(event.target===this)liveClose()">
+              <div class="pf-panel" role="dialog" aria-modal="true" aria-labelledby="liveTitleT" style="max-width:42rem;width:100%">
+                <div class="pf-ph"><div><b id="liveTitleT">ถ่ายทอดสด</b><div id="liveSub" style="font-size:.8rem;opacity:.7"></div></div><button onclick="liveClose()" aria-label="ปิด"><i data-lucide="x"></i></button></div>
+                <div id="liveBox" style="aspect-ratio:16/9;background:#0f172a;border-radius:.75rem;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#cbd5e1;text-align:center;padding:1rem"></div>
+                <a id="liveOpen" target="_blank" rel="noopener noreferrer" style="display:none;margin-top:.75rem;text-align:center;font-weight:700;font-size:.9rem"></a>
+              </div>
+            </div>
             <div id="foSheet" class="pf-sheet hidden" onclick="if(event.target===this)foodClose()">
               <div class="pf-panel fd" role="dialog" aria-modal="true" aria-labelledby="fdTitle">
                 <div class="pf-ph"><div><b id="fdTitle">สั่งอาหาร</b><div class="fd-shop">ร้าน ก.ไก่ ข.ไข่ · จ่ายเงินให้ร้านโดยตรง แอปไม่ได้เก็บเงิน</div></div><button onclick="foodClose()" aria-label="ปิด"><i data-lucide="x"></i></button></div>
@@ -3263,7 +3271,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         else if (r.error === 'filter_word') alert(harshMsg(r, 'ข้อความมีถ้อยคำที่ไม่อนุญาต ปรับแล้วลองอีกครั้ง') || 'ข้อความมีถ้อยคำที่ไม่อนุญาต ปรับแล้วลองอีกครั้ง');
         else alert('โพสต์ไม่สำเร็จ ตรวจหัวข้อแล้วลองอีกครั้ง');
       }
-      document.addEventListener('visibilitychange', () => { if (!document.hidden && currentGrade) { if (!teacherMode) { loadAnnouncements(); foodPeek(); } loadNotice(); renderHomeCards(); } });
+      document.addEventListener('visibilitychange', () => { if (!document.hidden && currentGrade) { if (!teacherMode) { loadAnnouncements(); foodPeek(); } livePeek(); loadNotice(); renderHomeCards(); } });
 
       // --- แถบประกาศจากผู้ดูแล (site_notices: ส่งจากหน้าแอดมิน แสดงถึงเวลาหมดอายุ ผู้ใช้ปิดแถบนั้นได้) ---
       async function loadNotice() {
@@ -4392,6 +4400,40 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const res = await fetch(`${SUPABASE_URL}/functions/v1/food`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ ...body, token, sid: getSid() }) });
           const j = await res.json().catch(() => ({})); return { ...j, status: res.status };
         } catch (e) { return { ok: false, error: 'net' }; }
+      }
+      // ===== ถ่ายทอดสด: ลิงก์ไลฟ์ YouTube/Facebook ที่แอดมินตั้งไว้ (Edge Function live) · ใครก็ดูได้ ไม่ต้องล็อกอิน =====
+      // เซิร์ฟเวอร์ตรวจและสร้างลิงก์ฝังให้ ฝั่งนี้ยังเช็กโดเมนซ้ำอีกชั้นก่อนใส่ใน iframe
+      const LIVE_EMBED_OK = /^https:\/\/(www\.youtube\.com\/embed\/|www\.facebook\.com\/plugins\/video\.php\?)/;
+      const LIVE_LINK_OK = /^https:\/\/(www\.youtube\.com|youtu\.be|www\.facebook\.com|m\.facebook\.com|web\.facebook\.com|facebook\.com|fb\.watch)\//;
+      let livePeekAt = 0;
+      async function livePeek(force) {
+        if (!SUPABASE_URL || !SUPABASE_ANON_KEY || (!force && Date.now() - livePeekAt < 60000)) return;
+        livePeekAt = Date.now();
+        try {
+          const res = await fetch(`${SUPABASE_URL}/functions/v1/live`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ action: 'get' }) });
+          const j = await res.json().catch(() => null);
+          window._live = j && j.ok && j.on && LIVE_EMBED_OK.test(j.embed || '') ? j : null;
+        } catch (e) { return; }   // เน็ตหลุด: คงสถานะเดิมไว้
+        const sm = document.getElementById('liveSm'); if (sm) sm.textContent = window._live ? 'กำลังถ่ายทอดสด' : 'ยังไม่มีไลฟ์';
+        renderHomeCards();
+      }
+      function liveCard() { const l = window._live; return l ? { title: 'กำลังถ่ายทอดสด', text: (l.title ? l.title + ' · ' : '') + 'แตะเพื่อดู' } : null; }
+      async function liveOpen() {
+        document.getElementById('liveSheet').classList.remove('hidden');
+        const box = document.getElementById('liveBox'), sub = document.getElementById('liveSub'), a = document.getElementById('liveOpen');
+        box.replaceChildren(mk('div', '', 'กำลังโหลด…')); a.style.display = 'none'; sub.textContent = '';
+        await livePeek(true);
+        const l = window._live; box.replaceChildren();
+        if (!l) { box.append(mk('div', '', 'ตอนนี้ยังไม่มีการถ่ายทอดสด กลับมาดูใหม่ตอนมีไลฟ์ได้เลย')); return; }
+        document.getElementById('liveTitleT').textContent = l.title || 'ถ่ายทอดสด';
+        sub.textContent = l.kind === 'facebook' ? 'ถ่ายทอดผ่าน Facebook' : 'ถ่ายทอดผ่าน YouTube';
+        const f = document.createElement('iframe');
+        f.src = l.embed; f.title = l.title || 'ถ่ายทอดสด'; f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen'; f.allowFullscreen = true; f.referrerPolicy = 'strict-origin-when-cross-origin';
+        f.style.cssText = 'width:100%;height:100%;border:0'; box.style.padding = '0'; box.append(f);
+        if (LIVE_LINK_OK.test(l.url || '')) { a.href = l.url; a.textContent = l.kind === 'facebook' ? 'เปิดใน Facebook' : 'เปิดใน YouTube'; a.style.display = 'block'; }
+      }
+      function liveClose() {   // เอา iframe ออกด้วย เสียงวิดีโอจะได้หยุด ไม่ค้างเล่นอยู่เบื้องหลัง
+        document.getElementById('liveSheet').classList.add('hidden'); const box = document.getElementById('liveBox'); box.replaceChildren(); box.style.padding = '';
       }
       // การ์ดสั่งอาหารบนหน้าตาราง: ถามสถานะร้านเบาๆ (เฉพาะนักเรียนที่ล็อกอินอีเมลแล้ว และเมื่อเปิดระบบ) ไม่ถี่กว่า 1 ครั้ง/นาที
       let foPeekAt = 0;
@@ -5976,9 +6018,14 @@ footer{border-top:1px solid var(--line);padding-top:24px;font-size:12px;color:va
           ann: window._annItems || [], done: getDone(), exams: examSrc.ev || [], notice, events: window._events || [], nudge: window._pushNudge || null, dismissed: readCardState(), appts: window._appts || [], apptWhen, subs: window._subs || [],
         });
         box.textContent = '';
-        const fc = foodCard();
-        if (!all.length && !fc) { box.classList.add('hidden'); return; }
+        const fc = foodCard(), lc = liveCard();
+        if (!all.length && !fc && !lc) { box.classList.add('hidden'); return; }
         box.classList.remove('hidden');
+        if (lc) {   // การ์ดถ่ายทอดสด: ขึ้นเฉพาะตอนแอดมินเปิดไลฟ์ ไม่นับรวมในจำนวนการ์ดสูงสุด
+          const el = mk('button', 'hc hc-ok hc-food'), body = mk('div', 'hc-body'), ic = mk('span', 'hc-ic'), li = document.createElement('i');
+          el.type = 'button'; body.append(mk('div', 'hc-t', lc.title), mk('div', 'hc-s', lc.text));
+          li.setAttribute('data-lucide', 'radio'); ic.append(li); el.append(ic, body); el.onclick = () => liveOpen(); box.append(el);
+        }
         if (fc) {   // การ์ดสั่งอาหาร: ขึ้นเฉพาะตอนสั่งได้หรือมีออเดอร์ค้างวันนี้ ไม่นับรวมในจำนวนการ์ดสูงสุด
           const el = mk('button', 'hc hc-ok hc-food'), body = mk('div', 'hc-body'), ic = mk('span', 'hc-ic'), li = document.createElement('i');
           el.type = 'button'; body.append(mk('div', 'hc-t', fc.title), mk('div', 'hc-s', fc.text));
@@ -6041,6 +6088,7 @@ footer{border-top:1px solid var(--line);padding-top:24px;font-size:12px;color:va
         updateOfflineBar();
         updateMenuV2();
         avaAutoSync();
+        livePeek();
         if (teacherMode) { syncTeacherPush(); openPeek(); apptStripLoad(); }
         else { loadVerified(); loadAnnouncements(); chatPeek(); openPeek(); syncPush(); loadAppts(); loadSubs(); foodPeek(); }
       }
