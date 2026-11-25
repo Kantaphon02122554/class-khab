@@ -1138,7 +1138,6 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                 <button class="v2-item student-only" onclick="quizOpen()"><i data-lucide="trophy"></i><span class="grow">ควิซจากครู</span><small>เล่นและเก็บคะแนน</small></button>
                 <button class="v2-item student-only" onclick="tutorOpen()"><i data-lucide="book-open"></i><span class="grow">เพื่อนติว (AI)</span><small>ถามเรื่องเรียน</small></button>
                 <button class="v2-item student-only food-only" onclick="foodOpen()"><i data-lucide="utensils"></i><span class="grow">สั่งอาหาร</span><small>ข้าวไข่ข้น</small></button>
-                <button class="v2-item" onclick="liveOpen()"><i data-lucide="radio"></i><span class="grow">ถ่ายทอดสด</span><small id="liveSm">ดูไลฟ์โรงเรียน</small></button>
                 <a href="map.html" class="v2-item" onclick="mapAva()"><i data-lucide="map"></i><span class="grow">แผนที่โรงเรียน</span><small>เดโม · กำลังพัฒนา</small></a>
                 <button class="v2-item" onclick="toggleTheme()"><i data-lucide="moon"></i><span class="grow">โหมดมืด</span><span class="v2-switch"></span></button>
                 <button class="v2-item" onclick="teacherMode ? toggleTeacherPush() : togglePush()"><i data-lucide="bell"></i><span class="grow">แจ้งเตือนก่อนคาบ</span><small class="pushLabel">เปิดแจ้งเตือน</small></button>
@@ -1171,6 +1170,7 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
                 </button>
               </div>
               <div class="ap-strip hidden"></div>
+              <button id="soLiveBar" type="button" class="so-rb hidden" onclick="liveOpen()" aria-haspopup="dialog" aria-label="ดูถ่ายทอดสด"></button>
               <div id="soTeacherBar" class="so-tbar"><label for="soTeacherRoom">ห้องที่สอน</label><select id="soTeacherRoom" onchange="soTeacherPick(this.value)"></select></div>
               <p id="soTeacherNote" class="pt-note hidden">ไม่พบห้องในตารางสอนของคุณ ถ้าตารางสอนยังไม่ครบ แจ้งแอดมินให้เพิ่ม</p>
               <!-- กำแพงขอบคุณรายห้อง (โซเชียลรุ่นแรก) แสดงเมื่อแอดมินเปิดห้องนี้เท่านั้น ไม่งั้นแสดง "กำลังเตรียม" ด้านล่าง -->
@@ -4414,8 +4414,18 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
           const j = await res.json().catch(() => null);
           window._live = j && j.ok && j.on && LIVE_EMBED_OK.test(j.embed || '') ? j : null;
         } catch (e) { return; }   // เน็ตหลุด: คงสถานะเดิมไว้
-        const sm = document.getElementById('liveSm'); if (sm) sm.textContent = window._live ? 'กำลังถ่ายทอดสด' : 'ยังไม่มีไลฟ์';
+        liveBarBuild();
         renderHomeCards();
+      }
+      function liveBarBuild() {   // แถบในหน้าโซเชียล: ไอคอน + ชื่อไลฟ์ · ซ่อนเมื่อไม่มีไลฟ์
+        const b = document.getElementById('soLiveBar'); if (!b) return;
+        const l = window._live; b.classList.toggle('hidden', !l); b.textContent = '';
+        if (!l) return;
+        const i = mk('span', 'so-rb-i'), t = mk('span', 'so-rb-t'), ic = document.createElement('i');
+        ic.setAttribute('data-lucide', 'radio'); i.append(ic);
+        t.append(mk('b', '', 'กำลังถ่ายทอดสด'), mk('small', '', l.title || (l.kind === 'facebook' ? 'ผ่าน Facebook' : 'ผ่าน YouTube')));
+        b.append(i, t);
+        try { if (window.lucide) lucide.createIcons(); } catch (e) { /* ไอคอนไม่ขึ้นก็ใช้งานต่อได้ */ }
       }
       function liveCard() { const l = window._live; return l ? { title: 'กำลังถ่ายทอดสด', text: (l.title ? l.title + ' · ' : '') + 'แตะเพื่อดู' } : null; }
       async function liveOpen() {
