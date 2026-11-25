@@ -176,11 +176,12 @@
     </div>
 
     <div class="card" id="sec-live" style="grid-column:1/-1"><h3>ถ่ายทอดสด (ฝังในแอป)</h3>
-      <p class="sub" style="margin-bottom:8px">วางลิงก์ไลฟ์ YouTube หรือ Facebook แล้วกดเปิดถ่ายทอด ทุกคนจะเห็นการ์ด "กำลังถ่ายทอดสด" ในหน้าตาราง กดปิดเมื่อจบ YouTube ต้องเป็นลิงก์วิดีโอ/ไลฟ์ (ไม่ใช่ลิงก์ @ชื่อช่อง) และเปิด "อนุญาตให้ฝัง"</p>
+      <p class="sub" style="margin-bottom:8px">วางลิงก์ไลฟ์ YouTube หรือ Facebook แล้วกดเปิดถ่ายทอด ทุกคนจะเห็นการ์ด "กำลังถ่ายทอดสด" ในหน้าตารางและหน้าโซเชียล กดปิดเมื่อจบ YouTube ต้องเป็นลิงก์วิดีโอ/ไลฟ์ (ไม่ใช่ลิงก์ @ชื่อช่อง) และเปิด "อนุญาตให้ฝัง"</p>
       <div style="display:grid;gap:8px">
         <input type="text" id="liveUrl" maxlength="300" autocomplete="off" placeholder="https://www.youtube.com/watch?v=… หรือ https://www.facebook.com/…/videos/…" />
         <input type="text" id="liveTitle" maxlength="60" autocomplete="off" placeholder="ชื่อไลฟ์ (ไม่ใส่ก็ได้) เช่น ศึกชิงสี วันสุดท้าย" />
-        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="pri" id="liveOn" onclick="liveSet(true)">เปิดถ่ายทอด</button><button id="liveOff" onclick="liveSet(false)">ปิดถ่ายทอด</button><span id="liveMsg" class="muted" style="align-self:center"></span></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><label style="display:flex;gap:6px;align-items:center;width:100%"><input type="checkbox" id="liveLink" /> ไม่ฝังในแอป (ให้ผู้ชมกดไปดูที่ Facebook/YouTube) ใช้เมื่อฝังไม่ได้ เช่น ไลฟ์จากโปรไฟล์ส่วนตัว หรือลิงก์แบบแชร์ /share/…</label>
+        <button class="pri" id="liveOn" onclick="liveSet(true)">เปิดถ่ายทอด</button><button id="liveOff" onclick="liveSet(false)">ปิดถ่ายทอด</button><span id="liveMsg" class="muted" style="align-self:center"></span></div>
       </div>
     </div>
 
@@ -481,7 +482,7 @@
       const r = await liveCall({ action: 'status' });
       if (r.status === 401) return;
       const b = r.body; if (!b.ok) return;
-      $('liveUrl').value = b.url || ''; $('liveTitle').value = b.title || '';
+      $('liveUrl').value = b.url || ''; $('liveTitle').value = b.title || ''; $('liveLink').checked = !!b.link_only;
       liveSay(b.on ? 'ตอนนี้ถ่ายทอดอยู่' : 'ตอนนี้ปิดอยู่');
     } catch (e) { /* โหลดไม่ได้ก็ไม่เป็นไร กดบันทึกทีหลังได้ */ }
   }
@@ -490,9 +491,9 @@
     if (on && !url) return liveSay('วางลิงก์ไลฟ์ก่อน');
     $('liveOn').disabled = $('liveOff').disabled = true; liveSay('กำลังบันทึก…');
     try {
-      const r = await liveCall({ action: 'set', on, url: on ? url : (url || ''), title });
+      const r = await liveCall({ action: 'set', on, url: on ? url : (url || ''), title, link_only: $('liveLink').checked });
       if (r.status === 401) { signOut(); return; }
-      if (r.body.ok) liveSay(on ? 'เปิดถ่ายทอดแล้ว (' + (r.body.kind === 'facebook' ? 'Facebook' : 'YouTube') + ')' : 'ปิดถ่ายทอดแล้ว');
+      if (r.body.ok) liveSay(on ? 'เปิดถ่ายทอดแล้ว (' + (r.body.kind === 'facebook' ? 'Facebook' : 'YouTube') + (r.body.link_only ? ' · แบบเปิดลิงก์' : ' · ฝังในแอป') + ')' : 'ปิดถ่ายทอดแล้ว');
       else liveSay(r.body.error === 'url' ? 'ลิงก์ไม่ถูกต้อง ใช้ได้เฉพาะลิงก์วิดีโอ/ไลฟ์ของ YouTube หรือ Facebook' : r.body.error === 'rate' ? 'ลองผิดหลายครั้ง รอสักครู่' : 'บันทึกไม่สำเร็จ ลองใหม่');
     } catch (e) { liveSay('เชื่อมต่อไม่ได้'); }
     $('liveOn').disabled = $('liveOff').disabled = false;

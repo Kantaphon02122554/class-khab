@@ -4412,7 +4412,8 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
         try {
           const res = await fetch(`${SUPABASE_URL}/functions/v1/live`, { method: 'POST', headers: { 'Content-Type': 'application/json', apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }, body: JSON.stringify({ action: 'get' }) });
           const j = await res.json().catch(() => null);
-          window._live = j && j.ok && j.on && LIVE_EMBED_OK.test(j.embed || '') ? j : null;
+          // ฝังได้ (ลิงก์ฝังผ่านการตรวจโดเมน) หรือโหมดลิงก์ (ไม่มีลิงก์ฝัง แต่มีลิงก์ต้นทางที่ผ่านการตรวจ)
+          window._live = j && j.ok && j.on && (LIVE_EMBED_OK.test(j.embed || '') || (!j.embed && LIVE_LINK_OK.test(j.url || ''))) ? j : null;
         } catch (e) { return; }   // เน็ตหลุด: คงสถานะเดิมไว้
         liveBarBuild();
         renderHomeCards();
@@ -4431,19 +4432,28 @@ html.cards.dark .bg-clip-text { color: #f1f5f9; }
       async function liveOpen() {
         document.getElementById('liveSheet').classList.remove('hidden');
         const box = document.getElementById('liveBox'), sub = document.getElementById('liveSub'), a = document.getElementById('liveOpen');
+        box.style.cssText = '';
         box.replaceChildren(mk('div', '', 'กำลังโหลด…')); a.style.display = 'none'; sub.textContent = '';
         await livePeek(true);
         const l = window._live; box.replaceChildren();
         if (!l) { box.append(mk('div', '', 'ตอนนี้ยังไม่มีการถ่ายทอดสด กลับมาดูใหม่ตอนมีไลฟ์ได้เลย')); return; }
         document.getElementById('liveTitleT').textContent = l.title || 'ถ่ายทอดสด';
-        sub.textContent = l.kind === 'facebook' ? 'ถ่ายทอดผ่าน Facebook' : 'ถ่ายทอดผ่าน YouTube';
+        const site = l.kind === 'facebook' ? 'Facebook' : 'YouTube';
+        sub.textContent = 'ถ่ายทอดผ่าน ' + site;
+        if (!l.embed) {   // โหมดลิงก์: ฝังไม่ได้ ให้กดไปดูที่ต้นทาง (แท็บใหม่ หรือแอปบนมือถือ)
+          box.style.aspectRatio = 'auto'; box.style.flexDirection = 'column'; box.style.gap = '.75rem'; box.style.padding = '1.5rem 1rem';
+          const go = mk('a', '', 'ดูไลฟ์ใน ' + site); go.href = l.url; go.target = '_blank'; go.rel = 'noopener noreferrer';
+          go.style.cssText = 'display:inline-block;background:#fff;color:#0f172a;font-weight:700;padding:.75rem 1.5rem;border-radius:.75rem';
+          box.append(mk('div', '', 'ไลฟ์นี้เปิดดูได้ที่ ' + site + ' กดปุ่มด้านล่างเพื่อไปดู'), go);
+          return;
+        }
         const f = document.createElement('iframe');
         f.src = l.embed; f.title = l.title || 'ถ่ายทอดสด'; f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen'; f.allowFullscreen = true; f.referrerPolicy = 'strict-origin-when-cross-origin';
         f.style.cssText = 'width:100%;height:100%;border:0'; box.style.padding = '0'; box.append(f);
         if (LIVE_LINK_OK.test(l.url || '')) { a.href = l.url; a.textContent = l.kind === 'facebook' ? 'เปิดใน Facebook' : 'เปิดใน YouTube'; a.style.display = 'block'; }
       }
       function liveClose() {   // เอา iframe ออกด้วย เสียงวิดีโอจะได้หยุด ไม่ค้างเล่นอยู่เบื้องหลัง
-        document.getElementById('liveSheet').classList.add('hidden'); const box = document.getElementById('liveBox'); box.replaceChildren(); box.style.padding = '';
+        document.getElementById('liveSheet').classList.add('hidden'); const box = document.getElementById('liveBox'); box.replaceChildren(); box.style.cssText = '';
       }
       // การ์ดสั่งอาหารบนหน้าตาราง: ถามสถานะร้านเบาๆ (เฉพาะนักเรียนที่ล็อกอินอีเมลแล้ว และเมื่อเปิดระบบ) ไม่ถี่กว่า 1 ครั้ง/นาที
       let foPeekAt = 0;
